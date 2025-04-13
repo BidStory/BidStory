@@ -1,0 +1,5 @@
+https://bidstory.github.io/BidStory/
+
+لجلب الملفات اسفل المسار المحدد Get-ChildItem
+لعرض المظهر Ctrl + ,
+
