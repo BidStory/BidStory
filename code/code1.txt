@@ -1,7 +1,0 @@
-https://github.com/hesham-gaber-hassan/BidStory.git
-
-
-or push an existing repository from the command line
-git remote add origin https://github.com/hesham-gaber-hassan/BidStory.git
-git branch -M main
-git push -u origin main
