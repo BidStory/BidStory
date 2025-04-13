@@ -1,3 +1,10 @@
 {
-    "editor.linkedEditing": true
+    "editor.linkedEditing": true,
+    "liveServer.settings.donotShowInfoMsg": true,
+    "files.autoSave": "afterDelay",
+    "terminal.integrated.fontLigatures.enabled": true,
+    "terminal.integrated.mouseWheelZoom": true,
+    "editor.fontFamily": "Cascadia Code",
+    "terminal.integrated.localEchoStyle": "dim",
+    "terminal.integrated.fontFamily": "Courier New, Arial, Noto Naskh Arabic, Cascadia Code"
 }

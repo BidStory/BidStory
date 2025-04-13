@@ -1,4 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
+const { debug } = require('console');
 const fs = require('fs');
 
 function convertSQLiteToJSON(sqliteFilePath, outputJsonPath) {

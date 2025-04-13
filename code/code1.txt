@@ -2,4 +2,16 @@ https://bidstory.github.io/BidStory/
 
 لجلب الملفات اسفل المسار المحدد Get-ChildItem
 لعرض المظهر Ctrl + ,
+هذا الملف لما لا تريد رفعة .gitignore
+قايمة بالامتدادات التي قمت بتنصيبها   code --list-extensions
 
+alefragnani.bookmarks
+alexcvzz.vscode-sqlite
+christian-kohler.path-intellisense
+dzhavat.bracket-pair-toggler
+ecmel.vscode-html-css
+esbenp.prettier-vscode
+formulahendry.auto-rename-tag
+naumovs.color-highlight
+ritwickdey.liveserver
+xabikos.javascriptsnippets
