@@ -181,11 +181,25 @@ async function convertSQLiteToJSON(sqliteFilePath, outputJsonPath) {
 }
 
 
-// ✅ التنفيذ عند فتح index.html فقط
-if (window.location.pathname.includes("index.html")) {
+
+
+const isLocalhost = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
+
+// ✅ التنفيذ عند فتح index.html أو الصفحة الرئيسية
+if (
+  window.location.pathname.includes("index.html") || 
+  window.location.pathname === "/" || 
+  window.location.pathname.endsWith("/BidStory/")
+) {
   checkIfDBUpdated().then(async (shouldUpdate) => {
     if (shouldUpdate) {
-      await convertSQLiteToJSON("code/data.db", "output.json");
+      if (isLocalhost) {
+        // ✅ يعمل فقط محليًا لتحويل قاعدة البيانات
+        await convertSQLiteToJSON("code/data.db", "output.json");
+      } else {
+        console.warn("⚠️ التحويل من SQLite إلى JSON غير مدعوم على GitHub Pages. سيتم استخدام JSON الموجود فقط.");
+      }
+
       await loadJSONtoIndexedDB();
     } else {
       document.dispatchEvent(new Event("BidStoryDBReady"));
@@ -193,3 +207,4 @@ if (window.location.pathname.includes("index.html")) {
     }
   });
 }
+
