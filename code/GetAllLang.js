@@ -84,50 +84,8 @@ async function loadJSONtoIndexedDB() {
 
 // تشغيل الدالة الرئيسية لبدء عملية التحميل والتخزين
 loadJSONtoIndexedDB();
-
+import { GetLable } from './shared.js'
 // استماع لحدث "BidStoryDBReady" الذي يشير إلى أن قاعدة البيانات جاهزة للاستخدام
 document.addEventListener("BidStoryDBReady", () => {
-    
-  // فتح قاعدة البيانات المسماة "BidStoryDB" باستخدام IndexedDB
-  const request = indexedDB.open("BidStoryDB");
-
-  // عند نجاح فتح قاعدة البيانات
-  request.onsuccess = function(event) {
-    // الحصول على المرجع إلى قاعدة البيانات
-    const db = event.target.result;
-    
-    // بدء معاملة (transaction) للوصول إلى مخزن الكائنات "lang" في وضع القراءة فقط
-    const transaction = db.transaction("lang", "readonly");
-    
-    // الحصول على مخزن الكائنات "lang"
-    const objectStore = transaction.objectStore("lang");
-
-    // تحديد جميع العناصر في الصفحة التي تحتوي على سمة "id"
-    const allElements = document.querySelectorAll("[id]");
-
-    // تكرار عبر جميع العناصر التي تم العثور عليها
-    allElements.forEach((el) => {
-      // الحصول على قيمة السمة "id" للعنصر الحاليt
-      const id = el.id;
-
-      // التحقق مما إذا كان الـ ID يتكون من أرقام فقط (باستخدام تعبير منتظم)
-      if (/^\d+$/.test(id)) {
-        // طلب الحصول على البيانات من مخزن الكائنات باستخدام الـ ID (محول إلى رقم)
-        const getRequest = objectStore.get(Number(id));
-
-        // عند نجاح طلب الحصول على البيانات
-        getRequest.onsuccess = function() {
-          // الحصول على نتيجة الطلب (البيانات المخزنة)
-          const data = getRequest.result;
-          // تحديث محتوى العنصر بالبيانات المخزنة أو رسالة خطأ إذا لم توجد بيانات
-          el.textContent = data ? data.a : "❌ لا توجد بيانات"; // "No data" in Arabic
-        };
-        // عند حدوث خطأ في طلب الحصول على البيانات
-        getRequest.onerror = function() {
-          // عرض رسالة خطأ في العنصر
-          el.textContent = "⚠️ خطأ في الجلب"; // "Fetch error" in Arabic
-        };
-      }
-    });
-  };
+  GetLable();
 });

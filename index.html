@@ -1,149 +1,155 @@
 ﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
-  <head>
+
+<head>
   <!--دوال تعمل قبل تحميل الصفحة-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 
+  <script type="module" src="code/GetAllLang.js"></script>
 
-    <script src="code/GetAllLang.js"></script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BidStory</title>
-    <style>
-      /* تنسيق عام للصفحة */
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        background-color: #f5f5f5;
-      }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BidStory</title>
+  <style>
+    /* تنسيق عام للصفحة */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f5f5f5;
+    }
 
-      /* شريط التنقل */
-      nav {
-        background-color: #004080;
-        color: white;
-        padding: 10px;
-        text-align: center;
-      }
+    /* شريط التنقل */
+    nav {
+      background-color: #004080;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
 
-      /* أزرار شريط التنقل */
-      nav button {
-        background-color: #0073e6;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        margin: 5px;
-        cursor: pointer;
-        border-radius: 5px;
-        font-size: 16px;
-        transition: background-color 0.3s;
-      }
+    /* أزرار شريط التنقل */
+    nav button {
+      background-color: #0073e6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
 
-      /* تأثير عند تمرير الماوس */
-      nav button:hover {
-        background-color: #005bb5;
-      }
+    /* تأثير عند تمرير الماوس */
+    nav button:hover {
+      background-color: #005bb5;
+    }
 
-      /* تنسيق أقسام المحتوى */
-      .section {
-        display: none;
-        padding: 20px;
-        background-color: white;
-        margin: 10px;
-        border-radius: 10px;
-      }
+    /* تنسيق أقسام المحتوى */
+    .section {
+      display: none;
+      padding: 20px;
+      background-color: white;
+      margin: 10px;
+      border-radius: 10px;
+    }
 
-      /* إظهار القسم النشط */
-      .active {
-        display: block;
-      }
-    </style>
-    
-  </head>
-  <body>
-    <!-- شريط التنقل -->
-    <nav>
-      <button onclick="showSection('home')">الرئيسية</button>
-      <button onclick="showSection('stories')">القصص</button>
-      <button onclick="showSection('about')">عنّا</button>
-      <button onclick="showSection('contact')">تواصل معنا</button>
-    </nav>
+    /* إظهار القسم النشط */
+    .active {
+      display: block;
+    }
+  </style>
 
-    <!-- الأقسام الرئيسية -->
-    <div id="home" class="section active">
-      <h2 id="2"></h2>
-      <p>هنا تبدأ رحلتك مع قصص العطاءات المميزة.</p>
-    </div>
+</head>
 
-    <div id="stories" class="section">
-      <!-- سيتم تحميل محتوى pages/stories1.html هنا -->
-    </div>
+<body>
+  <!-- شريط التنقل -->
+  <nav>
+    <button onclick="showSection('home')">الرئيسية</button>
+    <button onclick="showSection('stories')">القصص</button>
+    <button onclick="showSection('about')">عنّا</button>
+    <button onclick="showSection('contact')">تواصل معنا</button>
+  </nav>
 
-    <div id="about" class="section">
-      <!-- سيتم تحميل محتوى pages/about.html هنا -->
-    </div>
+  <!-- الأقسام الرئيسية -->
+  <div id="home" class="section active">
+    <h2 id="2"></h2>
+    <p>هنا تبدأ رحلتك مع قصص العطاءات المميزة.</p>
+  </div>
 
-    <div id="contact" class="section">
-      <!-- سيتم تحميل محتوى pages/contact.html هنا -->
-    </div>
+  <div id="stories" class="section">
+    <!-- سيتم تحميل محتوى pages/stories1.html هنا -->
+  </div>
 
-    <!-- كود JavaScript -->
-    <script>
-      // تنفيذ الكود بعد تحميل عناصر الصفحة بالكامل
-      window.addEventListener("DOMContentLoaded", () => {
-        // تتبع الصفحات التي تم تحميلها مسبقًا
-        const loadedPages = {
-          stories: false,
-          about: false,
-          contact: false,
-        };
+  <div id="about" class="section">
+    <!-- سيتم تحميل محتوى pages/about.html هنا -->
+  </div>
 
-        /**
-         * يعرض القسم المطلوب ويخفي الأقسام الأخرى
-         * ويحمّل الصفحة المرتبطة عند الحاجة
-         * @param {string} id - معرف القسم المطلوب عرضه
-         */
-        window.showSection = function (id) {
-          try {
-            // إخفاء جميع الأقسام
-            const sections = document.querySelectorAll(".section");
-            sections.forEach((section) => section.classList.remove("active"));
+  <div id="contact" class="section">
+    <!-- سيتم تحميل محتوى pages/contact.html هنا -->
+  </div>
 
-            // إظهار القسم المطلوب
-            const targetSection = document.getElementById(id);
-            targetSection.classList.add("active");
+  <!-- كود JavaScript -->
+  <script>
+    // تنفيذ الكود بعد تحميل عناصر الصفحة بالكامل
+    window.addEventListener("DOMContentLoaded", () => {
+      // تتبع الصفحات التي تم تحميلها مسبقًا
+      const loadedPages = {
+        stories: false,
+        about: false,
+        contact: false,
+      };
 
-            // روابط الصفحات التي يتم تحميلها عند الطلب
-            const pageMap = {
-              stories: "pages/stories.html",
-              about: "pages/about.html",
-              contact: "pages/contact.html",
-            };
+      /**
+       * يعرض القسم المطلوب ويخفي الأقسام الأخرى
+       * ويحمّل الصفحة المرتبطة عند الحاجة
+       * @param {string} id - معرف القسم المطلوب عرضه
+       */
+      window.showSection = function (id) {
+        try {
+          // إخفاء جميع الأقسام
+          const sections = document.querySelectorAll(".section");
+          sections.forEach((section) => section.classList.remove("active"));
 
-            // تحميل الصفحة إذا لم يتم تحميلها من قبل
-            if (pageMap[id] && !loadedPages[id]) {
-              targetSection.innerHTML = "<p>جاري التحميل...</p>";
-              fetch(pageMap[id])
-                .then((response) => {
-                  if (!response.ok) throw new Error("الملف غير موجود");
-                  return response.text();
-                })
-                .then((html) => {
-                  targetSection.innerHTML = html;
-                  loadedPages[id] = true;
-                })
-                .catch((error) => {
-                  targetSection.innerHTML = "<p>فشل تحميل الصفحة.</p>";
-                  console.error("خطأ:", error);
-                });
-            }
-          } catch (error) {
-            console.error("حدث خطأ:", error);
-            alert("حدث خطأ تقني، يرجى المحاولة لاحقًا.");
+          // إظهار القسم المطلوب
+          const targetSection = document.getElementById(id);
+          targetSection.classList.add("active");
+
+          // روابط الصفحات التي يتم تحميلها عند الطلب
+          const pageMap = {
+            stories: "pages/stories.html",
+            about: "pages/about.html",
+            contact: "pages/contact.html",
+          };
+
+          // تحميل الصفحة إذا لم يتم تحميلها من قبل
+          if (pageMap[id] && !loadedPages[id]) {
+            targetSection.innerHTML = "<p>جاري التحميل...</p>";
+            fetch(pageMap[id])
+              .then((response) => {
+                if (!response.ok) throw new Error("الملف غير موجود");
+                return response.text();
+              })
+              .then((html) => {
+                targetSection.innerHTML = html;
+                loadedPages[id] = true;
+              })
+              .catch((error) => {
+                targetSection.innerHTML = "<p>فشل تحميل الصفحة.</p>";
+                console.error("خطأ:", error);
+              });
           }
-        };
-      });
-    </script>
-   
-  </body>
+          //حدث اظهار النصوص 
+          document.dispatchEvent(new Event("BidStoryDBReady"));
+
+        } catch (error) {
+          console.error("حدث خطأ:", error);
+          alert("حدث خطأ تقني، يرجى المحاولة لاحقًا.");
+        }
+      };
+    });
+  </script>
+
+</body>
+
 </html>
