@@ -189,29 +189,27 @@ async function convertSQLiteToJSON(sqliteFilePath, outputJsonPath) {
 
 
    
-
-const isLocalhost = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
-
 // ✅ التنفيذ عند فتح index.html أو الصفحة الرئيسية
-if (
-  window.location.pathname.includes("index.html") || 
-  window.location.pathname === "/" || 
-  window.location.pathname.endsWith("/BidStory/")
-) {
-  checkIfDBUpdated().then(async (shouldUpdate) => {
-    if (shouldUpdate) {
-      if (isLocalhost) {
-        console.log("✅ يعمل فقط محليًا لتحويل قاعدة البيانات");
-        await convertSQLiteToJSON("code/data.db", "code/output.json");
-      } else {
-        console.warn("⚠️ التحويل من SQLite إلى JSON غير مدعوم على GitHub Pages. سيتم استخدام JSON الموجود فقط.");
-      }
+(async () => {
+  if (window.location.hostname.includes("bidstory.github.io")) {
+    
+    document.dispatchEvent(new Event("BidStoryDBReady"));
+    console.log("✅ نعمل على GitHub Pages - لا نقوم بأي تحديث للقاعدة");
+  } else {
+    // ✅ نعمل محليًا - نفحص إن كانت القاعدة تحتاج تحديث
+    const shouldUpdate = await checkIfDBUpdated();
 
+    if (shouldUpdate) {
+      console.log("✅ يعمل فقط محليًا لتحويل قاعدة البيانات");
+      await convertSQLiteToJSON("code/data.db", "code/output.json");
       await loadJSONtoIndexedDB();
+      console.log("✅ تم تحديث قاعدة بيانات اللغة");
     } else {
       document.dispatchEvent(new Event("BidStoryDBReady"));
-      console.log("✅ لا حاجة لتحديث قاعدة البيانات.");
+      console.log("✅ لا حاجة لتحديث قاعدة بيانات اللغة.");
     }
-  });
-}
+  }
+})();
+
+
 
