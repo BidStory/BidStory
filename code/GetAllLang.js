@@ -1,6 +1,6 @@
 async function loadJSONtoIndexedDB() {
   const dbName = "BidStoryDB";
-
+  console.log("بدء عمل الدله loadJSONtoIndexedDB  ");
   // حذف قاعدة البيانات
   await new Promise((resolve, reject) => {
     const deleteRequest = indexedDB.deleteDatabase(dbName);
@@ -64,7 +64,6 @@ async function loadJSONtoIndexedDB() {
 if (window.location.pathname.includes("index.html")) {
   if(checkIfDBUpdated()==true){
     convertSQLiteToJSON("code/data.db", "code/output.json");
-   
   }
   loadJSONtoIndexedDB();
 }
