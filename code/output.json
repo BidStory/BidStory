@@ -2,8 +2,14 @@
   "lang": [
     {
       "id": 2,
-      "a": "1مرحبا",
+      "a": "323232323999",
       "e": "welcome"
+    }
+  ],
+  "sqlite_sequence": [
+    {
+      "name": "lang",
+      "seq": 2
     }
   ]
 }
