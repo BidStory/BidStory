@@ -18,3 +18,5 @@ xabikos.javascriptsnippets
 
 
 لمسح بيانات المتصفح  chrome://settings/privacy
+
+لترجمة دوت نت dotnet run

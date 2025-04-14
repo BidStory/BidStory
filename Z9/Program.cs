@@ -42,6 +42,7 @@ class Program
                 // قراءة بيانات كل جدول
                 foreach (var table in tables)
                 {
+                    if(table=="sqlite_sequence"){continue;}
                     var tableData = new List<Dictionary<string, object>>();
 
                     using (var command = new SQLiteCommand($"SELECT * FROM {table}", connection))
