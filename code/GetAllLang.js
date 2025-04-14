@@ -194,7 +194,7 @@ async function convertSQLiteToJSON(sqliteFilePath, outputJsonPath) {
   if (window.location.hostname.includes("bidstory.github.io")) {
     
     document.dispatchEvent(new Event("BidStoryDBReady"));
-    console.log("✅ نعمل على GitHub Pages - لا نقوم بأي تحديث للقاعدة");
+    console.log("✅ انت الان علي الاستضافة الحقيقية");
   } else {
     // ✅ نعمل محليًا - نفحص إن كانت القاعدة تحتاج تحديث
     const shouldUpdate = await checkIfDBUpdated();

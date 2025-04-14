@@ -15,3 +15,6 @@ formulahendry.auto-rename-tag
 naumovs.color-highlight
 ritwickdey.liveserver
 xabikos.javascriptsnippets
+
+
+لمسح بيانات المتصفح  chrome://settings/privacy
