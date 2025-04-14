@@ -1,5 +1,5 @@
 https://bidstory.github.io/BidStory/
-
+لتحديث ملف اللغه node code/convert.js
 لجلب الملفات اسفل المسار المحدد Get-ChildItem
 لعرض المظهر Ctrl + ,
 هذا الملف لما لا تريد رفعة .gitignore
