@@ -1,5 +1,5 @@
 function loadJSONtoIndexedDB() {
-    fetch("output.json")
+    fetch("code/output.json")
       .then((res) => res.json())
       .then((data) => {
         const dbRequest = indexedDB.open("BidStoryDB", 1);
