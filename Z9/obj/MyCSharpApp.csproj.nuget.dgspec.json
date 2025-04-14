@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hesham\\Desktop\\BidStory\\MyCSharpApp\\MyCSharpApp.csproj": {}
+    "C:\\Users\\hesham\\Desktop\\BidStory\\Z9\\MyCSharpApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hesham\\Desktop\\BidStory\\MyCSharpApp\\MyCSharpApp.csproj": {
+    "C:\\Users\\hesham\\Desktop\\BidStory\\Z9\\MyCSharpApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hesham\\Desktop\\BidStory\\MyCSharpApp\\MyCSharpApp.csproj",
+        "projectUniqueName": "C:\\Users\\hesham\\Desktop\\BidStory\\Z9\\MyCSharpApp.csproj",
         "projectName": "MyCSharpApp",
-        "projectPath": "C:\\Users\\hesham\\Desktop\\BidStory\\MyCSharpApp\\MyCSharpApp.csproj",
+        "projectPath": "C:\\Users\\hesham\\Desktop\\BidStory\\Z9\\MyCSharpApp.csproj",
         "packagesPath": "C:\\Users\\hesham\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hesham\\Desktop\\BidStory\\MyCSharpApp\\obj\\",
+        "outputPath": "C:\\Users\\hesham\\Desktop\\BidStory\\Z9\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
