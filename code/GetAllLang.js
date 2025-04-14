@@ -1,7 +1,9 @@
+// 🔁 تحميل وتحويل البيانات من SQLite إلى IndexedDB
 async function loadJSONtoIndexedDB() {
   const dbName = "BidStoryDB";
-  console.log("بدء عمل الدله loadJSONtoIndexedDB  ");
-  // حذف قاعدة البيانات
+  console.log("🚀 بدء عمل الدالة loadJSONtoIndexedDB");
+
+  // 🧹 حذف قاعدة البيانات القديمة
   await new Promise((resolve, reject) => {
     const deleteRequest = indexedDB.deleteDatabase(dbName);
     deleteRequest.onsuccess = () => {
@@ -23,10 +25,17 @@ async function loadJSONtoIndexedDB() {
 
       dbRequest.onupgradeneeded = function (event) {
         const db = event.target.result;
+
+        // إنشاء الجداول من JSON
         for (const tableName in data) {
           const sample = data[tableName][0];
           const keyPath = sample && sample.id !== undefined ? "id" : undefined;
           db.createObjectStore(tableName, keyPath ? { keyPath } : { autoIncrement: true });
+        }
+
+        // جدول meta لتخزين آخر تعديل
+        if (!db.objectStoreNames.contains("meta")) {
+          db.createObjectStore("meta");
         }
       };
 
@@ -34,6 +43,7 @@ async function loadJSONtoIndexedDB() {
       dbRequest.onerror = (e) => reject(e.target.error);
     });
 
+    // تخزين البيانات في كل جدول
     for (const tableName in data) {
       await new Promise((resolve, reject) => {
         const transaction = db.transaction(tableName, "readwrite");
@@ -52,7 +62,15 @@ async function loadJSONtoIndexedDB() {
       });
     }
 
-    // 🔔 إعلام أن القاعدة أصبحت جاهزة
+    // حفظ تاريخ آخر تعديل لملف output.json
+    const headResponse = await fetch("code/output.json", { method: "HEAD", cache: "no-store" });
+    const lastModified = headResponse.headers.get("Last-Modified");
+    if (lastModified) {
+      const tx = db.transaction("meta", "readwrite");
+      tx.objectStore("meta").put(lastModified, "lastModified");
+    }
+
+    // 🔔 إشعار بأن قاعدة البيانات جاهزة
     document.dispatchEvent(new Event("BidStoryDBReady"));
 
   } catch (err) {
@@ -60,82 +78,73 @@ async function loadJSONtoIndexedDB() {
   }
 }
 
-// ✅ تشغيل الدالة فقط على index.html
-if (window.location.pathname.includes("index.html")) {
-  if(checkIfDBUpdated()==true){
-    convertSQLiteToJSON("code/data.db", "code/output.json");
-  }
-  loadJSONtoIndexedDB();
-}
-
+// ✅ التحقق مما إذا كانت قاعدة البيانات بحاجة إلى تحديث
 async function checkIfDBUpdated() {
-  const dbName = "BidStoryMetaDB";
-  const storeName = "meta";
-  const fileUrl = "code/data.db";
+  const dbName = "BidStoryDB";
+  const versionStore = "meta";
+  const fileUrl = "code/output.json";
 
-  // 1. الحصول على تاريخ التعديل من السيرفر
-  const response = await fetch(fileUrl, { method: "HEAD" });
+  return new Promise((resolve) => {
+    const request = indexedDB.open(dbName);
 
-  if (!response.ok) {
-    console.error("❌ فشل في جلب معلومات الملف");
-    return false;
-  }
-
-  const lastModified = response.headers.get("Last-Modified");
-  if (!lastModified) {
-    console.error("❌ لم يتم العثور على Last-Modified في الهيدر");
-    return false;
-  }
-
-  // 2. فتح قاعدة البيانات
-  const db = await new Promise((resolve, reject) => {
-    const request = indexedDB.open(dbName, 1);
-    request.onupgradeneeded = function (event) {
+    request.onsuccess = async (event) => {
       const db = event.target.result;
-      if (!db.objectStoreNames.contains(storeName)) {
-        db.createObjectStore(storeName, { keyPath: "key" });
+
+      // إذا لم يكن جدول meta موجودًا
+      if (!db.objectStoreNames.contains(versionStore)) {
+        console.warn("⏳ جدول meta غير موجود بعد. سيتم اعتبار القاعدة جديدة.");
+        resolve(true);
+        return;
+      }
+
+      try {
+        const response = await fetch(fileUrl, { method: "HEAD", cache: "no-store" });
+        const lastModified = response.headers.get("Last-Modified");
+
+        if (!lastModified) {
+          console.warn("⚠️ السيرفر لا يرجع Last-Modified. سيتم اعتبار الملف جديد.");
+          return resolve(true);
+        }
+
+        const tx = db.transaction(versionStore, "readwrite");
+        const store = tx.objectStore(versionStore);
+        const getRequest = store.get("lastModified");
+
+        getRequest.onsuccess = () => {
+          const previous = getRequest.result;
+          if (previous !== lastModified) {
+            store.put(lastModified, "lastModified");
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        };
+
+        getRequest.onerror = () => {
+          console.warn("⚠️ فشل في قراءة التاريخ السابق. سيتم اعتبار الملف محدث.");
+          resolve(true);
+        };
+      } catch (err) {
+        console.error("❌ خطأ أثناء فحص التحديث:", err);
+        resolve(false);
       }
     };
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = (e) => reject(e.target.error);
+
+    request.onerror = (event) => {
+      console.error("❌ فشل في فتح قاعدة البيانات:", event.target.error);
+      resolve(false);
+    };
   });
-
-  // 3. مقارنة التاريخ مع التاريخ السابق في IndexedDB
-  const previous = await new Promise((resolve, reject) => {
-    const transaction = db.transaction(storeName, "readonly");
-    const store = transaction.objectStore(storeName);
-    const getRequest = store.get("lastModified");
-    getRequest.onsuccess = () => resolve(getRequest.result);
-    getRequest.onerror = (e) => reject(e.target.error);
-  });
-
-  if (!previous || previous.value !== lastModified) {
-    // 4. تحديث القيمة في IndexedDB
-    await new Promise((resolve, reject) => {
-      const transaction = db.transaction(storeName, "readwrite");
-      const store = transaction.objectStore(storeName);
-      store.put({ key: "lastModified", value: lastModified });
-      transaction.oncomplete = resolve;
-      transaction.onerror = (e) => reject(e.target.error);
-    });
-
-    console.log("📌 الملف تم تعديله، تم تحديث القيمة");
-    return true;
-  }
-
-  console.log("✅ الملف لم يتم تعديله.");
-  return false;
 }
 
+// 🔄 تحويل قاعدة بيانات SQLite إلى ملف JSON
 async function convertSQLiteToJSON(sqliteFilePath, outputJsonPath) {
   console.log("🚀 بدأ التحويل من:", sqliteFilePath);
 
-  // تحميل مكتبة sql.js
   const SQL = await initSqlJs({
     locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
   });
 
-  // تحميل ملف SQLite كـ array buffer
   const response = await fetch(sqliteFilePath);
   const buffer = await response.arrayBuffer();
   const db = new SQL.Database(new Uint8Array(buffer));
@@ -161,7 +170,7 @@ async function convertSQLiteToJSON(sqliteFilePath, outputJsonPath) {
     }
   }
 
-  // حفظ كـ ملف output.json محلي للمستخدم
+  // حفظ كـ ملف output.json للمستخدم
   const blob = new Blob([JSON.stringify(databaseJson, null, 2)], { type: "application/json" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
@@ -169,4 +178,18 @@ async function convertSQLiteToJSON(sqliteFilePath, outputJsonPath) {
   a.click();
 
   console.log(`✅ تم تحويل قاعدة البيانات وحفظها في: ${outputJsonPath}`);
+}
+
+
+// ✅ التنفيذ عند فتح index.html فقط
+if (window.location.pathname.includes("index.html")) {
+  checkIfDBUpdated().then(async (shouldUpdate) => {
+    if (shouldUpdate) {
+      await convertSQLiteToJSON("code/data.db", "output.json");
+      await loadJSONtoIndexedDB();
+    } else {
+      document.dispatchEvent(new Event("BidStoryDBReady"));
+      console.log("✅ لا حاجة لتحديث قاعدة البيانات.");
+    }
+  });
 }
