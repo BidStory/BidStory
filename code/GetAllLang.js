@@ -78,11 +78,13 @@ async function loadJSONtoIndexedDB() {
   }
 }
 
+
+
 // ✅ التحقق مما إذا كانت قاعدة البيانات بحاجة إلى تحديث
 async function checkIfDBUpdated() {
   const dbName = "BidStoryDB";
   const versionStore = "meta";
-  const fileUrl = "code/output.json";
+  const filePath = "C:\\Users\\hesham\\OneDrive\\Desktop\\BidStory\\code\\data.db";
 
   return new Promise((resolve) => {
     const request = indexedDB.open(dbName);
@@ -98,7 +100,8 @@ async function checkIfDBUpdated() {
       }
 
       try {
-        const response = await fetch(fileUrl, { method: "HEAD", cache: "no-store" });
+        // استخدام fetch لقراءة الملف كـ blob للحصول على Last-Modified
+        const response = await fetch(`file://${filePath}`, { method: "HEAD", cache: "no-store" });
         const lastModified = response.headers.get("Last-Modified");
 
         if (!lastModified) {
@@ -136,6 +139,11 @@ async function checkIfDBUpdated() {
     };
   });
 }
+
+
+
+
+
 
 // 🔄 تحويل قاعدة بيانات SQLite إلى ملف JSON
 async function convertSQLiteToJSON(sqliteFilePath, outputJsonPath) {
@@ -183,13 +191,28 @@ async function convertSQLiteToJSON(sqliteFilePath, outputJsonPath) {
 
    
 
-checkIfDBUpdated().then(async (shouldUpdate) => {
-  if (shouldUpdate) {
-    await convertSQLiteToJSON("code/data.db", "output.json");
-    await loadJSONtoIndexedDB();
-  } else {
-    document.dispatchEvent(new Event("BidStoryDBReady"));
-    console.log("✅ لا حاجة لتحديث قاعدة البيانات.");
-  }
-});
+const isLocalhost = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
+
+// ✅ التنفيذ عند فتح index.html أو الصفحة الرئيسية
+if (
+  window.location.pathname.includes("index.html") || 
+  window.location.pathname === "/" || 
+  window.location.pathname.endsWith("/BidStory/")
+) {
+  checkIfDBUpdated().then(async (shouldUpdate) => {
+    if (shouldUpdate) {
+      if (isLocalhost) {
+        console.log("✅ يعمل فقط محليًا لتحويل قاعدة البيانات");
+        await convertSQLiteToJSON("code/data.db", "output.json");
+      } else {
+        console.warn("⚠️ التحويل من SQLite إلى JSON غير مدعوم على GitHub Pages. سيتم استخدام JSON الموجود فقط.");
+      }
+
+      await loadJSONtoIndexedDB();
+    } else {
+      document.dispatchEvent(new Event("BidStoryDBReady"));
+      console.log("✅ لا حاجة لتحديث قاعدة البيانات.");
+    }
+  });
+}
 
