@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Text.Json;
-
+//اتحويل 
 class Program
 {
     static void Main(string[] args)
