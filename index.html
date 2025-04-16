@@ -618,29 +618,36 @@
             }
         }
 
-        // تصدير المستخدمين كملف JSON
         exportBtn.addEventListener('click', async function() {
-            try {
-                const users = await dbManager.getAllRecords('users');
-                const dataStr = JSON.stringify(users, null, 2);
-                const dataBlob = new Blob([dataStr], { type: 'application/json' });
-                
-                // عرض معاينة للبيانات
-                jsonContent.textContent = dataStr;
-                jsonPreview.style.display = 'block';
-                
-                // إنشاء رابط للتحميل
-                const downloadLink = document.createElement('a');
-                downloadLink.href = URL.createObjectURL(dataBlob);
-                downloadLink.download = `users_export_${new Date().toISOString().slice(0,10)}.json`;
-                downloadLink.click();
-                
-                showMessage(messages.json, 'تم تصدير بيانات المستخدمين بنجاح', 'success');
-            } catch (error) {
-                showMessage(messages.json, 'حدث خطأ أثناء تصدير البيانات', 'error');
-                console.error('حدث خطأ أثناء تصدير البيانات:', error);
-            }
-        });
+    try {
+        const users = await dbManager.getAllRecords('users');
+        const dataStr = JSON.stringify(users, null, 2);
+        
+        // عرض معاينة للبيانات
+        jsonContent.textContent = dataStr;
+        jsonPreview.style.display = 'block';
+        
+        // تعريف fileName هنا قبل استخدامه في كلا الفرعين
+        const fileName = `users_export_${new Date().toISOString().slice(0,10)}.json`;
+        
+        // استدعاء دالة حفظ الملف في التطبيق
+        if(typeof Android !== 'undefined') {
+            Android.saveJsonFile(dataStr, fileName);
+        } else {
+            // سلاح بديل إذا لم يكن في تطبيق
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const downloadLink = document.createElement('a');
+            downloadLink.href = URL.createObjectURL(dataBlob);
+            downloadLink.download = fileName; // الآن المتغير معرّف
+            downloadLink.click();
+        }
+        
+        showMessage(messages.json, 'تم تصدير بيانات المستخدمين بنجاح', 'success');
+    } catch (error) {
+        showMessage(messages.json, 'حدث خطأ أثناء تصدير البيانات', 'error');
+        console.error('حدث خطأ أثناء تصدير البيانات:', error);
+    }
+});
 
         // استيراد مستخدمين من ملف JSON
         importBtn.addEventListener('click', function() {
