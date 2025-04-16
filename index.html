@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام إدارة المستخدمين</title>
+    <title>نظام إدارة </title>
     <style>
         :root {
             --primary-color: #3498db;
@@ -211,23 +211,23 @@
 <body>
     <div class="container">
         <header>
-            <h1>نظام إدارة المستخدمين</h1>
+            <h1>نظام إدارة البيانات</h1>
         </header>
         
         <div class="tabs">
-            <div class="tab active" data-tab="register">تسجيل مستخدم جديد</div>
-            <div class="tab" data-tab="users-list">قائمة المستخدمين</div>
+            <div class="tab active" data-tab="register"> بيان جديد</div>
+            <div class="tab" data-tab="users-list">قائمة المعلومات</div>
             <div class="tab" data-tab="json-data">استيراد/تصدير بيانات</div>
         </div>
-        1234
+        
         <!-- تسجيل مستخدم جديد -->
         <div id="register" class="tab-content active">
-            <h2>تسجيل مستخدم جديد</h2>
+            <h2>اضافة  جديد</h2>
             <div id="register-message" class="message"></div>
             
             <form id="registerForm">
                 <div class="form-group">
-                    <label for="username">اسم المستخدم:</label>
+                    <label for="username">اسم الحاله:</label>
                     <input type="text" id="username" required>
                 </div>
                 
@@ -237,8 +237,8 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="password">كلمة المرور:</label>
-                    <input type="password" id="password" required>
+                    <label for="password">كلمة التعريف:</label>
+                    <input type="text" id="password" required>
                 </div>
                 
                 <div class="form-group">
@@ -255,7 +255,7 @@
                     </select>
                 </div>
                 
-                <button type="submit" class="btn-success">تسجيل مستخدم جديد</button>
+                <button type="submit" class="btn-success">اضافة  جديد</button>
             </form>
         </div>
         

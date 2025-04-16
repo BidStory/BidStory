@@ -1,4 +1,5 @@
 https://bidstory.github.io/BidStory/
+https://bidstory.github.io/BidStory/pages/PrivacyPolicy.html
 لتحديث ملف اللغه node code/convert.js
 لجلب الملفات اسفل المسار المحدد Get-ChildItem
 لعرض المظهر Ctrl + ,
