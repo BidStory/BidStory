@@ -219,7 +219,7 @@
             <div class="tab" data-tab="users-list">قائمة المستخدمين</div>
             <div class="tab" data-tab="json-data">استيراد/تصدير بيانات</div>
         </div>
-        123
+        1234
         <!-- تسجيل مستخدم جديد -->
         <div id="register" class="tab-content active">
             <h2>تسجيل مستخدم جديد</h2>
@@ -650,10 +650,67 @@
 });
 
         // استيراد مستخدمين من ملف JSON
-        importBtn.addEventListener('click', function() {
-            importFile.click();
-        });
+       // استيراد مستخدمين من ملف JSON
+importBtn.addEventListener('click', function() {
+    if (typeof Android !== 'undefined') {
+        // في تطبيق Android
+        Android.requestFileImport();
+    } else {
+        // في المتصفح العادي
+        importFile.click();
+    }
+});
 
+// دالة لمعالجة النتيجة من Android
+function handleFileImportResult(jsonData) {
+    processImportedData(jsonData);
+}
+
+function handleFileImportError(error) {
+    showMessage(messages.json, error, 'error');
+}
+
+async function processImportedData(jsonData) {
+    try {
+        const users = JSON.parse(jsonData);
+        
+        if (!Array.isArray(users)) {
+            throw new Error('ملف JSON يجب أن يحتوي على مصفوفة من المستخدمين');
+        }
+        
+        // عرض معاينة للبيانات
+        jsonContent.textContent = JSON.stringify(users, null, 2);
+        jsonPreview.style.display = 'block';
+        
+        // استيراد البيانات
+        await dbManager.executeTransaction(['users'], 'readwrite', (tx) => {
+            const store = tx.objectStore('users');
+            users.forEach(user => {
+                store.put(user);
+            });
+        });
+        
+        showMessage(messages.json, `تم استيراد ${users.length} مستخدم بنجاح`, 'success');
+        loadUsers();
+    } catch (error) {
+        showMessage(messages.json, error.message, 'error');
+        console.error('حدث خطأ أثناء استيراد البيانات:', error);
+    }
+}
+
+// الاحتفاظ بالكود الأصلي للعمل في المتصفح
+importFile.addEventListener('change', async function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    try {
+        const fileContent = await readFileAsText(file);
+        await processImportedData(fileContent);
+    } catch (error) {
+        showMessage(messages.json, error.message, 'error');
+        console.error('حدث خطأ أثناء استيراد البيانات:', error);
+    }
+});
         importFile.addEventListener('change', async function(e) {
             const file = e.target.files[0];
             if (!file) return;
