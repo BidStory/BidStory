@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>BidStory File Manager</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      direction: rtl;
+      text-align: right;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+    input, button {
+      margin: 10px 0;
+      display: block;
+      width: 100%;
+      padding: 10px;
+    }
+    #output {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>إدارة الملفات - BidStory</h1>
+
+  <h2>رفع ملف</h2>
+  <input type="file" id="uploadFile" />
+  <button onclick="uploadFile()">رفع</button>
+
+  <h2>تحميل ملف</h2>
+  <input type="text" id="downloadFileName" placeholder="اسم الملف" />
+  <button onclick="downloadFile()">تحميل</button>
+
+  <h2>حذف ملف</h2>
+  <input type="text" id="deleteFileName" placeholder="اسم الملف" />
+  <button onclick="deleteFile()">حذف</button>
+
+  <div id="output"></div>
+
+  <script>
+    const API_BASE = "https://bidstory-files.bidsstories.workers.dev";
+
+    function log(msg) {
+      document.getElementById("output").textContent = msg;
+    }
+
+    async function uploadFile() {
+      const fileInput = document.getElementById("uploadFile");
+      const file = fileInput.files[0];
+      if (!file) return log("يرجى اختيار ملف");
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch(`${API_BASE}/upload`, {
+        method: "POST",
+        body: formData
+      });
+
+      const result = await res.json();
+      log(JSON.stringify(result, null, 2));
+    }
+
+    async function downloadFile() {
+      const file = document.getElementById("downloadFileName").value;
+      if (!file) return log("يرجى كتابة اسم الملف");
+
+      const res = await fetch(`${API_BASE}/download?file=${encodeURIComponent(file)}`);
+      if (!res.ok) return log("فشل في التحميل: " + res.status);
+
+      const blob = await res.blob();
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = file;
+      link.click();
+      log("تم تحميل الملف");
+    }
+
+    async function deleteFile() {
+      const file = document.getElementById("deleteFileName").value;
+      if (!file) return log("يرجى كتابة اسم الملف");
+
+      const res = await fetch(`${API_BASE}/delete?file=${encodeURIComponent(file)}`, {
+        method: "DELETE"
+      });
+
+      const result = await res.json();
+      log(JSON.stringify(result, null, 2));
+    }
+  </script>
+</body>
+</html>

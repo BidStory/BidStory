@@ -21,3 +21,10 @@ xabikos.javascriptsnippets
 لمسح بيانات المتصفح  chrome://settings/privacy
 
 لترجمة دوت نت dotnet run  للتشغيل c:\Users\hesham\Desktop\BidStory\d2j.bat
+
+
+
+
+//////////files///////////////
+npx wrangler deploy  للتحديث
+

@@ -1,7 +1,28 @@
-# عدم رفع مجلد node_modules
-node_modules/
-
 
 # تجاهل ملفات النظام
+
 .DS_Store
 Thumbs.db
+
+# ملفات Node.js
+node_modules/
+npm-debug.log*
+
+# ملفات Wrangler
+.wrangler/
+wrangler.toml
+wrangler.*.toml
+
+# ملفات البيئة السرية (لو استُخدمت)
+.env
+.env.local
+.env.*.local
+
+# ملفات مؤقتة أو تحرير
+*.log
+*.bak
+*.tmp
+*.swp
+
+# Cache VSCode أو إعداداته
+.vscode/
