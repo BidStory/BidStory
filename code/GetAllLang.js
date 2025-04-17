@@ -82,15 +82,6 @@ async function loadJSONtoIndexedDB() {
   }
 }
 
-<<<<<<< Updated upstream
-// تشغيل الدالة الرئيسية لبدء عملية التحميل والتخزين
-loadJSONtoIndexedDB();
-import { GetLable } from './shared.js'
-// استماع لحدث "BidStoryDBReady" الذي يشير إلى أن قاعدة البيانات جاهزة للاستخدام
-document.addEventListener("BidStoryDBReady", () => {
-  GetLable();
-});
-=======
 
 
 // ✅ التحقق مما إذا كانت قاعدة البيانات بحاجة إلى تحديث
@@ -225,4 +216,3 @@ async function convertSQLiteToJSON(sqliteFilePath, outputJsonPath) {
 
 
 
->>>>>>> Stashed changes
