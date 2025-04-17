@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>التقاط صورة من الكاميرا</title>
+  <style>
+    video, canvas {
+      max-width: 100%;
+      display: block;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>التقاط صورة من الكاميرا</h1>
+
+  <video id="video" autoplay playsinline width="640" height="480"></video>
+  <button id="capture">📸 التقاط صورة</button>
+  <canvas id="canvas" width="640" height="480"></canvas>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const captureButton = document.getElementById('capture');
+    const ctx = canvas.getContext('2d');
+
+    // طلب الوصول إلى الكاميرا
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(error => {
+        alert('حدث خطأ أثناء محاولة الوصول إلى الكاميرا: ' + error);
+      });
+
+    // عند الضغط على زر الالتقاط
+    captureButton.addEventListener('click', () => {
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    });
+  </script>
+</body>
+</html>

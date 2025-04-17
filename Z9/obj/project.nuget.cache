@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+wF9RMI1weA=",
+  "dgSpecHash": "66tVne7Kw+c=",
   "success": true,
-  "projectFilePath": "C:\\Users\\hesham\\Desktop\\BidStory\\Z9\\MyCSharpApp.csproj",
+  "projectFilePath": "C:\\Users\\hesham\\OneDrive\\Desktop\\BidStory\\Z9\\MyCSharpApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hesham\\.nuget\\packages\\stub.system.data.sqlite.core.netstandard\\1.0.119\\stub.system.data.sqlite.core.netstandard.1.0.119.nupkg.sha512",
     "C:\\Users\\hesham\\.nuget\\packages\\system.data.sqlite.core\\1.0.119\\system.data.sqlite.core.1.0.119.nupkg.sha512"
