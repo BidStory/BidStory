@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>السيرة الذاتية</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --success-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --light-gray: #f5f5f5;
+            --dark-gray: #7f8c8d;
+            --white: #ffffff;
+            --lawyer-color: #9b59b6;
+        }
+        
+        body {
+            font-family: 'Tajawal', Arial, sans-serif;
+            background-color: var(--light-gray);
+            margin: 0;
+            padding: 0;
+            color: var(--secondary-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        h1 {
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-color);
+            position: relative;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--lawyer-color));
+            border-radius: 3px;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            gap: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .profile-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-info h2 {
+            margin: 0;
+            color: var(--secondary-color);
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .profile-info p {
+            margin: 5px 0 0;
+            color: var(--dark-gray);
+            font-size: 16px;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            animation: slideIn 0.6s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .form-section:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-section h2 {
+            margin-top: 0;
+            color: var(--secondary-color);
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-section h2 i {
+            color: var(--primary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--secondary-color);
+            font-size: 15px;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Tajawal', Arial, sans-serif;
+            transition: all 0.3s ease;
+            background-color: var(--white);
+        }
+        
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            background-color: #f0f0f0;
+            padding: 12px 18px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .radio-option:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-2px);
+        }
+        
+        .radio-option input {
+            margin-left: 8px;
+        }
+        
+        .radio-option[for="lawyer"] {
+            background-color: rgba(155, 89, 182, 0.1);
+            border: 1px solid rgba(155, 89, 182, 0.3);
+        }
+        
+        .radio-option[for="lawyer"]:hover {
+            background-color: rgba(155, 89, 182, 0.2);
+        }
+        
+        .special-fields {
+            background-color: #f0f7fc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid var(--primary-color);
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        
+        button {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .save-btn {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .save-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        .reset-btn {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .reset-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .back-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .back-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .error {
+            color: var(--danger-color);
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        
+        .success-message {
+            background-color: var(--success-color);
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 25px;
+            display: none;
+            animation: fadeIn 0.5s ease, bounceIn 0.8s ease;
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .view-mode .form-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .view-mode .form-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .view-mode label {
+            font-weight: normal;
+            color: var(--dark-gray);
+            margin-bottom: 5px;
+        }
+        
+        .view-mode .field-value {
+            font-size: 18px;
+            color: var(--secondary-color);
+            padding: 12px;
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            margin-top: 5px;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        .floating-btn:hover {
+            transform: scale(1.1);
+            background-color: #2980b9;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(52, 152, 219, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-image {
+                margin-bottom: 15px;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+            }
+            
+            .radio-option {
+                width: 100%;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+            
+            .floating-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="success-message" id="successMessage">
+            <i class="fas fa-check-circle"></i> تم حفظ السيرة الذاتية بنجاح
+        </div>
+        
+        <h1>السيرة الذاتية</h1>
+        
+        <div class="profile-header">
+            <img id="cvProfileImage" class="profile-image" src="" alt="صورة الملف الشخصي">
+            <div class="profile-info">
+                <h2 id="cvUsername">اسم المستخدم</h2>
+                <p id="cvEmail">البريد الإلكتروني</p>
+            </div>
+        </div>
+        
+        <div id="editMode">
+            <form id="cvForm">
+                <div class="form-section">
+                    <h2><i class="fas fa-user-tie"></i> المعلومات الأساسية</h2>
+                    
+                    <div class="form-group">
+                        <label>نوع السيرة الذاتية *</label>
+                        <div class="radio-group" id="cvTypeGroup">
+                            <div class="radio-option">
+                                <input type="radio" id="contractor" name="cvType" value="مقاول" required>
+                                <label for="contractor">مقاول</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="engineer" name="cvType" value="مهندس">
+                                <label for="engineer">مهندس</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="accountant" name="cvType" value="محاسب">
+                                <label for="accountant">محاسب</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="lawyer" name="cvType" value="محامي">
+                                <label for="lawyer">محامي</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="worker" name="cvType" value="عامل">
+                                <label for="worker">عامل</label>
+                            </div>
+                        </div>
+                        <div class="error" id="cvTypeError">يجب اختيار نوع السيرة الذاتية</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience"><i class="fas fa-briefcase"></i> سنوات الخبرة *</label>
+                        <input type="number" id="experience" name="experience" min="0" max="50" required>
+                        <div class="error" id="experienceError">يجب إدخال عدد سنوات الخبرة</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="specialization"><i class="fas fa-graduation-cap"></i> التخصص *</label>
+                        <select id="specialization" name="specialization" required>
+                            <option value="">اختر التخصص</option>
+                            <!-- سيتم تعبئتها بالجافاسكريبت حسب النوع -->
+                        </select>
+                        <div class="error" id="specializationError">يجب اختيار التخصص</div>
+                    </div>
+                </div>
+                
+                <div id="contractorFields" class="special-fields">
+                    <h2><i class="fas fa-tools"></i> معلومات إضافية للمقاولين</h2>
+                    
+                    <div class="form-group">
+                        <label for="postalBox"><i class="fas fa-envelope"></i> الصندوق البريدي *</label>
+                        <input type="text" id="postalBox" name="postalBox" placeholder="مثال: 12345">
+                        <div class="error" id="postalBoxError">يجب إدخال صندوق بريدي صحيح</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="taxNumber"><i class="fas fa-file-invoice-dollar"></i> رقم البطاقة الضريبية *</label>
+                        <input type="text" id="taxNumber" name="taxNumber" placeholder="أدخل الرقم الضريبي">
+                        <div class="error" id="taxNumberError">يجب إدخال رقم بطاقة ضريبية صحيح</div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2><i class="fas fa-briefcase"></i> المعلومات المهنية</h2>
+                    
+                    <div class="form-group">
+                        <label for="previousWorks"><i class="fas fa-history"></i> الأعمال السابقة *</label>
+                        <textarea id="previousWorks" name="previousWorks" required></textarea>
+                        <div class="error" id="previousWorksError">يجب إدخال الأعمال السابقة</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="skills"><i class="fas fa-star"></i> المهارات الإضافية *</label>
+                        <textarea id="skills" name="skills" required></textarea>
+                        <div class="error" id="skillsError">يجب إدخال المهارات الإضافية</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="summary"><i class="fas fa-file-alt"></i> ملخص السيرة *</label>
+                        <textarea id="summary" name="summary" required></textarea>
+                        <div class="error" id="summaryError">يجب إدخال ملخص السيرة</div>
+                    </div>
+                </div>
+                
+                <div class="buttons">
+                    <button type="button" class="back-btn" id="backBtn">
+                        <i class="fas fa-arrow-right"></i> العودة
+                    </button>
+                    <button type="button" class="reset-btn" id="resetBtn">
+                        <i class="fas fa-trash-alt"></i> مسح النموذج
+                    </button>
+                    <button type="submit" class="save-btn" id="saveBtn">
+                        <i class="fas fa-save"></i> حفظ السيرة
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <div id="viewMode" class="hidden">
+            <div class="form-section">
+                <h2><i class="fas fa-user-tie"></i> المعلومات الأساسية</h2>
+                
+                <div class="form-group">
+                    <label>نوع السيرة الذاتية</label>
+                    <div class="field-value" id="viewCvType"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>سنوات الخبرة</label>
+                    <div class="field-value" id="viewExperience"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>التخصص</label>
+                    <div class="field-value" id="viewSpecialization"></div>
+                </div>
+            </div>
+            
+            <div id="viewContractorFields" class="hidden">
+                <div class="form-section">
+                    <h2><i class="fas fa-tools"></i> معلومات إضافية للمقاولين</h2>
+                    
+                    <div class="form-group">
+                        <label>الصندوق البريدي</label>
+                        <div class="field-value" id="viewPostalBox"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>رقم البطاقة الضريبية</label>
+                        <div class="field-value" id="viewTaxNumber"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2><i class="fas fa-briefcase"></i> المعلومات المهنية</h2>
+                
+                <div class="form-group">
+                    <label>الأعمال السابقة</label>
+                    <div class="field-value" id="viewPreviousWorks"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>المهارات الإضافية</label>
+                    <div class="field-value" id="viewSkills"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>ملخص السيرة</label>
+                    <div class="field-value" id="viewSummary"></div>
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button type="button" class="back-btn" id="viewBackBtn">
+                    <i class="fas fa-arrow-right"></i> العودة
+                </button>
+                <button type="button" class="save-btn" id="editBtn">
+                    <i class="fas fa-edit"></i> تعديل السيرة
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-btn" id="scrollTopBtn">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // بيانات المستخدم من صفحة تسجيل الدخول
+        const userProfile = JSON.parse(localStorage.getItem('userProfile')) || {
+            username: 'اسم المستخدم',
+            email: 'البريد الإلكتروني',
+            profileImage: ''
+        };
+
+        // تخصصات لكل نوع
+        const specializations = {
+            'مقاول': ['ميكانيكا', 'كهرباء', 'مدني', 'تشطيبات', 'سباكة', 'نجارة'],
+            'مهندس': ['مدني', 'ميكانيكي', 'كهرباء', 'عمارة', 'برمجيات', 'صناعي'],
+            'محاسب': ['مالي', 'تكاليف', 'ضرائب', 'مراجعة', 'بنوك', 'تأمين'],
+            'محامي': ['جنائي', 'مدني', 'تجاري', 'دولي', 'أسرة', 'أحوال شخصية'],
+            'عامل': ['بناء', 'دهان', 'سباكة', 'كهرباء', 'نجارة', 'حدادة']
+        };
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // عرض بيانات المستخدم من قاعدة البيانات
+            displayUserProfile();
+
+            // تحميل السيرة الذاتية المحفوظة إن وجدت
+            loadCV();
+
+            // أحداث تغيير نوع السيرة
+            document.querySelectorAll('input[name="cvType"]').forEach(radio => {
+                radio.addEventListener('change', updateSpecializations);
+            });
+
+            // أحداث الأزرار
+            document.getElementById('resetBtn').addEventListener('click', resetForm);
+            document.getElementById('backBtn').addEventListener('click', goBack);
+            document.getElementById('viewBackBtn').addEventListener('click', goBack);
+            document.getElementById('editBtn').addEventListener('click', editCV);
+            document.getElementById('cvForm').addEventListener('submit', saveCV);
+            document.getElementById('scrollTopBtn').addEventListener('click', scrollToTop);
+
+            // تأثيرات إضافية
+            animateElements();
+        });
+
+        // عرض بيانات المستخدم من قاعدة البيانات
+    // دالة عرض بيانات المستخدم من قاعدة البيانات
+function displayUserProfile() {
+    const dbName = 'UserProfileDB';
+    const dbVersion = 1;
+    const storeName = 'users';
+    
+    const request = indexedDB.open(dbName, dbVersion);
+    
+    request.onerror = function(event) {
+        console.error('Error opening database:', event.target.error);
+        // عرض البيانات الافتراضية في حالة الخطأ
+        showDefaultProfile();
+    };
+    
+    request.onupgradeneeded = function(event) {
+        const db = event.target.result;
+        if (!db.objectStoreNames.contains(storeName)) {
+            db.createObjectStore(storeName, { keyPath: 'id', autoIncrement: true });
+        }
+    };
+    
+    request.onsuccess = function(event) {
+        const db = event.target.result;
+        
+        // التحقق من وجود Object Store قبل استخدامه
+        if (!db.objectStoreNames.contains(storeName)) {
+            console.error('Object store not found');
+            showDefaultProfile();
+            return;
+        }
+        
+        const transaction = db.transaction([storeName], 'readonly');
+        const objectStore = transaction.objectStore(storeName);
+        const getRequest = objectStore.getAll();
+        
+        getRequest.onerror = function(event) {
+            console.error('Error loading user data:', event.target.error);
+            showDefaultProfile();
+        };
+        
+        getRequest.onsuccess = function(event) {
+            const userData = event.target.result[0];
+            if (userData) {
+                document.getElementById('cvUsername').textContent = userData.username || 'اسم المستخدم';
+                document.getElementById('cvEmail').textContent = userData.email || 'البريد الإلكتروني';
+                if (userData.image) {
+                    document.getElementById('cvProfileImage').src = userData.image;
+                }
+            } else {
+                showDefaultProfile();
+            }
+        };
+    };
+}
+
+// دالة لعرض البيانات الافتراضية إذا لم توجد في قاعدة البيانات
+function showDefaultProfile() {
+    document.getElementById('cvUsername').textContent = 'اسم المستخدم';
+    document.getElementById('cvEmail').textContent = 'البريد الإلكتروني';
+    document.getElementById('cvProfileImage').src = '';
+}
+
+        // تحديث قائمة التخصصات حسب نوع السيرة
+        function updateSpecializations() {
+            const cvType = document.querySelector('input[name="cvType"]:checked')?.value;
+            const specializationSelect = document.getElementById('specialization');
+            
+            // مسح الخيارات الحالية
+            specializationSelect.innerHTML = '<option value="">اختر التخصص</option>';
+            
+            if (cvType) {
+                // إضافة التخصصات المناسبة
+                specializations[cvType].forEach(spec => {
+                    const option = document.createElement('option');
+                    option.value = spec;
+                    option.textContent = spec;
+                    specializationSelect.appendChild(option);
+                });
+                
+                // إظهار أو إخفاء حقول المقاول
+                if (cvType === 'مقاول') {
+                    document.getElementById('contractorFields').style.display = 'block';
+                } else {
+                    document.getElementById('contractorFields').style.display = 'none';
+                }
+            }
+        }
+
+        // تحميل السيرة الذاتية
+        function loadCV() {
+            const savedCV = JSON.parse(localStorage.getItem('userCV'));
+            
+            if (savedCV) {
+                showViewMode(savedCV);
+            } else {
+                // إذا لم يكن هناك سيرة محفوظة، إظهار وضع التعديل
+                document.getElementById('editMode').classList.remove('hidden');
+                document.getElementById('viewMode').classList.add('hidden');
+            }
+        }
+
+        // عرض وضع العرض
+        function showViewMode(cvData) {
+            // تعبئة البيانات
+            document.getElementById('viewCvType').textContent = cvData.cvType;
+            document.getElementById('viewExperience').textContent = cvData.experience ? `${cvData.experience} سنة` : 'غير محدد';
+            document.getElementById('viewSpecialization').textContent = cvData.specialization || 'غير محدد';
+            document.getElementById('viewPreviousWorks').textContent = cvData.previousWorks || 'لا يوجد';
+            document.getElementById('viewSkills').textContent = cvData.skills || 'لا يوجد';
+            document.getElementById('viewSummary').textContent = cvData.summary || 'لا يوجد';
+            
+            // حقول المقاول
+            if (cvData.cvType === 'مقاول') {
+                document.getElementById('viewContractorFields').classList.remove('hidden');
+                document.getElementById('viewPostalBox').textContent = cvData.postalBox || 'غير محدد';
+                document.getElementById('viewTaxNumber').textContent = cvData.taxNumber || 'غير محدد';
+            } else {
+                document.getElementById('viewContractorFields').classList.add('hidden');
+            }
+            
+            // تبديل الواجهة
+            document.getElementById('editMode').classList.add('hidden');
+            document.getElementById('viewMode').classList.remove('hidden');
+        }
+
+        // عرض وضع التعديل
+        function editCV() {
+            const savedCV = JSON.parse(localStorage.getItem('userCV')) || {};
+            
+            // تعبئة النموذج
+            if (savedCV.cvType) {
+                document.querySelector(`input[name="cvType"][value="${savedCV.cvType}"]`).checked = true;
+                updateSpecializations();
+                
+                // تأخير تعبئة التخصص حتى يتم تحديث القائمة
+                setTimeout(() => {
+                    if (savedCV.specialization) {
+                        document.getElementById('specialization').value = savedCV.specialization;
+                    }
+                }, 100);
+                
+                if (savedCV.cvType === 'مقاول') {
+                    document.getElementById('postalBox').value = savedCV.postalBox || '';
+                    document.getElementById('taxNumber').value = savedCV.taxNumber || '';
+                }
+                
+                document.getElementById('experience').value = savedCV.experience || '';
+                document.getElementById('previousWorks').value = savedCV.previousWorks || '';
+                document.getElementById('skills').value = savedCV.skills || '';
+                document.getElementById('summary').value = savedCV.summary || '';
+            }
+            
+            // تبديل الواجهة
+            document.getElementById('viewMode').classList.add('hidden');
+            document.getElementById('editMode').classList.remove('hidden');
+        }
+
+        // حفظ السيرة الذاتية
+        function saveCV(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) return;
+            
+            const cvType = document.querySelector('input[name="cvType"]:checked').value;
+            const cvData = {
+                cvType,
+                experience: document.getElementById('experience').value,
+                specialization: document.getElementById('specialization').value,
+                previousWorks: document.getElementById('previousWorks').value,
+                skills: document.getElementById('skills').value,
+                summary: document.getElementById('summary').value,
+                lastUpdated: new Date().toISOString()
+            };
+            
+            // إضافة حقول المقاول إذا كان النوع مقاول
+            if (cvType === 'مقاول') {
+                cvData.postalBox = document.getElementById('postalBox').value;
+                cvData.taxNumber = document.getElementById('taxNumber').value;
+            }
+            
+            // الحفظ في localStorage
+            localStorage.setItem('userCV', JSON.stringify(cvData));
+            
+            // إظهار رسالة النجاح
+            showSuccessMessage();
+            
+            // عرض البيانات المحفوظة
+            showViewMode(cvData);
+        }
+
+        // التحقق من صحة النموذج
+        function validateForm() {
+            let isValid = true;
+            const cvType = document.querySelector('input[name="cvType"]:checked')?.value;
+            
+            // إخفاء جميع رسائل الخطأ أولاً
+            document.querySelectorAll('.error').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // التحقق من نوع السيرة
+            if (!cvType) {
+                document.getElementById('cvTypeError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // التحقق من سنوات الخبرة
+            if (!document.getElementById('experience').value) {
+                document.getElementById('experienceError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // التحقق من التخصص
+            if (!document.getElementById('specialization').value) {
+                document.getElementById('specializationError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // التحقق من حقول المقاول
+            if (cvType === 'مقاول') {
+                if (!document.getElementById('postalBox').value.trim()) {
+                    document.getElementById('postalBoxError').style.display = 'block';
+                    isValid = false;
+                }
+                
+                if (!document.getElementById('taxNumber').value.trim()) {
+                    document.getElementById('taxNumberError').style.display = 'block';
+                    isValid = false;
+                }
+            }
+            
+            // التحقق من المعلومات المهنية
+            if (!document.getElementById('previousWorks').value.trim()) {
+                document.getElementById('previousWorksError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!document.getElementById('skills').value.trim()) {
+                document.getElementById('skillsError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!document.getElementById('summary').value.trim()) {
+                document.getElementById('summaryError').style.display = 'block';
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        // إظهار رسالة النجاح
+        function showSuccessMessage() {
+            const successMsg = document.getElementById('successMessage');
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 3000);
+        }
+
+        // مسح النموذج
+        function resetForm() {
+            if (confirm('هل أنت متأكد من مسح جميع البيانات؟ سيتم حذف جميع الحقول.')) {
+                document.getElementById('cvForm').reset();
+                document.getElementById('contractorFields').style.display = 'none';
+                document.getElementById('specialization').innerHTML = '<option value="">اختر التخصص</option>';
+            }
+        }
+
+        // العودة للصفحة السابقة
+        function goBack() {
+            window.location.href = 'profile.html'; // أو الصفحة السابقة المناسبة
+        }
+
+        // التمرير إلى الأعلى
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // تأثيرات الحركة
+        function animateElements() {
+            // إظهار زر التمرير للأعلى عند التمرير
+            window.addEventListener('scroll', function() {
+                const scrollBtn = document.getElementById('scrollTopBtn');
+                if (window.pageYOffset > 300) {
+                    scrollBtn.style.opacity = '1';
+                    scrollBtn.style.visibility = 'visible';
+                } else {
+                    scrollBtn.style.opacity = '0';
+                    scrollBtn.style.visibility = 'hidden';
+                }
+            });
+
+            // تأثيرات عند التمرير
+            const animateOnScroll = function() {
+                const elements = document.querySelectorAll('.form-section, .form-group');
+                
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.3;
+                    
+                    if (elementPosition < screenPosition) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }
+                });
+            };
+
+            // تهيئة العناصر
+            document.querySelectorAll('.form-section, .form-group').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.6s ease-out';
+            });
+
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // تشغيلها مرة عند التحميل
+        }
+    </script>
+</body>
+</html>
