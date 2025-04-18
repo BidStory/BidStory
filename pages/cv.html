@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +16,7 @@
             --white: #ffffff;
             --lawyer-color: #9b59b6;
         }
-        
+
         body {
             font-family: 'Tajawal', Arial, sans-serif;
             background-color: var(--light-gray);
@@ -24,7 +25,7 @@
             color: var(--secondary-color);
             line-height: 1.6;
         }
-        
+
         .container {
             max-width: 800px;
             margin: 20px auto;
@@ -36,14 +37,14 @@
             opacity: 0;
             animation: fadeInUp 0.5s ease-out forwards;
         }
-        
+
         @keyframes fadeInUp {
             to {
                 transform: translateY(0);
                 opacity: 1;
             }
         }
-        
+
         h1 {
             color: var(--secondary-color);
             text-align: center;
@@ -52,7 +53,7 @@
             border-bottom: 2px solid var(--primary-color);
             position: relative;
         }
-        
+
         h1::after {
             content: '';
             position: absolute;
@@ -63,7 +64,7 @@
             background: linear-gradient(90deg, var(--primary-color), var(--lawyer-color));
             border-radius: 3px;
         }
-        
+
         .profile-header {
             display: flex;
             align-items: center;
@@ -73,12 +74,17 @@
             gap: 20px;
             animation: fadeIn 0.8s ease-out;
         }
-        
+
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
-        
+
         .profile-image {
             width: 120px;
             height: 120px;
@@ -88,29 +94,29 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
-        
+
         .profile-image:hover {
             transform: scale(1.05);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
-        
+
         .profile-info {
             flex: 1;
         }
-        
+
         .profile-info h2 {
             margin: 0;
             color: var(--secondary-color);
             font-size: 24px;
             font-weight: 700;
         }
-        
+
         .profile-info p {
             margin: 5px 0 0;
             color: var(--dark-gray);
             font-size: 16px;
         }
-        
+
         .form-section {
             margin-bottom: 30px;
             padding: 25px;
@@ -121,16 +127,23 @@
             transition: all 0.3s ease;
             animation: slideIn 0.6s ease-out;
         }
-        
+
         @keyframes slideIn {
-            from { transform: translateX(20px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from {
+                transform: translateX(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
-        
+
         .form-section:hover {
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .form-section h2 {
             margin-top: 0;
             color: var(--secondary-color);
@@ -140,16 +153,16 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .form-section h2 i {
             color: var(--primary-color);
         }
-        
+
         .form-group {
             margin-bottom: 20px;
             animation: fadeIn 0.8s ease-out;
         }
-        
+
         label {
             display: block;
             margin-bottom: 8px;
@@ -157,9 +170,12 @@
             color: var(--secondary-color);
             font-size: 15px;
         }
-        
+
         input[type="text"],
         input[type="number"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="url"],
         select,
         textarea {
             width: 100%;
@@ -171,28 +187,31 @@
             transition: all 0.3s ease;
             background-color: var(--white);
         }
-        
+
         input[type="text"]:focus,
         input[type="number"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="url"]:focus,
         select:focus,
         textarea:focus {
             border-color: var(--primary-color);
             outline: none;
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
-        
+
         textarea {
             min-height: 120px;
             resize: vertical;
         }
-        
+
         .radio-group {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
             margin-bottom: 20px;
         }
-        
+
         .radio-option {
             display: flex;
             align-items: center;
@@ -204,25 +223,25 @@
             flex: 1;
             min-width: 120px;
         }
-        
+
         .radio-option:hover {
             background-color: #e0e0e0;
             transform: translateY(-2px);
         }
-        
+
         .radio-option input {
             margin-left: 8px;
         }
-        
+
         .radio-option[for="lawyer"] {
             background-color: rgba(155, 89, 182, 0.1);
             border: 1px solid rgba(155, 89, 182, 0.3);
         }
-        
+
         .radio-option[for="lawyer"]:hover {
             background-color: rgba(155, 89, 182, 0.2);
         }
-        
+
         .special-fields {
             background-color: #f0f7fc;
             padding: 20px;
@@ -232,14 +251,14 @@
             display: none;
             animation: fadeIn 0.5s ease-out;
         }
-        
+
         .buttons {
             display: flex;
             justify-content: space-between;
             margin-top: 30px;
             gap: 15px;
         }
-        
+
         button {
             padding: 14px 28px;
             border: none;
@@ -255,43 +274,43 @@
             gap: 10px;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
         }
-        
+
         button:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
         }
-        
+
         button:active {
             transform: translateY(0);
         }
-        
+
         .save-btn {
             background-color: var(--success-color);
             color: white;
         }
-        
+
         .save-btn:hover {
             background-color: #27ae60;
         }
-        
+
         .reset-btn {
             background-color: var(--danger-color);
             color: white;
         }
-        
+
         .reset-btn:hover {
             background-color: #c0392b;
         }
-        
+
         .back-btn {
             background-color: var(--primary-color);
             color: white;
         }
-        
+
         .back-btn:hover {
             background-color: #2980b9;
         }
-        
+
         .error {
             color: var(--danger-color);
             font-size: 14px;
@@ -299,13 +318,25 @@
             display: none;
             animation: shake 0.5s ease;
         }
-        
+
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-5px); }
-            40%, 80% { transform: translateX(5px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            60% {
+                transform: translateX(-5px);
+            }
+
+            40%,
+            80% {
+                transform: translateX(5px);
+            }
         }
-        
+
         .success-message {
             background-color: var(--success-color);
             color: white;
@@ -316,13 +347,23 @@
             display: none;
             animation: fadeIn 0.5s ease, bounceIn 0.8s ease;
         }
-        
+
         @keyframes bounceIn {
-            0% { transform: scale(0.9); opacity: 0; }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); opacity: 1; }
+            0% {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
-        
+
         .view-mode .form-section {
             background-color: #f9f9f9;
             padding: 20px;
@@ -330,18 +371,18 @@
             margin-bottom: 20px;
             transition: all 0.3s ease;
         }
-        
+
         .view-mode .form-section:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
         }
-        
+
         .view-mode label {
             font-weight: normal;
             color: var(--dark-gray);
             margin-bottom: 5px;
         }
-        
+
         .view-mode .field-value {
             font-size: 18px;
             color: var(--secondary-color);
@@ -352,11 +393,11 @@
             margin-top: 5px;
             animation: fadeIn 0.8s ease;
         }
-        
+
         .hidden {
             display: none !important;
         }
-        
+
         .floating-btn {
             position: fixed;
             bottom: 30px;
@@ -376,50 +417,123 @@
             transition: all 0.3s ease;
             animation: pulse 2s infinite;
         }
-        
+
         .floating-btn:hover {
             transform: scale(1.1);
             background-color: #2980b9;
         }
-        
+
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(52, 152, 219, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(52, 152, 219, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+            }
         }
-        
+
+        /* أنماط جديدة للعناصر المتعددة */
+        .multi-item-container {
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .multi-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .multi-item input {
+            flex: 1;
+        }
+
+        .add-item-btn,
+        .remove-item-btn {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 6px;
+        }
+
+        .add-item-btn {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .remove-item-btn {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        /* أنماط الخريطة */
+        #map-container {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            position: relative;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .leaflet-control-attribution {
+            font-size: 5px;
+            opacity: 0.5;
+        }
+
+        /* خريطة العرض */
+        #viewMap {
+            height: 250px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
                 margin: 10px;
                 border-radius: 10px;
             }
-            
+
             .profile-header {
                 flex-direction: column;
                 text-align: center;
             }
-            
+
             .profile-image {
                 margin-bottom: 15px;
             }
-            
+
             .radio-group {
                 flex-direction: column;
             }
-            
+
             .radio-option {
                 width: 100%;
             }
-            
+
             .buttons {
                 flex-direction: column;
             }
-            
+
             button {
                 width: 100%;
             }
-            
+
             .floating-btn {
                 bottom: 20px;
                 right: 20px;
@@ -427,19 +541,74 @@
                 height: 50px;
                 font-size: 20px;
             }
+
+            .multi-item {
+                flex-direction: column;
+            }
+
+            #map-container,
+            #viewMap {
+                height: 200px;
+            }
+
+            .coordinates-container {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-top: 10px;
+                padding: 10px;
+                background-color: #f5f5f5;
+                border-radius: 8px;
+            }
+
+            #viewCoordinates {
+                font-family: monospace;
+                font-size: 16px;
+                flex-grow: 1;
+            }
+
+            .copy-btn {
+                background-color: var(--primary-color);
+                color: white;
+                border: none;
+                padding: 2px 2px;
+                border-radius: 6px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 2px;
+                transition: background-color 0.3s;
+                font-size: smaller;
+            }
+
+            .copy-btn:hover {
+                background-color: #2980b9;
+                font-size: smaller;
+            }
+
+            .copy-btn.copied {
+                background-color: var(--success-color);
+                font-size: smaller;
+            }
+
+            .copy-btn i {
+                font-size: smaller;
+            }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
+
 <body>
     <div class="container">
         <div class="success-message" id="successMessage">
             <i class="fas fa-check-circle"></i> تم حفظ السيرة الذاتية بنجاح
         </div>
-        
+
         <h1>السيرة الذاتية</h1>
-        
+
         <div class="profile-header">
             <img id="cvProfileImage" class="profile-image" src="" alt="صورة الملف الشخصي">
             <div class="profile-info">
@@ -447,12 +616,12 @@
                 <p id="cvEmail">البريد الإلكتروني</p>
             </div>
         </div>
-        
+
         <div id="editMode">
             <form id="cvForm">
                 <div class="form-section">
                     <h2><i class="fas fa-user-tie"></i> المعلومات الأساسية</h2>
-                    
+
                     <div class="form-group">
                         <label>نوع السيرة الذاتية *</label>
                         <div class="radio-group" id="cvTypeGroup">
@@ -479,13 +648,13 @@
                         </div>
                         <div class="error" id="cvTypeError">يجب اختيار نوع السيرة الذاتية</div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="experience"><i class="fas fa-briefcase"></i> سنوات الخبرة *</label>
                         <input type="number" id="experience" name="experience" min="0" max="50" required>
                         <div class="error" id="experienceError">يجب إدخال عدد سنوات الخبرة</div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="specialization"><i class="fas fa-graduation-cap"></i> التخصص *</label>
                         <select id="specialization" name="specialization" required>
@@ -494,46 +663,100 @@
                         </select>
                         <div class="error" id="specializationError">يجب اختيار التخصص</div>
                     </div>
+
+                    <!-- حقل البريد الإلكتروني المتعدد -->
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> البريد الإلكتروني *</label>
+                        <div id="emails-container">
+                            <div class="multi-item-container">
+                                <div class="multi-item">
+                                    <input type="email" name="email[]" placeholder="البريد الإلكتروني" required>
+                                    <button type="button" class="add-item-btn" onclick="addEmailField()"><i
+                                            class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- حقل الهواتف المتعدد -->
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> رقم الهاتف *</label>
+                        <div id="phones-container">
+                            <div class="multi-item-container">
+                                <div class="multi-item">
+                                    <input type="tel" name="phone[]" placeholder="رقم الهاتف" required>
+                                    <button type="button" class="add-item-btn" onclick="addPhoneField()"><i
+                                            class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- حقل روابط التواصل الاجتماعي -->
+                    <div class="form-group">
+                        <label for="facebook"><i class="fab fa-facebook"></i> رابط الفيسبوك</label>
+                        <input type="url" id="facebook" name="facebook" placeholder="https://facebook.com/username">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="twitter"><i class="fab fa-twitter"></i> رابط تويتر (X)</label>
+                        <input type="url" id="twitter" name="twitter" placeholder="https://twitter.com/username">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="website"><i class="fas fa-globe"></i> رابط الموقع الشخصي</label>
+                        <input type="url" id="website" name="website" placeholder="https://example.com">
+                    </div>
+
+                    <!-- حقل الخريطة -->
+                    <div class="form-group">
+                        <label><i class="fas fa-map-marker-alt"></i> الموقع الجغرافي (انقر مرتين لتحديد الموقع)</label>
+                        <div id="map-container">
+                            <div id="map"></div>
+                        </div>
+                        <input type="hidden" id="latitude" name="latitude">
+                        <input type="hidden" id="longitude" name="longitude">
+                    </div>
                 </div>
-                
+
                 <div id="contractorFields" class="special-fields">
                     <h2><i class="fas fa-tools"></i> معلومات إضافية للمقاولين</h2>
-                    
+
                     <div class="form-group">
                         <label for="postalBox"><i class="fas fa-envelope"></i> الصندوق البريدي *</label>
                         <input type="text" id="postalBox" name="postalBox" placeholder="مثال: 12345">
                         <div class="error" id="postalBoxError">يجب إدخال صندوق بريدي صحيح</div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="taxNumber"><i class="fas fa-file-invoice-dollar"></i> رقم البطاقة الضريبية *</label>
                         <input type="text" id="taxNumber" name="taxNumber" placeholder="أدخل الرقم الضريبي">
                         <div class="error" id="taxNumberError">يجب إدخال رقم بطاقة ضريبية صحيح</div>
                     </div>
                 </div>
-                
+
                 <div class="form-section">
                     <h2><i class="fas fa-briefcase"></i> المعلومات المهنية</h2>
-                    
+
                     <div class="form-group">
                         <label for="previousWorks"><i class="fas fa-history"></i> الأعمال السابقة *</label>
                         <textarea id="previousWorks" name="previousWorks" required></textarea>
                         <div class="error" id="previousWorksError">يجب إدخال الأعمال السابقة</div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="skills"><i class="fas fa-star"></i> المهارات الإضافية *</label>
                         <textarea id="skills" name="skills" required></textarea>
                         <div class="error" id="skillsError">يجب إدخال المهارات الإضافية</div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="summary"><i class="fas fa-file-alt"></i> ملخص السيرة *</label>
                         <textarea id="summary" name="summary" required></textarea>
                         <div class="error" id="summaryError">يجب إدخال ملخص السيرة</div>
                     </div>
                 </div>
-                
+
                 <div class="buttons">
                     <button type="button" class="back-btn" id="backBtn">
                         <i class="fas fa-arrow-right"></i> العودة
@@ -547,62 +770,101 @@
                 </div>
             </form>
         </div>
-        
+
         <div id="viewMode" class="hidden">
             <div class="form-section">
                 <h2><i class="fas fa-user-tie"></i> المعلومات الأساسية</h2>
-                
+
                 <div class="form-group">
                     <label>نوع السيرة الذاتية</label>
                     <div class="field-value" id="viewCvType"></div>
                 </div>
-                
+
                 <div class="form-group">
                     <label>سنوات الخبرة</label>
                     <div class="field-value" id="viewExperience"></div>
                 </div>
-                
+
                 <div class="form-group">
                     <label>التخصص</label>
                     <div class="field-value" id="viewSpecialization"></div>
                 </div>
+
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <div class="field-value" id="viewEmails"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>رقم الهاتف</label>
+                    <div class="field-value" id="viewPhones"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>رابط الفيسبوك</label>
+                    <div class="field-value" id="viewFacebook"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>رابط تويتر (X)</label>
+                    <div class="field-value" id="viewTwitter"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>الموقع الشخصي</label>
+                    <div class="field-value" id="viewWebsite"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>الموقع الجغرافي</label>
+                    <div id="viewMap"></div>
+                    <input type="hidden" id="viewLatitude">
+                    <div class="coordinates-container">
+
+                        <button id="copyCoordsBtn" class="copy-btn" style="font-size: xx-small;">
+                            <span id="viewCoordinates">--.--, --.--</span>
+                            <i class="fas fa-copy"></i> نسخ
+                        </button>
+                    </div>
+
+                </div>
             </div>
-            
+
             <div id="viewContractorFields" class="hidden">
                 <div class="form-section">
                     <h2><i class="fas fa-tools"></i> معلومات إضافية للمقاولين</h2>
-                    
+
                     <div class="form-group">
                         <label>الصندوق البريدي</label>
                         <div class="field-value" id="viewPostalBox"></div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label>رقم البطاقة الضريبية</label>
                         <div class="field-value" id="viewTaxNumber"></div>
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-section">
                 <h2><i class="fas fa-briefcase"></i> المعلومات المهنية</h2>
-                
+
                 <div class="form-group">
                     <label>الأعمال السابقة</label>
                     <div class="field-value" id="viewPreviousWorks"></div>
                 </div>
-                
+
                 <div class="form-group">
                     <label>المهارات الإضافية</label>
                     <div class="field-value" id="viewSkills"></div>
                 </div>
-                
+
                 <div class="form-group">
                     <label>ملخص السيرة</label>
                     <div class="field-value" id="viewSummary"></div>
                 </div>
             </div>
-            
+
             <div class="buttons">
                 <button type="button" class="back-btn" id="viewBackBtn">
                     <i class="fas fa-arrow-right"></i> العودة
@@ -618,6 +880,7 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // بيانات المستخدم من صفحة تسجيل الدخول
         const userProfile = JSON.parse(localStorage.getItem('userProfile')) || {
@@ -635,8 +898,14 @@
             'عامل': ['بناء', 'دهان', 'سباكة', 'كهرباء', 'نجارة', 'حدادة']
         };
 
+        // متغيرات الخريطة
+        let map, viewMap, marker;
+        const container = document.getElementById('map-container');
+        let clickCount = 0;
+        let clickTimeout;
+
         // تهيئة الصفحة
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // عرض بيانات المستخدم من قاعدة البيانات
             displayUserProfile();
 
@@ -656,81 +925,156 @@
             document.getElementById('cvForm').addEventListener('submit', saveCV);
             document.getElementById('scrollTopBtn').addEventListener('click', scrollToTop);
 
+            // تهيئة الخريطة
+            initMap();
+
             // تأثيرات إضافية
             animateElements();
         });
 
-        // عرض بيانات المستخدم من قاعدة البيانات
-    // دالة عرض بيانات المستخدم من قاعدة البيانات
-function displayUserProfile() {
-    const dbName = 'UserProfileDB';
-    const dbVersion = 1;
-    const storeName = 'users';
-    
-    const request = indexedDB.open(dbName, dbVersion);
-    
-    request.onerror = function(event) {
-        console.error('Error opening database:', event.target.error);
-        // عرض البيانات الافتراضية في حالة الخطأ
-        showDefaultProfile();
-    };
-    
-    request.onupgradeneeded = function(event) {
-        const db = event.target.result;
-        if (!db.objectStoreNames.contains(storeName)) {
-            db.createObjectStore(storeName, { keyPath: 'id', autoIncrement: true });
-        }
-    };
-    
-    request.onsuccess = function(event) {
-        const db = event.target.result;
-        
-        // التحقق من وجود Object Store قبل استخدامه
-        if (!db.objectStoreNames.contains(storeName)) {
-            console.error('Object store not found');
-            showDefaultProfile();
-            return;
-        }
-        
-        const transaction = db.transaction([storeName], 'readonly');
-        const objectStore = transaction.objectStore(storeName);
-        const getRequest = objectStore.getAll();
-        
-        getRequest.onerror = function(event) {
-            console.error('Error loading user data:', event.target.error);
-            showDefaultProfile();
-        };
-        
-        getRequest.onsuccess = function(event) {
-            const userData = event.target.result[0];
-            if (userData) {
-                document.getElementById('cvUsername').textContent = userData.username || 'اسم المستخدم';
-                document.getElementById('cvEmail').textContent = userData.email || 'البريد الإلكتروني';
-                if (userData.image) {
-                    document.getElementById('cvProfileImage').src = userData.image;
-                }
-            } else {
-                showDefaultProfile();
-            }
-        };
-    };
-}
+        // دالة عرض بيانات المستخدم من قاعدة البيانات
+        function displayUserProfile() {
+            const dbPromise = openUserDB();
 
-// دالة لعرض البيانات الافتراضية إذا لم توجد في قاعدة البيانات
-function showDefaultProfile() {
-    document.getElementById('cvUsername').textContent = 'اسم المستخدم';
-    document.getElementById('cvEmail').textContent = 'البريد الإلكتروني';
-    document.getElementById('cvProfileImage').src = '';
-}
+            dbPromise.then(db => {
+                return getUserData(db);
+            }).then(userData => {
+                if (userData) {
+                    document.getElementById('cvUsername').textContent = userData.username || 'اسم المستخدم';
+                    document.getElementById('cvEmail').textContent = userData.emails?.[0] || 'البريد الإلكتروني';
+                    if (userData.image) {
+                        document.getElementById('cvProfileImage').src = userData.image;
+                    }
+                } else {
+                    showDefaultProfile();
+                }
+            }).catch(error => {
+                console.error('Error loading user data:', error);
+                showDefaultProfile();
+            });
+        }
+
+        // دالة لعرض البيانات الافتراضية إذا لم توجد في قاعدة البيانات
+        function showDefaultProfile() {
+            document.getElementById('cvUsername').textContent = 'اسم المستخدم';
+            document.getElementById('cvEmail').textContent = 'البريد الإلكتروني';
+            document.getElementById('cvProfileImage').src = '';
+        }
+
+        // فتح قاعدة بيانات المستخدم
+        function openUserDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open('user', 1);
+
+                request.onupgradeneeded = function (event) {
+                    const db = event.target.result;
+                    if (!db.objectStoreNames.contains('usercv')) {
+                        db.createObjectStore('usercv', { keyPath: 'id' });
+                    }
+                    if (!db.objectStoreNames.contains('usercvb')) {
+                        db.createObjectStore('usercvb', { keyPath: 'id' });
+                    }
+                };
+
+                request.onsuccess = function () {
+                    resolve(request.result);
+                };
+
+                request.onerror = function (event) {
+                    reject(event.target.error);
+                };
+            });
+        }
+
+        // جلب بيانات المستخدم من قاعدة البيانات
+        function getUserData(db) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction(['usercv'], 'readonly');
+                const store = transaction.objectStore('usercv');
+                const request = store.getAll();
+
+                request.onsuccess = function () {
+                    resolve(request.result[0]); // إرجاع أول سجل (يمكن تعديله حسب احتياجاتك)
+                };
+
+                request.onerror = function (event) {
+                    reject(event.target.error);
+                };
+            });
+        }
+
+        // حفظ بيانات المستخدم في قاعدة البيانات
+        function saveUserData(data) {
+            return new Promise((resolve, reject) => {
+                openUserDB().then(db => {
+                    const transaction = db.transaction(['usercv', 'usercvb'], 'readwrite');
+                    const usercvStore = transaction.objectStore('usercv');
+                    const usercvbStore = transaction.objectStore('usercvb');
+
+                    // فصل البيانات حسب الجداول
+                    const { specialization, experience, ...cvData } = data;
+
+                    // حفظ في usercv
+                    usercvStore.put({ id: 1, ...cvData });
+
+                    // حفظ في usercvb
+                    usercvbStore.put({ id: 1, specialization, experience });
+
+                    transaction.oncomplete = function () {
+                        resolve();
+                    };
+
+                    transaction.onerror = function (event) {
+                        reject(event.target.error);
+                    };
+                }).catch(reject);
+            });
+        }
+
+        // إضافة حقل بريد إلكتروني جديد
+        function addEmailField() {
+            const container = document.getElementById('emails-container');
+            const newItem = document.createElement('div');
+            newItem.className = 'multi-item-container';
+            newItem.innerHTML = `
+                <div class="multi-item">
+                    <input type="email" name="email[]" placeholder="البريد الإلكتروني" required>
+                    <button type="button" class="remove-item-btn" onclick="removeField(this)"><i class="fas fa-minus"></i></button>
+                </div>
+            `;
+            container.appendChild(newItem);
+        }
+
+        // إضافة حقل هاتف جديد
+        function addPhoneField() {
+            const container = document.getElementById('phones-container');
+            const newItem = document.createElement('div');
+            newItem.className = 'multi-item-container';
+            newItem.innerHTML = `
+                <div class="multi-item">
+                    <input type="tel" name="phone[]" placeholder="رقم الهاتف" required>
+                    <button type="button" class="remove-item-btn" onclick="removeField(this)"><i class="fas fa-minus"></i></button>
+                </div>
+            `;
+            container.appendChild(newItem);
+        }
+
+        // إزالة حقل
+        function removeField(button) {
+            const container = button.closest('.multi-item-container');
+            if (container) {
+                container.remove();
+            }
+        }
 
         // تحديث قائمة التخصصات حسب نوع السيرة
         function updateSpecializations() {
             const cvType = document.querySelector('input[name="cvType"]:checked')?.value;
             const specializationSelect = document.getElementById('specialization');
-            
+
             // مسح الخيارات الحالية
             specializationSelect.innerHTML = '<option value="">اختر التخصص</option>';
-            
+
             if (cvType) {
                 // إضافة التخصصات المناسبة
                 specializations[cvType].forEach(spec => {
@@ -739,7 +1083,7 @@ function showDefaultProfile() {
                     option.textContent = spec;
                     specializationSelect.appendChild(option);
                 });
-                
+
                 // إظهار أو إخفاء حقول المقاول
                 if (cvType === 'مقاول') {
                     document.getElementById('contractorFields').style.display = 'block';
@@ -748,30 +1092,195 @@ function showDefaultProfile() {
                 }
             }
         }
+const PROPHET_MOSQUE_COORDS = [24.4672, 39.6117]; // إحداثيات المسجد النبوي
+        // تهيئة الخريطة
+        function initMap() {
+            // الخريطة الرئيسية في وضع التعديل
+            map = L.map('map').setView(PROPHET_MOSQUE_COORDS, 10); // الرياض كموقع افتراضي
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            // تحديد موقع بالنقر المزدوج
+            map.on('click', function (e) {
+                clickCount++;
+
+                if (clickCount === 1) {
+                    clickTimeout = setTimeout(function () {
+                        clickCount = 0;
+                    }, 300);
+                } else if (clickCount === 2) {
+                    clearTimeout(clickTimeout);
+                    clickCount = 0;
+
+                    const latlng = [e.latlng.lat, e.latlng.lng];
+                    if (marker) map.removeLayer(marker);
+                    marker = L.marker(latlng).addTo(map);
+                    document.getElementById('latitude').value = latlng[0];
+                    document.getElementById('longitude').value = latlng[1];
+                    map.setView(latlng, 15);
+                }
+            });
+
+            // تكبير/تصغير الخريطة بالنقر
+            container.addEventListener('click', function () {
+                if (!container.classList.contains('fullscreen')) {
+                    container.classList.add('fullscreen');
+                    setTimeout(() => map.invalidateSize(), 310);
+                } else {
+                    container.classList.remove('fullscreen');
+                    setTimeout(() => map.invalidateSize(), 310);
+                }
+            });
+        }
+        let viewMarker = null; // الآن يمكن استخدامه في initViewMap و showViewMode وغيرها
+
+        // تهيئة خريطة العرض
+        // تهيئة خريطة العرض
+        function initViewMap(lat, lng) {
+            if (viewMap) {
+                viewMap.remove();
+            }
+
+            viewMap = L.map('viewMap', {
+                zoomControl: false,
+                dragging: false,
+                doubleClickZoom: false,
+                scrollWheelZoom: false,
+                touchZoom: false,
+                boxZoom: false,
+                keyboard: false
+            }).setView([lat, lng], 15);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors',
+                maxZoom: 19,
+            }).on('tileerror', function () {
+                console.error('Failed to load map tiles');
+            }).addTo(viewMap);
+
+            L.marker([lat, lng]).addTo(viewMap);
+
+            // عرض الإحداثيات
+            const coordinatesText = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+            document.getElementById('viewCoordinates').textContent = coordinatesText;
+
+            // زر النسخ
+            const copyBtn = document.getElementById('copyCoordsBtn');
+            copyBtn.addEventListener('click', function () {
+                navigator.clipboard.writeText(coordinatesText).then(function () {
+                    copyBtn.classList.add('copied');
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> تم النسخ';
+
+                    setTimeout(function () {
+                        copyBtn.classList.remove('copied');
+                        copyBtn.innerHTML = '<i class="fas fa-copy"></i> نسخ';
+                    }, 2000);
+                }).catch(function (err) {
+                    console.error('Failed to copy coordinates: ', err);
+                    alert('تعذر نسخ الإحداثيات، يرجى المحاولة مرة أخرى');
+                });
+            });
+
+
+            setTimeout(() => {
+                viewMap.invalidateSize();
+            }, 100);
+        }
 
         // تحميل السيرة الذاتية
         function loadCV() {
-            const savedCV = JSON.parse(localStorage.getItem('userCV'));
-            
-            if (savedCV) {
-                showViewMode(savedCV);
-            } else {
-                // إذا لم يكن هناك سيرة محفوظة، إظهار وضع التعديل
+            openUserDB().then(db => {
+                return Promise.all([
+                    getDataFromStore(db, 'usercv', 1),
+                    getDataFromStore(db, 'usercvb', 1)
+                ]);
+            }).then(([cvData, cvbData]) => {
+                if (cvData || cvbData) {
+                    const combinedData = { ...cvData, ...cvbData };
+                    showViewMode(combinedData);
+                } else {
+                    // إذا لم يكن هناك سيرة محفوظة، إظهار وضع التعديل
+                    document.getElementById('editMode').classList.remove('hidden');
+                    document.getElementById('viewMode').classList.add('hidden');
+                }
+            }).catch(error => {
+                console.error('Error loading CV:', error);
                 document.getElementById('editMode').classList.remove('hidden');
                 document.getElementById('viewMode').classList.add('hidden');
-            }
+            });
+        }
+
+        // جلب بيانات من مخزن معين
+        function getDataFromStore(db, storeName, id) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([storeName], 'readonly');
+                const store = transaction.objectStore(storeName);
+                const request = store.get(id);
+
+                request.onsuccess = function () {
+                    resolve(request.result);
+                };
+
+                request.onerror = function (event) {
+                    reject(event.target.error);
+                };
+            });
         }
 
         // عرض وضع العرض
         function showViewMode(cvData) {
             // تعبئة البيانات
-            document.getElementById('viewCvType').textContent = cvData.cvType;
+            document.getElementById('viewCvType').textContent = cvData.cvType || 'غير محدد';
             document.getElementById('viewExperience').textContent = cvData.experience ? `${cvData.experience} سنة` : 'غير محدد';
             document.getElementById('viewSpecialization').textContent = cvData.specialization || 'غير محدد';
-            document.getElementById('viewPreviousWorks').textContent = cvData.previousWorks || 'لا يوجد';
-            document.getElementById('viewSkills').textContent = cvData.skills || 'لا يوجد';
-            document.getElementById('viewSummary').textContent = cvData.summary || 'لا يوجد';
-            
+
+            // عرض البريد الإلكتروني
+            if (cvData.emails && cvData.emails.length > 0) {
+                document.getElementById('viewEmails').innerHTML = cvData.emails.map(email =>
+                    `<div>${email} <a href="mailto:${email}"><i class="fas fa-envelope"></i></a></div>`
+                ).join('');
+            } else {
+                document.getElementById('viewEmails').textContent = 'غير محدد';
+            }
+
+            // عرض أرقام الهاتف
+            if (cvData.phones && cvData.phones.length > 0) {
+                document.getElementById('viewPhones').innerHTML = cvData.phones.map(phone =>
+                    `<div>${phone} <a href="tel:${phone}"><i class="fas fa-phone"></i></a></div>`
+                ).join('');
+            } else {
+                document.getElementById('viewPhones').textContent = 'غير محدد';
+            }
+
+            // عرض روابط التواصل الاجتماعي
+            if (cvData.facebook) {
+                document.getElementById('viewFacebook').innerHTML =
+                    `<a href="${cvData.facebook}" target="_blank">${cvData.facebook} <i class="fab fa-facebook"></i></a>`;
+            } else {
+                document.getElementById('viewFacebook').textContent = 'غير محدد';
+            }
+
+            if (cvData.twitter) {
+                document.getElementById('viewTwitter').innerHTML =
+                    `<a href="${cvData.twitter}" target="_blank">${cvData.twitter} <i class="fab fa-twitter"></i></a>`;
+            } else {
+                document.getElementById('viewTwitter').textContent = 'غير محدد';
+            }
+
+            // عرض الموقع الشخصي
+            if (cvData.website) {
+                document.getElementById('viewWebsite').innerHTML =
+                    `<a href="${cvData.website}" target="_blank">${cvData.website} <i class="fas fa-external-link-alt"></i></a>`;
+            } else {
+                document.getElementById('viewWebsite').textContent = 'غير محدد';
+            }
+
+            // عرض الموقع الجغرافي
+            if (cvData.latitude && cvData.longitude) {
+                initViewMap(parseFloat(cvData.latitude), parseFloat(cvData.longitude));
+            }
+
             // حقول المقاول
             if (cvData.cvType === 'مقاول') {
                 document.getElementById('viewContractorFields').classList.remove('hidden');
@@ -780,7 +1289,12 @@ function showDefaultProfile() {
             } else {
                 document.getElementById('viewContractorFields').classList.add('hidden');
             }
-            
+
+            // المعلومات المهنية
+            document.getElementById('viewPreviousWorks').textContent = cvData.previousWorks || 'لا يوجد';
+            document.getElementById('viewSkills').textContent = cvData.skills || 'لا يوجد';
+            document.getElementById('viewSummary').textContent = cvData.summary || 'لا يوجد';
+
             // تبديل الواجهة
             document.getElementById('editMode').classList.add('hidden');
             document.getElementById('viewMode').classList.remove('hidden');
@@ -788,126 +1302,252 @@ function showDefaultProfile() {
 
         // عرض وضع التعديل
         function editCV() {
-            const savedCV = JSON.parse(localStorage.getItem('userCV')) || {};
-            
-            // تعبئة النموذج
-            if (savedCV.cvType) {
-                document.querySelector(`input[name="cvType"][value="${savedCV.cvType}"]`).checked = true;
-                updateSpecializations();
-                
-                // تأخير تعبئة التخصص حتى يتم تحديث القائمة
-                setTimeout(() => {
-                    if (savedCV.specialization) {
-                        document.getElementById('specialization').value = savedCV.specialization;
+            openUserDB().then(db => {
+                return Promise.all([
+                    getDataFromStore(db, 'usercv', 1),
+                    getDataFromStore(db, 'usercvb', 1)
+                ]);
+            }).then(([cvData, cvbData]) => {
+                const savedCV = { ...cvData, ...cvbData };
+
+                // تعبئة النموذج
+                if (savedCV.cvType) {
+                    document.querySelector(`input[name="cvType"][value="${savedCV.cvType}"]`).checked = true;
+                    updateSpecializations();
+
+                    // تأخير تعبئة التخصص حتى يتم تحديث القائمة
+                    setTimeout(() => {
+                        if (savedCV.specialization) {
+                            document.getElementById('specialization').value = savedCV.specialization;
+                        }
+                    }, 100);
+
+                    if (savedCV.cvType === 'مقاول') {
+                        document.getElementById('postalBox').value = savedCV.postalBox || '';
+                        document.getElementById('taxNumber').value = savedCV.taxNumber || '';
                     }
-                }, 100);
-                
-                if (savedCV.cvType === 'مقاول') {
-                    document.getElementById('postalBox').value = savedCV.postalBox || '';
-                    document.getElementById('taxNumber').value = savedCV.taxNumber || '';
+
+                    document.getElementById('experience').value = savedCV.experience || '';
+                    document.getElementById('previousWorks').value = savedCV.previousWorks || '';
+                    document.getElementById('skills').value = savedCV.skills || '';
+                    document.getElementById('summary').value = savedCV.summary || '';
+                    document.getElementById('website').value = savedCV.website || '';
+
+                    // تعبئة البريد الإلكتروني
+                    const emailsContainer = document.getElementById('emails-container');
+                    emailsContainer.innerHTML = '';
+
+                    if (savedCV.emails && savedCV.emails.length > 0) {
+                        savedCV.emails.forEach((email, index) => {
+                            const container = document.createElement('div');
+                            container.className = 'multi-item-container';
+                            container.innerHTML = `
+                                <div class="multi-item">
+                                    <input type="email" name="email[]" value="${email}" placeholder="البريد الإلكتروني" required>
+                                    ${index === 0 ?
+                                    '<button type="button" class="add-item-btn" onclick="addEmailField()"><i class="fas fa-plus"></i></button>' :
+                                    '<button type="button" class="remove-item-btn" onclick="removeField(this)"><i class="fas fa-minus"></i></button>'}
+                                </div>
+                            `;
+                            emailsContainer.appendChild(container);
+                        });
+                    } else {
+                        const container = document.createElement('div');
+                        container.className = 'multi-item-container';
+                        container.innerHTML = `
+                            <div class="multi-item">
+                                <input type="email" name="email[]" placeholder="البريد الإلكتروني" required>
+                                <button type="button" class="add-item-btn" onclick="addEmailField()"><i class="fas fa-plus"></i></button>
+                            </div>
+                        `;
+                        emailsContainer.appendChild(container);
+                    }
+
+                    // تعبئة أرقام الهاتف
+                    const phonesContainer = document.getElementById('phones-container');
+                    phonesContainer.innerHTML = '';
+
+                    if (savedCV.phones && savedCV.phones.length > 0) {
+                        savedCV.phones.forEach((phone, index) => {
+                            const container = document.createElement('div');
+                            container.className = 'multi-item-container';
+                            container.innerHTML = `
+                                <div class="multi-item">
+                                    <input type="tel" name="phone[]" value="${phone}" placeholder="رقم الهاتف" required>
+                                    ${index === 0 ?
+                                    '<button type="button" class="add-item-btn" onclick="addPhoneField()"><i class="fas fa-plus"></i></button>' :
+                                    '<button type="button" class="remove-item-btn" onclick="removeField(this)"><i class="fas fa-minus"></i></button>'}
+                                </div>
+                            `;
+                            phonesContainer.appendChild(container);
+                        });
+                    } else {
+                        const container = document.createElement('div');
+                        container.className = 'multi-item-container';
+                        container.innerHTML = `
+                            <div class="multi-item">
+                                <input type="tel" name="phone[]" placeholder="رقم الهاتف" required>
+                                <button type="button" class="add-item-btn" onclick="addPhoneField()"><i class="fas fa-plus"></i></button>
+                            </div>
+                        `;
+                        phonesContainer.appendChild(container);
+                    }
+
+                    // تعبئة روابط التواصل الاجتماعي
+                    document.getElementById('facebook').value = savedCV.facebook || '';
+                    document.getElementById('twitter').value = savedCV.twitter || '';
+
+                    // تعبئة الموقع الجغرافي
+                    if (savedCV.latitude && savedCV.longitude) {
+                        document.getElementById('latitude').value = savedCV.latitude;
+                        document.getElementById('longitude').value = savedCV.longitude;
+
+                        const latlng = [parseFloat(savedCV.latitude), parseFloat(savedCV.longitude)];
+                        if (marker) map.removeLayer(marker);
+                        marker = L.marker(latlng).addTo(map);
+                        map.setView(latlng, 15);
+                    }
                 }
-                
-                document.getElementById('experience').value = savedCV.experience || '';
-                document.getElementById('previousWorks').value = savedCV.previousWorks || '';
-                document.getElementById('skills').value = savedCV.skills || '';
-                document.getElementById('summary').value = savedCV.summary || '';
-            }
-            
-            // تبديل الواجهة
-            document.getElementById('viewMode').classList.add('hidden');
-            document.getElementById('editMode').classList.remove('hidden');
+
+                // تبديل الواجهة
+                document.getElementById('viewMode').classList.add('hidden');
+                document.getElementById('editMode').classList.remove('hidden');
+            }).catch(error => {
+                console.error('Error loading CV for edit:', error);
+                document.getElementById('viewMode').classList.add('hidden');
+                document.getElementById('editMode').classList.remove('hidden');
+            });
         }
 
         // حفظ السيرة الذاتية
         function saveCV(e) {
             e.preventDefault();
-            
+
             if (!validateForm()) return;
-            
+
+            const formData = new FormData(document.getElementById('cvForm'));
             const cvType = document.querySelector('input[name="cvType"]:checked').value;
+
+            // جمع البيانات من النموذج
             const cvData = {
                 cvType,
-                experience: document.getElementById('experience').value,
-                specialization: document.getElementById('specialization').value,
-                previousWorks: document.getElementById('previousWorks').value,
-                skills: document.getElementById('skills').value,
-                summary: document.getElementById('summary').value,
+                experience: formData.get('experience'),
+                specialization: formData.get('specialization'),
+                emails: formData.getAll('email[]').filter(email => email.trim() !== ''),
+                phones: formData.getAll('phone[]').filter(phone => phone.trim() !== ''),
+                facebook: formData.get('facebook') || null,
+                twitter: formData.get('twitter') || null,
+                website: formData.get('website') || null,
+                latitude: formData.get('latitude') || null,
+                longitude: formData.get('longitude') || null,
+                previousWorks: formData.get('previousWorks'),
+                skills: formData.get('skills'),
+                summary: formData.get('summary'),
                 lastUpdated: new Date().toISOString()
             };
-            
+
             // إضافة حقول المقاول إذا كان النوع مقاول
             if (cvType === 'مقاول') {
-                cvData.postalBox = document.getElementById('postalBox').value;
-                cvData.taxNumber = document.getElementById('taxNumber').value;
+                cvData.postalBox = formData.get('postalBox');
+                cvData.taxNumber = formData.get('taxNumber');
             }
-            
-            // الحفظ في localStorage
-            localStorage.setItem('userCV', JSON.stringify(cvData));
-            
-            // إظهار رسالة النجاح
-            showSuccessMessage();
-            
-            // عرض البيانات المحفوظة
-            showViewMode(cvData);
+
+            // الحفظ في قاعدة البيانات
+            saveUserData(cvData).then(() => {
+                // إظهار رسالة النجاح
+                showSuccessMessage();
+
+                // عرض البيانات المحفوظة
+                showViewMode(cvData);
+            }).catch((err) => {
+                console.error("Error saving CV:", err);
+            });
+
         }
 
         // التحقق من صحة النموذج
         function validateForm() {
             let isValid = true;
             const cvType = document.querySelector('input[name="cvType"]:checked')?.value;
-            
+
             // إخفاء جميع رسائل الخطأ أولاً
             document.querySelectorAll('.error').forEach(el => {
                 el.style.display = 'none';
             });
-            
+
             // التحقق من نوع السيرة
             if (!cvType) {
                 document.getElementById('cvTypeError').style.display = 'block';
                 isValid = false;
             }
-            
+
             // التحقق من سنوات الخبرة
             if (!document.getElementById('experience').value) {
                 document.getElementById('experienceError').style.display = 'block';
                 isValid = false;
             }
-            
+
             // التحقق من التخصص
             if (!document.getElementById('specialization').value) {
                 document.getElementById('specializationError').style.display = 'block';
                 isValid = false;
             }
-            
+
+            // التحقق من البريد الإلكتروني
+            const emails = document.querySelectorAll('input[name="email[]"]');
+            let hasEmailError = false;
+            emails.forEach(email => {
+                if (!email.value.trim()) {
+                    hasEmailError = true;
+                }
+            });
+            if (hasEmailError) {
+                alert('يرجى إدخال جميع عناوين البريد الإلكتروني المطلوبة');
+                isValid = false;
+            }
+
+            // التحقق من أرقام الهاتف
+            const phones = document.querySelectorAll('input[name="phone[]"]');
+            let hasPhoneError = false;
+            phones.forEach(phone => {
+                if (!phone.value.trim()) {
+                    hasPhoneError = true;
+                }
+            });
+            if (hasPhoneError) {
+                alert('يرجى إدخال جميع أرقام الهاتف المطلوبة');
+                isValid = false;
+            }
+
             // التحقق من حقول المقاول
             if (cvType === 'مقاول') {
                 if (!document.getElementById('postalBox').value.trim()) {
                     document.getElementById('postalBoxError').style.display = 'block';
                     isValid = false;
                 }
-                
+
                 if (!document.getElementById('taxNumber').value.trim()) {
                     document.getElementById('taxNumberError').style.display = 'block';
                     isValid = false;
                 }
             }
-            
+
             // التحقق من المعلومات المهنية
             if (!document.getElementById('previousWorks').value.trim()) {
                 document.getElementById('previousWorksError').style.display = 'block';
                 isValid = false;
             }
-            
+
             if (!document.getElementById('skills').value.trim()) {
                 document.getElementById('skillsError').style.display = 'block';
                 isValid = false;
             }
-            
+
             if (!document.getElementById('summary').value.trim()) {
                 document.getElementById('summaryError').style.display = 'block';
                 isValid = false;
             }
-            
+
             return isValid;
         }
 
@@ -926,6 +1566,37 @@ function showDefaultProfile() {
                 document.getElementById('cvForm').reset();
                 document.getElementById('contractorFields').style.display = 'none';
                 document.getElementById('specialization').innerHTML = '<option value="">اختر التخصص</option>';
+
+                // إعادة تعيين حقول البريد الإلكتروني
+                const emailsContainer = document.getElementById('emails-container');
+                emailsContainer.innerHTML = `
+                    <div class="multi-item-container">
+                        <div class="multi-item">
+                            <input type="email" name="email[]" placeholder="البريد الإلكتروني" required>
+                            <button type="button" class="add-item-btn" onclick="addEmailField()"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                `;
+
+                // إعادة تعيين حقول الهاتف
+                const phonesContainer = document.getElementById('phones-container');
+                phonesContainer.innerHTML = `
+                    <div class="multi-item-container">
+                        <div class="multi-item">
+                            <input type="tel" name="phone[]" placeholder="رقم الهاتف" required>
+                            <button type="button" class="add-item-btn" onclick="addPhoneField()"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                `;
+
+                // إعادة تعيين الخريطة
+                if (marker) {
+                    map.removeLayer(marker);
+                    marker = null;
+                }
+                document.getElementById('latitude').value = '';
+                document.getElementById('longitude').value = '';
+                map.setView([24.7136, 46.6753], 13); // العودة إلى الرياض
             }
         }
 
@@ -945,7 +1616,7 @@ function showDefaultProfile() {
         // تأثيرات الحركة
         function animateElements() {
             // إظهار زر التمرير للأعلى عند التمرير
-            window.addEventListener('scroll', function() {
+            window.addEventListener('scroll', function () {
                 const scrollBtn = document.getElementById('scrollTopBtn');
                 if (window.pageYOffset > 300) {
                     scrollBtn.style.opacity = '1';
@@ -957,13 +1628,13 @@ function showDefaultProfile() {
             });
 
             // تأثيرات عند التمرير
-            const animateOnScroll = function() {
+            const animateOnScroll = function () {
                 const elements = document.querySelectorAll('.form-section, .form-group');
-                
+
                 elements.forEach(element => {
                     const elementPosition = element.getBoundingClientRect().top;
                     const screenPosition = window.innerHeight / 1.3;
-                    
+
                     if (elementPosition < screenPosition) {
                         element.style.opacity = '1';
                         element.style.transform = 'translateY(0)';
@@ -983,4 +1654,5 @@ function showDefaultProfile() {
         }
     </script>
 </body>
+
 </html>
