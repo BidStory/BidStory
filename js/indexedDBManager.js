@@ -383,167 +383,256 @@ function manageIndexedDB(dbName, version, stores) {
     }
   }
 
-  // تصدير قاعدة البيانات ككائن JSON
-  async function exportToJSON() {
-    try {
-      await ensureDbOpen();
-      const exportData = {};
+ /**
+ * تصدير قاعدة البيانات كاملة أو جداول محددة إلى JSON مع تحسينات كبيرة
+ * @param {string[]|null} storeNames - أسماء الجداول المراد تصديرها (null لتصدير الكل)
+ * @param {Object} [options] - خيارات التصدير
+ * @param {boolean} [options.prettyPrint=true] - تنسيق JSON مع مسافات بادئة
+ * @param {boolean} [options.includeMetadata=true] - تضمين البيانات الوصفية
+ * @param {boolean} [options.includeBlobs=false] - تضمين البيانات الثنائية كـ base64
+ * @returns {Promise<Object>} كائن يحتوي على البيانات ووظائف مساعدة
+ */
+async function exportToJSON(storeNames = null, options = {}) {
+  const {
+    prettyPrint = true,
+    includeMetadata = true,
+    includeBlobs = false
+  } = options;
 
-      for (const storeName of db.objectStoreNames) {
-        const records = await getAllRecords(storeName);
-        exportData[storeName] = records;
-      }
+  try {
+    await ensureDbOpen();
+    const exportData = {};
+    const storesToExport = storeNames || Array.from(db.objectStoreNames);
 
-      return exportData;
-    } catch (error) {
-      console.error("خطأ في تصدير البيانات:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * تصدير جدول معين من قاعدة البيانات إلى JSON
-   * @param {string} storeName - اسم الجدول المراد تصديره
-   * @returns {Promise<Object>} بيانات الجدول بصيغة JSON
-   */
-  async function exportStoreToJSON(storeName) {
-    try {
-      await ensureDbOpen();
-
+    // تصدير كل جدول مع معالجة خاصة للبيانات الثنائية
+    for (const storeName of storesToExport) {
       if (!db.objectStoreNames.contains(storeName)) {
-        throw new Error(`الجدول ${storeName} غير موجود في قاعدة البيانات`);
+        console.warn(`تم تخطي الجدول غير الموجود: ${storeName}`);
+        continue;
       }
 
       const records = await getAllRecords(storeName);
-
-      return {
-        [storeName]: records,
-        metadata: {
-          exportedAt: new Date().toISOString(),
-          recordCount: records.length,
-          storeName: storeName,
-        },
-      };
-    } catch (error) {
-      console.error(`خطأ في تصدير الجدول ${storeName}:`, error);
-      throw error;
-    }
-  }
-
-  // استيراد بيانات من JSON
-  async function importFromJSON(data, options = {}) {
-    try {
-      await ensureDbOpen();
-
-      return executeTransaction(
-        Array.from(db.objectStoreNames),
-        "readwrite",
-        (tx) => {
-          for (const storeName in data) {
-            if (db.objectStoreNames.contains(storeName)) {
-              const store = tx.objectStore(storeName);
-              data[storeName].forEach((record) => {
-                store.put(record);
-              });
-            }
-          }
-        },
-        options
-      );
-    } catch (error) {
-      console.error("خطأ في استيراد البيانات:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * استيراد بيانات لجدول معين من JSON
-   * @param {string} storeName - اسم الجدول المستهدف
-   * @param {Array|Object} data - البيانات المراد استيرادها
-   * @param {Object} [options] - خيارات إضافية
-   */
-  async function importStoreFromJSON(storeName, data, options = {}) {
-    try {
-      await ensureDbOpen();
-
-      if (!db.objectStoreNames.contains(storeName)) {
-        throw new Error(`الجدول ${storeName} غير موجود في قاعدة البيانات`);
+      
+      if (includeBlobs) {
+        for (const record of records) {
+          await processBlobsInRecord(record);
+        }
       }
 
-      // تحويل البيانات إذا كانت غير مصفوفة
-      const records = Array.isArray(data) ? data : [data];
+      exportData[storeName] = records;
+    }
 
-      return executeTransaction(
-        [storeName],
-        "readwrite",
-        (tx) => {
-          const store = tx.objectStore(storeName);
-          records.forEach((record) => {
-            store.put(record);
+    // إضافة البيانات الوصفية
+    if (includeMetadata) {
+      exportData.metadata = {
+        database: dbName,
+        version: version,
+        exportedAt: new Date().toISOString(),
+        storeCount: Object.keys(exportData).length,
+        totalRecords: Object.values(exportData).reduce((sum, records) => sum + records.length, 0)
+      };
+    }
+
+    // تحويل إلى JSON مع التعامل مع البيانات الكبيرة
+    const jsonStr = await stringifyWithCircularCheck(exportData, prettyPrint ? 2 : 0);
+
+    // إرجاع واجهة متكاملة
+    return {
+      data: exportData,
+      json: jsonStr,
+      size: jsonStr.length,
+      download: (fileName = null) => downloadJSON(jsonStr, fileName || `${dbName}_export_${new Date().toISOString().slice(0,10)}.json`),
+      createBlob: () => new Blob([jsonStr], { type: 'application/json' })
+    };
+  } catch (error) {
+    console.error("فشل تصدير البيانات:", error);
+    throw enhanceError(error, "exportToJSON");
+  }
+}
+
+/**
+ * استيراد بيانات إلى قاعدة البيانات من JSON مع تحسينات كبيرة
+ * @param {Object} data - بيانات JSON المستوردة
+ * @param {Object} [options] - خيارات الاستيراد
+ * @param {boolean} [options.clearBeforeImport=false] - مسح الجداول قبل الاستيراد
+ * @param {Function} [options.validate] - دالة للتحقق من السجلات
+ * @param {boolean} [options.skipErrors=false] - تخطي السجلات التي تحتوي على أخطاء
+ * @param {Function} [options.progressCallback] - دالة للإبلاغ عن التقدم
+ * @returns {Promise<Object>} كائن يحتوي على نتائج الاستيراد
+ */
+async function importFromJSON(data, options = {}) {
+  const {
+    clearBeforeImport = false,
+    validate = null,
+    skipErrors = false,
+    progressCallback = null
+  } = options;
+
+  try {
+    await ensureDbOpen();
+    const results = {};
+    let totalImported = 0;
+    let totalSkipped = 0;
+
+    // معالجة البيانات (دعم تنسيقات متعددة)
+    const importData = data.data ? data : { data: data };
+    const storesToImport = Object.keys(importData.data).filter(storeName => 
+      db.objectStoreNames.contains(storeName)
+    );
+
+    // مسح الجداول إذا مطلوب
+    if (clearBeforeImport) {
+      await executeTransaction(
+        storesToImport,
+        'readwrite',
+        tx => {
+          storesToImport.forEach(storeName => {
+            tx.objectStore(storeName).clear();
           });
-        },
-        options
-      );
-    } catch (error) {
-      console.error(`خطأ في استيراد البيانات للجدول ${storeName}:`, error);
-      throw error;
-    }
-  }
-
-  /**
-   * تنزيل بيانات الجدول كملف JSON
-   * @param {string} storeName - اسم الجدول
-   * @param {string} [fileName] - اسم الملف (اختياري)
-   */
-  async function downloadStoreAsJSON(storeName, fileName) {
-    try {
-      const data = await exportStoreToJSON(storeName);
-      const jsonStr = JSON.stringify(data, null, 2);
-      const blob = new Blob([jsonStr], { type: "application/json" });
-
-      const downloadUrl = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = downloadUrl;
-      a.download =
-        fileName ||
-        `${storeName}_export_${new Date().toISOString().slice(0, 10)}.json`;
-      a.click();
-
-      setTimeout(() => {
-        URL.revokeObjectURL(downloadUrl);
-      }, 100);
-    } catch (error) {
-      console.error("خطأ في تنزيل الملف:", error);
-      throw error;
-    }
-  }
-
-  /**
-   * استيراد بيانات من ملف JSON لجدول معين
-   * @param {string} storeName - اسم الجدول
-   * @param {File} file - ملف JSON
-   */
-  async function importStoreFromFile(storeName, file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = async (e) => {
-        try {
-          const data = JSON.parse(e.target.result);
-          await importStoreFromJSON(storeName, data[storeName] || data);
-          resolve();
-        } catch (error) {
-          reject(error);
         }
+      );
+    }
+
+    // استيراد كل جدول
+    for (const storeName of storesToImport) {
+      const records = Array.isArray(importData.data[storeName]) ? 
+        importData.data[storeName] : 
+        [importData.data[storeName]];
+
+      const storeResult = {
+        imported: 0,
+        skipped: 0,
+        errors: []
       };
 
-      reader.onerror = () => {
-        reject(new Error("خطأ في قراءة الملف"));
-      };
+      // تقسيم السجلات إلى دفعات للتعامل مع كميات كبيرة
+      const batchSize = 1000;
+      for (let i = 0; i < records.length; i += batchSize) {
+        const batch = records.slice(i, i + batchSize);
+        await processImportBatch(storeName, batch, {
+          validate,
+          skipErrors,
+          result: storeResult
+        });
 
-      reader.readAsText(file);
-    });
+        if (progressCallback) {
+          progressCallback({
+            store: storeName,
+            processed: Math.min(i + batchSize, records.length),
+            total: records.length
+          });
+        }
+      }
+
+      totalImported += storeResult.imported;
+      totalSkipped += storeResult.skipped;
+      results[storeName] = storeResult;
+    }
+
+    return {
+      success: true,
+      totalImported,
+      totalSkipped,
+      storeResults: results,
+      message: `تم استيراد ${totalImported} سجل بنجاح${totalSkipped > 0 ? ` (تم تخطي ${totalSkipped})` : ''}`
+    };
+  } catch (error) {
+    console.error("فشل استيراد البيانات:", error);
+    throw enhanceError(error, "importFromJSON");
   }
+}
+
+// ===== دوال مساعدة محسنة =====
+
+async function processImportBatch(storeName, batch, options) {
+  return executeTransaction(
+    [storeName],
+    'readwrite',
+    tx => {
+      const store = tx.objectStore(storeName);
+      
+      batch.forEach(record => {
+        try {
+          // التحقق من الصحة إذا كانت الدالة متوفرة
+          if (options.validate) {
+            options.validate(record);
+          }
+          
+          const request = store.put(record);
+          request.onsuccess = () => options.result.imported++;
+          request.onerror = () => {
+            if (options.skipErrors) {
+              options.result.skipped++;
+            } else {
+              throw new Error(`فشل استيراد السجل: ${request.error}`);
+            }
+          };
+        } catch (error) {
+          options.result.errors.push({
+            error: error.message,
+            record: record
+          });
+          if (!options.skipErrors) {
+            throw error;
+          }
+          options.result.skipped++;
+        }
+      });
+    }
+  );
+}
+
+async function processBlobsInRecord(record) {
+  for (const key in record) {
+    if (record[key] instanceof Blob) {
+      record[key] = await blobToBase64(record[key]);
+      record[`${key}_isBlob`] = true; // إضافة علامة للتعرف لاحقاً
+    }
+  }
+}
+
+function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
+function stringifyWithCircularCheck(obj, space) {
+  const cache = new Set();
+  return JSON.stringify(obj, (key, value) => {
+    if (typeof value === 'object' && value !== null) {
+      if (cache.has(value)) {
+        return '[Circular]';
+      }
+      cache.add(value);
+    }
+    return value;
+  }, space);
+}
+
+function downloadJSON(jsonStr, fileName) {
+  const blob = new Blob([jsonStr], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, 100);
+}
+
+function enhanceError(error, context) {
+  error.message = `[${context}] ${error.message}`;
+  return error;
+}
+
+
 
   // إغلاق الاتصال بقاعدة البيانات
   function closeConnection() {
@@ -597,3 +686,5 @@ function manageIndexedDB(dbName, version, stores) {
     },
   };
 }
+
+

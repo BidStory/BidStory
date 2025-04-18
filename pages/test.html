@@ -1,0 +1,106 @@
+<script src="/js/indexedDBManager.js"></script>
+<script>
+// كود إنشاء وإدارة قاعدة البيانات باستخدام مكتبة manageIndexedDB
+const dbConfig = {
+  dbName: "d1",
+  version: 1,
+  stores: [
+    {
+      name: "t1",
+      keyPath: "mc",
+      autoIncrement: false,
+      indexes: [
+        {
+          name: "c1_idx",
+          keyPath: "c1",
+          unique: false,
+          multiEntry: false
+        },
+        {
+          name: "c2_idx",
+          keyPath: "c2",
+          unique: false,
+          multiEntry: false
+        },
+        {
+          name: "c3_idx",
+          keyPath: "c3",
+          unique: false,
+          multiEntry: false
+        },
+        {
+          name: "c4_idx",
+          keyPath: "c4",
+          unique: false,
+          multiEntry: false
+        },
+        {
+          name: "c5_idx",
+          keyPath: "c5",
+          unique: false,
+          multiEntry: true
+        },
+        {
+          name: "c6_idx",
+          keyPath: "c6",
+          unique: false,
+          multiEntry: false
+        },
+        {
+          name: "c7_idx",
+          keyPath: "c7",
+          unique: false,
+          multiEntry: false
+        }
+      ]
+    }
+  ]
+};
+
+// إنشاء نسخة من مدير قاعدة البيانات
+const dbManager = manageIndexedDB(
+  dbConfig.dbName,
+  dbConfig.version,
+  dbConfig.stores
+);
+
+// مثال على استخدام الدوال CRUD
+async function exampleUsage() {
+  try {
+    // فتح الاتصال بقاعدة البيانات
+    await dbManager.open();
+    
+    // مثال: إضافة سجل
+    const newRecord = {
+      mc: 1, // قيمة المفتاح الأساسي (غير تلقائي)
+      c1: "example_c1",
+      c2: 0,
+      c3: true,
+      c4: {},
+      c5: [],
+      c6: new Date(),
+      c7: new Blob()
+    };
+    
+    const addedId = await dbManager.addRecord("t1", newRecord);
+    console.log("تمت إضافة سجل جديد بالمعرف:", addedId);
+    
+    // يمكنك استخدام الدوال الأخرى بنفس الطريقة:
+    // dbManager.updateRecord()
+    // dbManager.deleteRecord()
+    // dbManager.getRecord()
+    // dbManager.getAllRecords()
+    
+  } catch (error) {
+    console.error("حدث خطأ:", error);
+  } finally {
+    // إغلاق الاتصال عند الانتهاء
+    dbManager.close();
+  }
+}
+
+// تشغيل مثال الاستخدام
+// exampleUsage();
+// تشغيل مثال الاستخدام
+ exampleUsage();
+</script>

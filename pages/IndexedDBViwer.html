@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عارض IndexedDB</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        select {
+            padding: 8px;
+            margin: 10px 5px;
+            min-width: 200px;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 0, 0, .3);
+            border-radius: 50%;
+            border-top-color: #000;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+
+        .error {
+            color: red;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>عارض IndexedDB</h1>
+
+        <div class="section">
+            <h2>قواعد البيانات</h2>
+            <select id="dbList" disabled>
+                <option value="">جاري تحميل قواعد البيانات...</option>
+            </select>
+            <button id="refreshDbs">تحديث القائمة</button>
+            <span id="dbInfo"></span>
+        </div>
+
+        <div class="section" id="tablesSection" style="display: none;">
+            <h2>الجداول</h2>
+            <select id="tableList" disabled>
+                <option value="">اختر قاعدة بيانات أولاً</option>
+            </select>
+            <button id="refreshTables">تحديث الجداول</button>
+            <span id="tableInfo"></span>
+        </div>
+
+        <div class="section" id="dataSection" style="display: none;">
+            <h2>بيانات الجدول</h2>
+            <div id="tableControls">
+                <button id="refreshData">تحديث البيانات</button>
+                <span id="recordCount"></span>
+            </div>
+            <div id="tableContainer" style="overflow-x: auto;">
+                <table id="dataTable">
+                    <thead>
+                        <tr></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // عناصر DOM
+            const dbList = document.getElementById('dbList');
+            const tableList = document.getElementById('tableList');
+            const dataTable = document.getElementById('dataTable');
+            const refreshDbsBtn = document.getElementById('refreshDbs');
+            const refreshTablesBtn = document.getElementById('refreshTables');
+            const refreshDataBtn = document.getElementById('refreshData');
+            const dbInfo = document.getElementById('dbInfo');
+            const tableInfo = document.getElementById('tableInfo');
+            const recordCount = document.getElementById('recordCount');
+            const tablesSection = document.getElementById('tablesSection');
+            const dataSection = document.getElementById('dataSection');
+
+            // قاعدة البيانات المحددة حالياً
+            let currentDbName = null;
+            let currentTableName = null;
+            let db = null;
+
+            // تحميل قائمة قواعد البيانات
+            function loadDatabases() {
+                dbList.innerHTML = '<option value="">جاري تحميل قواعد البيانات...</option>';
+                dbList.disabled = true;
+
+                // هذه الدالة غير متوفرة مباشرة في IndexedDB، لذا نستخدم polyfill
+                getDatabaseNames().then(names => {
+                    dbList.innerHTML = names.length > 0
+                        ? '<option value="">اختر قاعدة بيانات</option>'
+                        : '<option value="">لا توجد قواعد بيانات</option>';
+
+                    names.forEach(name => {
+                        const option = document.createElement('option');
+                        option.value = name;
+                        option.textContent = name;
+                        dbList.appendChild(option);
+                    });
+
+                    dbList.disabled = false;
+                }).catch(error => {
+                    dbList.innerHTML = '<option value="">خطأ في تحميل القواعد</option>';
+                    console.error('Error loading databases:', error);
+                });
+            }
+
+            // Polyfill للحصول على أسماء قواعد البيانات
+            function getDatabaseNames() {
+                return new Promise((resolve, reject) => {
+                    if (window.indexedDB.databases) {
+                        // المتصفحات الحديثة تدعم هذه الميزة
+                        window.indexedDB.databases().then(dbs => {
+                            resolve(dbs.map(db => db.name));
+                        }).catch(reject);
+                    } else {
+                        // حل بديل للمتصفحات القديمة
+                        const req = window.indexedDB.open('dummy');
+                        req.onsuccess = function () {
+                            const dbs = [];
+                            const dbsReq = window.indexedDB.webkitGetDatabaseNames
+                                ? window.indexedDB.webkitGetDatabaseNames()
+                                : null;
+
+                            if (dbsReq) {
+                                dbsReq.onsuccess = function (e) {
+                                    resolve(e.target.result);
+                                };
+                                dbsReq.onerror = reject;
+                            } else {
+                                // إذا لم يكن هناك طريقة للحصول على الأسماء
+                                resolve([]);
+                            }
+
+                            req.result.close();
+                            window.indexedDB.deleteDatabase('dummy');
+                        };
+                        req.onerror = reject;
+                    }
+                });
+            }
+
+            // تحميل جداول قاعدة البيانات المحددة
+            function loadTables(dbName) {
+                if (!dbName) {
+                    tablesSection.style.display = 'none';
+                    dataSection.style.display = 'none';
+                    return;
+                }
+
+                tableList.innerHTML = '<option value="">جاري تحميل الجداول...</option>';
+                tableList.disabled = true;
+                tablesSection.style.display = 'block';
+                dataSection.style.display = 'none';
+                currentDbName = dbName;
+                currentTableName = null;
+
+                // فتح قاعدة البيانات للحصول على الجداول
+                const req = indexedDB.open(dbName);
+                req.onsuccess = function (e) {
+                    db = e.target.result;
+                    const storeNames = Array.from(db.objectStoreNames);
+
+                    tableList.innerHTML = storeNames.length > 0
+                        ? '<option value="">اختر جدولاً</option>'
+                        : '<option value="">لا توجد جداول</option>';
+
+                    storeNames.forEach(name => {
+                        const option = document.createElement('option');
+                        option.value = name;
+                        option.textContent = name;
+                        tableList.appendChild(option);
+                    });
+
+                    tableList.disabled = false;
+                    dbInfo.textContent = `قاعدة البيانات: ${dbName}`;
+                    db.close();
+                };
+
+                req.onerror = function (e) {
+                    tableList.innerHTML = '<option value="">خطأ في تحميل الجداول</option>';
+                    console.error('Error opening database:', e.target.error);
+                };
+            }
+
+            // تحميل بيانات الجدول المحدد
+            function loadTableData(dbName, tableName) {
+                if (!dbName || !tableName) {
+                    dataSection.style.display = 'none';
+                    return;
+                }
+
+                dataSection.style.display = 'block';
+                currentTableName = tableName;
+
+                // مسح الجدول
+                const thead = dataTable.querySelector('thead tr');
+                const tbody = dataTable.querySelector('tbody');
+                thead.innerHTML = '';
+                tbody.innerHTML = '';
+
+                // إضافة مؤشر تحميل
+                const loadingRow = document.createElement('tr');
+                const loadingCell = document.createElement('td');
+                loadingCell.colSpan = 1;
+                loadingCell.textContent = 'جاري تحميل البيانات...';
+                loadingRow.appendChild(loadingCell);
+                tbody.appendChild(loadingRow);
+
+                tableInfo.textContent = `الجدول: ${tableName}`;
+
+                // فتح قاعدة البيانات وقراءة البيانات
+                const req = indexedDB.open(dbName);
+                req.onsuccess = function (e) {
+                    db = e.target.result;
+                    const tx = db.transaction(tableName, 'readonly');
+                    const store = tx.objectStore(tableName);
+                    const dataReq = store.getAll();
+
+                    dataReq.onsuccess = function (e) {
+                        const data = e.target.result;
+                        displayTableData(data, store);
+                    };
+
+                    dataReq.onerror = function (e) {
+                        tbody.innerHTML = '<tr><td>خطأ في تحميل البيانات</td></tr>';
+                        console.error('Error loading data:', e.target.error);
+                    };
+
+                    tx.oncomplete = function () {
+                        db.close();
+                    };
+                };
+
+                req.onerror = function (e) {
+                    tbody.innerHTML = '<tr><td>خطأ في فتح قاعدة البيانات</td></tr>';
+                    console.error('Error opening database:', e.target.error);
+                };
+            }
+
+            function displayTableData(data, store) {
+                const thead = dataTable.querySelector('thead tr');
+                const tbody = dataTable.querySelector('tbody');
+
+                thead.innerHTML = '';
+                tbody.innerHTML = '';
+
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td>لا توجد بيانات</td></tr>';
+                    recordCount.textContent = '0 سجلات';
+                    return;
+                }
+
+                // استخراج أسماء الأعمدة
+                const columns = new Set();
+
+                if (store.keyPath) {
+                    columns.add(store.keyPath);
+                }
+
+                data.forEach(item => {
+                    for (const key in item) {
+                        if (item.hasOwnProperty(key)) {
+                            columns.add(key);
+                        }
+                    }
+                });
+
+                // إنشاء رأس الجدول
+                Array.from(columns).forEach(col => {
+                    const th = document.createElement('th');
+                    th.textContent = col;
+                    thead.appendChild(th);
+                });
+
+                // إضافة البيانات
+                data.forEach(item => {
+                    const row = document.createElement('tr');
+
+                    Array.from(columns).forEach(col => {
+                        const td = document.createElement('td');
+                        const value = item[col];
+
+                        if (value === undefined || value === null) {
+                            td.textContent = 'NULL';
+                            td.style.color = '#999';
+                        }
+                        else if (value instanceof Date) {
+                            td.textContent = value.toLocaleString();
+                        }
+                        else if (value instanceof Blob || value instanceof File) {
+                            td.textContent = `[${value.type || 'Blob'}, ${formatBytes(value.size)}]`;
+                        }
+                        else if (Array.isArray(value)) {
+                            // عرض المصفوفة كسلسلة نصية مع فواصل
+                            td.textContent = value.map(v => formatValue(v)).join(', ');
+                            td.style.whiteSpace = 'pre-wrap';
+                        }
+                        else if (typeof value === 'object') {
+                            // عرض الكائن كسلسلة JSON مع تنسيق
+                            td.textContent = JSON.stringify(value, null, 2);
+                            td.style.whiteSpace = 'pre-wrap';
+                        }
+                        else if (typeof value === 'function') {
+                            td.textContent = '[Function]';
+                        }
+                        else if (typeof value === 'string' && value.startsWith('data:image')) {
+                            const img = document.createElement('img');
+                            img.src = value;
+                            img.style.maxWidth = '100px';
+                            img.style.maxHeight = '100px';
+                            td.appendChild(img);
+                        }
+                        else if (typeof value === 'string' && value.startsWith('data:')) {
+                            const link = document.createElement('a');
+                            link.href = value;
+                            link.textContent = 'Download';
+                            link.target = '_blank';
+                            td.appendChild(link);
+                        }
+                        else {
+                            td.textContent = String(value);
+                        }
+
+                        row.appendChild(td);
+                    });
+
+                    tbody.appendChild(row);
+                });
+
+                recordCount.textContent = `${data.length} سجلات`;
+            }
+
+            // دالة مساعدة لتنسيق القيم المختلفة
+            function formatValue(value) {
+                if (value === null || value === undefined) return 'NULL';
+                if (typeof value === 'object') return JSON.stringify(value);
+                return String(value);
+            }
+
+            // دالة مساعدة لعرض حجم الملفات
+            function formatBytes(bytes, decimals = 2) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
+            }
+
+            // أحداث العناصر
+            dbList.addEventListener('change', function () {
+                loadTables(this.value);
+            });
+
+            tableList.addEventListener('change', function () {
+                loadTableData(currentDbName, this.value);
+            });
+
+            refreshDbsBtn.addEventListener('click', loadDatabases);
+            refreshTablesBtn.addEventListener('click', function () {
+                if (currentDbName) loadTables(currentDbName);
+            });
+            refreshDataBtn.addEventListener('click', function () {
+                if (currentDbName && currentTableName) {
+                    loadTableData(currentDbName, currentTableName);
+                }
+            });
+
+            // التحميل الأولي
+            loadDatabases();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مولد كود IndexedDB</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #codeOutput {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+
+        .table-container {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        .column-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .column-row input,
+        .column-row select {
+            flex: 1;
+        }
+
+        .remove-btn {
+            background-color: #f44336;
+            padding: 5px 10px;
+        }
+
+        .add-btn {
+            background-color: #2196F3;
+            padding: 5px 10px;
+        }
+
+        #tablesContainer {
+            margin-top: 20px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .copy-btn {
+            background-color: #607d8b;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>مولد كود IndexedDB</h1>
+
+        <div class="form-group">
+            <label for="dbName">اسم قاعدة البيانات:</label>
+            <input type="text" id="dbName" placeholder="مثال: myDatabase">
+        </div>
+
+        <div class="form-group">
+            <label for="dbVersion">رقم الإصدار:</label>
+            <input type="number" id="dbVersion" value="1" min="1">
+        </div>
+
+        <div id="tablesContainer">
+            <!-- Tables will be added here -->
+        </div>
+
+        <button id="addTableBtn">إضافة جدول جديد</button>
+
+        <div class="actions">
+            <button id="generateBtn">إنشاء الكود</button>
+            <button id="copyBtn" class="copy-btn">نسخ الكود</button>
+        </div>
+
+        <div id="codeOutput"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tablesContainer = document.getElementById('tablesContainer');
+            const addTableBtn = document.getElementById('addTableBtn');
+            const generateBtn = document.getElementById('generateBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const codeOutput = document.getElementById('codeOutput');
+
+            let tableCount = 0;
+
+            // Add first table by default
+            addTable();
+
+            addTableBtn.addEventListener('click', addTable);
+            generateBtn.addEventListener('click', generateCode);
+            copyBtn.addEventListener('click', copyCode);
+
+            function addTable() {
+                tableCount++;
+                const tableId = `table-${tableCount}`;
+
+                const tableDiv = document.createElement('div');
+                tableDiv.className = 'table-container';
+                tableDiv.id = tableId;
+
+                tableDiv.innerHTML = `
+                    <h3>جدول #${tableCount}</h3>
+                    <div class="form-group">
+                        <label for="${tableId}-name">اسم الجدول:</label>
+                        <input type="text" id="${tableId}-name" placeholder="مثال: users">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="${tableId}-keyPath">اسم العمود الرئيسي (keyPath):</label>
+                        <input type="text" id="${tableId}-keyPath" placeholder="مثال: id">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="${tableId}-autoIncrement"> Auto Increment
+                        </label>
+                    </div>
+                    
+                    <h4>أعمدة الجدول:</h4>
+                    <div id="${tableId}-columns">
+                        <!-- Columns will be added here -->
+                    </div>
+                    
+                    <button class="add-btn" id="${tableId}-addColumnBtn">إضافة عمود</button>
+                    <button class="remove-btn" id="${tableId}-removeTableBtn">حذف الجدول</button>
+                `;
+
+                tablesContainer.appendChild(tableDiv);
+
+                // Add first column by default
+                addColumn(tableId);
+
+                // Add event listeners for this table
+                document.getElementById(`${tableId}-addColumnBtn`).addEventListener('click', () => addColumn(tableId));
+                document.getElementById(`${tableId}-removeTableBtn`).addEventListener('click', () => {
+                    if (tableCount > 1) {
+                        tablesContainer.removeChild(tableDiv);
+                        tableCount--;
+                    } else {
+                        alert('يجب أن يكون هناك جدول واحد على الأقل');
+                    }
+                });
+            }
+
+            function addColumn(tableId) {
+                const columnsContainer = document.getElementById(`${tableId}-columns`);
+                const columnId = `column-${Date.now()}`;
+
+                const columnRow = document.createElement('div');
+                columnRow.className = 'column-row';
+                columnRow.id = columnId;
+
+                columnRow.innerHTML = `
+                    <input type="text" placeholder="اسم العمود" class="column-name">
+                    <select class="column-type">
+                        <option value="string">String</option>
+                        <option value="number">Number</option>
+                        <option value="boolean">Boolean</option>
+                        <option value="object">Object</option>
+                        <option value="array">Array</option>
+                        <option value="date">Date</option>
+                        <option value="blob">Blob</option>
+                    </select>
+                    <button class="remove-btn remove-column-btn">حذف</button>
+                `;
+
+                columnsContainer.appendChild(columnRow);
+
+                // Add event listener for remove button
+                columnRow.querySelector('.remove-column-btn').addEventListener('click', () => {
+                    columnsContainer.removeChild(columnRow);
+                });
+            }
+
+            function generateCode() {
+                const dbName = document.getElementById('dbName').value.trim();
+                const dbVersion = parseInt(document.getElementById('dbVersion').value);
+
+                if (!dbName) {
+                    alert('الرجاء إدخال اسم قاعدة البيانات');
+                    return;
+                }
+
+                // Collect all tables data
+                const tables = [];
+                const tableElements = document.querySelectorAll('.table-container');
+
+                tableElements.forEach(tableEl => {
+                    const tableId = tableEl.id;
+                    const tableName = document.getElementById(`${tableId}-name`).value.trim();
+                    const keyPath = document.getElementById(`${tableId}-keyPath`).value.trim();
+                    const autoIncrement = document.getElementById(`${tableId}-autoIncrement`).checked;
+
+                    if (!tableName) {
+                        alert('الرجاء إدخال اسم لكل جدول');
+                        return;
+                    }
+
+                    if (!keyPath) {
+                        alert('الرجاء إدخال اسم العمود الرئيسي لكل جدول');
+                        return;
+                    }
+
+                    // Collect columns
+                    const columns = [];
+                    const columnRows = tableEl.querySelectorAll('.column-row');
+
+                    columnRows.forEach(row => {
+                        const name = row.querySelector('.column-name').value.trim();
+                        const type = row.querySelector('.column-type').value;
+
+                        if (name) {
+                            columns.push({
+                                name: name,
+                                type: type
+                            });
+                        }
+                    });
+
+                    // Add indexes (using columns as indexes for simplicity)
+                    const indexes = columns.filter(col => col.name !== keyPath).map(col => ({
+                        name: `${col.name}_idx`,
+                        keyPath: col.name,
+                        unique: false,
+                        multiEntry: col.type === 'array'
+                    }));
+
+                    tables.push({
+                        name: tableName,
+                        keyPath: keyPath,
+                        autoIncrement: autoIncrement,
+                        columns: columns,
+                        indexes: indexes
+                    });
+                });
+
+                // Generate the code
+                let code = `// كود إنشاء وإدارة قاعدة البيانات باستخدام مكتبة manageIndexedDB\n`;
+                code += `const dbConfig = {\n`;
+                code += `  dbName: "${dbName}",\n`;
+                code += `  version: ${dbVersion},\n`;
+                code += `  stores: [\n`;
+
+                tables.forEach(table => {
+                    code += `    {\n`;
+                    code += `      name: "${table.name}",\n`;
+                    code += `      keyPath: "${table.keyPath}",\n`;
+                    code += `      autoIncrement: ${table.autoIncrement},\n`;
+
+                    if (table.indexes.length > 0) {
+                        code += `      indexes: [\n`;
+                        table.indexes.forEach(index => {
+                            code += `        {\n`;
+                            code += `          name: "${index.name}",\n`;
+                            code += `          keyPath: "${index.keyPath}",\n`;
+                            code += `          unique: ${index.unique},\n`;
+                            code += `          multiEntry: ${index.multiEntry}\n`;
+                            code += `        }${table.indexes.indexOf(index) < table.indexes.length - 1 ? ',' : ''}\n`;
+                        });
+                        code += `      ]\n`;
+                    } else {
+                        code += `      indexes: []\n`;
+                    }
+
+                    code += `    }${tables.indexOf(table) < tables.length - 1 ? ',' : ''}\n`;
+                });
+
+                code += `  ]\n`;
+                code += `};\n\n`;
+
+                code += `// إنشاء نسخة من مدير قاعدة البيانات\n`;
+                code += `const dbManager = manageIndexedDB(\n`;
+                code += `  dbConfig.dbName,\n`;
+                code += `  dbConfig.version,\n`;
+                code += `  dbConfig.stores\n`;
+                code += `);\n\n`;
+
+                code += `// مثال على استخدام الدوال CRUD\n`;
+                code += `async function exampleUsage() {\n`;
+                code += `  try {\n`;
+                code += `    // فتح الاتصال بقاعدة البيانات\n`;
+                code += `    await dbManager.open();\n`;
+                code += `    \n`;
+                code += `    // مثال: إضافة سجل\n`;
+                if (tables.length > 0) {
+                    const firstTable = tables[0];
+                    code += `    const newRecord = {\n`;
+                    if (!firstTable.autoIncrement) {
+                        code += `      ${firstTable.keyPath}: 1, // قيمة المفتاح الأساسي (غير تلقائي)\n`;
+                    }
+                    firstTable.columns.forEach(col => {
+                        let exampleValue;
+                        switch (col.type) {
+                            case 'number': exampleValue = '0'; break;
+                            case 'boolean': exampleValue = 'true'; break;
+                            case 'object': exampleValue = '{}'; break;
+                            case 'array': exampleValue = '[]'; break;
+                            case 'date': exampleValue = 'new Date()'; break;
+                            case 'blob': exampleValue = 'new Blob()'; break;
+                            default: exampleValue = `"example_${col.name}"`;
+                        }
+                        code += `      ${col.name}: ${exampleValue},\n`;
+                    });
+
+                    code = code.slice(0, -2) + '\n'; // Remove last comma
+                    code += `    };\n`;
+                    code += `    \n`;
+                    code += `    const addedId = await dbManager.addRecord("${firstTable.name}", newRecord);\n`;
+                    code += `    console.log("تمت إضافة سجل جديد بالمعرف:", addedId);\n`;
+                }
+                code += `    \n`;
+                code += `    // يمكنك استخدام الدوال الأخرى بنفس الطريقة:\n`;
+                code += `    // dbManager.updateRecord()\n`;
+                code += `    // dbManager.deleteRecord()\n`;
+                code += `    // dbManager.getRecord()\n`;
+                code += `    // dbManager.getAllRecords()\n`;
+                code += `    \n`;
+                code += `  } catch (error) {\n`;
+                code += `    console.error("حدث خطأ:", error);\n`;
+                code += `  } finally {\n`;
+                code += `    // إغلاق الاتصال عند الانتهاء\n`;
+                code += `    dbManager.close();\n`;
+                code += `  }\n`;
+                code += `}\n`;
+                code += `\n`;
+                code += `// تشغيل مثال الاستخدام\n`;
+                code += `// exampleUsage();`;
+
+                codeOutput.textContent = code;
+            }
+
+            function copyCode() {
+                if (!codeOutput.textContent) {
+                    alert('لا يوجد كود لنسخه. يرجى إنشاء الكود أولاً.');
+                    return;
+                }
+
+                navigator.clipboard.writeText(codeOutput.textContent)
+                    .then(() => {
+                        alert('تم نسخ الكود بنجاح!');
+                    })
+                    .catch(err => {
+                        console.error('فشل نسخ النص: ', err);
+                        alert('فشل نسخ الكود. يرجى المحاولة مرة أخرى.');
+                    });
+            }
+        });
+    </script>
+</body>
+
+</html>
