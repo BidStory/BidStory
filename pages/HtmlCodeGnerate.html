@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مولد أكواد الجداول HTML المتقدم</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #tablePreview {
+            margin: 20px 0;
+            overflow-x: auto;
+            padding: 15px;
+            border: 1px dashed #ccc;
+            background-color: #f9f9f9;
+        }
+
+        #codeOutput {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-family: monospace;
+            white-space: pre-wrap;
+            min-height: 200px;
+        }
+
+        .cell-controls {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .cell-grid {
+            display: grid;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .cell-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .cell-item h4 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+
+        .element-options {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        .copy-btn {
+            background-color: #2196F3;
+        }
+
+        .copy-btn:hover {
+            background-color: #0b7dda;
+        }
+
+        .auto-id-option {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>مولد أكواد الجداول HTML المتقدم</h1>
+
+        <div class="form-group">
+            <label for="rows">عدد الصفوف:</label>
+            <input type="number" id="rows" min="1" max="20" value="3">
+        </div>
+
+        <div class="form-group">
+            <label for="cols">عدد الأعمدة:</label>
+            <input type="number" id="cols" min="1" max="10" value="3">
+        </div>
+
+        <div class="form-group">
+            <label for="tableId">معرف الجدول (ID):</label>
+            <input type="text" id="tableId" placeholder="مثال: myTable" value="myTable">
+        </div>
+
+        <div class="form-group">
+            <label for="tableClass">فئة الجدول (Class):</label>
+            <input type="text" id="tableClass" placeholder="مثال: data-table">
+        </div>
+
+        <div class="form-group auto-id-option">
+            <label for="elementIdPrefix">البادئة لمعرف العناصر (سيتم إضافة رقم الصف والعمود تلقائياً):</label>
+            <input type="text" id="elementIdPrefix" placeholder="مثال: item">
+            <small>سيصبح المعرف النهائي: item-1-1 للخلية الأولى، item-1-2 للخلية الثانية، إلخ</small>
+        </div>
+
+        <button id="generateCellsBtn">إنشاء خلايا الجدول</button>
+
+        <div id="cellControls" class="cell-controls">
+            <h2>تخصيص عناصر الخلايا</h2>
+            <div id="cellGrid" class="cell-grid"></div>
+
+
+
+            <button id="generateCodeBtn">توليد كود HTML</button>
+        </div>
+
+        <h2>معاينة الجدول</h2>
+        <div id="tablePreview"></div>
+
+        <div class="form-group">
+            <label for="codeOutput">كود HTML الناتج:</label>
+            <textarea id="codeOutput" rows="15" readonly></textarea>
+        </div>
+
+        <button id="copyCodeBtn" class="copy-btn">نسخ الكود</button>
+    </div>
+
+    <script>
+        // عناصر HTML المتاحة للإضافة إلى الخلايا
+        const htmlElements = [
+            {
+                name: 'نص عادي',
+                value: 'text',
+                html: '<span id="{id}" class="className">{content}</span>',
+                options: [
+                    { name: 'content', label: 'النص', type: 'text', placeholder: 'أدخل النص هنا' }
+                ]
+            },
+            {
+                name: 'عنوان',
+                value: 'heading',
+                html: '<{level} id="{id}" class="className">{content}</{level}>',
+                options: [
+                    { name: 'content', label: 'النص', type: 'text', placeholder: 'نص العنوان' },
+                    {
+                        name: 'level', label: 'المستوى', type: 'select', options: [
+                            { value: 'h1', text: 'H1' },
+                            { value: 'h2', text: 'H2' },
+                            { value: 'h3', text: 'H3' },
+                            { value: 'h4', text: 'H4' },
+                            { value: 'h5', text: 'H5' },
+                            { value: 'h6', text: 'H6' }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: 'رابط',
+                value: 'link',
+                html: '<a href="{url}" id="{id}" class="className" target="{target}">{text}</a>',
+                options: [
+                    { name: 'text', label: 'نص الرابط', type: 'text', placeholder: 'النص المعروض' },
+                    { name: 'url', label: 'الرابط (URL)', type: 'text', placeholder: 'https://example.com' },
+                    {
+                        name: 'target', label: 'الهدف', type: 'select', options: [
+                            { value: '_self', text: 'نفس النافذة' },
+                            { value: '_blank', text: 'نافذة جديدة' }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: 'صورة',
+                value: 'image',
+                html: '<img src="{src}" id="{id}" class="className" alt="{alt}" width="{width}" height="{height}">',
+                options: [
+                    { name: 'src', label: 'مسار الصورة', type: 'text', placeholder: 'image.jpg' },
+                    { name: 'alt', label: 'النص البديل', type: 'text', placeholder: 'وصف الصورة' },
+                    { name: 'width', label: 'العرض', type: 'text', placeholder: 'auto' },
+                    { name: 'height', label: 'الارتفاع', type: 'text', placeholder: 'auto' }
+                ]
+            },
+            {
+                name: 'حقل إدخال',
+                value: 'input',
+                html: '<input type="{type}" id="{id}" class="className" name="{name}" placeholder="{placeholder}" value="{value}">',
+                options: [
+                    {
+                        name: 'type', label: 'النوع', type: 'select', options: [
+                            { value: 'text', text: 'نص' },
+                            { value: 'password', text: 'كلمة مرور' },
+                            { value: 'email', text: 'بريد إلكتروني' },
+                            { value: 'number', text: 'رقم' },
+                            { value: 'date', text: 'تاريخ' },
+                            { value: 'checkbox', text: 'خانة اختيار' },
+                            { value: 'radio', text: 'زر اختيار' },
+                            { value: 'file', text: 'ملف' }
+                        ]
+                    },
+                    { name: 'name', label: 'الاسم (name)', type: 'text', placeholder: 'input-name' },
+                    { name: 'placeholder', label: 'النص التوضيحي', type: 'text', placeholder: 'أدخل النص هنا' },
+                    { name: 'value', label: 'القيمة الافتراضية', type: 'text', placeholder: '' }
+                ]
+            },
+            {
+                name: 'زر',
+                value: 'button',
+                html: '<button type="{type}" id="{id}" class="className">{text}</button>',
+                options: [
+                    { name: 'text', label: 'نص الزر', type: 'text', placeholder: 'انقر هنا' },
+                    {
+                        name: 'type', label: 'النوع', type: 'select', options: [
+                            { value: 'button', text: 'عادي' },
+                            { value: 'submit', text: 'إرسال' },
+                            { value: 'reset', text: 'إعادة تعيين' }
+                        ]
+                    },
+                    { name: 'class', label: 'الفئة (class)', type: 'text', placeholder: 'btn' }
+                ]
+            },
+            {
+                name: 'قائمة منسدلة',
+                value: 'select',
+                html: '<select id="{id}" class="className" name="{name}">{options}</select>',
+                options: [
+                    { name: 'name', label: 'الاسم (name)', type: 'text', placeholder: 'select-name' },
+                    { name: 'options', label: 'خيارات القائمة (افصل بفاصلة)', type: 'text', placeholder: 'الخيار 1, الخيار 2, الخيار 3' }
+                ]
+            },
+            {
+                name: 'نص متعدد الأسطر',
+                value: 'textarea',
+                html: '<textarea id="{id}" class="className" name="{name}" rows="{rows}" cols="{cols}" placeholder="{placeholder}"></textarea>',
+                options: [
+                    { name: 'name', label: 'الاسم (name)', type: 'text', placeholder: 'textarea-name' },
+                    { name: 'rows', label: 'عدد الأسطر', type: 'number', value: '3' },
+                    { name: 'cols', label: 'عدد الأعمدة', type: 'number', value: '30' },
+                    { name: 'placeholder', label: 'النص التوضيحي', type: 'text', placeholder: 'أدخل النص هنا' }
+                ]
+            }
+        ];
+
+        document.getElementById('generateCellsBtn').addEventListener('click', function () {
+            const rows = parseInt(document.getElementById('rows').value);
+            const cols = parseInt(document.getElementById('cols').value);
+
+            if (rows <= 0 || cols <= 0) {
+                alert('الرجاء إدخال أعداد صحيحة موجبة للصفوف والأعمدة');
+                return;
+            }
+
+            const cellGrid = document.getElementById('cellGrid');
+            cellGrid.innerHTML = '';
+
+            // إنشاء شبكة الخلايا
+            cellGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+
+            for (let r = 1; r <= rows; r++) {
+                for (let c = 1; c <= cols; c++) {
+                    const cellDiv = document.createElement('div');
+                    cellDiv.className = 'cell-item';
+                    cellDiv.dataset.row = r;
+                    cellDiv.dataset.col = c;
+
+                    cellDiv.innerHTML = `
+                        <h4>الخلية [${r},${c}]</h4>
+                        <label>نوع العنصر:</label>
+                        <select class="element-type" onchange="showElementOptions(this)">
+                            <option value="">-- اختر عنصر --</option>
+                            ${htmlElements.map(el => `<option value="${el.value}">${el.name}</option>`).join('')}
+                        </select>
+                        <div class="element-options" id="options-${r}-${c}"></div>
+                    `;
+
+                    cellGrid.appendChild(cellDiv);
+                }
+            }
+
+            document.getElementById('cellControls').style.display = 'block';
+        });
+
+        // دالة لعرض خيارات العنصر المحدد
+        window.showElementOptions = function (selectElement) {
+            const cellDiv = selectElement.closest('.cell-item');
+            const row = cellDiv.dataset.row;
+            const col = cellDiv.dataset.col;
+            const optionsDiv = cellDiv.querySelector('.element-options');
+            const selectedElement = selectElement.value;
+
+            optionsDiv.innerHTML = '';
+            optionsDiv.style.display = 'none';
+
+            if (!selectedElement) return;
+
+            const element = htmlElements.find(el => el.value === selectedElement);
+            if (!element) return;
+
+            let optionsHTML = '';
+            element.options.forEach(opt => {
+                if (opt.type === 'select') {
+                    optionsHTML += `
+                        <div class="form-group">
+                            <label>${opt.label}:</label>
+                            <select class="element-option" data-option="${opt.name}">
+                                ${opt.options.map(o => `<option value="${o.value}">${o.text}</option>`).join('')}
+                            </select>
+                        </div>
+                    `;
+                } else {
+                    optionsHTML += `
+                        <div class="form-group">
+                            <label>${opt.label}:</label>
+                            <input type="${opt.type}" class="element-option" 
+                                   data-option="${opt.name}" 
+                                   placeholder="${opt.placeholder || ''}" 
+                                   value="${opt.value || ''}">
+                        </div>
+                    `;
+                }
+            });
+
+            optionsDiv.innerHTML = optionsHTML;
+            optionsDiv.style.display = 'block';
+        };
+
+        document.getElementById('generateCodeBtn').addEventListener('click', function () {
+            const rows = parseInt(document.getElementById('rows').value);
+            const cols = parseInt(document.getElementById('cols').value);
+
+            const tableId = document.getElementById('tableId').value || 'myTable';
+            const tableClass = document.getElementById('tableClass').value;
+            const elementIdPrefix = document.getElementById('elementIdPrefix').value;
+            let htmlCode = '<style>\n';
+            htmlCode += `  .${tableId}C {\n`;
+            htmlCode += `    width: 100%;\n`;
+            htmlCode += `    border-collapse: collapse;\n`;
+            htmlCode += `  }\n`;
+            htmlCode += `\n`;
+            for (let r = 1; r <= rows; r++) {
+                htmlCode += `  .${tableId}-row-${r}C {\n`;
+                htmlCode += `    background-color: #f2f2f2;\n`;
+                htmlCode += `  }\n`;
+                for (let c = 1; c <= cols; c++) {
+                    htmlCode += `  .${tableId}-cell-${r}-${c}C {\n`;
+                    htmlCode += `    background-color: #4CAF50;\n`;
+                    htmlCode += `    color: white;\n`;
+                    htmlCode += `    text-align: center;\n`;
+                    htmlCode += `  }\n`;
+                    htmlCode += `  .${tableId}-item-${r}-${c}C {\n`;
+                    htmlCode += `    background-color: #4CAF50;\n`;
+                    htmlCode += `    color: white;\n`;
+                    htmlCode += `    text-align: center;\n`;
+                    htmlCode += `  }\n`;
+                }
+            }
+
+
+
+            htmlCode += '</style>\n\n';
+
+            htmlCode += `<table id="${tableId}"`;
+            if (tableClass) htmlCode += ` class="${tableId}C"`;
+
+            htmlCode += ` >\n`;
+
+            for (let r = 1; r <= rows; r++) {
+                const rowId = `${tableId}-row-${r}`;
+                htmlCode += `  <tr id="${rowId}" class="${rowId}C" >\n`;
+
+                for (let c = 1; c <= cols; c++) {
+                    const cellId = `${tableId}-cell-${r}-${c}`;
+                    const cellClass = `${tableId}-cell-${r}-${c}C`;
+                    const cellDiv = document.querySelector(`.cell-item[data-row="${r}"][data-col="${c}"]`);
+                    const elementType = cellDiv.querySelector('.element-type').value;
+
+                    htmlCode += `    <td id="${cellId}" class="${cellClass}" >`;
+
+                    if (elementType) {
+                        const element = htmlElements.find(el => el.value === elementType);
+                        let elementHTML = element.html;
+
+                        // إنشاء ID تلقائي بناء على معرف الجدول وموقع الخلية
+                        const elementId = elementIdPrefix ? `${tableId}-${elementIdPrefix}-${r}-${c}` : `${tableId}-element-${r}-${c}`;
+                        elementHTML = elementHTML.replace('{id}', elementId);
+                        elementHTML = elementHTML.replace('className', elementId + `C`);
+                        // معالجة خاصة لعنصر select لإنشاء options
+                        if (element.value === 'select') {
+                            const optionsInput = cellDiv.querySelector('.element-option[data-option="options"]');
+                            if (optionsInput) {
+                                const options = optionsInput.value.split(',').map(opt => opt.trim());
+                                let optionsHTML = '';
+                                options.forEach((opt, index) => {
+                                    const optionId = `${elementId}-option-${index + 1}`;
+                                    optionsHTML += `<option id="${optionId}" value="${opt.toLowerCase().replace(/\s+/g, '-')}">${opt}</option>`;
+                                });
+                                elementHTML = elementHTML.replace('{options}', optionsHTML);
+                            }
+                        }
+
+                        // استبدال القيم في النموذج
+                        const options = cellDiv.querySelectorAll('.element-option');
+                        options.forEach(opt => {
+                            const optionName = opt.dataset.option;
+                            const optionValue = opt.value;
+                            // تجنب استبدال {options} مرة أخرى إذا كان العنصر select
+                            if (!(element.value === 'select' && optionName === 'options')) {
+                                elementHTML = elementHTML.replace(`{${optionName}}`, optionValue);
+                            }
+                        });
+
+                        // تنظيف أي علامات متبقية لم يتم تعبئتها
+                        elementHTML = elementHTML.replace(/\{.*?\}/g, '');
+
+                        htmlCode += elementHTML;
+                    }
+
+                    htmlCode += `</td>\n`;
+                }
+
+                htmlCode += '  </tr>\n';
+            }
+
+            htmlCode += '</table>\n\n';
+            htmlCode += '   <script>\n';
+            htmlCode += '    document.addEventListener("DOMContentLoaded", function () {\n';
+            htmlCode += `const ${tableId} = document.getElementById('${tableId}');\n`;
+
+            for (let r = 1; r <= rows; r++) {
+                htmlCode += `const ${tableId}_row_${r} = document.getElementById('${tableId}-row-${r}');\n`;
+
+                for (let c = 1; c <= cols; c++) {
+                    htmlCode += `const ${tableId}_cell_${r}_${c} = document.getElementById('${tableId}-cell-${r}-${c}');\n`;
+                    htmlCode += `const ${tableId}_item_${r}_${c} = document.getElementById('${tableId}-item-${r}-${c}');\n`;
+                }
+            }
+            htmlCode += '    });\n'; // Closing the DOMContentLoaded event listener
+            htmlCode += "<" + "/script>\n";
+            htmlCode += "\n\n";
+        
+            document.getElementById('codeOutput').value = htmlCode;
+            document.getElementById('tablePreview').innerHTML = htmlCode;
+        });
+
+        document.getElementById('copyCodeBtn').addEventListener('click', function () {
+            const codeOutput = document.getElementById('codeOutput');
+            codeOutput.select();
+            document.execCommand('copy');
+            alert('تم نسخ الكود إلى الحافظة!');
+        });
+    </script>
+</body>
+
+</html>
