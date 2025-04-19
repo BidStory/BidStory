@@ -346,7 +346,7 @@
             const optionsDiv = cellDiv.querySelector('.element-options');
             const selectedElement = selectElement.value;
 
-            optionsDiv.innerHTML = '';
+            optionsDiv.innerHTML = '/n';
             optionsDiv.style.display = 'none';
 
             if (!selectedElement) return;
@@ -354,7 +354,7 @@
             const element = htmlElements.find(el => el.value === selectedElement);
             if (!element) return;
 
-            let optionsHTML = '';
+            let optionsHTML = '/n';
             element.options.forEach(opt => {
                 if (opt.type === 'select') {
                     optionsHTML += `
@@ -392,23 +392,19 @@
             let htmlCode = '<style>\n';
             htmlCode += `  .${tableId}C {\n`;
             htmlCode += `    width: 100%;\n`;
-            htmlCode += `    border-collapse: collapse;\n`;
+
             htmlCode += `  }\n`;
             htmlCode += `\n`;
             for (let r = 1; r <= rows; r++) {
-                htmlCode += `  .${tableId}-row-${r}C {\n`;
-                htmlCode += `    background-color: #f2f2f2;\n`;
+                htmlCode += `  .${tableId}-row-${r}C {\n\n`;
+
                 htmlCode += `  }\n`;
                 for (let c = 1; c <= cols; c++) {
-                    htmlCode += `  .${tableId}-cell-${r}-${c}C {\n`;
-                    htmlCode += `    background-color: #4CAF50;\n`;
-                    htmlCode += `    color: white;\n`;
-                    htmlCode += `    text-align: center;\n`;
+                    htmlCode += `  .${tableId}-cell-${r}-${c}C {\n\n`;
+
                     htmlCode += `  }\n`;
                     htmlCode += `  .${tableId}-item-${r}-${c}C {\n`;
-                    htmlCode += `    background-color: #4CAF50;\n`;
-                    htmlCode += `    color: white;\n`;
-                    htmlCode += `    text-align: center;\n`;
+
                     htmlCode += `  }\n`;
                 }
             }
@@ -432,7 +428,7 @@
                     const cellDiv = document.querySelector(`.cell-item[data-row="${r}"][data-col="${c}"]`);
                     const elementType = cellDiv.querySelector('.element-type').value;
 
-                    htmlCode += `    <td id="${cellId}" class="${cellClass}" >`;
+                    htmlCode += `    <td id="${cellId}" class="${cellClass}" >\n`;
 
                     if (elementType) {
                         const element = htmlElements.find(el => el.value === elementType);
@@ -473,7 +469,7 @@
                         htmlCode += elementHTML;
                     }
 
-                    htmlCode += `</td>\n`;
+                    htmlCode += `\n</td>\n`;
                 }
 
                 htmlCode += '  </tr>\n';
@@ -489,13 +485,13 @@
 
                 for (let c = 1; c <= cols; c++) {
                     htmlCode += `const ${tableId}_cell_${r}_${c} = document.getElementById('${tableId}-cell-${r}-${c}');\n`;
-                    htmlCode += `const ${tableId}_item_${r}_${c} = document.getElementById('${tableId}-item-${r}-${c}');\n`;
+                    htmlCode += `const ${tableId}_item_${r}_${c} = document.getElementById('${tableId}-element-${r}-${c}');\n`;
                 }
             }
             htmlCode += '    });\n'; // Closing the DOMContentLoaded event listener
             htmlCode += "<" + "/script>\n";
             htmlCode += "\n\n";
-        
+
             document.getElementById('codeOutput').value = htmlCode;
             document.getElementById('tablePreview').innerHTML = htmlCode;
         });

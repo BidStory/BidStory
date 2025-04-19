@@ -1,0 +1,138 @@
+#inCell {
+  display: none;
+}
+
+/* General styling for all elements */
+.spanT,
+.canvasT,
+.audioT,
+.videoT,
+.imgT,
+.selectT,
+.labelT,
+.divT,
+.textareaT,
+.buttonT,
+.inputT,
+.cellT,
+.rowT{
+  font-family: "Arial", sans-serif;
+  color: #333333;
+  border: 1px solid #cccccc;
+  box-sizing: border-box;
+}
+
+/* Span specific styling */
+.spanT {
+  display: inline-block;
+  padding: 2px 4px;
+  background-color: #f8f9fa;
+}
+
+/* Canvas styling */
+.canvasT {
+  background-color: #ffffff;
+  border: 2px solid #6c757d;
+  margin: 5px 0;
+}
+
+/* Audio player styling */
+.audioT {
+  width: 100%;
+  max-width: 400px;
+  background-color: #f1f3f4;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Video player styling */
+.videoT {
+  width: 100%;
+  max-width: 600px;
+  background-color: #000000;
+  border: 3px solid #495057;
+}
+
+/* Image styling */
+.imgT {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #dee2e6;
+  border-radius: 4px;
+}
+
+/* Select dropdown styling */
+.selectT {
+  padding: 8px 12px;
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Label styling */
+.labelT {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #495057;
+  border: none;
+}
+
+/* Div container styling */
+.divT {
+  padding: 15px;
+  background-color: #e9ecef;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+/* Textarea styling */
+.textareaT {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+/* Button styling */
+.buttonT {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Input field styling */
+.inputT {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Table cell styling */
+.cellT {
+  padding: 10px;
+  border: 1px solid #dee2e6;
+  text-align: left;
+  background-color: #ffffff;
+}
+
+/* Table row styling */
+.row {
+  background-color: #f8f9fa;
+}
+
+.myTableT {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+}
