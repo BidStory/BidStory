@@ -1,15 +1,63 @@
-<script src="/code/tools.js"></script>
+<script src="/js/tools.js" type="text/javascript"></script>
+<script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+<script src="/js/dataBase/dbManager.js" type="text/javascript"></script>
 
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-  <meta charset="UTF-8">
-  <title>رقم عشوائي</title>
-</head>
-<body>
-  <h1>مولّد الأرقام العشوائية</h1>
-  <button onclick="generateRandomValue()">أعطني رقمًا عشوائيًا</button>
+<link rel="stylesheet" href="/css/table.css">
+<table TableId id="tableId">
+  <tbody>
+
+  </tbody>
+</table>
+
+<button onclick="createNewRow()">إضافة صف</button>
+<button onclick="letsGo()"> data up date</button>
+<!-- لا يمكن تغير معرف هذا الدف يجب ان يكون  -->
+<!-- <div id="inRaw"> -->
+<!--  لان عمليات النسخ تتم علية    -->
+<div DivId id="inRaw" class="divT">
+  <table>
+    <thead>
+      <tr>
+        <th>العمود 1</th>
+        <th>العمود 2</th>
+        <th>العمود 3</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <input class="inputT" type="text" placeholder="  ادخال من داخل الدف">
+        </td>
+        <td>
+          <input class="inputT" type="text" placeholder="  ادخال من داخل الدف">
+        </td>
+        <td>
+          <input class="inputT" type="text" placeholder="  ادخال من داخل الدف">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input class="inputT" type="text" placeholder="  ادخال من داخل الدف">
+        </td>
+        <td>
+          <input class="inputT" type="text" placeholder="  ادخال من داخل الدف">
+        </td>
+        <td>
+          <input class="inputT" type="text" placeholder="  ادخال من داخل الدف">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+<script>
+
+  showHead_ = "true"; // استبدل هذا بالقيمة التي تريدها (true أو false) أو استخدم القيمة الافتراضية
+ 
   
-</body>
-</html>
-    
+
+
+</script>
+<script src="/js/table/table.js" type="text/javascript"></script>

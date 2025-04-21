@@ -28,3 +28,12 @@ xabikos.javascriptsnippets
 //////////files///////////////
 npx wrangler deploy  للتحديث
 
+//////////shorts//////////////
+
+لعمل جزي او سطر comment 
+ Shift + Alt + A == /* */ مجموعه اسطر
+Ctrl+/ كل سطر علي حدة
+
+
+طي الكل: Ctrl + K ثم Ctrl + 0
+

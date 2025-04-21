@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Test DBManager</title>
+  <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+  <script src="/js/dataBase/dbManager.js"></script>
+</head>
+
+<body>
+
+  <button onclick="handleButtonClick()">Data Update</button>
+
+  <script>
+    async function handleButtonClick() {
+      // تأكد من تحميل DBManager
+      if (typeof Dexie === 'undefined') {
+        console.error('لم يتم تحميل Dexie بنجاح');
+        return;
+      }
+
+      // تأكد من تحميل DBManager
+      if (typeof DBManager === 'undefined') {
+        console.error('لم يتم تحميل DBManager بنجاح');
+        return;
+      }
+
+
+      const db = new DBManager('myDatabase1');
+
+      // تعيين قيمة مفهرسة
+      await db.idSet('settings', 'theme', 'dark');
+
+      // استرجاعها للتأكد
+      const theme = await db.idGet('settings', 'theme');
+      const exportedData = await db.exportTable2JSON('settings');
+      await db.importTableFromJSON(exportedData);
+      console.log("📦 البيانات المصدرة هي:", exportedData);
+      db.getAllData('settings').then((data) => {
+        console.log("📦 البيانات  هي:", data);
+      });
+      const tableNames = db.getAllTableNames();
+      console.log("الجداول الموجودة:", tableNames);
+
+
+    }
+  </script>
+
+</body>
+
+</html>
