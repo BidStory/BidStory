@@ -1,22 +1,345 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Test DBManager</title>
-	<script src="/js/dataBase/fdb.js"></script>
+	<script>
+		function dbi(dbName) {
+			let currentVersion = 1;
+
+			const openDB = async (version) => {
+				return new Promise((resolve, reject) => {
+					const request = indexedDB.open(dbName, version);
+					request.onsuccess = () => resolve(request.result);
+					request.onerror = () => reject(request.error);
+				});
+			};
+
+			const getCurrentVersion = async () => {
+				let db;
+				try {
+					db = await openDB();
+					currentVersion = db.version;
+					return currentVersion;
+				} finally {
+					if (db) db.close();
+				}
+			};
+
+			const isTableExist = async (tableName) => {
+				let db;
+				try {
+					db = await openDB();
+					return db.objectStoreNames.contains(tableName);
+				} finally {
+					if (db) db.close();
+				}
+			};
+
+			const createIdTable = async () => {
+				try {
+					const tableExists = await isTableExist('IdTable');
+
+					if (!tableExists) {
+
+						currentVersion = currentVersion + 1;
+
+						const db = await new Promise((resolve, reject) => {
+							const request = indexedDB.open(dbName, currentVersion);
+
+							request.onupgradeneeded = (event) => {
+								const db = event.target.result;
+								const objectStore = db.createObjectStore('IdTable', {
+									keyPath: 'id',
+									autoIncrement: false
+								});
+								objectStore.createIndex('value', 'value', { unique: false });
+								console.log('✅ تم إنشاء الجدول المفهرس بنجاح');
+							};
+
+							request.onsuccess = () => resolve(request.result);
+							request.onerror = () => reject(request.error);
+						});
+
+						db.close();
+					} else {
+						console.log('ℹ️ الجدول المفهرس موجود بالفعل');
+					}
+				} catch (error) {
+					console.error('❌ خطأ:', error);
+				}
+			};
+
+			const idSet = async (id, value) => {
+				let db;
+				try {
+					db = await openDB();
+					const transaction = db.transaction(['IdTable'], 'readwrite');
+					const store = transaction.objectStore('IdTable');
+
+					const data = { id, value };
+					const request = store.put(data);
+
+					request.onsuccess = () => {
+						console.log(`✅ تم إضافة العنصر (id: ${id}, value: ${value}) بنجاح إلى IdTable`);
+					};
+
+					request.onerror = () => {
+						console.error('❌ فشل في إضافة العنصر إلى IdTable:', request.error);
+					};
+
+					transaction.oncomplete = () => db.close();
+				} catch (error) {
+					console.error('❌ خطأ أثناء فتح قاعدة البيانات:', error);
+				}
+			};
+
+			const idGet = async (id) => {
+				let db;
+				try {
+
+					db = await openDB();
+					const transaction = db.transaction(['IdTable'], 'readonly');
+					const objectStore = transaction.objectStore('IdTable');
+					const value = await new Promise((resolve, reject) => {
+						const request = objectStore.get(id);
+
+						request.onsuccess = () => {
+							if (request.result) {
+								console.log('🔍 تم العثور على القيمة:', request.result.value);
+								resolve(request.result.value);
+							} else {
+								console.log('⚠️ لا توجد قيمة لهذا المعرف');
+								resolve(null);
+							}
+						};
+
+						request.onerror = () => {
+							console.error('❌ خطأ أثناء القراءة:', request.error);
+							reject(request.error);
+						};
+					});
+
+					db.close();
+					return value;
+
+				} catch (error) {
+					console.error('❌ خطأ عام:', error);
+					return null;
+				}
+				finally {
+					if (db) { db.close(); }
+				}
+			};
+
+			const idDelete = async (id) => {
+    let db;
+    try {
+        db = await openDB();
+        const transaction = db.transaction(['IdTable'], 'readwrite');
+        const store = transaction.objectStore('IdTable');
+        const request = store.delete(id);
+
+        request.onsuccess = () => {
+            console.log(`🗑️ تم حذف العنصر ذو المعرف (${id}) بنجاح`);
+        };
+
+        request.onerror = () => {
+            console.error('❌ فشل في حذف العنصر:', request.error);
+        };
+
+        transaction.oncomplete = () => db.close();
+    } catch (error) {
+        console.error('❌ خطأ أثناء حذف العنصر:', error);
+    } finally {
+        if (db) db.close();
+    }
+};
+
+
+
+const createCustomTable = async (dbName, tableName, columns) => {
+	let currentVersion = 1;
+
+	// فتح قاعدة البيانات ومعرفة النسخة الحالية
+	const getDBVersion = () => {
+		return new Promise((resolve, reject) => {
+			const request = indexedDB.open(dbName);
+			request.onsuccess = () => {
+				const db = request.result;
+				const version = db.version;
+				db.close();
+				resolve(version);
+			};
+			request.onerror = () => reject(request.error);
+		});
+	};
+
+	const createTable = async () => {
+		try {
+			currentVersion = await getDBVersion();
+			currentVersion += 1;
+
+			const request = indexedDB.open(dbName, currentVersion);
+
+			request.onupgradeneeded = (event) => {
+				const db = event.target.result;
+
+				if (db.objectStoreNames.contains(tableName)) {
+					console.warn('⚠️ الجدول موجود مسبقاً');
+					return;
+				}
+
+				// إنشاء جدول بمفتاح id تلقائي
+				const store = db.createObjectStore(tableName, {
+					keyPath: 'id',
+					autoIncrement: true
+				});
+
+				// إضافة المؤشرات حسب الأعمدة
+				for (let col of columns) {
+					let unique = false;
+					let colName = col;
+
+					if (col.endsWith('_not')) {
+						unique = true;
+						colName = col.replace(/_not$/, '');
+					}
+
+					store.createIndex(colName, colName, { unique });
+					console.log(`📌 تم إنشاء المؤشر (${colName}) ${unique ? '📛 غير قابل للتكرار' : ''}`);
+				}
+
+				console.log(`✅ تم إنشاء الجدول ${tableName} بنجاح`);
+			};
+
+			request.onsuccess = () => {
+				request.result.close();
+			};
+
+			request.onerror = () => {
+				console.error('❌ خطأ أثناء فتح قاعدة البيانات:', request.error);
+			};
+
+		} catch (error) {
+			console.error('❌ خطأ أثناء إنشاء الجدول:', error);
+		}
+	};
+
+اصنع داله تاخذ العواميد علي شكل [columnName1,columnName2,columnName3_not]
+او 
+[columnName1,columnName2,columnName3]
+وتنشئ جدول به عمود id كمفتاح رئيسي قابل للذيادة التلقائية بالاضافة الي العمواميد المدخلة وفي حاله ان اسم العمود يحتوي علي _not يكون هذا العمود غير قابل لتكرار البيانات 
+
+
+
+
+
+
+
+
+
+
+
+
+			const getAllDataFromTable = async (tableName) => {
+				let db;
+				try {
+
+					db = await openDB();
+
+					return new Promise((resolve, reject) => {
+						const transaction = db.transaction(tableName, 'readonly');
+						const objectStore = transaction.objectStore(tableName);
+						const request = objectStore.getAll();
+
+						request.onsuccess = () => {
+							resolve(request.result);
+						};
+
+						request.onerror = () => {
+							reject('❌ فشل في جلب البيانات: ' + request.error);
+						};
+					});
+
+				} catch (error) {
+					console.error('❌ خطأ:', error);
+					return [];
+				} finally {
+					if (db) db.close();
+				}
+			};
+
+			// Return an object with all methods and the currentVersion
+			return (async () => {
+				await getCurrentVersion();
+				return {
+					getCurrentVersion,
+					isTableExist,
+					openDB,
+					dbName,
+					createIdTable,
+					getAllDataFromTable,
+					idSet,
+					idGet,
+					createTable,
+					currentVersion // Now exposing currentVersion
+				};
+			})();
+		}
+	</script>
 </head>
+
 <body>
 	<button onclick="openDb()">open data_base</button>
 	<button onclick="create_idTable()">create idTable</button>
+	<button onclick="getAllDataFromTable0()">getAllDataFromTable</button>
+	<button onclick="add2idTable()">add 2 idTable</button>
+	<button onclick="getFromIdTable('x1')">get from id table</button>
+	<button onclick="create_table()">create table</button>
 	<script>
 		let db;
+		let i = 0;
+
 		async function openDb() {
-			 db = await dbi('tableid');
+			db = await dbi('NewDB');
 			console.log(db.currentVersion); // Now you can access the currentVersion
+			i = 1;
 		}
+
 		async function create_idTable() {
 
+			if (i == 0) { console.log("open frist"); return; }
 			db.createIdTable();
 		}
+
+		async function getAllDataFromTable0() {
+			if (i == 0) { console.log("open frist"); return; }
+			const data = db.getAllDataFromTable('IdTable');
+			console.log(data);
+		}
+
+		async function add2idTable() {
+
+			if (i == 0) { console.log("open frist"); return; }
+			await db.idSet('x1', 'y1');
+
+		}
+
+		async function getFromIdTable(params) {
+
+
+			if (i == 0) { console.log("open frist"); return; }
+			await db.idGet('x1');
+
+		}
+
+		async function create_table() {
+			if (i == 0) { console.log("open frist"); return; }
+			await db.createTable('new_table', ['col1', 'col2', 'col3'])
+		}
+
 	</script>
 </body>
+
 </html>
