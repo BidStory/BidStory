@@ -7,16 +7,20 @@
 </head>
 
 <body>
-	
+	<button onclick="createKeyTable()">createKeyTable</button>
 	<button onclick="getAllDataFromTable0()">getAllDataFromTable</button>
-	<button onclick="add2idTable()">add 2 idTable</button>
-	<button onclick="getFromIdTable('x1')">get from id table</button>
+	<button onclick="add2KeyTable()">add 2 keyTable</button>
+	<button onclick="getFromKeyTable()">get from key table</button>
+	<button onclick="deleteFromKeyTable()">delete from key table</button>
 	<button onclick="create_table()">create table</button>
 	<button onclick="insertInTable_()">add 2 table</button>
 	
 	<script>
 	
-
+async function createKeyTable(){
+	const db =await upgrade('NewDB');
+			await db.createKeyTable('keyTable1');
+}
 		
 
 		async function getAllDataFromTable0() {
@@ -25,16 +29,22 @@
 			console.log(data);
 		}
 
-		async function add2idTable() {
+		async function add2KeyTable() {
 
 			const db =await noUpgrade('NewDB');
-			await db.idSet('x1', 'y1');
+			await db.keySet('keyTable1','x1', 'y1');
 
 		}
 
-		async function getFromIdTable(params) {
-			const db = noUpgrade('NewDB');
-			await db.idGet('x1');
+		async function getFromKeyTable() {
+			const db =await noUpgrade('NewDB');
+			await db.keyGet('keyTable1','x1');
+
+		}
+
+		async function deleteFromKeyTable() {
+			const db =await noUpgrade('NewDB');
+			await db.keyDelete('keyTable1','x1');
 
 		}
 
