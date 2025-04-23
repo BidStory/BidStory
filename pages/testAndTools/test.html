@@ -3,12 +3,11 @@
 
 <head>
 	<title>Test DBManager</title>
-<script src="/js/dataBase/fdb.js">	</script>
+<script src="/js/dataBase/fdb.js" type="text/javascript">	</script>
 </head>
 
 <body>
 	
-	<button onclick="create_idTable()">create idTable</button>
 	<button onclick="getAllDataFromTable0()">getAllDataFromTable</button>
 	<button onclick="add2idTable()">add 2 idTable</button>
 	<button onclick="getFromIdTable('x1')">get from id table</button>
@@ -16,43 +15,36 @@
 	<button onclick="insertInTable_()">add 2 table</button>
 	
 	<script>
-		let db;
+	
+
 		
 
-		async function create_idTable() {
-
-			if (i == 0) { console.log("open frist"); return; }
-			db.createIdTable();
-		}
-
 		async function getAllDataFromTable0() {
-			if (i == 0) { console.log("open frist"); return; }
+			const db =await noUpgrade('NewDB');
 			const data = db.getAllDataFromTable('new_table');
 			console.log(data);
 		}
 
 		async function add2idTable() {
 
-			if (i == 0) { console.log("open frist"); return; }
+			const db =await noUpgrade('NewDB');
 			await db.idSet('x1', 'y1');
 
 		}
 
 		async function getFromIdTable(params) {
-
-
-			if (i == 0) { console.log("open frist"); return; }
+			const db = noUpgrade('NewDB');
 			await db.idGet('x1');
 
 		}
 
 		async function create_table() {
-			if (i == 0) { console.log("open frist"); return; }
+			const db =await upgrade('NewDB');
 			await db.createTable('new_table', ['col1', 'col2', 'col3'])
 		}
 		
 		async function insertInTable_() {
-			if (i == 0) { console.log("open frist"); return; }
+			const db =await noUpgrade('NewDB');
 			await db.insertInTable('new_table', ['col11', 'col22', 'col33'])
 		}
 		
