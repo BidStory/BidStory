@@ -226,43 +226,60 @@ function noUpgrade ( dbName )
     }
   };
 
-  const insertInTable = async ( tableName, dataObject ) =>
-  {
-    if ( await isTableExist( tableName ) )
-    {
-      console.log( `➕ [insertInTable] محاولة إدخال بيانات في الجدول: ${ tableName }` );
-      let db;
-      try
-      {
-        db = await openDB();
-        return new Promise( ( resolve, reject ) =>
-        {
-          const transaction = db.transaction( [ tableName ], "readwrite" );
-          const store = transaction.objectStore( tableName );
-          const request = store.add( dataObject );
 
-          request.onsuccess = () =>
-          {
-            console.log( `✅ [insertInTable] تم إدخال البيانات بنجاح في ${ tableName }` );
-            resolve( true );
-          };
 
-          request.onerror = ( event ) =>
-          {
-            console.error( "❌ [insertInTable] فشل في إدخال البيانات:", event.target.error );
-            reject( event.target.error );
-          };
-        } );
-      } catch ( error )
-      {
-        console.error( "❌ [insertInTable] خطأ أثناء الإدخال:", error );
-        return false;
-      } finally
-      {
-        if ( db ) db.close();
-      }
+/// <summary>
+/// دالة تقوم بإدخال البيانات في جدول معين من خلال ترتيب القيم فقط دون الحاجة لتحديد أسماء الأعمدة.
+/// تعتمد على ترتيب الـ Indexes المعرفة مسبقًا داخل الجدول.
+/// </summary>
+/// <param name="tableName">اسم الجدول</param>
+/// <param name="values">مصفوفة القيم المرتبة</param>
+const insertInTable = async (tableName, values) => {
+  try {
+    // فتح قاعدة البيانات
+    const db = await openDB();
+
+    // فتح transaction للكتابة
+    const transaction = db.transaction([tableName], "readwrite");
+    const store = transaction.objectStore(tableName);
+
+    // استخراج أسماء الأعمدة (باستثناء المفتاح الأساسي keyPath)
+    const indexNames = Array.from(store.indexNames);
+
+    if (values.length !== indexNames.length) {
+      throw new Error(`❌ عدد القيم (${values.length}) لا يطابق عدد الأعمدة (${indexNames.length}) في الجدول ${tableName}.`);
     }
-  };
+
+    // بناء الكائن الذي سيتم إدخاله
+    const dataObject = {};
+    for (let i = 0; i < indexNames.length; i++) {
+      dataObject[indexNames[i]] = values[i];
+    }
+
+    // إدخال البيانات
+    const request = store.add(dataObject);
+
+    return await new Promise((resolve, reject) => {
+      request.onsuccess = () => {
+        console.log(`✅ [insertInTable] تم إدخال البيانات بنجاح في ${tableName}`);
+        resolve(true);
+      };
+
+      request.onerror = (event) => {
+        console.error("❌ [insertInTable] فشل في إدخال البيانات:", event.target.error);
+        reject(event.target.error);
+      };
+    });
+
+  } catch (error) {
+    console.error("❌ [insertInTable] خطأ أثناء الإدخال:", error);
+    return false;
+  }
+};
+
+
+
+  
 
   return {
     openDB,
@@ -346,50 +363,59 @@ function upgrade ( dbName )
     }
   };
 
-  const createTable = async ( tableName, columns ) =>
-  {
+ /**
+ * 📦 دالة لإنشاء جدول في قاعدة بيانات IndexedDB مع دعم للـ Index المرن
+ * @param {string} tableName - اسم الجدول المراد إنشاؤه
+ * @param {(string | [string, boolean])[]} columns - مصفوفة الأعمدة (الاسم فقط أو [الاسم, isUnique])
+ */
+const createTable = async (tableName, columns) => {
+  try {
+    if (!await (await noUpgrade(dbName)).isTableExist(tableName)) {
+      console.log(`🛠️ [createTableFlexible] إنشاء جدول ${tableName} مع الأعمدة المرنة`);
 
-    try
-    {
+      const db = await new Promise((resolve, reject) => {
+        currentVersion += 1;
+        const request = indexedDB.open(dbName, currentVersion);
 
-      if ( ! await ( await noUpgrade( dbName ) ).isTableExist( tableName ) )
-      {
-        console.log( `🛠️ [createTable] إنشاء جدول ${ tableName } مع الأعمدة` );
-        const db = await new Promise( ( resolve, reject ) =>
-        {
-          currentVersion += 1;
-          const request = indexedDB.open( dbName, currentVersion );
+        request.onupgradeneeded = (event) => {
+          // @ts-ignore
+          const db = event.target.result;
 
-          request.onupgradeneeded = ( event ) =>
-          {
-            // @ts-ignore
-            const db = event.target.result;
-            const objectStore = db.createObjectStore( tableName, {
-              keyPath: "id",
-              autoIncrement: true,
-            } );
+          // إنشاء جدول بمفتاح رئيسي auto-increment
+          const objectStore = db.createObjectStore(tableName, {
+            keyPath: "id",
+            autoIncrement: true,
+          });
 
-            columns.forEach( ( col ) =>
-            {
-              const indexName = col;
-              const isUnique = col.endsWith( "_not" );
-              objectStore.createIndex( indexName, indexName, { unique: isUnique } );
-            } );
+          // إنشاء الفهارس بناءً على مدخلات الأعمدة
+          columns.forEach(col => {
+            let name, isUnique;
 
-            console.log( `✅ [createTable] تم إنشاء جدول ${ tableName } مع الأعمدة` );
-          };
+            if (typeof col === "string") {
+              name = col;
+              isUnique = false; // القيمة الافتراضية
+            } else if (Array.isArray(col) && col.length === 2) {
+              name = col[0];
+              isUnique = col[1];
+            }
 
-          request.onsuccess = () => resolve( request.result );
-          request.onerror = () => reject( request.error );
-        } );
+            objectStore.createIndex(name, name, { unique: isUnique });
+          });
 
-        db.close();
-      }
-    } catch ( error )
-    {
-      console.error( `❌ [createTable] خطأ أثناء إنشاء الجدول ${ tableName }:`, error );
+          console.log(`✅ [createTableFlexible] تم إنشاء جدول ${tableName} بنجاح`);
+        };
+
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+
+      db.close();
     }
-  };
+  } catch (error) {
+    console.error(`❌ [createTableFlexible] خطأ أثناء إنشاء الجدول ${tableName}:`, error);
+  }
+};
+
 
   return ( async () =>
   {
@@ -402,188 +428,410 @@ function upgrade ( dbName )
   } )();
 }
 
-function data2json ( databaseName )
-{
 
-  const Ctable = async ( tableName ) =>
-  {
-    return new Promise( ( resolve, reject ) =>
-    {
-      const request = indexedDB.open( databaseName );
-      request.onsuccess = () =>
-      {
-        const db = request.result;
+/////////////////////////////////////////////////////////////////////
 
-        if ( !db.objectStoreNames.contains( tableName ) )
-        {
-          console.warn( `⚠️ [convertTableToJSON] الجدول ${ tableName } غير موجود` );
-          db.close();
-          return resolve( null );
-        }
+async function exportTableWithSchemaAndData(dbName, storeName) {
+  console.log("🔄 بدء عملية استخراج البيانات من قاعدة البيانات...");
+  
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(dbName);
 
-        const transaction = db.transaction( tableName, "readonly" );
-        const store = transaction.objectStore( tableName );
-
-        const fields = Array.from( store.indexNames );
-        if ( !fields.includes( "key" ) ) fields.push( "key" );
-        if ( !fields.includes( "value" ) ) fields.push( "value" );
-
-        const data = [];
-        const cursorRequest = store.openCursor();
-
-        cursorRequest.onsuccess = () =>
-        {
-          const cursor = cursorRequest.result;
-          if ( cursor )
-          {
-            data.push( cursor.value );
-            cursor.continue();
-          } else
-          {
-            resolve( {
-              tableName,
-              fields,
-              records: data,
-            } );
-            db.close();
-          }
-        };
-
-        cursorRequest.onerror = () =>
-        {
-          console.error( `❌ [convertTableToJSON] خطأ أثناء قراءة ${ tableName }:`, cursorRequest.error );
-          reject( cursorRequest.error );
-        };
-      };
-
-      request.onerror = () =>
-      {
-        console.error( "❌ [convertTableToJSON] خطأ في فتح قاعدة البيانات:", request.error );
-        reject( request.error );
-      };
-    } );
-  };
-
-  const Cdatabase = async () =>
-  {
-    return new Promise( ( resolve, reject ) =>
-    {
-      const request = indexedDB.open( databaseName );
-
-      request.onsuccess = async () =>
-      {
-        const db = request.result;
-        const allTables = Array.from( db.objectStoreNames );
-        db.close(); // نغلق مباشرة بعد أخذ أسماء الجداول
-
-        const tablePromises = allTables.map( Ctable );
-        const tables = ( await Promise.all( tablePromises ) ).filter( Boolean );
-
-        const jsonData = {
-          database: databaseName,
-          timestamp: new Date().toISOString(),
-          tables: tables,
-        };
-
-        resolve( jsonData );
-      };
-
-      request.onerror = () =>
-      {
-        console.error( "❌ [convertDatabaseToJSON] خطأ في فتح قاعدة البيانات:", request.error );
-        reject( request.error );
-      };
-    } );
-  };
-
-  return {
-    Ctable,
-    Cdatabase,
-  };
-
-}
-
-function json2data ( databaseName )
-{
-  const importJSON = async ( jsonData ) =>
-  {
-    if ( !jsonData || !jsonData.tables || !Array.isArray( jsonData.tables ) )
-    {
-      console.error( "❌ [json2data] البيانات غير صالحة أو غير مكتملة" );
-      return;
-    }
-
-    // تحديد النسخة الجديدة حسب عدد الجداول
-    const newVersion = indexedDB.databases
+    request.onerror = (event) => {
       // @ts-ignore
-      ? ( await indexedDB.databases() ).find( db => db.name === databaseName )?.version + 1 || 1
-      : Math.floor( Math.random() * 1000 ) + 1;
-
-    const openDB = indexedDB.open( databaseName, newVersion );
-
-    openDB.onupgradeneeded = ( event ) =>
-    {
-      // @ts-ignore
-      const db = event.target.result;
-      console.log( `📦 [json2data] جاري إنشاء قاعدة البيانات "${ databaseName }"` );
-
-      jsonData.tables.forEach( ( table ) =>
-      {
-        if ( !db.objectStoreNames.contains( table.tableName ) )
-        {
-          const store = db.createObjectStore( table.tableName, {
-            keyPath: "id",
-            autoIncrement: true,
-          } );
-
-          // إنشاء الفهارس
-          table.fields.forEach( ( field ) =>
-          {
-            if ( field !== "id" )
-            {
-              store.createIndex( field, field, {
-                unique: field === "key", // فقط المفتاح يكون فريد
-              } );
-            }
-          } );
-
-          console.log( `✅ [json2data] تم إنشاء الجدول "${ table.tableName }"` );
-        }
-      } );
+      console.error("❌ فشل في فتح قاعدة البيانات:", event.target.error);
+      reject("❌ فشل في فتح قاعدة البيانات.");
     };
 
-    openDB.onsuccess = async () =>
-    {
-      const db = openDB.result;
+    request.onsuccess = () => {
+      const db = request.result;
+      console.log(`✅ تم فتح قاعدة البيانات: ${dbName}`);
 
-      for ( const table of jsonData.tables )
-      {
-        const tx = db.transaction( table.tableName, "readwrite" );
-        const store = tx.objectStore( table.tableName );
-
-        for ( const record of table.records )
-        {
-          // حذف "id" لنجعل IndexedDB ينشئه تلقائيًا (إذا كان autoIncrement)
-          const { id, ...dataWithoutId } = record;
-          store.add( dataWithoutId );
-        }
-
-        // @ts-ignore
-        await tx.complete;
-        console.log( `📥 [json2data] تم إدخال البيانات في الجدول "${ table.tableName }"` );
+      if (!db.objectStoreNames.contains(storeName)) {
+        console.error(`❌ الجدول "${storeName}" غير موجود في قاعدة البيانات.`);
+        reject(`❌ الجدول "${storeName}" غير موجود.`);
+        return;
       }
 
+      const transaction = db.transaction(storeName, "readonly");
+      const store = transaction.objectStore(storeName);
+
+      console.log("🔄 بدء استخراج هيكل الجدول والبيانات...");
+
+      const schema = {
+        keyPath: store.keyPath,
+        autoIncrement: store.autoIncrement,
+        indexes: [],
+        columns: []
+      };
+
+      // استخراج الفهارس
+      for (let i = 0; i < store.indexNames.length; i++) {
+        const indexName = store.indexNames[i];
+        const index = store.index(indexName);
+        // @ts-ignore
+        schema.indexes.push({
+          name: index.name,
+          keyPath: index.keyPath,
+          unique: index.unique,
+          multiEntry: index.multiEntry
+        });
+      }
+
+      console.log("✅ تم استخراج الفهارس بنجاح.");
+
+      // استخراج البيانات من الجدول
+      const getAllRequest = store.getAll();
+
+      getAllRequest.onsuccess = () => {
+        const data = getAllRequest.result;
+        console.log("✅ تم استخراج البيانات بنجاح.");
+
+        // استخراج أسماء الأعمدة من أول سجل
+        if (data.length > 0) {
+          // @ts-ignore
+          schema.columns = Object.keys(data[0]).map(col => ({
+            name: col,
+            type: typeof data[0][col]
+          }));
+        }
+
+        // تحويل البيانات إلى شكل جديد مع أسماء الأعمدة
+        const formattedData = data.map(item => {
+          const newItem = {};
+          schema.columns.forEach(col => {
+            // @ts-ignore
+            newItem[col.name] = item[col.name];
+          });
+          return newItem;
+        });
+
+        // تجهيز الكائن النهائي للتصدير
+        const exportObject = {
+          database: dbName,
+          table: storeName,
+          schema: schema,
+          data: formattedData,
+          exported_at: new Date().toISOString()
+        };
+
+        console.log("✅ تم تجهيز البيانات للتصدير.");
+        resolve(exportObject);
+      };
+
+      getAllRequest.onerror = (event) => {
+        // @ts-ignore
+        console.error("❌ فشل في جلب البيانات من الجدول:", event.target.error);
+        reject("❌ فشل في جلب البيانات من الجدول.");
+      };
+    };
+  });
+}
+
+////////////////////////////////////////////////////////////////////
+
+
+/**
+ * @typedef {Object} IndexDefinition
+ * @property {string} name
+ * @property {string|string[]} keyPath
+ * @property {boolean} unique
+ * @property {boolean} multiEntry
+ *
+ * @typedef {Object} StoreSchema
+ * @property {string} keyPath
+ * @property {boolean} autoIncrement
+ * @property {IndexDefinition[]} indexes
+ * @property {{ name: string, type: string }[]} columns  // defines mapping for array-to-object entries
+ *
+ * @typedef {Object} StoreData
+ * @property {string} table
+ * @property {StoreSchema} schema
+ * @property {Array<Object>|Array<any[]>} data
+ *
+ * @typedef {Object} ImportJSON
+ * @property {string} database
+ * @property {StoreData[]} [stores]  // for multiple stores
+ * @property {string} [table]        // for single store
+ * @property {StoreSchema} [schema]  // for single store
+ * @property {Array<Object>|Array<any[]>} [data] // for single store
+ */
+
+/** Opens an IndexedDB database optionally at a specific version. */
+function openDatabase(name, version) {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(name, version);
+    request.onsuccess = () => resolve(request.result);
+    // @ts-ignore
+    request.onerror = (e) => reject(e.target.error);
+  });
+}
+
+/** Gets the names of existing object stores in a database. */
+async function getExistingStoreNames(dbName) {
+  const db = await openDatabase(dbName);
+  const names = Array.from(db.objectStoreNames);
+  db.close();
+  return names;
+}
+
+/** Determines the next version number for a database (current + 1). */
+async function getNextVersion(dbName) {
+  const db = await openDatabase(dbName);
+  const next = db.version + 1;
+  db.close();
+  return next;
+}
+
+/** Creates any missing object stores based on provided definitions. */
+async function upgradeDatabase(dbName, missingStores) {
+  if (!missingStores.length) return;
+  const newVersion = await getNextVersion(dbName);
+  await new Promise((resolve, reject) => {
+    const request = indexedDB.open(dbName, newVersion);
+    request.onupgradeneeded = (e) => {
+      // @ts-ignore
+      const db = e.target.result;
+      missingStores.forEach(store => {
+        if (!db.objectStoreNames.contains(store.table)) {
+          const os = db.createObjectStore(store.table, {
+            keyPath: store.schema.keyPath,
+            autoIncrement: store.schema.autoIncrement
+          });
+          store.schema.indexes.forEach(idx =>
+            os.createIndex(idx.name, idx.keyPath, { unique: idx.unique, multiEntry: idx.multiEntry })
+          );
+          console.log(`🔧 Created store: ${store.table}`);
+        }
+      });
+    };
+    // @ts-ignore
+    request.onsuccess = () => { request.result.close(); resolve(); };
+    // @ts-ignore
+    request.onerror = (e) => reject(e.target.error);
+  });
+}
+
+/**
+ * Imports or updates data into a specific object store.
+ * Converts array entries to objects using schema.columns mapping.
+ */
+async function importDataToStore(dbName, store) {
+  const db = await openDatabase(dbName);
+  const tx = db.transaction(store.table, 'readwrite');
+  const os = tx.objectStore(store.table);
+  const colNames = store.schema.columns.map(c => c.name);
+
+  store.data.forEach(entry => {
+    const record = Array.isArray(entry)
+      ? entry.reduce((obj, val, i) => (obj[colNames[i]] = val, obj), {})
+      : entry;
+    os.put(record);
+  });
+
+  return new Promise((resolve, reject) => {
+    // @ts-ignore
+    tx.oncomplete = () => { db.close(); resolve(); };
+    tx.onerror = (e) => { db.close(); reject(e.target.error); };
+  });
+}
+
+/**
+ * Main function: handles both single-store and multi-store JSON formats.
+ * @param {ImportJSON} json
+ */
+async function importOrUpdateFromJSON(json) {
+  console.log('📦 Starting import/update process...');
+  const dbName = json.database;
+
+  // Normalize to array of StoreData
+  const stores = json.stores
+    ? json.stores
+    : [{ table: json.table, schema: json.schema, data: json.data }];
+
+  // Determine which stores need to be created
+  const existing = await getExistingStoreNames(dbName);
+  const missing = stores.filter(s => !existing.includes(s.table));
+
+  if (missing.length) {
+    console.log(`🛠️ Upgrading DB to add ${missing.length} new store(s)...`);
+    await upgradeDatabase(dbName, missing);
+    console.log('✅ Upgrade complete.');
+  } else {
+    console.log('✅ No upgrade needed; all stores exist.');
+  }
+
+  // Import data for each store
+  for (const store of stores) {
+    console.log(`🔄 Importing data into store: ${store.table}`);
+    await importDataToStore(dbName, store);
+    console.log(`✅ Data imported for store: ${store.table}`);
+  }
+
+  console.log('🎉 All stores processed successfully!');
+}
+
+// Examples:
+// Single table:
+// importOrUpdateFromJSON({ database: 'dataBaseName', table: 'newTable', schema: {...}, data: [...], exported_at: '...' });
+// Multiple tables:
+// importOrUpdateFromJSON({ database: 'dataBaseName', stores: [ { table: 'keyTable', schema: {...}, data: [...] }, { table: 'newTable', schema: {...}, data: [...] } ] });
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+async function exportEntireDatabase(dbName) {
+  console.log("📦 بدء تصدير قاعدة البيانات بالكامل...");
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(dbName);
+
+    request.onerror = (event) => {
+      // @ts-ignore
+      console.error("❌ فشل في فتح القاعدة:", event.target.error);
+      reject("❌ فشل في فتح القاعدة.");
+    };
+
+    request.onsuccess = async () => {
+      const db = request.result;
+      const storeNames = Array.from(db.objectStoreNames);
       db.close();
-      console.log( "🎉 [json2data] تم الاستيراد بنجاح!" );
+
+      const allExports = [];
+      for (const storeName of storeNames) {
+        try {
+          const exportData = await exportTableWithSchemaAndData(dbName, storeName);
+          
+          // إزالة الحقول المكررة وإعادة هيكلة البيانات
+          const simplifiedExport = {
+            table: exportData.table,
+            schema: exportData.schema,
+            data: exportData.data
+          };
+          
+          allExports.push(simplifiedExport);
+        } catch (err) {
+          console.warn(`⚠️ تخطى الجدول "${storeName}" بسبب خطأ:`, err);
+        }
+      }
+
+      console.log("✅ تم تصدير كل الجداول بنجاح.");
+      resolve({
+        database: dbName,
+        exported_at: new Date().toISOString(),
+        stores: allExports
+      });
+    };
+  });
+}
+// @ts-ignore
+// @ts-ignore
+// @ts-ignore
+// @ts-ignore
+// @ts-ignore
+// @ts-ignore
+// @ts-ignore
+// @ts-ignore
+// @ts-ignore
+// @ts-ignore
+async function importEntireDatabase(json) {
+  /* console.log("📥 بدء استيراد قاعدة بيانات كاملة...");
+  const { database, stores } = json;
+
+  for (const store of stores) {
+    try {
+
+      // @ts-ignore
+      await importMultipleTables({
+        database: database,
+        table: store.table,
+        schema: store.schema,
+        data: store.data
+      });
+      await new Promise(resolve => setTimeout(resolve, 500)); // تأخير 100ms
+console.log((await upgrade(database)).currentVersion)
+    } catch (err) {
+      console.error(`❌ فشل في استيراد الجدول "${store.table}":`, err);
+    }
+  }
+
+  console.log("✅ تم استيراد جميع الجداول بنجاح.");
+
+ */
+}
+
+async function deleteTable(dbName, storeName) {
+  console.log(`🧹 بدء مسح الجدول "${storeName}" من القاعدة "${dbName}"...`);
+
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(dbName);
+
+    request.onerror = (event) => {
+      // @ts-ignore
+      console.error("❌ فشل في فتح القاعدة:", event.target.error);
+      reject("❌ فشل في فتح القاعدة.");
     };
 
-    openDB.onerror = () =>
-    {
-      console.error( "❌ [json2data] خطأ في فتح قاعدة البيانات:", openDB.error );
-    };
-  };
+    request.onsuccess = () => {
+      const db = request.result;
 
-  return {
-    importJSON,
-  };
+      if (!db.objectStoreNames.contains(storeName)) {
+        console.warn(`⚠️ الجدول "${storeName}" غير موجود في القاعدة.`);
+        resolve("⚠️ لا يوجد جدول للمسح.");
+        return;
+      }
+
+      const transaction = db.transaction(storeName, "readwrite");
+      const store = transaction.objectStore(storeName);
+      const clearRequest = store.clear();
+
+      clearRequest.onsuccess = () => {
+        console.log(`✅ تم مسح جميع البيانات من الجدول "${storeName}".`);
+        // @ts-ignore
+        resolve();
+      };
+
+      clearRequest.onerror = (event) => {
+        // @ts-ignore
+        console.error("❌ فشل في مسح الجدول:", event.target.error);
+        reject("❌ فشل في مسح الجدول.");
+      };
+    };
+  });
+}
+
+async function deleteDatabase(dbName) {
+  console.log(`🗑️ بدء حذف قاعدة البيانات "${dbName}"...`);
+
+  return new Promise((resolve, reject) => {
+    const deleteRequest = indexedDB.deleteDatabase(dbName);
+
+    deleteRequest.onsuccess = () => {
+      console.log(`✅ تم حذف قاعدة البيانات "${dbName}" بنجاح.`);
+      // @ts-ignore
+      resolve();
+    };
+
+    deleteRequest.onerror = (event) => {
+      // @ts-ignore
+      console.error("❌ فشل في حذف القاعدة:", event.target.error);
+      reject("❌ فشل في حذف القاعدة.");
+    };
+
+    deleteRequest.onblocked = () => {
+      console.warn("⚠️ تم حظر حذف القاعدة، تأكد من إغلاق جميع التبويبات التي تستخدمها.");
+      reject("⚠️ القاعدة قيد الاستخدام.");
+    };
+  });
 }
