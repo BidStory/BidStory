@@ -1,55 +1,63 @@
 <script src="/js/tools.js" type="text/javascript"></script>
-<script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
 <script src="/js/dataBase/dbManager.js" type="text/javascript"></script>
-
+<script src="/js/table/table.js" type="text/javascript"></script>
 <link rel="stylesheet" href="/css/table.css">
-<table TableId id="tableId">
-  <tbody>
 
-  </tbody>
-</table>
+<div id="table1"></div> <!-- مكان إضافة الجدول -->
 
 <button onclick="createNewRow()">إضافة صف</button>
-<button onclick="letsGo()"> data up date</button>
+<button onclick="deleteSelectedRow()">حزف صف</button>
+<button onclick="moveRow()">تحريك لاعلي</button>
+<button onclick="moveRow(false)">تحريك لاسفل</button>
+<button onclick="inserNewRow()">صف جديد لاعلي </button>
+<button onclick="inserNewRow(false)">صف جديد لاسفل </button>
+
 <!-- لا يمكن تغير معرف هذا الدف يجب ان يكون  -->
 <!-- <div id="inRaw"> -->
 <!--  لان عمليات النسخ تتم علية    -->
-<div DivId id="inRaw" class="divT">
+<div DivId id="RawTable1" style="display: none;" class="divT">
   <table>
     <thead>
       <tr>
         <th>العمود 1</th>
         <th>العمود 2</th>
-        <th>العمود 3</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>
-          <input class="inputT" type="text" placeholder="  ادخال من داخل الدف">
+          <input id="i1" class="inputT" type="text" placeholder="  ادخال من داخل الدف">
         </td>
         <td>
-          <input class="inputT" type="text" placeholder="  ادخال من داخل الدف">
+          <input id="i2" class="inputT" type="radio" placeholder="  ادخال من داخل الدف">
         </td>
         <td>
-          <input class="inputT" type="text" placeholder="  ادخال من داخل الدف">
+          <input id="i3" class="inputT" type="checkbox" placeholder="  ادخال من داخل الدف">
         </td>
+        <td>
+          <input id="i4" class="inputT" type="date" placeholder="  ادخال من داخل الدف">
+        </td>
+        <td>
+          <select name="colors" id="color-select">
+            <option value="">--Please choose an option--</option>
+            <option value="red">Red</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+            <option value="yellow">Yellow</option>
+          </select>
+        </td>
+        <td>
+<button id="i5">buttom</button>   
+     </td>
       </tr>
-      <tr>
-        <td>
-          <input class="inputT" type="text" placeholder="  ادخال من داخل الدف">
-        </td>
-        <td>
-          <input class="inputT" type="text" placeholder="  ادخال من داخل الدف">
-        </td>
-        <td>
-          <input class="inputT" type="text" placeholder="  ادخال من داخل الدف">
-        </td>
-      </tr>
+ 
     </tbody>
   </table>
 </div>
+<div DivId id="RawAltTable1" style="display: none;" class="divT">
+<button id="b1">زر</button>
 
+</div>
 
 
 <script>
