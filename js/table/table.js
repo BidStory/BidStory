@@ -263,9 +263,16 @@ async function createNewRow ( divId = null, index = null )
       if ( index == null )
       {
         // @ts-ignore
+        if(!await dbNoUpgrade.isTableExist(rowsTable)){
+await dbUpgrade.createKeyTable(rowsTable);
+        }
+         // @ts-ignore
         await dbNoUpgrade.keySet( rowsTable, copy.id, rawIndex );
       } else
       {
+        if(!await dbNoUpgrade.isTableExist(rowsTable)){
+          await dbUpgrade.createKeyTable(rowsTable);
+                  }
         // @ts-ignore
         await dbNoUpgrade.keySet( rowsTable, copy.id, index );
 
