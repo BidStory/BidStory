@@ -52,6 +52,8 @@ async function createTableWithId ()
 
 
 
+
+
 async function tableRawListener() {
   const table = document.getElementById(tableId);
   if (!table) return;
@@ -65,20 +67,41 @@ async function tableRawListener() {
 
     let pressTimer;
 
-    row.addEventListener('pointerdown', () => {
+    row.addEventListener('pointerdown', (e) => {
+      // ✅ تجاهل الأحداث العارضة
+      if (
+        (e.pointerType === 'touch' && !e.isPrimary) || 
+        (e.pointerType === 'mouse' && e.button !== 0)
+      ) {
+        return;
+      }
+
       pressTimer = setTimeout(async () => {
-        console.log("🖐️ تم الضغط مطولاً");
-        await handleRowSelection(row); // تحديد الصف عند الضغط المطول
+        console.log("🖐️ تم الضغط مطولاً بثبات");
+        await handleRowSelection(row);
         showCustomButtonsDialog();
       }, 500);
+
+      // ✅ إضافة مراقبة للحركة لإلغاء المؤقت عند السحب
+      row.addEventListener('pointermove', cancelPressTimer);
     });
 
-    row.addEventListener('pointerup', () => clearTimeout(pressTimer));
-    row.addEventListener('pointerleave', () => clearTimeout(pressTimer));
+    row.addEventListener('pointerup', cancelPressTimer);
+    row.addEventListener('pointerleave', cancelPressTimer);
+
+    function cancelPressTimer() {
+      clearTimeout(pressTimer);
+      row.removeEventListener('pointermove', cancelPressTimer);
+    }
   });
 
   console.log("🚨 بدأ الاستماع لنقرات الصفوف داخل الجدول.");
 }
+
+
+
+
+
 
 // ===== دوال مساعدة =====
 
@@ -387,6 +410,7 @@ async function createNewRow ( divId = null, index = null )
 // @ts-ignore
 // @ts-ignore
 // @ts-ignore
+// @ts-ignore
 async function newRawListener ( params )
 {
   await tableRawListener();
@@ -495,6 +519,7 @@ async function startWatchingAllInputsAndButtons ( target )
 
 
     // باقي الحقول: نراقب قيمها ونحدثها في القاعدة
+    // @ts-ignore
     // @ts-ignore
     // @ts-ignore
     // @ts-ignore
@@ -812,11 +837,17 @@ async function showCustomButtonsDialog() {
       backdrop: true, // خلفية سوداء خفيفة
       position: 'center', // وسط الشاشة بالضبط
       didOpen: () => {
+        // @ts-ignore
         document.getElementById('btn1')?.addEventListener('click', async () => { await moveRow(); Swal.close(); stop_ = 0; });
+        // @ts-ignore
         document.getElementById('btn2')?.addEventListener('click', async () => { await moveRow(false); Swal.close(); stop_ = 0; });
+        // @ts-ignore
         document.getElementById('btn3')?.addEventListener('click', async () => { await inserNewRow(); Swal.close(); stop_ = 0; });
+        // @ts-ignore
         document.getElementById('btn4')?.addEventListener('click', async () => { await inserNewRow(false); Swal.close(); stop_ = 0; });
+        // @ts-ignore
         document.getElementById('btn5')?.addEventListener('click', async () => { await deleteSelectedRow(); Swal.close(); stop_ = 0; });
+        // @ts-ignore
         document.getElementById('btn6')?.addEventListener('click', () => { Swal.close(); stop_ = 0; });
       }
     });
