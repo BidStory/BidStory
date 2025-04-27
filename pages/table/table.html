@@ -55,7 +55,7 @@
   </table>
 </div>
 <div DivId id="RawAltTable1" style="display: none;" class="divT">
-<button id="b1">زر</button>
+<button id="b1" class="buttonT">زر</button>
 
 </div>
 
@@ -63,9 +63,17 @@
 <script>
 
   showHead_ = "true"; // استبدل هذا بالقيمة التي تريدها (true أو false) أو استخدم القيمة الافتراضية
- 
+ // مستمع الحدث
+ document.addEventListener('rowDataChanged', (event) => {
+      const storeName = event.detail.storeName;
+      console.log(`📢 تغيير حدث في الجدول: ${storeName}`);
+      
+    });
   
-
+    document.addEventListener('clickButtonInRow', (event) => {
+      const data = event.detail.kind;
+      console.log(`📢 تم الضغط علي ${data}`);
+      
+    });
 
 </script>
-<script src="/js/table/table.js" type="text/javascript"></script>

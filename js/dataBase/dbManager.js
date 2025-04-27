@@ -77,7 +77,7 @@ function noUpgrade ( dbName )
         const request = store.put( data );
 
         // @ts-ignore
-        request.onsuccess = () => resolve();
+        request.onsuccess = () => resolve();tableChangedEvent(tableName);
         request.onerror = ( e ) => reject( e.target.error );
       } );
 
@@ -172,6 +172,7 @@ function noUpgrade ( dbName )
           deleteRequest.onsuccess = () =>
           {
             console.log( `✅ [keyDelete] تم حذف العنصر (key: ${ key }) بنجاح من ${ tableName }` );
+            tableChangedEvent(tableName);
           };
           deleteRequest.onerror = () =>
           {
@@ -710,7 +711,6 @@ async function exportTableWithSchemaAndData ( dbName, storeName )
   return new Promise( ( resolve, reject ) =>
   {
     const request = indexedDB.open( dbName );
-
     request.onerror = ( event ) =>
     {
       // @ts-ignore
@@ -721,7 +721,7 @@ async function exportTableWithSchemaAndData ( dbName, storeName )
     request.onsuccess = () =>
     {
       const db = request.result;
-      console.log( `✅ تم فتح قاعدة البيانات: ${ dbName }` );
+      console.log( "🌟📤 [openDB] تم فتح قاعدة البيانات بنجاح" );
 
       if ( !db.objectStoreNames.contains( storeName ) )
       {
@@ -796,8 +796,9 @@ async function exportTableWithSchemaAndData ( dbName, storeName )
           data: formattedData,
           exported_at: new Date().toISOString()
         };
-
-        console.log( "✅ تم تجهيز البيانات للتصدير." );
+db.close();
+console.log( "🛑📤 تم إغلاق قاعدة البيانات بنجاح" + " " + dbName );
+        console.log( "✅ تم تصدير البيانات للجدول." );
         resolve( exportObject );
       };
 
@@ -805,6 +806,9 @@ async function exportTableWithSchemaAndData ( dbName, storeName )
       {
         // @ts-ignore
         console.error( "❌ فشل في جلب البيانات من الجدول:", event.target.error );
+        db.close();
+console.log( "🛑📤 تم إغلاق قاعدة البيانات بنجاح" + " " + dbName );
+ 
         reject( "❌ فشل في جلب البيانات من الجدول." );
       };
     };
@@ -987,10 +991,11 @@ async function exportEntireDatabase ( dbName )
 
     request.onsuccess = async () =>
     {
+      console.log( "🌟🌟📤 [openDB] تم فتح قاعدة البيانات بنجاح" );
       const db = request.result;
       const storeNames = Array.from( db.objectStoreNames );
       db.close();
-
+      console.log( "🛑🛑📤 تم إغلاق قاعدة البيانات بنجاح" + " " + dbName );
       const allExports = [];
       for ( const storeName of storeNames )
       {
@@ -1033,7 +1038,7 @@ async function exportEntireDatabase ( dbName )
 // @ts-ignore
 async function importEntireDatabase ( json )
 {
-  /* console.log("📥 بدء استيراد قاعدة بيانات كاملة...");
+   console.log("📥 بدء استيراد قاعدة بيانات ...");
   const { database, stores } = json;
 
   for (const store of stores) {
@@ -1053,9 +1058,9 @@ console.log((await upgrade(database)).currentVersion)
     }
   }
 
-  console.log("✅ تم استيراد جميع الجداول بنجاح.");
+  console.log("✅ تم استيراد قاعدة البيانات.");
 
- */
+ 
 }
 
 async function deleteTable ( dbName, storeName )
@@ -1144,4 +1149,10 @@ async function deleteDatabase ( dbName )
       reject( "⚠️ القاعدة قيد الاستخدام." );
     };
   } );
+}
+
+// دالة تنشئ حدث مخصص عندما يتغير الجدول
+function tableChangedEvent(tableName) {
+  const event = new CustomEvent('rowDataChanged', { detail: { storeName: tableName } });
+  document.dispatchEvent(event);
 }

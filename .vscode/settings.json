@@ -7,5 +7,7 @@
     "editor.fontFamily": "Cascadia Code",
     "terminal.integrated.localEchoStyle": "dim",
     "terminal.integrated.fontFamily": "Courier New, Arial, Noto Naskh Arabic, Cascadia Code",
-    "liveServer.settings.mount": [["/BidStory", "./"]]
+    "liveServer.settings.mount": [
+        
+        ["/BidStory", "./"]]
 }

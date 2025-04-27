@@ -20,7 +20,7 @@ let dbUpgrade = null;
 let rowsTable = 'rows';
 
 // معرف الصف المحدد حاليًا
-let selectedRaw = "";
+let selectedRaw = null;
 
 // عدد الصفوف المضافة، يُستخدم لترتيبها
 let rawIndex = 0;
@@ -58,9 +58,9 @@ async function tableRawListener ()
 
   const rows = table.querySelectorAll( 'tr' );
 
-  rows.forEach( row =>
+  rows.forEach ( row =>
   {
-    row.addEventListener( 'click', () =>
+    row.addEventListener( 'click', async() =>
     {
 
       rows.forEach( r => r.classList.remove( 'selected' ) ); // إزالة التحديد
@@ -91,7 +91,10 @@ async function tableRawListener ()
           }
         }
       }
-
+      if(selectedRaw==row.id){
+      await stopWatchingAllInputsAndButtons();
+      await startWatchingAllInputsAndButtons(selectedRaw);
+      }
     }
 
     );
@@ -111,7 +114,7 @@ document.addEventListener( "DOMContentLoaded", async () =>
 {
   await createTableWithId();
   await loadTableDataAtStartUP( tableId );
-  await startWatchingAllInputsAndButtons();
+
 } );
 
 //#endregion
@@ -230,14 +233,13 @@ async function getInput ( rowId )
 
 //#endregion
 
-
 //#region ➕ إنشاء صف جديد في الجدول
 
 // تنشئ صف جديد فارغ أو من قاعدة البيانات حسب ما إذا كان divId مُمررًا
 async function createNewRow ( divId = null, index = null )
 {
   // index تستخدم اذا اضفت صف جديد لاعلي او لاسفل
-  console.log(index + " index --------");
+
   try
   {
     const table = document.getElementById( 't1' );
@@ -318,12 +320,12 @@ return row;
     return null;
   }
 }
-
-//#endregion
 async function newRawListener (params) {
   await tableRawListener();
-  await startWatchingAllInputsAndButtons();
+ // await startWatchingAllInputsAndButtons();
 }
+//#endregion
+
 //#region 👁️ التحكم بعرض رأس الجدول
 
 function showHeadForElement ( tableId, show = null )
@@ -369,10 +371,14 @@ let inputListeners = [];
  * 🔹 عند أي تغيير، يتم حفظ القيمة الجديدة في قاعدة البيانات (dbNoUpgrade).
  * 🔹 عند الضغط على زر، يتم طباعة [button.id, parent.id] في الكونسول.
  */
-async function startWatchingAllInputsAndButtons ()
+function clickButtonInRow(data) {
+  const event = new CustomEvent('clickButtonInRow', { detail: { kind: data } });
+  document.dispatchEvent(event);
+}
+async function startWatchingAllInputsAndButtons (target)
 {
   // الحصول على عنصر الحاوية الذي يحتوي على الجدول
-  const containerElement = document.getElementById( tableContaner );
+  const containerElement = document.getElementById( target );
 
   // التحقق من وجود العنصر، إذا لم يكن موجود نخرج من الدالة
   if ( !containerElement )
@@ -403,28 +409,14 @@ async function startWatchingAllInputsAndButtons ()
     {
       const buttonListener = () =>
       {
-        let parentRow = input.parentElement; // البداية من العنصر الأب مباشرة
-
-        // البحث عن الأب البعيد الذي يحتوي على المعرف الذي يبدأ بـ tableId وينتهي بـ "_"
-
-        while ( parentRow )
-        {
-          if ( parentRow.id.startsWith( tableId ) && parentRow.id.endsWith( "_" ) )
-          {
-            break; // إيقاف البحث بعد العثور عليه
-          }
-          parentRow = parentRow.parentElement; // الانتقال إلى الأب التالي
-        }
-        if ( parentRow )
-        {
-          // تحديد الصف الذي تم النقر عليه
-          selectedRaw = parentRow.id;
-          console.log( "✅✅ تم تحديد الصف:", selectedRaw );
+  
+          console.log( "✅✅ تم تحديد الصف من قبل زر:", target );
 
           // يمكنك الآن تنفيذ باقي العمليات بعد تحديد الصف
           const buttonId = input.id || '(no id)';
-          console.log( "🟢 تم الضغط على الزر:", [ buttonId, selectedRaw.replace( '_', '' ) ] );
-        }
+      
+          clickButtonInRow([ buttonId, target ])
+    
       };
 
       input.addEventListener( 'click', buttonListener );
@@ -537,6 +529,7 @@ function stopWatchingAllInputsAndButtons ()
 //#endregion
 
 //#region العمليات علي الصفوف
+
 async function deleteSelectedRow ()
 {
   if ( selectedRaw )
@@ -698,6 +691,11 @@ const reorderRowsTable = async ( rowsTable ) =>
     console.error( "❌ خطأ أثناء إعادة ترتيب rowsTable:", error );
   }
 };
+
+
+//#endregion
+
+//#region الاحداث
 
 
 //#endregion
