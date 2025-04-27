@@ -50,70 +50,122 @@ async function createTableWithId ()
 
 //#region 🖱️ الاستماع لاختيار صف من الجدول (تحديده وعرض تفاصيله)
 
-async function tableRawListener ()
-{
 
-  const table = document.getElementById( tableId );
-  if ( !table ) return;
 
-  const rows = table.querySelectorAll( 'tr' );
+async function tableRawListener() {
+  const table = document.getElementById(tableId);
+  if (!table) return;
 
-  rows.forEach ( row =>
-  {
-    row.addEventListener( 'click', async() =>
-    {
+  const rows = table.querySelectorAll('tr');
 
-      rows.forEach( r => r.classList.remove( 'selected' ) ); // إزالة التحديد
-      row.classList.add( 'selected' ); // تحديد الصف
-      selectedRaw = row.id;
-      console.log( '✅ تم اختيار الصف:', row.id );
+  rows.forEach(row => {
+    row.addEventListener('click', async () => {
+      await handleRowSelection(row);
+    });
 
-      // ✅ إضافة div تحت الصف المحدد مباشرة
-      if ( addAltDiv )
-      {
-        const existing = document.querySelector( '.alt-copy' );
-        if ( existing ) existing.remove();
+    let pressTimer;
 
-        const original = document.getElementById( 'RawAltTable1' );
-        if ( original )
-        {
-          const copy = original.cloneNode( true );
-          // @ts-ignore
-          copy.style.display = '';
-          // @ts-ignore
-          copy.classList.add( 'alt-copy' );
-
-          const target = document.getElementById( selectedRaw.replace( '_', '' ) );
-          if ( target )
-          {
-            // @ts-ignore
-            target.insertAdjacentElement( "afterend", copy );
-          }
-        }
-      }
-      if(selectedRaw==row.id){
-      await stopWatchingAllInputsAndButtons();
-      await startWatchingAllInputsAndButtons(selectedRaw);
-      }
-    }
-
-    );
-
-    row.addEventListener( 'dblclick', async () => 
-      {
-        console.log("from dbl click");
+    row.addEventListener('pointerdown', () => {
+      pressTimer = setTimeout(async () => {
+        console.log("🖐️ تم الضغط مطولاً");
+        await handleRowSelection(row); // تحديد الصف عند الضغط المطول
         showCustomButtonsDialog();
-      }
-  
-      );
+      }, 500);
+    });
 
+    row.addEventListener('pointerup', () => clearTimeout(pressTimer));
+    row.addEventListener('pointerleave', () => clearTimeout(pressTimer));
+  });
 
+  console.log("🚨 بدأ الاستماع لنقرات الصفوف داخل الجدول.");
+}
+
+// ===== دوال مساعدة =====
+
+async function handleRowSelection(row) {
+  const table = row.closest('table');
+  const rows = table.querySelectorAll('tr');
+
+  clearSelection(rows);
+  selectRow(row);
+
+  if (addAltDiv) {
+    await insertAltDivBelowSelected(row);
   }
 
-  );
-
-  console.log( "🚨 بدأ الاستماع لنقرات الصفوف داخل الجدول." );
+  await stopWatchingAllInputsAndButtons();
+  await startWatchingAllInputsAndButtons(row.id);
 }
+
+function clearSelection(rows) {
+  rows.forEach(r => r.classList.remove('selected'));
+}
+
+function selectRow(row) {
+  row.classList.add('selected');
+  selectedRaw = row.id;
+  console.log('✅ تم اختيار الصف:', selectedRaw);
+}
+
+async function insertAltDivBelowSelected(row) {
+  const existing = document.querySelector('.alt-copy');
+  if (existing) existing.remove();
+
+  const original = document.getElementById('RawAltTable1');
+  if (original) {
+    const copy = original.cloneNode(true);
+    // @ts-ignore
+    copy.style.display = '';
+    // @ts-ignore
+    copy.classList.add('alt-copy');
+
+    const targetId = row.id.replace(/_/g, '');
+    const target = document.getElementById(targetId);
+    if (target) {
+      // @ts-ignore
+      target.insertAdjacentElement("afterend", copy);
+    }
+  }
+}
+
+
+
+
+
+
+// ===== دوال مساعدة =====
+
+function clearSelection(rows) {
+  rows.forEach(r => r.classList.remove('selected'));
+}
+
+function selectRow(row) {
+  row.classList.add('selected');
+  selectedRaw = row.id;
+  console.log('✅ تم اختيار الصف:', selectedRaw);
+}
+
+async function insertAltDivBelowSelected(row) {
+  const existing = document.querySelector('.alt-copy');
+  if (existing) existing.remove();
+
+  const original = document.getElementById('RawAltTable1');
+  if (original) {
+    const copy = original.cloneNode(true);
+    // @ts-ignore
+    copy.style.display = '';
+    // @ts-ignore
+    copy.classList.add('alt-copy');
+
+    const targetId = row.id.replace(/_/g, '');
+    const target = document.getElementById(targetId);
+    if (target) {
+      // @ts-ignore
+      target.insertAdjacentElement("afterend", copy);
+    }
+  }
+}
+
 
 //#endregion
 
@@ -156,10 +208,10 @@ async function getAllRowsData ()
     {
       console.log( " معرف الصف " + rawId.key + "  ترتيبه  " + rawId.value );
       await createNewRow( rawId.key );
-     if(! await dbNoUpgrade.isTableExist(rawId.key ))
+      if ( ! await dbNoUpgrade.isTableExist( rawId.key ) )
       {
-      await dbUpgrade.createKeyTable( rawId.key );
-     }
+        await dbUpgrade.createKeyTable( rawId.key );
+      }
 
       await getInput( rawId.key );
     }
@@ -275,26 +327,28 @@ async function createNewRow ( divId = null, index = null )
       if ( index == null )
       {
         // @ts-ignore
-        if(!await dbNoUpgrade.isTableExist(rowsTable)){
-await dbUpgrade.createKeyTable(rowsTable);
+        if ( !await dbNoUpgrade.isTableExist( rowsTable ) )
+        {
+          await dbUpgrade.createKeyTable( rowsTable );
         }
-         // @ts-ignore
+        // @ts-ignore
         await dbNoUpgrade.keySet( rowsTable, copy.id, rawIndex );
       } else
       {
-        if(!await dbNoUpgrade.isTableExist(rowsTable)){
-          await dbUpgrade.createKeyTable(rowsTable);
-                  }
+        if ( !await dbNoUpgrade.isTableExist( rowsTable ) )
+        {
+          await dbUpgrade.createKeyTable( rowsTable );
+        }
         // @ts-ignore
         await dbNoUpgrade.keySet( rowsTable, copy.id, index );
 
       }
-       // @ts-ignore
-      if(! await dbNoUpgrade.isTableExist(copy.id ))
-        {
       // @ts-ignore
-      await dbUpgrade.createKeyTable( copy.id );
-        }
+      if ( ! await dbNoUpgrade.isTableExist( copy.id ) )
+      {
+        // @ts-ignore
+        await dbUpgrade.createKeyTable( copy.id );
+      }
     } else
     {
       // @ts-ignore
@@ -306,19 +360,19 @@ await dbUpgrade.createKeyTable(rowsTable);
     {
       rawIndex++;
     }
-   
+
     cell.appendChild( copy );
     row.appendChild( cell );
     if ( index != null )
-      {
-return row;
-      }
+    {
+      return row;
+    }
     // @ts-ignore
     const tbody = table.querySelector( 'tbody' );
     if ( !tbody ) throw new Error( "tbody not found in the table!" );
     tbody.appendChild( row );
 
-  await newRawListener();
+    await newRawListener();
 
     console.log( divId == null ? "➕  تم اضافة صف جديد وتم حفظة في القاعدة" : "✚  تم اضافة صف من القاعدة" );
 
@@ -330,9 +384,13 @@ return row;
     return null;
   }
 }
-async function newRawListener (params) {
+// @ts-ignore
+// @ts-ignore
+// @ts-ignore
+async function newRawListener ( params )
+{
   await tableRawListener();
- // await startWatchingAllInputsAndButtons();
+  // await startWatchingAllInputsAndButtons();
 }
 //#endregion
 
@@ -381,11 +439,12 @@ let inputListeners = [];
  * 🔹 عند أي تغيير، يتم حفظ القيمة الجديدة في قاعدة البيانات (dbNoUpgrade).
  * 🔹 عند الضغط على زر، يتم طباعة [button.id, parent.id] في الكونسول.
  */
-function clickButtonInRow(data) {
-  const event = new CustomEvent('clickButtonInRow', { detail: { kind: data } });
-  document.dispatchEvent(event);
+function clickButtonInRow ( data )
+{
+  const event = new CustomEvent( 'clickButtonInRow', { detail: { kind: data } } );
+  document.dispatchEvent( event );
 }
-async function startWatchingAllInputsAndButtons (target)
+async function startWatchingAllInputsAndButtons ( target )
 {
   // الحصول على عنصر الحاوية الذي يحتوي على الجدول
   const containerElement = document.getElementById( target );
@@ -419,14 +478,14 @@ async function startWatchingAllInputsAndButtons (target)
     {
       const buttonListener = () =>
       {
-  
-          console.log( "✅✅ تم تحديد الصف من قبل زر:", target );
 
-          // يمكنك الآن تنفيذ باقي العمليات بعد تحديد الصف
-          const buttonId = input.id || '(no id)';
-      
-          clickButtonInRow([ buttonId, target ])
-    
+        console.log( "✅✅ تم تحديد الصف من قبل زر:", target );
+
+        // يمكنك الآن تنفيذ باقي العمليات بعد تحديد الصف
+        const buttonId = input.id || '(no id)';
+
+        clickButtonInRow( [ buttonId, target ] );
+
       };
 
       input.addEventListener( 'click', buttonListener );
@@ -436,6 +495,9 @@ async function startWatchingAllInputsAndButtons (target)
 
 
     // باقي الحقول: نراقب قيمها ونحدثها في القاعدة
+    // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
     // @ts-ignore
     // @ts-ignore
     // @ts-ignore
@@ -553,13 +615,13 @@ async function deleteSelectedRow ()
       const row_ = selectedRaw.replace( '_', '' );
       //حذف جدول بيانات الصف
       await deleteTable( tableId, row_ );
-   
+
       //حذف الصف من جدول بيانات الصفوف
       await dbNoUpgrade.keyDelete( rowsTable, row_ );
-   
+
       //اعدة ترتيب الصفوف
       await reorderRowsTable( rowsTable );
-   
+
       // حذف الصف من الجدول في html
       row.remove();
       console.log( `🟢 تم حذف الصف: ${ selectedRaw }` );
@@ -618,41 +680,48 @@ async function moveRow ( up = true )
   }
 }
 
-async function inserNewRow(up = true) {
-  const existingRow = document.getElementById(selectedRaw);
+async function inserNewRow ( up = true )
+{
+  const existingRow = document.getElementById( selectedRaw );
 
-  const row_ = selectedRaw.replace('_', '');
+  const row_ = selectedRaw.replace( '_', '' );
   let newRaw;
-  let thisRawIndex = await dbNoUpgrade.keyGet(rowsTable, row_);
+  let thisRawIndex = await dbNoUpgrade.keyGet( rowsTable, row_ );
 
-  if (up) {
+  if ( up )
+  {
     // إنشاء صف جديد بترتيب أقل قليلاً
     // @ts-ignore
-    newRaw = await createNewRow(null, thisRawIndex - 0.5);
-  } else {
+    newRaw = await createNewRow( null, thisRawIndex - 0.5 );
+  } else
+  {
     // إنشاء صف جديد بترتيب أعلى قليلاً
-    newRaw = await createNewRow(null, thisRawIndex + 0.5);
+    newRaw = await createNewRow( null, thisRawIndex + 0.5 );
   }
 
   // إعادة ترتيب الصفوف في قاعدة البيانات
-  await reorderRowsTable(rowsTable);
+  await reorderRowsTable( rowsTable );
 
   // @ts-ignore
   const tbody = existingRow.parentNode;
 
-  if (up) {
+  if ( up )
+  {
     // إدراج الصف الجديد قبل الصف الموجود
     // @ts-ignore
-    tbody.insertBefore(newRaw, existingRow);
-  } else {
+    tbody.insertBefore( newRaw, existingRow );
+  } else
+  {
     // إدراج الصف الجديد بعد الصف الموجود
     // @ts-ignore
-    if (existingRow.nextSibling) {
+    if ( existingRow.nextSibling )
+    {
       // @ts-ignore
-      tbody.insertBefore(newRaw, existingRow.nextSibling);
-    } else {
+      tbody.insertBefore( newRaw, existingRow.nextSibling );
+    } else
+    {
       // @ts-ignore
-      tbody.appendChild(newRaw);
+      tbody.appendChild( newRaw );
     }
   }
 
@@ -712,38 +781,101 @@ const reorderRowsTable = async ( rowsTable ) =>
 
 
 
-function showCustomButtonsDialog ()
+let stop_ = 0;
+async function showCustomButtonsDialog ()
 {
-  Swal.fire( {
-    title: 'اختر عملية',
-    showDenyButton: true,
-    showCancelButton: true,
-    confirmButtonText: 'زر 1',
-    denyButtonText: `زر 2`,
-    cancelButtonText: 'إلغاء',
-    customClass: {
-      confirmButton: 'btn btn-success',
-      denyButton: 'btn btn-warning',
-      cancelButton: 'btn btn-danger'
-    }
-  } ).then( ( result ) =>
+  if ( stop_ == 0 )
   {
-    if ( result.isConfirmed )
-    {
-      // كود تنفيذ زر 1
-      console.log( '✅ تم الضغط على زر 1' );
-      alert( "نفذت الكود الخاص بزر 1!" );
-    } else if ( result.isDenied )
-    {
-      // كود تنفيذ زر 2
-      console.log( '⚡ تم الضغط على زر 2' );
-      alert( "نفذت الكود الخاص بزر 2!" );
-    } else
-    {
-      console.log( '❌ تم إلغاء العملية' );
-    }
-  } );
+    stop_ = 1;
+    // @ts-ignore
+    Swal.fire( {
+
+      html: `
+        <button id="btn1" class="buttonT">تحريك لاعلي</button>
+        <br> <br>
+        <button id="btn2" class="buttonT">تحريك لاسفل</button>
+        <br> <br>
+        <button id="btn3" class="buttonT">صف جديد لاعلي</button>
+        <br> <br>
+        <button id="btn4" class="buttonT">صف جديد لاسفل</button>
+        <br> <br>
+        <button id="btn5" class="buttonT">حذف صف</button>
+    <br> <br>
+        <button id="btn6" class="buttonT">الغاء</button>
+    `,
+      showCancelButton: false,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () =>
+      {
+        // إضافة الأحداث للأزرار
+        // @ts-ignore
+        document.getElementById( 'btn1' ).addEventListener( 'click', async () =>
+        {
+          await moveRow();
+          // @ts-ignore
+          Swal.close();
+          stop_ = 0;
+        } );
+
+        // @ts-ignore
+        document.getElementById( 'btn2' ).addEventListener( 'click', async () =>
+        {
+          await moveRow( false );
+          // @ts-ignore
+          Swal.close();
+          stop_ = 0;
+
+        } );
+
+        // @ts-ignore
+        document.getElementById( 'btn3' ).addEventListener( 'click', async () =>
+        {
+          await inserNewRow();
+          // @ts-ignore
+          Swal.close();
+          stop_ = 0;
+        } );
+
+        // @ts-ignore
+        document.getElementById( 'btn4' ).addEventListener( 'click', async () =>
+        {
+          await inserNewRow( false );
+          // @ts-ignore
+          Swal.close();
+          stop_ = 0;
+        } );
+
+        // @ts-ignore
+        document.getElementById( 'btn5' ).addEventListener( 'click', async () =>
+        {
+          await deleteSelectedRow();
+          // @ts-ignore
+          Swal.close();
+          stop_ = 0;
+        } );
+
+        // @ts-ignore
+        document.getElementById( 'btn6' ).addEventListener( 'click', async () =>
+        {
+
+          // @ts-ignore
+          Swal.close();
+          stop_ = 0;
+        } );
+
+      }
+    } );
+  }
 }
+
+
+
+
+
+
+
 
 
 //#region ⏱️ دالة تأخير بسيطة

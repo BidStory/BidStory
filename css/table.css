@@ -1,4 +1,11 @@
 
+@media (max-width: 767px) 
+{
+  .popup-dialog {
+    width: 90% !important; /* تخصيص العرض للموبايل */
+    font-size: 1.2em; /* تغيير حجم الخط */
+  }
+}
 
 /* General styling for all elements */
 .spanT,
