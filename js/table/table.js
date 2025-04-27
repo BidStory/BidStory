@@ -98,6 +98,16 @@ async function tableRawListener ()
     }
 
     );
+
+    row.addEventListener( 'dblclick', async () => 
+      {
+        console.log("from dbl click");
+        showCustomButtonsDialog();
+      }
+  
+      );
+
+
   }
 
   );
@@ -699,6 +709,42 @@ const reorderRowsTable = async ( rowsTable ) =>
 
 
 //#endregion
+
+
+
+function showCustomButtonsDialog ()
+{
+  Swal.fire( {
+    title: 'اختر عملية',
+    showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: 'زر 1',
+    denyButtonText: `زر 2`,
+    cancelButtonText: 'إلغاء',
+    customClass: {
+      confirmButton: 'btn btn-success',
+      denyButton: 'btn btn-warning',
+      cancelButton: 'btn btn-danger'
+    }
+  } ).then( ( result ) =>
+  {
+    if ( result.isConfirmed )
+    {
+      // كود تنفيذ زر 1
+      console.log( '✅ تم الضغط على زر 1' );
+      alert( "نفذت الكود الخاص بزر 1!" );
+    } else if ( result.isDenied )
+    {
+      // كود تنفيذ زر 2
+      console.log( '⚡ تم الضغط على زر 2' );
+      alert( "نفذت الكود الخاص بزر 2!" );
+    } else
+    {
+      console.log( '❌ تم إلغاء العملية' );
+    }
+  } );
+}
+
 
 //#region ⏱️ دالة تأخير بسيطة
 
