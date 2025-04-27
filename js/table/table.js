@@ -157,7 +157,7 @@ async function insertAltDivBelowSelected(row) {
     // @ts-ignore
     copy.classList.add('alt-copy');
 
-    const targetId = row.id.replace(/_/g, '');
+    const targetId = row.id.replace('_', '');
     const target = document.getElementById(targetId);
     if (target) {
       // @ts-ignore
@@ -782,93 +782,47 @@ const reorderRowsTable = async ( rowsTable ) =>
 
 
 let stop_ = 0;
-async function showCustomButtonsDialog ()
-{
-  if ( stop_ == 0 )
-  {
+async function showCustomButtonsDialog() {
+  if (stop_ === 0) {
     stop_ = 1;
     // @ts-ignore
-    Swal.fire( {
-
+    Swal.fire({
       html: `
-        <button id="btn1" class="buttonT">تحريك لاعلي</button>
-        <br> <br>
-        <button id="btn2" class="buttonT">تحريك لاسفل</button>
-        <br> <br>
-        <button id="btn3" class="buttonT">صف جديد لاعلي</button>
-        <br> <br>
-        <button id="btn4" class="buttonT">صف جديد لاسفل</button>
-        <br> <br>
-        <button id="btn5" class="buttonT">حذف صف</button>
-    <br> <br>
-        <button id="btn6" class="buttonT">الغاء</button>
-    `,
+        <div style="text-align:center;">
+          <button id="btn1" class="buttonT">تحريك لأعلى</button>
+          <br><br>
+          <button id="btn2" class="buttonT">تحريك لأسفل</button>
+          <br><br>
+          <button id="btn3" class="buttonT">صف جديد لأعلى</button>
+          <br><br>
+          <button id="btn4" class="buttonT">صف جديد لأسفل</button>
+          <br><br>
+          <button id="btn5" class="buttonT">حذف صف</button>
+          <br><br>
+          <button id="btn6" class="buttonT">إلغاء</button>
+        </div>
+      `,
+      customClass: {
+        popup: 'swal2-centered-popup'
+      },
       showCancelButton: false,
       showConfirmButton: false,
       allowOutsideClick: false,
       allowEscapeKey: false,
-      didOpen: () =>
-      {
-        // إضافة الأحداث للأزرار
-        // @ts-ignore
-        document.getElementById( 'btn1' ).addEventListener( 'click', async () =>
-        {
-          await moveRow();
-          // @ts-ignore
-          Swal.close();
-          stop_ = 0;
-        } );
-
-        // @ts-ignore
-        document.getElementById( 'btn2' ).addEventListener( 'click', async () =>
-        {
-          await moveRow( false );
-          // @ts-ignore
-          Swal.close();
-          stop_ = 0;
-
-        } );
-
-        // @ts-ignore
-        document.getElementById( 'btn3' ).addEventListener( 'click', async () =>
-        {
-          await inserNewRow();
-          // @ts-ignore
-          Swal.close();
-          stop_ = 0;
-        } );
-
-        // @ts-ignore
-        document.getElementById( 'btn4' ).addEventListener( 'click', async () =>
-        {
-          await inserNewRow( false );
-          // @ts-ignore
-          Swal.close();
-          stop_ = 0;
-        } );
-
-        // @ts-ignore
-        document.getElementById( 'btn5' ).addEventListener( 'click', async () =>
-        {
-          await deleteSelectedRow();
-          // @ts-ignore
-          Swal.close();
-          stop_ = 0;
-        } );
-
-        // @ts-ignore
-        document.getElementById( 'btn6' ).addEventListener( 'click', async () =>
-        {
-
-          // @ts-ignore
-          Swal.close();
-          stop_ = 0;
-        } );
-
+      backdrop: true, // خلفية سوداء خفيفة
+      position: 'center', // وسط الشاشة بالضبط
+      didOpen: () => {
+        document.getElementById('btn1')?.addEventListener('click', async () => { await moveRow(); Swal.close(); stop_ = 0; });
+        document.getElementById('btn2')?.addEventListener('click', async () => { await moveRow(false); Swal.close(); stop_ = 0; });
+        document.getElementById('btn3')?.addEventListener('click', async () => { await inserNewRow(); Swal.close(); stop_ = 0; });
+        document.getElementById('btn4')?.addEventListener('click', async () => { await inserNewRow(false); Swal.close(); stop_ = 0; });
+        document.getElementById('btn5')?.addEventListener('click', async () => { await deleteSelectedRow(); Swal.close(); stop_ = 0; });
+        document.getElementById('btn6')?.addEventListener('click', () => { Swal.close(); stop_ = 0; });
       }
-    } );
+    });
   }
 }
+
 
 
 
