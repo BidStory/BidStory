@@ -68,6 +68,7 @@ async function tableRawListener() {
     let pressTimer;
 
     row.addEventListener('pointerdown', (e) => {
+      // ✅ تجاهل الأحداث العارضة
       if (
         (e.pointerType === 'touch' && !e.isPrimary) || 
         (e.pointerType === 'mouse' && e.button !== 0)
@@ -77,21 +78,11 @@ async function tableRawListener() {
 
       pressTimer = setTimeout(async () => {
         console.log("🖐️ تم الضغط مطولاً بثبات");
-
-        // ✅ التحقق من حالة التكبير والتصغير
-        const scale = window.visualViewport?.scale || window.devicePixelRatio || 1;
-        if (scale !== 1) {
-          console.log("🔍 الصفحة مكبرة أو مصغرة. يتم إرجاعها للوضع الطبيعي...");
-          document.body.style.transform = "scale(1)";
-          document.body.style.transformOrigin = "0 0";
-          document.body.style.width = "100%";
-          document.body.style.height = "100%";
-        }
-
         await handleRowSelection(row);
         showCustomButtonsDialog();
       }, 500);
 
+      // ✅ إضافة مراقبة للحركة لإلغاء المؤقت عند السحب
       row.addEventListener('pointermove', cancelPressTimer);
     });
 
@@ -106,6 +97,7 @@ async function tableRawListener() {
 
   console.log("🚨 بدأ الاستماع لنقرات الصفوف داخل الجدول.");
 }
+
 
 
 
