@@ -878,12 +878,16 @@ if ( !await dbNoUpgrade.isTableExist( rowsTable ) )
   copyId=null;
 }
 
+
+
+
+
 let stop_ = 0;
 async function showCustomButtonsDialog() {
   if (stop_ === 0) {
     stop_ = 1;
-      // إرجاع الزوم للوضع الطبيعي
-      document.body.style.zoom = "100%";
+    // إرجاع التكبير إلى الحجم الطبيعي بطريقة متوافقة مع جميع المتصفحات
+    resetPageZoom();
     // @ts-ignore
     Swal.fire({
       html: `
@@ -941,6 +945,25 @@ async function showCustomButtonsDialog() {
       }
     });
   }
+}
+
+// دالة لضبط التكبير الطبيعي بطريقة تدعم جميع المتصفحات
+function resetPageZoom() {
+  const html = document.documentElement;
+  const body = document.body;
+
+  // إعادة إعدادات التحويل لأي قيمة طبيعية
+  html.style.transform = "scale(1)";
+  html.style.transformOrigin = "top left";
+  html.style.width = "100%";
+  
+  body.style.transform = "scale(1)";
+  body.style.transformOrigin = "top left";
+  body.style.width = "100%";
+
+  // إذا كانت هناك خاصية zoom مدعومة، نلغيها أيضاً
+  html.style.zoom = "100%";
+  body.style.zoom = "100%";
 }
 
 //#region ⏱️ دالة تأخير بسيطة
