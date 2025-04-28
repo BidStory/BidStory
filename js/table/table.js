@@ -804,6 +804,7 @@ const reorderRowsTable = async ( rowsTable ) =>
 
 
 //#endregion
+
 let copyId=null;
 async function copyRow()
 {
@@ -814,6 +815,7 @@ async function copyRow()
 //let jsonData=JSON.stringify( table_, null, 2 );
 await importOrUpdateFromJSON(table_);
 }
+
 async function pastRow ( up = true )
 {
   if(   copyId==null){return;}
@@ -875,10 +877,13 @@ if ( !await dbNoUpgrade.isTableExist( rowsTable ) )
   await newRawListener();
   copyId=null;
 }
+
 let stop_ = 0;
 async function showCustomButtonsDialog() {
   if (stop_ === 0) {
     stop_ = 1;
+      // إرجاع الزوم للوضع الطبيعي
+      document.body.style.zoom = "100%";
     // @ts-ignore
     Swal.fire({
       html: `
