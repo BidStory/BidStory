@@ -50,11 +50,8 @@ async function createTableWithId ()
 
 //#region 🖱️ الاستماع لاختيار صف من الجدول (تحديده وعرض تفاصيله)
 
-
-
-
-
-async function tableRawListener() {
+async function tableRawListener() 
+{
   const table = document.getElementById(tableId);
   if (!table) return;
 
@@ -94,7 +91,7 @@ async function tableRawListener() {
       row.removeEventListener('pointermove', cancelPressTimer);
     }
   });
-
+ 
   console.log("🚨 بدأ الاستماع لنقرات الصفوف داخل الجدول.");
 }
 
@@ -116,10 +113,12 @@ async function handleRowSelection(row) {
 
   if (addAltDiv) {
     await insertAltDivBelowSelected(row);
+
   }
 
   await stopWatchingAllInputsAndButtons();
   await startWatchingAllInputsAndButtons(row.id);
+  clickButton();
 }
 
 function clearSelection(rows) {
@@ -891,26 +890,33 @@ async function showCustomButtonsDialog() {
     // @ts-ignore
     Swal.fire({
       html: `
-        <div style="text-align:center;">
-          <button id="btn1" class="buttonT">تحريك لأعلى</button>
-          <br><br>
-          <button id="btn2" class="buttonT">تحريك لأسفل</button>
-          <br><br>
-          <button id="btn3" class="buttonT">صف جديد لأعلى</button>
-          <br><br>
-          <button id="btn4" class="buttonT">صف جديد لأسفل</button>
-          <br><br>
-          <button id="btn5" class="buttonT">حذف صف</button>
-          <br><br>
-          <button id="btn6" class="buttonT">إلغاء</button>
-           <br><br>
-          <button id="btn7" class="buttonT">نسخ</button>
-           <br><br>
-          <button id="btn8" class="buttonT">لصق لاعلي</button>
-           <br><br>
-          <button id="btn9" class="buttonT">لصق لاسفل</button>
-          
-        </div>
+       <div class="container">
+
+  <div class="group">
+    <button id="btn1" class="buttonT">🔼 تحريك لأعلى</button>
+    <button id="btn2" class="buttonT">🔽 تحريك لأسفل</button>
+  </div>
+
+  <div class="group">
+    <button id="btn3" class="buttonT">➕🔼 صف جديد لأعلى</button>
+    <button id="btn4" class="buttonT">➕🔽 صف جديد لأسفل</button>
+  </div>
+
+  <div class="group">
+    <button id="btn7" class="buttonT">📄 نسخ</button>
+    <button id="btn8" class="buttonT">📥🔼 لصق لأعلى</button>
+    <button id="btn9" class="buttonT">📥🔽 لصق لأسفل</button>
+  </div>
+
+  <div class="group">
+    <button id="btn5" class="buttonT">🗑️ حذف صف</button>
+  </div>
+
+  <div class="group">
+    <button id="btn6" class="buttonT">❎ إلغاء</button>
+  </div>
+
+</div>
       `,
       customClass: {
         popup: 'swal2-centered-popup'

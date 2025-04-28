@@ -56,3 +56,18 @@ function CID(pattern = IDPattern.MIXED2_NUMS2, fixed = "") {
   CID(IDPattern.CHAR1_TIME); // مثال على الاستخدام
   CID(IDPattern.MIXED2_NUMS2); // مثال على الاستخدام
   */
+
+
+function clickButton(){
+document.querySelectorAll('.buttonT').forEach(button => {
+  button.addEventListener('click', () => {
+    button.classList.add('clicked');
+console.log(button.id+"hhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+    // إزالة الكلاس بعد انتهاء الأنيميشن
+    setTimeout(() => {
+      button.classList.remove('clicked');
+    }, 500); // نفس مدة الأنيميشن
+  });
+});
+}
+//clickButton();
