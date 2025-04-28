@@ -266,7 +266,7 @@ async function getInput ( rowId )
   // التحقق من وجود العنصر
   if ( !containerElement )
   {
-    console.error( "❌ لم يتم توفير عنصر الحاوية (containerElement)." );
+    console.error( "❌ لم يتم توفير عنصر الحاوية (getInput)." );
     return;
   }
 
@@ -326,7 +326,7 @@ async function getInput ( rowId )
 async function createNewRow ( divId = null, index = null )
 {
   // index تستخدم اذا اضفت صف جديد لاعلي او لاسفل
-
+//divId عند تحميل الصفحة حيث كل شي موجود
   try
   {
     const table = document.getElementById( 't1' );
@@ -381,10 +381,9 @@ async function createNewRow ( divId = null, index = null )
       // @ts-ignore
       row.id = copy.id + '_';
     }
-    if ( index == null )
-    {
+  
       rawIndex++;
-    }
+    
 
     cell.appendChild( copy );
     row.appendChild( cell );
@@ -478,7 +477,7 @@ async function startWatchingAllInputsAndButtons ( target )
   // التحقق من وجود العنصر، إذا لم يكن موجود نخرج من الدالة
   if ( !containerElement )
   {
-    console.error( "❌ لم يتم توفير عنصر الحاوية (containerElement)." );
+    console.error( "❌ لم يتم توفير عنصر الحاوية (Watching)." );
     return;
   }
 
@@ -805,9 +804,77 @@ const reorderRowsTable = async ( rowsTable ) =>
 
 
 //#endregion
+let copyId=null;
+async function copyRow()
+{
+  let table_=await exportTableWithSchemaAndData(tableId,selectedRaw.replace('_',''))
+   // @ts-ignore
+   copyId=CID(IDPattern.MIXED4_TIME, tableId );
+  table_.table = copyId;
+//let jsonData=JSON.stringify( table_, null, 2 );
+await importOrUpdateFromJSON(table_);
+}
+async function pastRow ( up = true )
+{
+  if(   copyId==null){return;}
+  const existingRow = document.getElementById( selectedRaw );
+
+  const row_ = selectedRaw.replace( '_', '' );
+  let newRaw;
+  let thisRawIndex = await dbNoUpgrade.keyGet( rowsTable, row_ );
+
+  if ( up )
+  {
+    // إنشاء صف جديد بترتيب أقل قليلاً
+    // @ts-ignore
+    thisRawIndex= thisRawIndex - 0.5 ;
+  } else
+  {
+    // إنشاء صف جديد بترتيب أعلى قليلاً
+       // @ts-ignore
+       thisRawIndex= thisRawIndex + 0.5 ;
+  }
 
 
+// @ts-ignore
+if ( !await dbNoUpgrade.isTableExist( rowsTable ) )
+  {
+    await dbUpgrade.createKeyTable( rowsTable );
+  }
+  // @ts-ignore
+  await dbNoUpgrade.keySet( rowsTable, copyId, thisRawIndex );
 
+
+  // إعادة ترتيب الصفوف في قاعدة البيانات
+  await reorderRowsTable( rowsTable );
+  newRaw = await createNewRow( copyId);
+  // @ts-ignore
+  const tbody = existingRow.parentNode;
+
+  if ( up )
+  {
+    // إدراج الصف الجديد قبل الصف الموجود
+    // @ts-ignore
+    tbody.insertBefore( newRaw, existingRow );
+  } else
+  {
+    // إدراج الصف الجديد بعد الصف الموجود
+    // @ts-ignore
+    if ( existingRow.nextSibling )
+    {
+      // @ts-ignore
+      tbody.insertBefore( newRaw, existingRow.nextSibling );
+    } else
+    {
+      // @ts-ignore
+      tbody.appendChild( newRaw );
+    }
+  }
+  
+  await getInput( copyId );
+  await newRawListener();
+  copyId=null;
+}
 let stop_ = 0;
 async function showCustomButtonsDialog() {
   if (stop_ === 0) {
@@ -827,6 +894,13 @@ async function showCustomButtonsDialog() {
           <button id="btn5" class="buttonT">حذف صف</button>
           <br><br>
           <button id="btn6" class="buttonT">إلغاء</button>
+           <br><br>
+          <button id="btn7" class="buttonT">نسخ</button>
+           <br><br>
+          <button id="btn8" class="buttonT">لصق لاعلي</button>
+           <br><br>
+          <button id="btn9" class="buttonT">لصق لاسفل</button>
+          
         </div>
       `,
       customClass: {
@@ -851,19 +925,18 @@ async function showCustomButtonsDialog() {
         document.getElementById('btn5')?.addEventListener('click', async () => { await deleteSelectedRow(); Swal.close(); stop_ = 0; });
         // @ts-ignore
         document.getElementById('btn6')?.addEventListener('click', () => { Swal.close(); stop_ = 0; });
+         // @ts-ignore
+         document.getElementById('btn7')?.addEventListener('click', async () => { await copyRow(); Swal.close(); stop_ = 0; });
+         // @ts-ignore
+         document.getElementById('btn8')?.addEventListener('click', async () => { await pastRow(); Swal.close(); stop_ = 0; });
+         // @ts-ignore
+         document.getElementById('btn9')?.addEventListener('click', async () => { await pastRow(false); Swal.close(); stop_ = 0; });
+   
+   
       }
     });
   }
 }
-
-
-
-
-
-
-
-
-
 
 //#region ⏱️ دالة تأخير بسيطة
 

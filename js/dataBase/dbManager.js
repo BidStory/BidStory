@@ -726,6 +726,9 @@ async function exportTableWithSchemaAndData ( dbName, storeName )
       if ( !db.objectStoreNames.contains( storeName ) )
       {
         console.error( `❌ الجدول "${ storeName }" غير موجود في قاعدة البيانات.` );
+        db.close();
+        console.log( "🛑📤 تم إغلاق قاعدة البيانات بنجاح" + " " + dbName );
+         
         reject( `❌ الجدول "${ storeName }" غير موجود.` );
         return;
       }
