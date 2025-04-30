@@ -1,12 +1,61 @@
+/* Theme Colors */
+:root {
+  --background-color: #F9FAFB;
+  --primary-color: #1D4ED8;
+  --secondary-color: #6D28D9;
+  --success-color: #10B981;
+  --warning-color: #F59E0B;
+  --error-color: #EF4444;
+  --text-color: #374151;
+  --text-light-color: #9CA3AF;
+  --card-background: #FFFFFF;
+  --border-color: #E5E7EB;
+  --shadow-color: rgba(0, 0, 0, 0.05);
+}
+/* Body Style */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
-@media (max-width: 767px) 
-{
-  .popup-dialog {
-    width: 90% !important; /* تخصيص العرض للموبايل */
-    font-size: 1.2em; /* تغيير حجم الخط */
+
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .buttonT {
+    font-size: 14px;
+    padding: 10px 8px;
+  }
+  .toast {
+    bottom: 20px;
+    right: 20px;
+    font-size: 14px;
   }
 }
 
+/* Toast Style */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #323232;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-size: 16px;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.5s ease;
+  z-index: 1000;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 /* General styling for all elements */
 .spanT,
 .canvasT,
@@ -22,8 +71,8 @@
 .cellT,
 .rowT{
   font-family: "Arial", sans-serif;
-  color: #333333;
-  border: 1px solid #cccccc;
+  color: white;
+  border: 1px solid #020000;
   box-sizing: border-box;
 }
 
@@ -31,31 +80,24 @@
 .spanT {
   display: inline-block;
   padding: 2px 4px;
-  background-color: #f8f9fa;
 }
 
 /* Canvas styling */
 .canvasT {
-  background-color: #ffffff;
   border: 2px solid #6c757d;
   margin: 5px 0;
 }
 
 /* Audio player styling */
 .audioT {
-  width: 100%;
-  max-width: 400px;
-  background-color: #f1f3f4;
+  
   padding: 10px;
   border-radius: 5px;
 }
 
 /* Video player styling */
 .videoT {
-  width: 100%;
-  max-width: 600px;
-  background-color: #000000;
-  border: 3px solid #495057;
+
 }
 
 /* Image styling */
@@ -104,23 +146,79 @@
 }
 
 /* Button styling */
+/* Container (Box) Style */
+.container {
+  background: var(--card-background);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 15px var(--shadow-color);
+}
+
+/* Button General Style */
 .buttonT {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  padding: 12px 20px;
   font-size: 16px;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  flex: 1;
+  background-color: #007BFF; /* مثال على لون */
+}
+
+/* إضافة كلاس خاص بالضغط */
+.buttonT.clicked {
+  animation: buttonClickAnimation 0.5s forwards;
+}
+
+/* تعريف الأنيميشن */
+@keyframes buttonClickAnimation {
+  0% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  80% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+/* Button Types */
+.button-primary {
+  background-color: var(--primary-color);
+}
+
+.button-secondary {
+  background-color: var(--secondary-color);
+}
+
+.button-success {
+  background-color: var(--success-color);
+}
+
+.button-warning {
+  background-color: var(--warning-color);
+}
+
+.button-error {
+  background-color: var(--error-color);
 }
 
 /* Input field styling */
 .inputT {
   padding: 8px 12px;
-  border: 1px solid #ced4da;
   border-radius: 4px;
-  width: 100%;
   max-width: 300px;
+  color: black;
 }
 
 /* Table cell styling */
@@ -135,9 +233,16 @@
 .row {
   background-color: #f8f9fa;
 }
+/* Table row styling */
 
-.myTableT {
+.tableT {
   width: 100%;
   border-collapse: collapse;
   margin: 15px 0;
+}
+.group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
