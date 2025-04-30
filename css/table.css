@@ -1,27 +1,40 @@
 /* Theme Colors */
 :root {
-  --background-color: #F9FAFB;
-  --primary-color: #1D4ED8;
-  --secondary-color: #6D28D9;
-  --success-color: #10B981;
-  --warning-color: #F59E0B;
-  --error-color: #EF4444;
+  --background-color: #f9fafb;
+  --primary-color: #1d4ed8;
+  --secondary-color: #6d28d9;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
   --text-color: #374151;
-  --text-light-color: #9CA3AF;
-  --card-background: #FFFFFF;
-  --border-color: #E5E7EB;
+  --text-light-color: #9ca3af;
+  --card-background: #ffffff;
+  --border-color: #e5e7eb;
   --shadow-color: rgba(0, 0, 0, 0.05);
 }
 /* Body Style */
 body {
   background-color: var(--background-color);
   color: var(--text-color);
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   margin: 0;
   padding: 0;
 }
-
-
+/*هامة جدا لاظهار واخفاء النصوص في راس العمدان*/
+thead.hide-text th {
+  color: transparent;
+  height: 1px; /* تعيين الارتفاع */
+  padding: 0px;
+    line-height: 1px; /* ضبط ارتفاع السطر ليتماشى مع الارتفاع */
+  overflow: hidden; /* إخفاء أي محتوى زائد */
+}
+thead.show-text th {
+  color: black;
+  padding: 0px;
+  padding-bottom: 6px;
+  border: none;
+  border-bottom: 1px solid black;
+}
 
 /* Responsive Adjustments */
 @media (max-width: 600px) {
@@ -69,7 +82,7 @@ body {
 .buttonT,
 .inputT,
 .cellT,
-.rowT{
+.rowT {
   font-family: "Arial", sans-serif;
   color: white;
   border: 1px solid #020000;
@@ -90,14 +103,12 @@ body {
 
 /* Audio player styling */
 .audioT {
-  
   padding: 10px;
   border-radius: 5px;
 }
 
 /* Video player styling */
 .videoT {
-
 }
 
 /* Image styling */
@@ -164,7 +175,7 @@ body {
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
   flex: 1;
-  background-color: #007BFF; /* مثال على لون */
+  background-color: #007bff; /* مثال على لون */
 }
 
 /* إضافة كلاس خاص بالضغط */
@@ -190,7 +201,6 @@ body {
     transform: scale(1);
   }
 }
-
 
 /* Button Types */
 .button-primary {

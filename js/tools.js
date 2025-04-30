@@ -62,7 +62,6 @@ function clickButton(){
 document.querySelectorAll('.buttonT').forEach(button => {
   button.addEventListener('click', () => {
     button.classList.add('clicked');
-console.log(button.id+"hhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
     // إزالة الكلاس بعد انتهاء الأنيميشن
     setTimeout(() => {
       button.classList.remove('clicked');
