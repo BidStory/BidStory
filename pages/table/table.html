@@ -1,25 +1,15 @@
-<script src="/BidStory/js/tools.js" ></script>
+<script src="/BidStory/js/tools.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="/BidStory/js/dataBase/dbManager.js" ></script>
+<script src="/BidStory/js/dataBase/dbManager.js"></script>
 <script src="/BidStory/js/table/table.js"></script>
 <link rel="stylesheet" href="/BidStory/css/table.css">
 
-<div id="table1"></div> <!-- مكان إضافة الجدول -->
+<div id="table2"></div> <!-- مكان إضافة الجدول -->
 
 <button onclick="createNewRow()">إضافة صف</button>
-<button onclick="deleteSelectedRow()">حذف صف</button>
-<button onclick="moveRow()">تحريك لاعلي</button>
-<button onclick="moveRow(false)">تحريك لاسفل</button>
-<button onclick="inserNewRow()">صف جديد لاعلي </button>
-<button onclick="inserNewRow(false)">صف جديد لاسفل </button>
-<button onclick="copyRow()">  نسخ صف </button>
 
-<button onclick="pastNewRow()">  لصق صف لاعلي </button>
-<button onclick="pastNewRow(false)">  لصق صف لاسفل </button>
-<!-- لا يمكن تغير معرف هذا الدف يجب ان يكون  -->
-<!-- <div id="inRaw"> -->
-<!--  لان عمليات النسخ تتم علية    -->
-<div DivId id="RawTable1" style="display: none;" class="divT">
+
+<div DivId id="RawTable" style="display: none;" class="divT">
   <table>
     <thead>
       <tr>
@@ -51,33 +41,33 @@
           </select>
         </td>
         <td>
-<button id="i5" class="buttonT">buttom</button>   
-     </td>
+          <button id="i5" class="buttonT">buttom</button>
+        </td>
       </tr>
- 
+
     </tbody>
   </table>
 </div>
-<div DivId id="RawAltTable1" style="display: none;" class="divT">
-<button id="b1" class="buttonT">زر</button>
+
+<div DivId id="RawAltTable" style="display: none;" class="divT">
+  <button id="b1" class="buttonT">زر</button>
 
 </div>
 
-
 <script>
 
-  showHead_ = "true"; // استبدل هذا بالقيمة التي تريدها (true أو false) أو استخدم القيمة الافتراضية
- // مستمع الحدث
- document.addEventListener('rowDataChanged', (event) => {
-      const storeName = event.detail.storeName;
-      console.log(`📢 تغيير حدث في الجدول: ${storeName}`);
-      
-    });
-  
-    document.addEventListener('clickButtonInRow', (event) => {
-      const data = event.detail.kind;
-      console.log(`📢 تم الضغط علي ${data}`);
-      
-    });
+setTableParameter('table2','table','RawTable','RawAltTable',true,true);
+  // مستمع الحدث
+  document.addEventListener( 'tableDataChanged', ( event ) =>
+  {
+    const storeName = event.detail.storeName;
+    console.log( `📢 تغيير في بيانات الجدول: ${ storeName }` );
+  } );
+
+  document.addEventListener( 'clickButtonInRow', ( event ) =>
+  {
+    const data = event.detail.kind;
+    console.log( `📢 تم الضغط علي ${ data }` );
+  } );
 
 </script>

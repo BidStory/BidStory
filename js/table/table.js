@@ -1,23 +1,35 @@
+function setTableParameter(tableContaner,tableIdAndDataBaseName,divId2Copy,altDivId2copy,isShowHead,isAddAltDiv)
+{
+  tableContaner_=tableContaner;
+  showHead=isShowHead;
+  tableId=tableIdAndDataBaseName;
+  divId2Copy_=divId2Copy;
+  altDivId2Copy_=altDivId2copy;
+  isAddAltDiv_=isAddAltDiv;
+}
 //#region 🧩 إعداد المتغيرات العامة والتهيئة
 
 // المعرف الخاص بمكان إنشاء الجدول داخل الصفحة
-let tableContaner = "table1";
+let tableContaner_ = "";
 
 // خيار عرض رأس الجدول (true أو false أو فارغ)
-let showHead_ = "";
+let showHead = false;
 
 // معرف الجدول الذي سيتم إنشاؤه وهو ايضا اسم قاعدة البيانات
-let tableId = "t1";
+let tableId = "";
 
 // معرف العنصر الذي يحتوي على النموذج الأساسي للصف (div جاهز يُنسخ منه)
-let divId2Copy = "RawTable1";
+let divId2Copy_ = "";
+//معرف العنصر الذي سوف يظهر تحت الصف في حاله الغط علية كليك
+let altDivId2Copy_='';
+
+// اسم الجدول المستخدم لحفظ بيانات الصفوف
+let rowsTable = 'rows';
 
 // قواعد البيانات (قراءة فقط / مع إمكانية الترقية)
 let dbNoUpgrade = null;
 let dbUpgrade = null;
 
-// اسم الجدول المستخدم لحفظ بيانات الصفوف
-let rowsTable = 'rows';
 
 // معرف الصف المحدد حاليًا
 let selectedRaw = null;
@@ -26,7 +38,7 @@ let selectedRaw = null;
 let rawIndex = 0;
 
 // عند تفعيل هذا الخيار، يتم إضافة div تحت الصف عند النقر عليه
-let addAltDiv = true;
+let isAddAltDiv_ = true;
 
 //#endregion
 
@@ -35,7 +47,7 @@ let addAltDiv = true;
 // تنشئ جدول فارغ داخل عنصر باستخدام tableId المحدد مسبقًا
 async function createTableWithId ()
 {
-  const contaner = document.getElementById( tableContaner );
+  const contaner = document.getElementById( tableContaner_ );
   const table = document.createElement( 'table' );
   table.id = tableId;
 
@@ -50,49 +62,55 @@ async function createTableWithId ()
 
 //#region 🖱️ الاستماع لاختيار صف من الجدول (تحديده وعرض تفاصيله)
 
-async function tableRawListener() 
+async function tableRawListener () 
 {
-  const table = document.getElementById(tableId);
-  if (!table) return;
+  const table = document.getElementById( tableId );
+  if ( !table ) return;
 
-  const rows = table.querySelectorAll('tr');
+  const rows = table.querySelectorAll( 'tr' );
 
-  rows.forEach(row => {
-    row.addEventListener('click', async () => {
-      await handleRowSelection(row);
-    });
+  rows.forEach( row =>
+  {
+    row.addEventListener( 'click', async () =>
+    {
+      await handleRowSelection( row );
+    } );
 
     let pressTimer;
 
-    row.addEventListener('pointerdown', (e) => {
+    row.addEventListener( 'pointerdown', ( e ) =>
+    {
       // ✅ تجاهل الأحداث العارضة
       if (
-        (e.pointerType === 'touch' && !e.isPrimary) || 
-        (e.pointerType === 'mouse' && e.button !== 0)
-      ) {
+        ( e.pointerType === 'touch' && !e.isPrimary ) ||
+        ( e.pointerType === 'mouse' && e.button !== 0 )
+      )
+      {
         return;
       }
 
-      pressTimer = setTimeout(async () => {
-        console.log("🖐️ تم الضغط مطولاً بثبات");
-        await handleRowSelection(row);
+      pressTimer = setTimeout( async () =>
+      {
+        console.log( "🖐️ تم الضغط مطولاً بثبات" );
+        await handleRowSelection( row );
         showCustomButtonsDialog();
-      }, 500);
+      }, 500 );
 
       // ✅ إضافة مراقبة للحركة لإلغاء المؤقت عند السحب
-      row.addEventListener('pointermove', cancelPressTimer);
-    });
+      row.addEventListener( 'pointermove', cancelPressTimer );
+    } );
 
-    row.addEventListener('pointerup', cancelPressTimer);
-    row.addEventListener('pointerleave', cancelPressTimer);
+    row.addEventListener( 'pointerup', cancelPressTimer );
+    row.addEventListener( 'pointerleave', cancelPressTimer );
 
-    function cancelPressTimer() {
-      clearTimeout(pressTimer);
-      row.removeEventListener('pointermove', cancelPressTimer);
+    function cancelPressTimer ()
+    {
+      clearTimeout( pressTimer );
+      row.removeEventListener( 'pointermove', cancelPressTimer );
     }
-  });
- 
-  console.log("🚨 بدأ الاستماع لنقرات الصفوف داخل الجدول.");
+  } );
+
+  console.log( "🚨 بدأ الاستماع لنقرات الصفوف داخل الجدول." );
 }
 
 
@@ -104,50 +122,57 @@ async function tableRawListener()
 
 // ===== دوال مساعدة =====
 
-async function handleRowSelection(row) {
-  const table = row.closest('table');
-  const rows = table.querySelectorAll('tr');
+async function handleRowSelection ( row )
+{
+  const table = row.closest( 'table' );
+  const rows = table.querySelectorAll( 'tr' );
 
-  clearSelection(rows);
-  selectRow(row);
+  clearSelection( rows );
+  selectRow( row );
 
-  if (addAltDiv) {
-    await insertAltDivBelowSelected(row);
+  if ( isAddAltDiv_ )
+  {
+    await insertAltDivBelowSelected( row );
 
   }
 
   await stopWatchingAllInputsAndButtons();
-  await startWatchingAllInputsAndButtons(row.id);
+  await startWatchingAllInputsAndButtons( row.id );
   clickButton();
 }
 
-function clearSelection(rows) {
-  rows.forEach(r => r.classList.remove('selected'));
+function clearSelection ( rows )
+{
+  rows.forEach( r => r.classList.remove( 'selected' ) );
 }
 
-function selectRow(row) {
-  row.classList.add('selected');
+function selectRow ( row )
+{
+  row.classList.add( 'selected' );
   selectedRaw = row.id;
-  console.log('✅ تم اختيار الصف:', selectedRaw);
+  console.log( '✅ تم اختيار الصف:', selectedRaw );
 }
 
-async function insertAltDivBelowSelected(row) {
-  const existing = document.querySelector('.alt-copy');
-  if (existing) existing.remove();
+async function insertAltDivBelowSelected ( row )
+{
+  const existing = document.querySelector( '.alt-copy' );
+  if ( existing ) existing.remove();
 
-  const original = document.getElementById('RawAltTable1');
-  if (original) {
-    const copy = original.cloneNode(true);
+  const original = document.getElementById( altDivId2Copy_ );
+  if ( original )
+  {
+    const copy = original.cloneNode( true );
     // @ts-ignore
     copy.style.display = '';
     // @ts-ignore
-    copy.classList.add('alt-copy');
+    copy.classList.add( 'alt-copy' );
 
-    const targetId = row.id.replace(/_/g, '');
-    const target = document.getElementById(targetId);
-    if (target) {
+    const targetId = row.id.replace( /_/g, '' );
+    const target = document.getElementById( targetId );
+    if ( target )
+    {
       // @ts-ignore
-      target.insertAdjacentElement("afterend", copy);
+      target.insertAdjacentElement( "afterend", copy );
     }
   }
 }
@@ -159,36 +184,18 @@ async function insertAltDivBelowSelected(row) {
 
 // ===== دوال مساعدة =====
 
-function clearSelection(rows) {
-  rows.forEach(r => r.classList.remove('selected'));
+function clearSelection ( rows )
+{
+  rows.forEach( r => r.classList.remove( 'selected' ) );
 }
 
-function selectRow(row) {
-  row.classList.add('selected');
+function selectRow ( row )
+{
+  row.classList.add( 'selected' );
   selectedRaw = row.id;
-  console.log('✅ تم اختيار الصف:', selectedRaw);
+  console.log( '✅ تم اختيار الصف:', selectedRaw );
 }
 
-async function insertAltDivBelowSelected(row) {
-  const existing = document.querySelector('.alt-copy');
-  if (existing) existing.remove();
-
-  const original = document.getElementById('RawAltTable1');
-  if (original) {
-    const copy = original.cloneNode(true);
-    // @ts-ignore
-    copy.style.display = '';
-    // @ts-ignore
-    copy.classList.add('alt-copy');
-
-    const targetId = row.id.replace('_', '');
-    const target = document.getElementById(targetId);
-    if (target) {
-      // @ts-ignore
-      target.insertAdjacentElement("afterend", copy);
-    }
-  }
-}
 
 
 //#endregion
@@ -226,10 +233,11 @@ async function getAllRowsData ()
   if ( data )
   {
     const sortedRaws = data.sort( ( a, b ) => a.value - b.value );
-    console.log( "الصفوف المحفوظة بالقاعدة مرتبة" );
+    console.log( "تم جلب الصفوف المحفوظة بالقاعدة مرتبة" );
 
     for ( const rawId of sortedRaws )
     {
+
       console.log( " معرف الصف " + rawId.key + "  ترتيبه  " + rawId.value );
       await createNewRow( rawId.key );
       if ( ! await dbNoUpgrade.isTableExist( rawId.key ) )
@@ -238,6 +246,11 @@ async function getAllRowsData ()
       }
 
       await getInput( rawId.key );
+      if ( rawId == sortedRaws[ 0 ] )
+      {
+        hideTableHeadInsideElement( rawId.key, showHead );
+
+      }
     }
   }
 }
@@ -325,10 +338,10 @@ async function getInput ( rowId )
 async function createNewRow ( divId = null, index = null )
 {
   // index تستخدم اذا اضفت صف جديد لاعلي او لاسفل
-//divId عند تحميل الصفحة حيث كل شي موجود
+  //divId عند تحميل الصفحة حيث كل شي موجود
   try
   {
-    const table = document.getElementById( 't1' );
+    const table = document.getElementById( tableId);
 
     const row = document.createElement( "tr" );
     row.className = "rowT";
@@ -336,7 +349,7 @@ async function createNewRow ( divId = null, index = null )
     const cell = document.createElement( "td" );
     cell.className = "cellT";
 
-    const original = document.getElementById( divId2Copy );
+    const original = document.getElementById( divId2Copy_ );
     // @ts-ignore
     const copy = original.cloneNode( true );
     // @ts-ignore
@@ -380,9 +393,9 @@ async function createNewRow ( divId = null, index = null )
       // @ts-ignore
       row.id = copy.id + '_';
     }
-  
-      rawIndex++;
-    
+
+    rawIndex++;
+
 
     cell.appendChild( copy );
     row.appendChild( cell );
@@ -419,25 +432,31 @@ async function newRawListener ( params )
 //#endregion
 
 //#region 👁️ التحكم بعرض رأس الجدول
-
-function showHeadForElement ( tableId, show = null )
+function hideTableHeadInsideElement ( elementId, showHead_ = false )
 {
-  const table = document.getElementById( tableId );
-  // @ts-ignore
-  const thead = table.querySelector( "thead" );
+  console.log(elementId+showHead_+" uuuuuuuuuuyyyyyyyyyyyyyyyyyyyuu");
+  const container = document.getElementById( elementId );
+  if ( !container )
+  {
+    console.warn( `❗️العنصر بالمعرف "${ elementId }" غير موجود.` );
+    return;
+  }
 
-  if ( show === true )
+  const table = container.querySelector( 'table' );
+  if ( !table )
   {
-    // @ts-ignore
-    thead.style.display = "";
-  } else if ( show === false )
+    console.warn( `❗️لم يتم العثور على جدول داخل العنصر "${ elementId }".` );
+    return;
+  }
+
+  const thead = table.querySelector( 'thead' );
+  if ( thead )
   {
-    // @ts-ignore
-    thead.style.display = "none";
+    thead.style.display = showHead_ ? '' : 'none';
+    console.log( `✅ <thead> داخل الجدول في العنصر "${ elementId }" ${ showHead_ ? 'تم إظهاره' : 'تم إخفاؤه' }.` );
   } else
   {
-    // @ts-ignore
-    thead.style.display = thead.style.display === "none" ? "" : "none";
+    console.warn( `❗️لا يوجد <thead> داخل الجدول في العنصر "${ elementId }".` );
   }
 }
 
@@ -568,7 +587,7 @@ async function startWatchingAllInputsAndButtons ( target )
   } );
 
   // طباعة رسالة توضح أن المراقبة بدأت
-  console.log( "🚨 بدأ مراقبة جميع الحقول والأزرار داخل: " + tableContaner );
+  console.log( "🚨 بدأ مراقبة جميع الحقول والأزرار داخل: " + tableContaner_ );
 }
 //#region 🛑 stopWatchingAllInputsAndButtons: إيقاف مراقبة جميع الحقول والأزرار
 
@@ -804,20 +823,20 @@ const reorderRowsTable = async ( rowsTable ) =>
 
 //#endregion
 
-let copyId=null;
-async function copyRow()
+let copyId = null;
+async function copyRow ()
 {
-  let table_=await exportTableWithSchemaAndData(tableId,selectedRaw.replace('_',''))
-   // @ts-ignore
-   copyId=CID(IDPattern.MIXED4_TIME, tableId );
+  let table_ = await exportTableWithSchemaAndData( tableId, selectedRaw.replace( '_', '' ) );
+  // @ts-ignore
+  copyId = CID( IDPattern.MIXED4_TIME, tableId );
   table_.table = copyId;
-//let jsonData=JSON.stringify( table_, null, 2 );
-await importOrUpdateFromJSON(table_);
+  //let jsonData=JSON.stringify( table_, null, 2 );
+  await importOrUpdateFromJSON( table_ );
 }
 
 async function pastRow ( up = true )
 {
-  if(   copyId==null){return;}
+  if ( copyId == null ) { return; }
   const existingRow = document.getElementById( selectedRaw );
 
   const row_ = selectedRaw.replace( '_', '' );
@@ -828,17 +847,17 @@ async function pastRow ( up = true )
   {
     // إنشاء صف جديد بترتيب أقل قليلاً
     // @ts-ignore
-    thisRawIndex= thisRawIndex - 0.5 ;
+    thisRawIndex = thisRawIndex - 0.5;
   } else
   {
     // إنشاء صف جديد بترتيب أعلى قليلاً
-       // @ts-ignore
-       thisRawIndex= thisRawIndex + 0.5 ;
+    // @ts-ignore
+    thisRawIndex = thisRawIndex + 0.5;
   }
 
 
-// @ts-ignore
-if ( !await dbNoUpgrade.isTableExist( rowsTable ) )
+  // @ts-ignore
+  if ( !await dbNoUpgrade.isTableExist( rowsTable ) )
   {
     await dbUpgrade.createKeyTable( rowsTable );
   }
@@ -848,7 +867,7 @@ if ( !await dbNoUpgrade.isTableExist( rowsTable ) )
 
   // إعادة ترتيب الصفوف في قاعدة البيانات
   await reorderRowsTable( rowsTable );
-  newRaw = await createNewRow( copyId);
+  newRaw = await createNewRow( copyId );
   // @ts-ignore
   const tbody = existingRow.parentNode;
 
@@ -871,24 +890,22 @@ if ( !await dbNoUpgrade.isTableExist( rowsTable ) )
       tbody.appendChild( newRaw );
     }
   }
-  
+
   await getInput( copyId );
   await newRawListener();
-  copyId=null;
+  copyId = null;
 }
 
-
-
-
-
 let stop_ = 0;
-async function showCustomButtonsDialog() {
-  if (stop_ === 0) {
+async function showCustomButtonsDialog ()
+{
+  if ( stop_ === 0 )
+  {
     stop_ = 1;
     // إرجاع التكبير إلى الحجم الطبيعي بطريقة متوافقة مع جميع المتصفحات
     resetPageZoom();
     // @ts-ignore
-    Swal.fire({
+    Swal.fire( {
       html: `
        <div class="container">
 
@@ -927,34 +944,36 @@ async function showCustomButtonsDialog() {
       allowEscapeKey: false,
       backdrop: true, // خلفية سوداء خفيفة
       position: 'center', // وسط الشاشة بالضبط
-      didOpen: () => {
+      didOpen: () =>
+      {
         // @ts-ignore
-        document.getElementById('btn1')?.addEventListener('click', async () => { await moveRow(); Swal.close(); stop_ = 0; });
+        document.getElementById( 'btn1' )?.addEventListener( 'click', async () => { await moveRow(); Swal.close(); stop_ = 0; } );
         // @ts-ignore
-        document.getElementById('btn2')?.addEventListener('click', async () => { await moveRow(false); Swal.close(); stop_ = 0; });
+        document.getElementById( 'btn2' )?.addEventListener( 'click', async () => { await moveRow( false ); Swal.close(); stop_ = 0; } );
         // @ts-ignore
-        document.getElementById('btn3')?.addEventListener('click', async () => { await inserNewRow(); Swal.close(); stop_ = 0; });
+        document.getElementById( 'btn3' )?.addEventListener( 'click', async () => { await inserNewRow(); Swal.close(); stop_ = 0; } );
         // @ts-ignore
-        document.getElementById('btn4')?.addEventListener('click', async () => { await inserNewRow(false); Swal.close(); stop_ = 0; });
+        document.getElementById( 'btn4' )?.addEventListener( 'click', async () => { await inserNewRow( false ); Swal.close(); stop_ = 0; } );
         // @ts-ignore
-        document.getElementById('btn5')?.addEventListener('click', async () => { await deleteSelectedRow(); Swal.close(); stop_ = 0; });
+        document.getElementById( 'btn5' )?.addEventListener( 'click', async () => { await deleteSelectedRow(); Swal.close(); stop_ = 0; } );
         // @ts-ignore
-        document.getElementById('btn6')?.addEventListener('click', () => { Swal.close(); stop_ = 0; });
-         // @ts-ignore
-         document.getElementById('btn7')?.addEventListener('click', async () => { await copyRow(); Swal.close(); stop_ = 0; });
-         // @ts-ignore
-         document.getElementById('btn8')?.addEventListener('click', async () => { await pastRow(); Swal.close(); stop_ = 0; });
-         // @ts-ignore
-         document.getElementById('btn9')?.addEventListener('click', async () => { await pastRow(false); Swal.close(); stop_ = 0; });
-   
-   
+        document.getElementById( 'btn6' )?.addEventListener( 'click', () => { Swal.close(); stop_ = 0; } );
+        // @ts-ignore
+        document.getElementById( 'btn7' )?.addEventListener( 'click', async () => { await copyRow(); Swal.close(); stop_ = 0; } );
+        // @ts-ignore
+        document.getElementById( 'btn8' )?.addEventListener( 'click', async () => { await pastRow(); Swal.close(); stop_ = 0; } );
+        // @ts-ignore
+        document.getElementById( 'btn9' )?.addEventListener( 'click', async () => { await pastRow( false ); Swal.close(); stop_ = 0; } );
+
+
       }
-    });
+    } );
   }
 }
 
 // دالة لضبط التكبير الطبيعي بطريقة تدعم جميع المتصفحات
-function resetPageZoom() {
+function resetPageZoom ()
+{
   const html = document.documentElement;
   const body = document.body;
 
@@ -962,7 +981,7 @@ function resetPageZoom() {
   html.style.transform = "scale(1)";
   html.style.transformOrigin = "top left";
   html.style.width = "100%";
-  
+
   body.style.transform = "scale(1)";
   body.style.transformOrigin = "top left";
   body.style.width = "100%";
@@ -971,6 +990,7 @@ function resetPageZoom() {
   html.style.zoom = "100%";
   body.style.zoom = "100%";
 }
+
 
 //#region ⏱️ دالة تأخير بسيطة
 

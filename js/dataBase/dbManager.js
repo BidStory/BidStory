@@ -1156,6 +1156,6 @@ async function deleteDatabase ( dbName )
 
 // دالة تنشئ حدث مخصص عندما يتغير الجدول
 function tableChangedEvent(tableName) {
-  const event = new CustomEvent('rowDataChanged', { detail: { storeName: tableName } });
+  const event = new CustomEvent('tableDataChanged', { detail: { storeName: tableName } });
   document.dispatchEvent(event);
 }
