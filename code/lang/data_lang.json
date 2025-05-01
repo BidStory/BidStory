@@ -1,14 +1,5644 @@
 {
   "lang": [
     {
+      "id": 0,
+      "a": "رقم الهاتف/الفكس",
+      "e": "Phone/fax number"
+    },
+    {
+      "id": 1,
+      "a": "الي",
+      "e": "To"
+    },
+    {
       "id": 2,
-      "a": "مرحبا 1",
-      "e": "welcome"
+      "a": "عرض صندوق الاختيار",
+      "e": "Show Selection Box"
     },
     {
       "id": 3,
-      "a": "11111",
-      "e": "بيبيب"
+      "a": " ألغاء تحديد الكل",
+      "e": " Uncheck All Rows"
+    },
+    {
+      "id": 6,
+      "a": " جديد لأعلي",
+      "e": " New Above"
+    },
+    {
+      "id": 7,
+      "a": " جديد لأسفل",
+      "e": " New Under"
+    },
+    {
+      "id": 8,
+      "a": "نسخ",
+      "e": "Copy"
+    },
+    {
+      "id": 9,
+      "a": "قص",
+      "e": "Cut"
+    },
+    {
+      "id": 11,
+      "a": "حذف ",
+      "e": "Delete "
+    },
+    {
+      "id": 12,
+      "a": "لصق",
+      "e": "Paste"
+    },
+    {
+      "id": 13,
+      "a": "لصق لأعلي",
+      "e": "Paste Above"
+    },
+    {
+      "id": 14,
+      "a": "لصق لأسفل",
+      "e": "Paste Under"
+    },
+    {
+      "id": 15,
+      "a": "لم يتم اختيار اي من الصفوف",
+      "e": "No Rows Selected"
+    },
+    {
+      "id": 16,
+      "a": "يجب اختيار احد الصفوف",
+      "e": "One Row Must Be Selected"
+    },
+    {
+      "id": 17,
+      "a": "لم يتم نسخ او قص صفوف",
+      "e": "Rows Are Not Copied Or Cut"
+    },
+    {
+      "id": 18,
+      "a": "هل انت متأكد سوف يتم مسح الصفوف المختارة ؟",
+      "e": "Are You Sure The  Selected Rows Will Be Delete ?"
+    },
+    {
+      "id": 19,
+      "a": "نعم",
+      "e": "Yes"
+    },
+    {
+      "id": 20,
+      "a": "لا",
+      "e": "No"
+    },
+    {
+      "id": 23,
+      "a": "عدد سنوات التخصص في العمل",
+      "e": "Number Of years Specialization in work"
+    },
+    {
+      "id": 29,
+      "a": " تحديد ",
+      "e": " Select "
+    },
+    {
+      "id": 33,
+      "a": "يجب تحديد احد الصفوف اولا",
+      "e": "Row Must Be Selected"
+    },
+    {
+      "id": 34,
+      "a": "موافق",
+      "e": "Ok"
+    },
+    {
+      "id": 35,
+      "a": "عدد الصفوف المختارة",
+      "e": "Number Of Rows Selected"
+    },
+    {
+      "id": 36,
+      "a": "اخفاء صندوق الاختيار",
+      "e": "Hidden Selection Box"
+    },
+    {
+      "id": 37,
+      "a": "رقم",
+      "e": "No"
+    },
+    {
+      "id": 38,
+      "a": "الكمية",
+      "e": "Quantity"
+    },
+    {
+      "id": 39,
+      "a": "السعر",
+      "e": "Price"
+    },
+    {
+      "id": 40,
+      "a": "الاجمالي",
+      "e": "Total"
+    },
+    {
+      "id": 42,
+      "a": "تسعير",
+      "e": "Pricing"
+    },
+    {
+      "id": 43,
+      "a": " جدول زمنى",
+      "e": " Timetable"
+    },
+    {
+      "id": 44,
+      "a": "العطاءات",
+      "e": "Tenders"
+    },
+    {
+      "id": 45,
+      "a": "حصر الاعمال",
+      "e": "Bill of quantities"
+    },
+    {
+      "id": 46,
+      "a": "دفعة",
+      "e": "Payment"
+    },
+    {
+      "id": 47,
+      "a": "ادخل نص البند",
+      "e": "Insert Text Of Item"
+    },
+    {
+      "id": 48,
+      "a": "الوحدة",
+      "e": "Unit"
+    },
+    {
+      "id": 49,
+      "a": "هامش الربح%",
+      "e": "Profit Margin%"
+    },
+    {
+      "id": 50,
+      "a": "نسبة الضرائب%",
+      "e": "Tax Rate%"
+    },
+    {
+      "id": 51,
+      "a": "المواصلات",
+      "e": "Transportation"
+    },
+    {
+      "id": 52,
+      "a": "المواد الخام",
+      "e": "Raw Materials"
+    },
+    {
+      "id": 53,
+      "a": "اليد العاملة",
+      "e": "Labor"
+    },
+    {
+      "id": 54,
+      "a": "مصاريف اخري",
+      "e": "Other Expenses"
+    },
+    {
+      "id": 55,
+      "a": "المعدات",
+      "e": "Equipment"
+    },
+    {
+      "id": 56,
+      "a": "بنود المشروع",
+      "e": "Project Items"
+    },
+    {
+      "id": 57,
+      "a": "بيان الاعمال",
+      "e": "Item Statement"
+    },
+    {
+      "id": 58,
+      "a": "تكلفة",
+      "e": "Cost"
+    },
+    {
+      "id": 59,
+      "a": "اجمالي التكلفة",
+      "e": "Total Cost"
+    },
+    {
+      "id": 61,
+      "a": " الرئيسية",
+      "e": " Main"
+    },
+    {
+      "id": 62,
+      "a": " الاعدادات",
+      "e": " Setting"
+    },
+    {
+      "id": 63,
+      "a": "نوع الاعمال",
+      "e": "Type of work"
+    },
+    {
+      "id": 64,
+      "a": "تفاصيل البند",
+      "e": "Item Details"
+    },
+    {
+      "id": 65,
+      "a": "لغتك المفضلة",
+      "e": "Preferred language"
+    },
+    {
+      "id": 66,
+      "a": "وحدة القياس",
+      "e": "Measuring Unit"
+    },
+    {
+      "id": 67,
+      "a": "مقطوعية",
+      "e": "Partial"
+    },
+    {
+      "id": 68,
+      "a": "عدد",
+      "e": "Numerical"
+    },
+    {
+      "id": 69,
+      "a": "متر طولي",
+      "e": "Meter ( Longitudinal )"
+    },
+    {
+      "id": 70,
+      "a": "متر مسطح",
+      "e": "Meter ( Flat )"
+    },
+    {
+      "id": 71,
+      "a": "متر مكعب",
+      "e": "Meter ( Cubic )"
+    },
+    {
+      "id": 72,
+      "a": "بوصة قطرية",
+      "e": "Diagonal Inch"
+    },
+    {
+      "id": 73,
+      "a": "كجم",
+      "e": "Kg"
+    },
+    {
+      "id": 74,
+      "a": "طن",
+      "e": "Tons"
+    },
+    {
+      "id": 91,
+      "a": "تاريخ البدء",
+      "e": "Starting Date"
+    },
+    {
+      "id": 92,
+      "a": "تاريخ الانتهاء ",
+      "e": "End Date"
+    },
+    {
+      "id": 93,
+      "a": "الاجمالي",
+      "e": "Sum"
+    },
+    {
+      "id": 94,
+      "a": " المقاولون",
+      "e": " Contractors"
+    },
+    {
+      "id": 95,
+      "a": "اسم الشركة",
+      "e": "Company Name"
+    },
+    {
+      "id": 96,
+      "a": "عنوان الشركة",
+      "e": "Company Address"
+    },
+    {
+      "id": 97,
+      "a": "رقم التلفون",
+      "e": "Phone Number"
+    },
+    {
+      "id": 98,
+      "a": "البريد الالكتروني",
+      "e": "Email Address"
+    },
+    {
+      "id": 99,
+      "a": "الصندوق البريدي",
+      "e": "Postal Box"
+    },
+    {
+      "id": 100,
+      "a": "رقم السجل التجاري",
+      "e": "Commercial Registration No"
+    },
+    {
+      "id": 101,
+      "a": "رقم البطاقة الضريبية",
+      "e": "Tax Card Number"
+    },
+    {
+      "id": 103,
+      "a": "الاعمال السابقة",
+      "e": "Previous Works"
+    },
+    {
+      "id": 104,
+      "a": "ملاحظات",
+      "e": "Notes"
+    },
+    {
+      "id": 105,
+      "a": "البيانات",
+      "e": "Information"
+    },
+    {
+      "id": 106,
+      "a": "التفاصيل",
+      "e": "Details"
+    },
+    {
+      "id": 107,
+      "a": " اضافة مقاول جديد",
+      "e": " Add new Contractor"
+    },
+    {
+      "id": 108,
+      "a": "الـمـقـاولـــون",
+      "e": "Contractors"
+    },
+    {
+      "id": 109,
+      "a": " سوف يتم حذف المقاول",
+      "e": " Will Remove Contractor"
+    },
+    {
+      "id": 110,
+      "a": "بحث",
+      "e": "Search"
+    },
+    {
+      "id": 111,
+      "a": "اخفاء",
+      "e": "Hidden"
+    },
+    {
+      "id": 112,
+      "a": "عدد",
+      "e": "No ."
+    },
+    {
+      "id": 113,
+      "a": "طول",
+      "e": "Length"
+    },
+    {
+      "id": 114,
+      "a": "عرض",
+      "e": "Width"
+    },
+    {
+      "id": 115,
+      "a": "ارتفاع",
+      "e": "High"
+    },
+    {
+      "id": 116,
+      "a": "كجم",
+      "e": "K g"
+    },
+    {
+      "id": 117,
+      "a": "أضافة",
+      "e": "Add"
+    },
+    {
+      "id": 118,
+      "a": "خصم",
+      "e": "Subtract"
+    },
+    {
+      "id": 119,
+      "a": "الاعــــــــــــــــــــــمـال",
+      "e": "Item Statement"
+    },
+    {
+      "id": 120,
+      "a": "سعر المقاول",
+      "e": "Contractor Price"
+    },
+    {
+      "id": 121,
+      "a": "اجمالي الاضافة",
+      "e": "Total addition"
+    },
+    {
+      "id": 122,
+      "a": "اجمالي الكمية المخصومه",
+      "e": "Total Subtract"
+    },
+    {
+      "id": 123,
+      "a": "نسبة التنفيذ %",
+      "e": "Excution Percentage %"
+    },
+    {
+      "id": 124,
+      "a": "قيمة الاعمال المنفذة",
+      "e": "Excution Value"
+    },
+    {
+      "id": 125,
+      "a": "قيمة خصم للاعمال",
+      "e": "Works Discount Value"
+    },
+    {
+      "id": 126,
+      "a": "نسبة الخصم",
+      "e": "Discount rate"
+    },
+    {
+      "id": 127,
+      "a": "القيمة ( بعد الخصم )",
+      "e": "Value ( After Discount )"
+    },
+    {
+      "id": 128,
+      "a": " العطاءات المقدمة",
+      "e": " Bids Submitted"
+    },
+    {
+      "id": 129,
+      "a": "سعر البند",
+      "e": "Item price"
+    },
+    {
+      "id": 130,
+      "a": " اضافة ما تم تحديده الي العطاءات المقدمة",
+      "e": " Add Selection To Submitted Bids"
+    },
+    {
+      "id": 132,
+      "a": "المشروع",
+      "e": "Project"
+    },
+    {
+      "id": 133,
+      "a": "اسم المشروع",
+      "e": "Project Title"
+    },
+    {
+      "id": 134,
+      "a": "المسمي باللغة الانجليزية",
+      "e": "English name"
+    },
+    {
+      "id": 135,
+      "a": "المسمي باللغة العربية",
+      "e": "Arabic Name"
+    },
+    {
+      "id": 136,
+      "a": "نوع المشروع",
+      "e": "Kind Of Project"
+    },
+    {
+      "id": 137,
+      "a": "البند المالي",
+      "e": "Financial Item"
+    },
+    {
+      "id": 138,
+      "a": " فتح ",
+      "e": " Open"
+    },
+    {
+      "id": 139,
+      "a": "نوع الضرائب",
+      "e": "Tax Type"
+    },
+    {
+      "id": 140,
+      "a": "عنوان موقع العمل",
+      "e": "Work Site Address"
+    },
+    {
+      "id": 141,
+      "a": "المخطط",
+      "e": "Timeline"
+    },
+    {
+      "id": 142,
+      "a": "ايام",
+      "e": "Days"
+    },
+    {
+      "id": 143,
+      "a": "شهور",
+      "e": "Months"
+    },
+    {
+      "id": 144,
+      "a": "سنين",
+      "e": "Years"
+    },
+    {
+      "id": 145,
+      "a": "الحدث",
+      "e": "Event"
+    },
+    {
+      "id": 146,
+      "a": "التاريخ",
+      "e": "Date"
+    },
+    {
+      "id": 147,
+      "a": "عدد الايام",
+      "e": "No.Days"
+    },
+    {
+      "id": 148,
+      "a": "فترة توقف",
+      "e": "Downtime"
+    },
+    {
+      "id": 149,
+      "a": "فترة اضافية",
+      "e": "Extra Period"
+    },
+    {
+      "id": 150,
+      "a": "اجمالي فترات التوقف",
+      "e": "Total Downtimes"
+    },
+    {
+      "id": 151,
+      "a": "اجمالي الفترات الاضافية",
+      "e": "Total Extra Periods"
+    },
+    {
+      "id": 152,
+      "a": "فترة الضمان",
+      "e": "Warranty Period"
+    },
+    {
+      "id": 153,
+      "a": "نهاية مدة المشروع المقرر",
+      "e": "The end of the scheduled operation period"
+    },
+    {
+      "id": 154,
+      "a": "نهاية تأمين الضمان",
+      "e": "End of warranty insurance"
+    },
+    {
+      "id": 155,
+      "a": "فترة التأخير",
+      "e": "Delay period"
+    },
+    {
+      "id": 156,
+      "a": "وثائق التأمين",
+      "e": "Insurance Documents"
+    },
+    {
+      "id": 157,
+      "a": "السعر شامل الضريبة",
+      "e": "Price Include Tax"
+    },
+    {
+      "id": 158,
+      "a": "نسبة التنزيل %",
+      "e": "Discount Percentage %"
+    },
+    {
+      "id": 159,
+      "a": "المشاريع",
+      "e": "Projectes"
+    },
+    {
+      "id": 160,
+      "a": "مدة المشروع",
+      "e": "Execution Time"
+    },
+    {
+      "id": 161,
+      "a": "التواريخ الاساسية",
+      "e": "key Dates"
+    },
+    {
+      "id": 162,
+      "a": "فترات و وثائق",
+      "e": "Periods and\r\ndocuments"
+    },
+    {
+      "id": 163,
+      "a": "حساب التواريخ",
+      "e": "Calculate dates"
+    },
+    {
+      "id": 164,
+      "a": "اضافة دفعة",
+      "e": "Add Payment"
+    },
+    {
+      "id": 165,
+      "a": "مكان حفظ البيانات",
+      "e": "path where to save the data"
+    },
+    {
+      "id": 166,
+      "a": " بنود عامة",
+      "e": " public Statements"
+    },
+    {
+      "id": 167,
+      "a": "تصنيف الاعمال",
+      "e": "Work Classification"
+    },
+    {
+      "id": 168,
+      "a": " طباعة",
+      "e": " Print"
+    },
+    {
+      "id": 169,
+      "a": "صفحة",
+      "e": "Page"
+    },
+    {
+      "id": 170,
+      "a": "من",
+      "e": "From"
+    },
+    {
+      "id": 171,
+      "a": "تاريخ الطباعة",
+      "e": "Print Date"
+    },
+    {
+      "id": 172,
+      "a": "اجمالي المقايسة",
+      "e": "Total Bid"
+    },
+    {
+      "id": 173,
+      "a": "مقايسة تقديرية لمشروع :",
+      "e": "Estimation tender for :"
+    },
+    {
+      "id": 174,
+      "a": "العلامة العشرية",
+      "e": "Decimal point"
+    },
+    {
+      "id": 176,
+      "a": "مصرية",
+      "e": "Egyptian"
+    },
+    {
+      "id": 177,
+      "a": "قطرية",
+      "e": "Qatari"
+    },
+    {
+      "id": 178,
+      "a": "سعودية",
+      "e": "Saudi"
+    },
+    {
+      "id": 180,
+      "a": "سودانية",
+      "e": "Sudanese"
+    },
+    {
+      "id": 181,
+      "a": "كويتية",
+      "e": "Kuwaiti"
+    },
+    {
+      "id": 182,
+      "a": "سورية",
+      "e": "Syrian"
+    },
+    {
+      "id": 183,
+      "a": "تونسية",
+      "e": "Tunisian"
+    },
+    {
+      "id": 185,
+      "a": "اوربية",
+      "e": "European"
+    },
+    {
+      "id": 186,
+      "a": "الثقافة",
+      "e": "The culture"
+    },
+    {
+      "id": 187,
+      "a": "التوقيعات",
+      "e": "Signatures"
+    },
+    {
+      "id": 188,
+      "a": "لا توجد بنود لهذا المشروع اختر البنود وابدء بالاضافة",
+      "e": "There are no items for this project select items and start edit"
+    },
+    {
+      "id": 189,
+      "a": "أسعار المقايسة تشمل الضرائب",
+      "e": "Bid price include taxes"
+    },
+    {
+      "id": 190,
+      "a": "أسعار المقايسة لا تشمل الضرائب",
+      "e": "Bid price not include taxes"
+    },
+    {
+      "id": 191,
+      "a": "أسعار المقاول تشمل الضرائب",
+      "e": "Contractor prices include taxes"
+    },
+    {
+      "id": 192,
+      "a": "أسعار المقاول لا تشمل الضرائب",
+      "e": "Contractor prices not include taxes"
+    },
+    {
+      "id": 193,
+      "a": "لا يوجد",
+      "e": "None"
+    },
+    {
+      "id": 194,
+      "a": "السعر النهائي للمقاول بعد احتساب النسب",
+      "e": "Final price for contractor after calculating the percentages"
+    },
+    {
+      "id": 195,
+      "a": "السعر الكلي للبند",
+      "e": "Item Total price"
+    },
+    {
+      "id": 196,
+      "a": "اجمالي سعر العطاء",
+      "e": "Total bid price"
+    },
+    {
+      "id": 197,
+      "a": "اقل العطاءات",
+      "e": "Lowest bids"
+    },
+    {
+      "id": 198,
+      "a": "عطاء",
+      "e": "Bid"
+    },
+    {
+      "id": 199,
+      "a": "بقيمة",
+      "e": "Value"
+    },
+    {
+      "id": 200,
+      "a": "الكمية بالمقايسة",
+      "e": "Quantity in bid"
+    },
+    {
+      "id": 201,
+      "a": "الكمية المتبقية",
+      "e": "Remaining quantity"
+    },
+    {
+      "id": 202,
+      "a": "القيمة المتبقية",
+      "e": "Remaining value"
+    },
+    {
+      "id": 203,
+      "a": "اجمالي ما تم صرفه",
+      "e": "Total Spent"
+    },
+    {
+      "id": 204,
+      "a": "نوع البند",
+      "e": "Type of Item"
+    },
+    {
+      "id": 205,
+      "a": "بند اساسي",
+      "e": "Basic Item"
+    },
+    {
+      "id": 206,
+      "a": "بند اضافي",
+      "e": "External Item"
+    },
+    {
+      "id": 207,
+      "a": "مهمات ( مخزن )",
+      "e": "Store Item"
+    },
+    {
+      "id": 208,
+      "a": " ملخص",
+      "e": " Summary"
+    },
+    {
+      "id": 209,
+      "a": "اغلاق",
+      "e": "Close"
+    },
+    {
+      "id": 210,
+      "a": "السعر الكلي للعطاء",
+      "e": "Total bid price"
+    },
+    {
+      "id": 211,
+      "a": "يوم",
+      "e": "Day"
+    },
+    {
+      "id": 212,
+      "a": "الجداول الزمنية ",
+      "e": "Timetables "
+    },
+    {
+      "id": 213,
+      "a": "دفعة ختامية",
+      "e": "Final Payment"
+    },
+    {
+      "id": 214,
+      "a": "حذف الدفعة",
+      "e": "Delete Payment"
+    },
+    {
+      "id": 215,
+      "a": "سوف يتم حذف هذه الدفعة من جميع البنود",
+      "e": "This Paid will delete from all items"
+    },
+    {
+      "id": 216,
+      "a": "هل انت متأكد؟",
+      "e": "Are you sure?"
+    },
+    {
+      "id": 217,
+      "a": " تحديد الكل",
+      "e": " Check All Rows"
+    },
+    {
+      "id": 218,
+      "a": "عدد الصفوف في حافظة النسخ",
+      "e": "Number Of rows in Copy clipboard"
+    },
+    {
+      "id": 219,
+      "a": "عدد الصفوف في حافظة القص",
+      "e": "Number Of rows in Cut clipboard"
+    },
+    {
+      "id": 220,
+      "a": " الغاء",
+      "e": " Cancel"
+    },
+    {
+      "id": 221,
+      "a": "اجمالي البند",
+      "e": "Total Price"
+    },
+    {
+      "id": 222,
+      "a": "السعر بالمقايسة",
+      "e": "price tender"
+    },
+    {
+      "id": 223,
+      "a": "اقل العطاءات طبقا للكميات المنفذة",
+      "e": "The lowest bids according to the quantities executed"
+    },
+    {
+      "id": 224,
+      "a": "اجمالي سعر العطاء طبقا للكميات المنفذة",
+      "e": "The total bid price according to the quantities executed"
+    },
+    {
+      "id": 225,
+      "a": "بيانات",
+      "e": "Data"
+    },
+    {
+      "id": 226,
+      "a": "اعمال",
+      "e": "Execution"
+    },
+    {
+      "id": 227,
+      "a": "تشوينات",
+      "e": "Supplies"
+    },
+    {
+      "id": 228,
+      "a": "نوع حصر الاعمال",
+      "e": "Bill of quantities type"
+    },
+    {
+      "id": 229,
+      "a": "اذا كان نوع الحصر تشوينات يفضل ان تكون نسبة التنفيذ اقل من 100",
+      "e": "If the extract type is Supplies, the execution ratio is better to be less than 100"
+    },
+    {
+      "id": 230,
+      "a": "الملفات",
+      "e": "Files"
+    },
+    {
+      "id": 231,
+      "a": " للخلف ",
+      "e": "Back "
+    },
+    {
+      "id": 232,
+      "a": "مجلد جديد",
+      "e": "New Folder"
+    },
+    {
+      "id": 233,
+      "a": "ادخل اسم المجلد",
+      "e": "Insert Folder Name"
+    },
+    {
+      "id": 236,
+      "a": "المسار الحالي",
+      "e": "Current Path"
+    },
+    {
+      "id": 237,
+      "a": "كل الملفات",
+      "e": "All Files"
+    },
+    {
+      "id": 238,
+      "a": "الاسم الجديد يحتوي على علامات غير مقبولة في التسمية مثل (  /   *  )",
+      "e": "The new name contains unacceptable tags in label as ( /  * )"
+    },
+    {
+      "id": 239,
+      "a": "ادخل الاسم الجديد",
+      "e": "Insert New Name"
+    },
+    {
+      "id": 240,
+      "a": "تغير الاسم",
+      "e": "Rename"
+    },
+    {
+      "id": 241,
+      "a": "سيتم مسح العنصر المحدد",
+      "e": "The selected item will be erased"
+    },
+    {
+      "id": 242,
+      "a": " تصدير",
+      "e": " Export"
+    },
+    {
+      "id": 243,
+      "a": " استيراد",
+      "e": " Import"
+    },
+    {
+      "id": 246,
+      "a": "تشمل الملفات الملحقة",
+      "e": "Include attached files"
+    },
+    {
+      "id": 247,
+      "a": "كعطاء فني ومالي",
+      "e": "As a technical and financial tender"
+    },
+    {
+      "id": 248,
+      "a": "كمقايسة تقديرية",
+      "e": "Estimation tender"
+    },
+    {
+      "id": 249,
+      "a": "السعر النهائي",
+      "e": "Final Price"
+    },
+    {
+      "id": 250,
+      "a": "حفظ نسخة من البيانات النصية تلقائياً كل (دقيقة)",
+      "e": "Save a copy of text data automatically every (minutes)"
+    },
+    {
+      "id": 251,
+      "a": " استعادة",
+      "e": " Data recovery"
+    },
+    {
+      "id": 252,
+      "a": "انقر مرة أخرى للتنقل",
+      "e": "Click again to navigate"
+    },
+    {
+      "id": 253,
+      "a": " التعريف",
+      "e": " Definition"
+    },
+    {
+      "id": 254,
+      "a": " تحميل ملف",
+      "e": " Upload File"
+    },
+    {
+      "id": 255,
+      "a": "العطاء",
+      "e": "Tender"
+    },
+    {
+      "id": 256,
+      "a": " حالة المشروع",
+      "e": " Operation status"
+    },
+    {
+      "id": 257,
+      "a": "قيد التنفيذ",
+      "e": "Underway"
+    },
+    {
+      "id": 258,
+      "a": "متوقف",
+      "e": "stopped"
+    },
+    {
+      "id": 259,
+      "a": "في فترة الضمان",
+      "e": "In the warranty period"
+    },
+    {
+      "id": 260,
+      "a": "خارج فترة الضمان",
+      "e": "out of warranty period"
+    },
+    {
+      "id": 261,
+      "a": "البيانات لم تكتمل",
+      "e": "The data is not complete"
+    },
+    {
+      "id": 262,
+      "a": "البيانات الاساسية",
+      "e": "Basic Information"
+    },
+    {
+      "id": 263,
+      "a": "القيم التقديرية للمقايسات",
+      "e": "Estimated values ​​for Project"
+    },
+    {
+      "id": 264,
+      "a": " تم صرفه",
+      "e": "Actually spent"
+    },
+    {
+      "id": 265,
+      "a": "لا يمكن تعديل هذا الصف أو حذفه وكذلك تعديلاتك لن يتم حفظها! يمكنك إضافة صفوف جديدة وتعديلها",
+      "e": "This row cannot be modified or deleted and your edite not save! You can add new rows and modify them"
+    },
+    {
+      "id": 266,
+      "a": "اللغة",
+      "e": "Language"
+    },
+    {
+      "id": 267,
+      "a": "عناصر البحث",
+      "e": "search items"
+    },
+    {
+      "id": 268,
+      "a": "بحث جديد",
+      "e": "New search"
+    },
+    {
+      "id": 269,
+      "a": "مشروع جديدة",
+      "e": "New Project"
+    },
+    {
+      "id": 270,
+      "a": "اللجان",
+      "e": "Committees"
+    },
+    {
+      "id": 271,
+      "a": "لجنة فتح العروض الفنية",
+      "e": "Technical Bid Opening Committee"
+    },
+    {
+      "id": 272,
+      "a": "لجنة فتح العروض المالية",
+      "e": "Financial Bid Opening Committee"
+    },
+    {
+      "id": 273,
+      "a": "الوقت",
+      "e": "Time"
+    },
+    {
+      "id": 274,
+      "a": "لجنة التقييم الفني",
+      "e": "Technical Evaluation Committee"
+    },
+    {
+      "id": 275,
+      "a": "لجان التقييم المالي",
+      "e": "Financial Evaluation Committees"
+    },
+    {
+      "id": 276,
+      "a": "اشتراطات المشروع",
+      "e": "Tender requirements"
+    },
+    {
+      "id": 277,
+      "a": "بيان الشرط",
+      "e": "Condition statement"
+    },
+    {
+      "id": 278,
+      "a": " اشتراطات عامة",
+      "e": " Public Conditions"
+    },
+    {
+      "id": 279,
+      "a": "الاشتراطات",
+      "e": "Conditions"
+    },
+    {
+      "id": 280,
+      "a": "اضافة ما تم تحديدة الي اشتراطات المشروع",
+      "e": "add selected to the Project requirements"
+    },
+    {
+      "id": 281,
+      "a": "نسبة %",
+      "e": " Percentage %"
+    },
+    {
+      "id": 282,
+      "a": "سيتم الدمج مع مقايسة موجودة مسبقا",
+      "e": "Will be combined with a pre-existing tender"
+    },
+    {
+      "id": 283,
+      "a": "سيتم إضافة مشروع جديدة",
+      "e": "A new Project will be added"
+    },
+    {
+      "id": 284,
+      "a": "سيتم دمج العطاء المقدم مع المقايسة",
+      "e": "The submitted bid will be combined with the tender"
+    },
+    {
+      "id": 285,
+      "a": "سوف يتم اضافة عطاء فني ومالي",
+      "e": "A technical and financial bid will be added"
+    },
+    {
+      "id": 286,
+      "a": "كعطاء مقدم",
+      "e": "Submitted Bid"
+    },
+    {
+      "id": 287,
+      "a": "لا يمكن اضافة عطاء مقدم بدون وجود العطاء الفني والمالي او المقايسة",
+      "e": "It is not possible to add a submitted bid without a technical and financial bid or tender"
+    },
+    {
+      "id": 288,
+      "a": "سوف يتم دمج عطاء مقدم مع العطاء الحالي",
+      "e": "Submitted Bid will be combined with another bid"
+    },
+    {
+      "id": 289,
+      "a": "سوف يتم دمج عطاء فني ومالي مع العطاء الحالي",
+      "e": "A technical and financial bid will be combined with another bid"
+    },
+    {
+      "id": 290,
+      "a": "لا يمكن دمج عطاء فني ومالي مع مقايسة موجودة بالفعل",
+      "e": "A technical and financial bid canžt be combined with exists tender "
+    },
+    {
+      "id": 292,
+      "a": "سابق",
+      "e": "previous"
+    },
+    {
+      "id": 293,
+      "a": "الحالة",
+      "e": "State"
+    },
+    {
+      "id": 294,
+      "a": "الكمية بالارقام",
+      "e": "Quantity value"
+    },
+    {
+      "id": 295,
+      "a": "السعر بالارقام",
+      "e": "Price value"
+    },
+    {
+      "id": 296,
+      "a": "يجب أن يكون تاريخ الانتهاء أكبر من  او يساوي تاريخ البدء",
+      "e": "End date must be greater than or equal start date"
+    },
+    {
+      "id": 297,
+      "a": "للمقايسة",
+      "e": "for tender"
+    },
+    {
+      "id": 298,
+      "a": "الترقيم طبقا للبرنامج",
+      "e": "Numbering According To Program"
+    },
+    {
+      "id": 299,
+      "a": "اعادة الترقيم طبقا لنوع الاعمال",
+      "e": "Re-number According To Works"
+    },
+    {
+      "id": 300,
+      "a": "اظهار عنوان للاعمال",
+      "e": "Show Works Title"
+    },
+    {
+      "id": 301,
+      "a": "عنوان",
+      "e": "Title"
+    },
+    {
+      "id": 302,
+      "a": "اجمالي",
+      "e": "Sum"
+    },
+    {
+      "id": 303,
+      "a": "اختر البند",
+      "e": "Select item"
+    },
+    {
+      "id": 304,
+      "a": "اختر كل البنود",
+      "e": "Select All items"
+    },
+    {
+      "id": 305,
+      "a": "الاشتراطات الخاصة لمشروع :",
+      "e": "Special requirements for an tender :"
+    },
+    {
+      "id": 306,
+      "a": "عطاء فني",
+      "e": "Technical tender"
+    },
+    {
+      "id": 307,
+      "a": "عطاء مالي",
+      "e": "Financial tender"
+    },
+    {
+      "id": 308,
+      "a": "السعر بالارقام",
+      "e": "Price in numbers"
+    },
+    {
+      "id": 309,
+      "a": "السعر بالاحرف",
+      "e": "Price in letters"
+    },
+    {
+      "id": 310,
+      "a": "طبقا للبند",
+      "e": "according to item"
+    },
+    {
+      "id": 311,
+      "a": "مقدار الاعمال السابق اجرائها",
+      "e": "amount of work previously done"
+    },
+    {
+      "id": 312,
+      "a": "مقدار الاعمال التي تمت خلال هذة المدة",
+      "e": "amount of work done during this period"
+    },
+    {
+      "id": 313,
+      "a": "جملة الاعمال التي تمت حتي الان",
+      "e": "total of works that have been done"
+    },
+    {
+      "id": 314,
+      "a": "قيمة الاعمال التي تمت حتي الان",
+      "e": "value of works that have been done"
+    },
+    {
+      "id": 315,
+      "a": "استقطاع",
+      "e": "deduction"
+    },
+    {
+      "id": 316,
+      "a": "الباقي بعد الاستقطاع",
+      "e": "rest after deduction"
+    },
+    {
+      "id": 317,
+      "a": "شعار الشركة",
+      "e": "Company logo"
+    },
+    {
+      "id": 318,
+      "a": " تغيير صورة الشعار",
+      "e": " Change the logo image"
+    },
+    {
+      "id": 320,
+      "a": "إجمالي الكمية المنفذة الحالية",
+      "e": "Total current executed quantity"
+    },
+    {
+      "id": 321,
+      "a": "اجمالي الكمية المنفذة السابقة",
+      "e": "Total previous executed quantity"
+    },
+    {
+      "id": 322,
+      "a": "*",
+      "e": "*"
+    },
+    {
+      "id": 323,
+      "a": "الكمية الإجمالية المنفذة",
+      "e": "Total Quantity Executed"
+    },
+    {
+      "id": 324,
+      "a": "الجداول",
+      "e": "Tables"
+    },
+    {
+      "id": 325,
+      "a": "جدول جديد",
+      "e": "New Table"
+    },
+    {
+      "id": 326,
+      "a": "اسم الجدول",
+      "e": "Table Name"
+    },
+    {
+      "id": 327,
+      "a": "للبند رقم",
+      "e": "for item NO."
+    },
+    {
+      "id": 328,
+      "a": "بدون",
+      "e": "Non"
+    },
+    {
+      "id": 329,
+      "a": "كل انواع البنود",
+      "e": "All Types Of Items"
+    },
+    {
+      "id": 330,
+      "a": "كل انواع الاعمال",
+      "e": "All Type Of Works"
+    },
+    {
+      "id": 332,
+      "a": "مستخلص",
+      "e": "Payment"
+    },
+    {
+      "id": 333,
+      "a": "اضغط مره اخري لاعادة التوجيه لأحدي الصفحات",
+      "e": "Click again to redirect to a page"
+    },
+    {
+      "id": 335,
+      "a": "حول البرنامج",
+      "e": "About program"
+    },
+    {
+      "id": 336,
+      "a": "اضغط مره اخري لاعادة التوجيه لأحدي الصفحات",
+      "e": "Click again to redirect to a page"
+    },
+    {
+      "id": 337,
+      "a": "اختر التعريف ثم قم بادخال اسم المقايسة",
+      "e": "select defination and then input The name of the tender"
+    },
+    {
+      "id": 338,
+      "a": "أختر ",
+      "e": "Select "
+    },
+    {
+      "id": 339,
+      "a": "يجب اختيار البند المالي للمقايسة",
+      "e": "The financial item must be selected for the tender"
+    },
+    {
+      "id": 340,
+      "a": "يجب اختيار نوع المقايسة",
+      "e": "the tender kind must be selected"
+    },
+    {
+      "id": 341,
+      "a": "يجب اختيار نوع الضرائب بالمقايسة",
+      "e": "the kind of tax must be selected"
+    },
+    {
+      "id": 342,
+      "a": "يجب ادخال عنوان العمل",
+      "e": "the address of work must be add"
+    },
+    {
+      "id": 343,
+      "a": "يجب تحديد نوع البند",
+      "e": "the item type must be selected"
+    },
+    {
+      "id": 344,
+      "a": "لا يوجد نص في البند رقم ",
+      "e": "there is no text in item no. "
+    },
+    {
+      "id": 345,
+      "a": "يجب ادخال الكمية و السعر للبند رقم ",
+      "e": "must input quantity and price to item no. "
+    },
+    {
+      "id": 346,
+      "a": "يجب اختيار وحدة قياس البند رقم ",
+      "e": "must select measurement unit for item no. "
+    },
+    {
+      "id": 347,
+      "a": "يجب اختيار نوع الاعمال للبند رقم ",
+      "e": "must select work type for item no. "
+    },
+    {
+      "id": 348,
+      "a": "لا توجد مدة تنفيذ اختر المخطط الزمني واضف مدة التنفيذ",
+      "e": "there is no Execution Time in tender select timeline and then add Execution Time"
+    },
+    {
+      "id": 349,
+      "a": "اذهب الي المخطط الزمني واضف تاريخ امر الاسناد",
+      "e": "Go to the timeline and add the date of the assignment"
+    },
+    {
+      "id": 350,
+      "a": "اختر المخطط الزمني وقم بادخال تاريخ تسليم الموقع",
+      "e": "Choose the timeline and enter the site date"
+    },
+    {
+      "id": 351,
+      "a": "انتقل الي العطاءات وادخل سعر البند.",
+      "e": "select bids submitted and insert tender price for item."
+    },
+    {
+      "id": 352,
+      "a": "لا توجد عطاءات مقدمة.",
+      "e": "there is no any submitted bids."
+    },
+    {
+      "id": 353,
+      "a": " ( نتائج بحث تراكمي )",
+      "e": "(cumulative search results)"
+    },
+    {
+      "id": 354,
+      "a": "يجب اختيار احد الملفات",
+      "e": "Select any file"
+    },
+    {
+      "id": 355,
+      "a": "تمت عملية الاسترجاع",
+      "e": "Restor proccess is complete"
+    },
+    {
+      "id": 356,
+      "a": "مساحه السجل",
+      "e": "size of history"
+    },
+    {
+      "id": 357,
+      "a": "ميجا",
+      "e": "MB"
+    },
+    {
+      "id": 358,
+      "a": "مسح السجل",
+      "e": "clear history"
+    },
+    {
+      "id": 359,
+      "a": "هل انت متاكد سوف يتم مسح كل السجل ؟",
+      "e": "Are you sure? all history will deleted"
+    },
+    {
+      "id": 360,
+      "a": "حصر الاعمال",
+      "e": "Work Quantity Survey"
+    },
+    {
+      "id": 361,
+      "a": "المستخلص",
+      "e": "the Payment"
+    },
+    {
+      "id": 362,
+      "a": "رقم الدفعة",
+      "e": "Payment No."
+    },
+    {
+      "id": 363,
+      "a": "اكتب رقم الدفعة",
+      "e": "enter bill of quantities number"
+    },
+    {
+      "id": 364,
+      "a": "تمت الطباعة بمجلد ",
+      "e": "print complete in folder "
+    },
+    {
+      "id": 365,
+      "a": "( التنزيلات )",
+      "e": "( download )"
+    },
+    {
+      "id": 366,
+      "a": "( المستندات )",
+      "e": "( documents )"
+    },
+    {
+      "id": 367,
+      "a": "اختيار رقم الدفعة من اعدادات الطباعة",
+      "e": "selection Paid number from print setup"
+    },
+    {
+      "id": 368,
+      "a": "تم التصدير بمجلد ",
+      "e": "export complete in folder "
+    },
+    {
+      "id": 369,
+      "a": "رسالة",
+      "e": "Message"
+    },
+    {
+      "id": 370,
+      "a": "حفظ القيمة",
+      "e": "Save Value"
+    },
+    {
+      "id": 371,
+      "a": "انتظر...",
+      "e": "Waite..."
+    },
+    {
+      "id": 372,
+      "a": "من قيمة المقايسة",
+      "e": "From Tender Value"
+    },
+    {
+      "id": 373,
+      "a": "46813.6959027778",
+      "e": "46813.6959027778"
+    },
+    {
+      "id": 374,
+      "a": "print.code.1000@gmail.com",
+      "e": "print.code.1000@gmail.com"
+    },
+    {
+      "id": 375,
+      "a": "hesham.gaber@gmail.com",
+      "e": "hesham.gaber@gmail.com"
+    },
+    {
+      "id": 376,
+      "a": "hesham.gaber@live.com",
+      "e": "hesham.gaber@live.com"
+    },
+    {
+      "id": 377,
+      "a": "+2_01026546550",
+      "e": "+2_01026546550"
+    },
+    {
+      "id": 378,
+      "a": "مشاريع الطباعة والتصدير للملفات تتم في مجلد التنزيلات قد لا تعمل مع بعض الاجهزة ولاكن يمكنك استخدام مشاركة الملفات في كل الاحوال",
+      "e": "Printing and exporting operations for files are done in the Download folder .it may not work with some devices, but you can use file sharing at all times."
+    },
+    {
+      "id": 379,
+      "a": "كل الشكر والتقدير",
+      "e": "All thanks,appreciation and respect :"
+    },
+    {
+      "id": 383,
+      "a": "مساعدة",
+      "e": "Help"
+    },
+    {
+      "id": 385,
+      "a": "العلامات  ✔  ⇄  ⚙",
+      "e": " signs  ✔  ⇄  ⚙"
+    },
+    {
+      "id": 388,
+      "a": "الامان وحفظ البيانات",
+      "e": "Security and data preservation"
+    },
+    {
+      "id": 392,
+      "a": "الطباعة",
+      "e": "printing"
+    },
+    {
+      "id": 396,
+      "a": "اضافة بند",
+      "e": "Add item"
+    },
+    {
+      "id": 401,
+      "a": " اضافة ",
+      "e": " Add "
+    },
+    {
+      "id": 402,
+      "a": "الموضوعات",
+      "e": "Subjects"
+    },
+    {
+      "id": 403,
+      "a": "تمت اضافة المقايسة الاسترشادية",
+      "e": "The pilot tender has been added"
+    },
+    {
+      "id": 405,
+      "a": "تمت اضافة المقاول الي العطاءات المقدمة",
+      "e": "The contractor has been added to the submitted bids"
+    },
+    {
+      "id": 408,
+      "a": "لا توجد اشتراطات بالمشروع اختر الاشتراطات وابدأ في الاضافة",
+      "e": "there is no requirements tender select conditions and edit"
+    },
+    {
+      "id": 409,
+      "a": "يجب ادخال جميع تواريخ لجان البت الفني والمالي اختر المخطط الزمني",
+      "e": "Dates of Committee Of Operation not completed select timeline"
+    },
+    {
+      "id": 410,
+      "a": "بحث في البنود الثابتة ",
+      "e": "search in fixed items"
+    },
+    {
+      "id": 411,
+      "a": "بحث في بنود المقايسات ",
+      "e": "search in Projectes items "
+    },
+    {
+      "id": 412,
+      "a": "ادخل كلمات للبحث ",
+      "e": "insert some words to search"
+    },
+    {
+      "id": 413,
+      "a": "نص البند",
+      "e": "Item Text"
+    },
+    {
+      "id": 414,
+      "a": "مشاريع البند",
+      "e": "Item Operations"
+    },
+    {
+      "id": 415,
+      "a": "استقبل تندراكس ملف من المشاركة.\nماذا تود ان تفعل بهذا الملف ؟",
+      "e": "tenderX received a file form share.\r\nwhat do you want to do whith this file?\r\n"
+    },
+    {
+      "id": 416,
+      "a": "اضافة الي ملفات مشروع",
+      "e": "add to tender files"
+    },
+    {
+      "id": 417,
+      "a": "ملف تندر",
+      "e": " tender file"
+    },
+    {
+      "id": 418,
+      "a": "صورة اود جعلها شعار شركتي",
+      "e": "image that i would like to make as the company logo"
+    },
+    {
+      "id": 419,
+      "a": "اختر الاجراء المناسب",
+      "e": "choose the appropriate action"
+    },
+    {
+      "id": 420,
+      "a": "(اختر المقايسة لاضافة الملف اليها)",
+      "e": "(select tender to add file)"
+    },
+    {
+      "id": 421,
+      "a": "تجاهل المشاركة",
+      "e": "ignore the share"
+    },
+    {
+      "id": 422,
+      "a": "تم اضافة الملف الي المشروع المختارة تحت اسم ",
+      "e": "the file has been added to the selected tender under the name "
+    },
+    {
+      "id": 423,
+      "a": "يمكن تغير الاسم بفتح المقايسة ثم اختر الملفات الملحقة ثم حدد الملف",
+      "e": "you can change name file by open selected tender and then select attchment file and then select file "
+    },
+    {
+      "id": 424,
+      "a": "ما تم طباعتة",
+      "e": "what was printed"
+    },
+    {
+      "id": 425,
+      "a": " مشاركة ",
+      "e": " Share "
+    },
+    {
+      "id": 426,
+      "a": "ملفات التصدير",
+      "e": "files export"
+    },
+    {
+      "id": 427,
+      "a": "إعداد مشروع",
+      "e": "Project Setup"
+    },
+    {
+      "id": 428,
+      "a": "طرح عطاء",
+      "e": "Publish bid"
+    },
+    {
+      "id": 429,
+      "a": "عطاءات مطروحة",
+      "e": "Open Tenders"
+    },
+    {
+      "id": 430,
+      "a": "المجموعات",
+      "e": "Groups"
+    },
+    {
+      "id": 431,
+      "a": "وصف العمل",
+      "e": "work description"
+    },
+    {
+      "id": 432,
+      "a": "  ارسال ",
+      "e": " send "
+    },
+    {
+      "id": 433,
+      "a": "الدولة",
+      "e": "Country"
+    },
+    {
+      "id": 434,
+      "a": "قيمة كراسة الشروط",
+      "e": "price of tender document"
+    },
+    {
+      "id": 435,
+      "a": "اسم الشركة او المؤسسة",
+      "e": "name of company"
+    },
+    {
+      "id": 436,
+      "a": "رقم الهاتف",
+      "e": "phone number."
+    },
+    {
+      "id": 438,
+      "a": "رقم الفكس",
+      "e": "fax number."
+    },
+    {
+      "id": 439,
+      "a": "رابط تحميل ملفات ملحقة",
+      "e": "attached files download link"
+    },
+    {
+      "id": 440,
+      "a": "قيمة الضمان الابتدائي",
+      "e": "Initial Guarantee Value"
+    },
+    {
+      "id": 442,
+      "a": "اكمل البيانات",
+      "e": "Complete the data"
+    },
+    {
+      "id": 443,
+      "a": "اختر الدولة",
+      "e": "select country"
+    },
+    {
+      "id": 445,
+      "a": "ما تم ارسالة",
+      "e": "What was sent"
+    },
+    {
+      "id": 446,
+      "a": "يسمح لك تندراكس بارسال طلب واحد كل 24 ساعة",
+      "e": "tenderX allows you to send one request every 24 hours"
+    },
+    {
+      "id": 447,
+      "a": "تاريخ الارسال",
+      "e": "Sending Date"
+    },
+    {
+      "id": 448,
+      "a": "تحديث",
+      "e": "Update"
+    },
+    {
+      "id": 449,
+      "a": "ربما تكون غير متصل بالانترنت او الاتصال ضعيف للغاية",
+      "e": "You may be offline or the connection is too weak"
+    },
+    {
+      "id": 450,
+      "a": "تم التحديث",
+      "e": "Updated"
+    },
+    {
+      "id": 451,
+      "a": "انشاء المجموعة",
+      "e": "Create the group"
+    },
+    {
+      "id": 452,
+      "a": "مجموعاتك",
+      "e": "your groups"
+    },
+    {
+      "id": 453,
+      "a": "اسم المجموعة",
+      "e": "groub name"
+    },
+    {
+      "id": 456,
+      "a": "أدخل اسم المجموعة بحيث لا يقل عن 8 احرف",
+      "e": "Enter the group name, must be at least 8 characters long"
+    },
+    {
+      "id": 458,
+      "a": "اضف الي مجموعة",
+      "e": "Add to your group"
+    },
+    {
+      "id": 459,
+      "a": "اسم المجموعة يجب ان يكون اكثر من 10 احرف",
+      "e": "Group name must be more than 6 characters long"
+    },
+    {
+      "id": 460,
+      "a": "كلمة المرور غير متطابقة",
+      "e": "Password does not match"
+    },
+    {
+      "id": 461,
+      "a": "يجب ان لا تقل عن 4 احرف",
+      "e": "It must be at least 4 characters long"
+    },
+    {
+      "id": 462,
+      "a": "سوف يتم حذف المجموعة هل انت متاكد ؟",
+      "e": "The group will be deleted, are you sure?"
+    },
+    {
+      "id": 463,
+      "a": "موعد",
+      "e": "Date of "
+    },
+    {
+      "id": 464,
+      "a": "نشر الي ",
+      "e": "Publish to"
+    },
+    {
+      "id": 465,
+      "a": "نشر للعامة",
+      "e": "Publish to public"
+    },
+    {
+      "id": 466,
+      "a": "لم تقم بإنشاء مجموعات خاصة بك سوف تنشر المقايسة للعامة.",
+      "e": "If you do not create your own groups you will publish the assay to the public."
+    },
+    {
+      "id": 467,
+      "a": "عرض التفاصيل",
+      "e": "View Details"
+    },
+    {
+      "id": 468,
+      "a": " انشاء مقايسة جديدة",
+      "e": " Create new tender"
+    },
+    {
+      "id": 469,
+      "a": "اختر المقايسة اولا ثم فتح",
+      "e": "Select tender then Open"
+    },
+    {
+      "id": 471,
+      "a": "قمت بالضغط علي زر الرجوع.\nهل تريد الخروج من تندراكس ؟!",
+      "e": "pressed back button.\nDo you want to get out of tenderX ?!"
+    },
+    {
+      "id": 472,
+      "a": " تعديل ",
+      "e": " Edite "
+    },
+    {
+      "id": 473,
+      "a": "مخطط البند المالي",
+      "e": "financial item chart"
+    },
+    {
+      "id": 474,
+      "a": "اضافة المقاولين",
+      "e": "add contractors"
+    },
+    {
+      "id": 475,
+      "a": "وحدات البند",
+      "e": "item units"
+    },
+    {
+      "id": 476,
+      "a": "انشاء ملف",
+      "e": "create file"
+    },
+    {
+      "id": 478,
+      "a": "لا يوجد مقاولين ضمن الاعضاء",
+      "e": "There are no contractors among the members."
+    },
+    {
+      "id": 479,
+      "a": "لاضافة مقاول جديد اختر المقاولون من القائمة الرئيسية",
+      "e": "to add a new contractor choose the contractors from the main menu"
+    },
+    {
+      "id": 480,
+      "a": "تاريخ الدفعة",
+      "e": "Date of Payment Certificate"
+    },
+    {
+      "id": 481,
+      "a": "أمر إسناد",
+      "e": "Award Letter"
+    },
+    {
+      "id": 482,
+      "a": "امر اسناد لمشروع : ",
+      "e": "Award Letter for : "
+    },
+    {
+      "id": 483,
+      "a": "حصر الاعمال لمشروع : ",
+      "e": "Bill of quantities for Project : "
+    },
+    {
+      "id": 484,
+      "a": "مستخلص لمشروع : ",
+      "e": "Payment for : "
+    },
+    {
+      "id": 485,
+      "a": "كشف تفريغ",
+      "e": "Comparison Sheet"
+    },
+    {
+      "id": 486,
+      "a": "يجب اعادة تشغيل البرنامج كمدير تشغيل\nاضغط كلك يمين علي ايكونه البرنامج ثم اختر run as administrator\nولتجنب حدوث هذا في كل تشغيل\nاضغط كلك يمين ثم اختر properties\nثم اختر compatibility\nثم اختر run this program as an administrator",
+      "e": "this program must be restarted as administrator\nright click on program icon and select run as administrator\nto avoid this from happening on every run right click and select compatibility and then select run this program as an administrator"
+    },
+    {
+      "id": 487,
+      "a": "يجب ضبط التاريخ الخاص بالجهاز",
+      "e": "the date of the device must be set."
+    },
+    {
+      "id": 488,
+      "a": "يجب تحديث البرنامج",
+      "e": "the program must be update"
+    },
+    {
+      "id": 489,
+      "a": "فقد في ملفات التشغيل يجب اعادة تحميل البرنامج",
+      "e": "it has lost operating files you must re-download the program"
+    },
+    {
+      "id": 490,
+      "a": "اندرويد",
+      "e": "Android"
+    },
+    {
+      "id": 491,
+      "a": "ويندوز",
+      "e": "Windows"
+    },
+    {
+      "id": 492,
+      "a": "شرح البرنامج",
+      "e": "program help"
+    },
+    {
+      "id": 493,
+      "a": "يجب ضبط التاريخ الخاص بالنظام",
+      "e": "the date of the system must be set."
+    },
+    {
+      "id": 495,
+      "a": " فتح في المتصفح",
+      "e": " open in browser"
+    },
+    {
+      "id": 496,
+      "a": " فتح المتصفح",
+      "e": " open browser"
+    },
+    {
+      "id": 498,
+      "a": "استجلاب اسعار",
+      "e": "Fetching Prices"
+    },
+    {
+      "id": 499,
+      "a": "تحية طيبة وبعد...",
+      "e": "After Greetings"
+    },
+    {
+      "id": 500,
+      "a": "نخطركم بضرورة وضع اسعاركم لمشروع",
+      "e": "we notify you of the need to set your prices for this tender"
+    },
+    {
+      "id": 501,
+      "a": "طبقا لبيان الاعمال والكميات الاتية",
+      "e": "according to the following business statement and quantities"
+    },
+    {
+      "id": 502,
+      "a": "عكس اتجاه كتابة الملف (من اليمين إلى اليسار)",
+      "e": "Reverse file writing direction (right to left)"
+    },
+    {
+      "id": 503,
+      "a": "اضافة الاشتراطات الي الملف",
+      "e": "add condations to file"
+    },
+    {
+      "id": 504,
+      "a": "امر مباشر",
+      "e": "Direct order"
+    },
+    {
+      "id": 505,
+      "a": "نخطركم بإسناد العلمية",
+      "e": "We notify you of the attribution of the Project"
+    },
+    {
+      "id": 506,
+      "a": "اليكم بالأمر المباشر وطبقا لعرض الاسعار المقدم منكم وحسب بيان الاعمال والمواصفات الاتية",
+      "e": "to you by direct order and in accordance with the quotation given by you and in accordance with the following Statement of Works and Specifications"
+    },
+    {
+      "id": 507,
+      "a": "الدفعات",
+      "e": "payments"
+    },
+    {
+      "id": 508,
+      "a": "فرق",
+      "e": "difference"
+    },
+    {
+      "id": 509,
+      "a": "خطاب التأمين والتوظيف",
+      "e": "Insurance and employment letter"
+    },
+    {
+      "id": 510,
+      "a": "خطاب مكتب التأمينات الاجتماعية لمشروع",
+      "e": "Letter of the Social Security Office for tender"
+    },
+    {
+      "id": 511,
+      "a": "خطاب مكتب القوي العاملة لمشروع",
+      "e": "Manpower office letter to tender"
+    },
+    {
+      "id": 512,
+      "a": "قيمة المشروع",
+      "e": "The value of the transaction contract"
+    },
+    {
+      "id": 513,
+      "a": "تاريخ تسليم الموقع",
+      "e": "The date the site was received"
+    },
+    {
+      "id": 514,
+      "a": "نوع وطبيعة الاعمال",
+      "e": "Type and nature of business"
+    },
+    {
+      "id": 515,
+      "a": "قيمة الدفعات السابقة",
+      "e": "The value of the previous payments"
+    },
+    {
+      "id": 516,
+      "a": "تاريخ الاستلام الابتدائي",
+      "e": "Initial date of receipt"
+    },
+    {
+      "id": 517,
+      "a": "القيمة المطلوب الشهادة لها",
+      "e": "The value for which the certificate is required"
+    },
+    {
+      "id": 518,
+      "a": "بالاضافة الي",
+      "e": "in addition to"
+    },
+    {
+      "id": 519,
+      "a": "كمدة اضافية",
+      "e": "as extra time"
+    },
+    {
+      "id": 520,
+      "a": "مرفق امر الاسناد",
+      "e": "attachment order"
+    },
+    {
+      "id": 521,
+      "a": "نخطركم بان شركة المقاولات قامت بتوريد الخامات المطلوبة للتركيب طبقا لأمر الاسناد وجميع المعدات ومواد البناء اللازمة لإنجاز بنود المشروع طبقا للبيان الاتي:",
+      "e": "We inform you that the contracting company has supplied the materials required for installation in accordance with the assignment order and all equipment and construction materials necessary to complete the terms of the operation according to the following statement:"
+    },
+    {
+      "id": 522,
+      "a": "طبقا للبيانات المذكورة عالية حتى نتمكن من صرف مستحقات شركة المقاولات مع خصم كافة مستحقاتكم من شركة المقاولات ",
+      "e": "Please kindly according to the data mentioned above so that we can pay the dues of the contracting company while deducting all your dues from the contracting company."
+    },
+    {
+      "id": 523,
+      "a": "التأمينات",
+      "e": "Insurances"
+    },
+    {
+      "id": 524,
+      "a": "القوي العاملة",
+      "e": "workforce"
+    },
+    {
+      "id": 525,
+      "a": "الموضوع: بخصوص",
+      "e": "Subject: regarding"
+    },
+    {
+      "id": 526,
+      "a": "بموافاتنا بشهادة",
+      "e": "By providing us with a testimony"
+    },
+    {
+      "id": 527,
+      "a": "لمشروع",
+      "e": "for tender"
+    },
+    {
+      "id": 528,
+      "a": "السيد: مدير مكتب التأمينات الاجتماعية",
+      "e": "Mr.: Director of the Social Insurance Office"
+    },
+    {
+      "id": 529,
+      "a": "برجاء التكرم",
+      "e": "Kindly"
+    },
+    {
+      "id": 530,
+      "a": "السيد: مدير مكتب القوي العاملة",
+      "e": "Mr.: Director of the Manpower Office"
+    },
+    {
+      "id": 531,
+      "a": "منصة مجانية.",
+      "e": " free platform."
+    },
+    {
+      "id": 532,
+      "a": "خطاب مكتب القوي العاملة لمشروع",
+      "e": "Manpower office letter to Project:"
+    },
+    {
+      "id": 533,
+      "a": "https://m.facebook.com/story.php?story_fbid=pfbid0oUe8HjEEbKKhBLAi6pTpjBYaMt5sbQrtDjKyFngGVXJz7w4sExuNp6k5qRNuDyAWl&id=100089390092142&mibextid=qC1gEa",
+      "e": "https://m.facebook.com/story.php?story_fbid=pfbid0oUe8HjEEbKKhBLAi6pTpjBYaMt5sbQrtDjKyFngGVXJz7w4sExuNp6k5qRNuDyAWl&id=100089390092142&mibextid=qC1gEa"
+    },
+    {
+      "id": 534,
+      "a": "https://drive.google.com/drive/folders/1v3Hqnx3QcjTE8Xw5svDt_QVoNYujJrsS?usp=sharing",
+      "e": "https://drive.google.com/drive/folders/1v3Hqnx3QcjTE8Xw5svDt_QVoNYujJrsS?usp=sharing"
+    },
+    {
+      "id": 535,
+      "a": "https://play.google.com/store/apps/details?id=com.companyname.tenderX",
+      "e": "https://play.google.com/store/apps/details?id=com.companyname.tenderX"
+    },
+    {
+      "id": 536,
+      "a": "https://drive.google.com/uc?id=1-3KJ39Frxj10xKo1DbIqpzwmFMYpXyml&export=download?usp=sharing",
+      "e": "https://drive.google.com/uc?id=1-3KJ39Frxj10xKo1DbIqpzwmFMYpXyml&export=download?usp=sharing"
+    },
+    {
+      "id": 537,
+      "a": "https://drive.google.com/uc?id=1rTcGXPcFE3SS14HjV7kz63n2YHBcET2P&export=download?usp=sharing",
+      "e": "https://drive.google.com/uc?id=1rTcGXPcFE3SS14HjV7kz63n2YHBcET2P&export=download?usp=sharing"
+    },
+    {
+      "id": 538,
+      "a": "ملحوظة",
+      "e": "note"
+    },
+    {
+      "id": 539,
+      "a": "تتم اعادة الحسابات انتظر ...",
+      "e": "Recalculations wait..."
+    },
+    {
+      "id": 540,
+      "a": "جاري اعداد الطباعة انتظر ...",
+      "e": "preparing to print , wait ..."
+    },
+    {
+      "id": 541,
+      "a": "جاري اعداد الملخص انتظر ...",
+      "e": "summary is being prepared, wait ..."
+    },
+    {
+      "id": 542,
+      "a": "جاري اضافة دفعة انتظر ...",
+      "e": "payment is being added,wait ..."
+    },
+    {
+      "id": 543,
+      "a": "جاري حذف الدفعة انتظر ...",
+      "e": "payment is being deleted,wait ..."
+    },
+    {
+      "id": 544,
+      "a": "اختر ملف من نوع deb",
+      "e": "select file kind (tender)"
+    },
+    {
+      "id": 545,
+      "a": "ملفات ملحقة",
+      "e": "Attached files"
+    },
+    {
+      "id": 546,
+      "a": " نقل",
+      "e": " transfer"
+    },
+    {
+      "id": 547,
+      "a": "لم يتم اختيار مسار",
+      "e": "no path selected"
+    },
+    {
+      "id": 548,
+      "a": "تغير مكان حفظ البيانات",
+      "e": "change path for data save"
+    },
+    {
+      "id": 549,
+      "a": "يتم حفظ كافة البيانات داخل البرنامج يمكنك عمل نسخة منها لنشرها او استرجاعها عند الحاجة",
+      "e": "All data is saved within the program, and you can make a copy of it for publication or retrieval when needed"
+    },
+    {
+      "id": 550,
+      "a": "ذاكرة الهاتف -> ",
+      "e": "phone memory ->"
+    },
+    {
+      "id": 551,
+      "a": "اعدادات القوائم الرئيسية",
+      "e": "Main menu settings"
+    },
+    {
+      "id": 552,
+      "a": " اعداد نسخة",
+      "e": " Prepare a copy"
+    },
+    {
+      "id": 554,
+      "a": " اعدادات الطباعة",
+      "e": " Print setup"
+    },
+    {
+      "id": 555,
+      "a": "مخطط مالي",
+      "e": "financial planner"
+    },
+    {
+      "id": 556,
+      "a": "اضافة من الاشتراطات العامة",
+      "e": "add from general condations"
+    },
+    {
+      "id": 557,
+      "a": "سوف يتم تجميع كافة البيانات داخل ملف ZIP كنسخة احتياطية يمكن الرجوع اليها او نشرها",
+      "e": "All data will be compiled into a ZIP file as a backup for reference or to share it."
+    },
+    {
+      "id": 558,
+      "a": "معفي",
+      "e": "exempt"
+    },
+    {
+      "id": 559,
+      "a": "روابط الشرح والتحديث",
+      "e": "Links to explain and update the program"
+    },
+    {
+      "id": 560,
+      "a": "لا يقبل التعديل على دفعة سابقة",
+      "e": "It is not possible to amend a previous Payment Certificate"
+    },
+    {
+      "id": 561,
+      "a": "تظهر هذة الملاحظات في طباعة المستخلص",
+      "e": "this note print in Payment Certificate"
+    },
+    {
+      "id": 562,
+      "a": " حفظ",
+      "e": " Save"
+    },
+    {
+      "id": 563,
+      "a": "ناتج البحث",
+      "e": "Search Result"
+    },
+    {
+      "id": 564,
+      "a": "لا يمكن حذف  او تغير نوع عنصر تم في دفعة سابقة مازال يمكنك تعديل الكميات والتوصيف  \n(ملحوظة : عند وضع قيمة صفر في اي من كميات البند لن يظهر في طباعه الحصر والمستخلص يبقي كاعمال سابقة فقط)",
+      "e": "It is not possible to delete or change the type of an item that was made in a previous Payment Certificate. You can still modify the quantities and specifications\n(Note: When a value of zero is placed in any of the item quantities, it will not appear in the inventory print and the extract will remain as previous works only)"
+    },
+    {
+      "id": 565,
+      "a": "للبحث في نصوص البنود",
+      "e": "search in items text"
+    },
+    {
+      "id": 567,
+      "a": "بيان المشاريع",
+      "e": "Operations statement"
+    },
+    {
+      "id": 568,
+      "a": "tenderx1@outlook.com",
+      "e": "tenderx1@outlook.com"
+    },
+    {
+      "id": 570,
+      "a": "اخطار السلامة والصحة المهنية",
+      "e": "Occupational health and safety hazards"
+    },
+    {
+      "id": 571,
+      "a": "بداية وثائق التامين",
+      "e": "Beginning of insurance documents"
+    },
+    {
+      "id": 572,
+      "a": "استلام الموقع",
+      "e": "Site Receipt"
+    },
+    {
+      "id": 573,
+      "a": "نهاية الاعمال فعليا",
+      "e": "Actually, the end of the Project"
+    },
+    {
+      "id": 574,
+      "a": "الاستلام الابتدائي",
+      "e": "Primary Receipt"
+    },
+    {
+      "id": 575,
+      "a": "نهاية وثائق التامين",
+      "e": "End of insurance documents"
+    },
+    {
+      "id": 576,
+      "a": "https://drive.google.com/drive/folders/1BzI0CqHatfiDSbMqd_pywFXN4mdznnpt?usp=share_link",
+      "e": "https://drive.google.com/drive/folders/1BzI0CqHatfiDSbMqd_pywFXN4mdznnpt?usp=share_link"
+    },
+    {
+      "id": 577,
+      "a": "روابط التحميل والتحديث لانظمة التشغيل المختلفة",
+      "e": "Download and update links for different operating systems"
+    },
+    {
+      "id": 578,
+      "a": "اندرويد بدون جوجل بلاي",
+      "e": "Android Without Google Play"
+    },
+    {
+      "id": 579,
+      "a": "بحث تراكمي في اسماء المقايسات",
+      "e": "Cumulative search in the names of the assays"
+    },
+    {
+      "id": 580,
+      "a": "عنوان مرقم",
+      "e": "Numbered address"
+    },
+    {
+      "id": 581,
+      "a": "أولا: المهمات المخزنية",
+      "e": "First: inventory tasks"
+    },
+    {
+      "id": 582,
+      "a": "مقايسة استرشادية ( توريد وتركيب طلمبات ديفرام )",
+      "e": "Indicative assay (supply and installation of diaphragm pumps)"
+    },
+    {
+      "id": 583,
+      "a": "مــــــــــلاحـــــظـات",
+      "e": "N o t e s "
+    },
+    {
+      "id": 584,
+      "a": "نوع التجميع",
+      "e": "kind of grouping"
+    },
+    {
+      "id": 585,
+      "a": "لا توجد دفعات",
+      "e": "There are no payments"
+    },
+    {
+      "id": 586,
+      "a": "لم تكتمل بعض البيانات تتبع تعليمات الحالة",
+      "e": "Some data are incomplete look for status statment"
+    },
+    {
+      "id": 587,
+      "a": "يجب ادخال تاريخ الدفعة",
+      "e": "Payment date is required"
+    },
+    {
+      "id": 588,
+      "a": " نوع ",
+      "e": " type "
+    },
+    {
+      "id": 589,
+      "a": "سوف يتم تصدير المجلد علي هيئة ملف مضغوط .zip",
+      "e": "The folder will be exported as a .zip file"
+    },
+    {
+      "id": 590,
+      "a": "يحتاج تندراكس Word (Microsoft)  لفتح الملفات المطبوعة\nيمكن تحميلة مجانا من خلال موقع\n\nxxx\n\n(يجب أن يكون برنامج ال word من إنتاج Microsoft) \nلا تحاول استخدام أي برنامج آخر لفتح الملفات المطبوعة \nولكي تتمكن من مميزات اخري كالتحويل الي صيغة pdf او xsl ",
+      "e": "tenderX for Word (Microsoft) is required to open printable files through the link\nxxx\n(It must be produced by Microsoft) Do not try to use any other program to open printed files and so can convert to pdf or xsl format"
+    },
+    {
+      "id": 591,
+      "a": "( يتوفر برنامج ميكروسوفت وورد علي جوجل بلاي )",
+      "e": "( free from google play )"
+    },
+    {
+      "id": 592,
+      "a": "www.getintopc.com",
+      "e": "www.getintopc.com"
+    },
+    {
+      "id": 593,
+      "a": "لا تظهر هذة مرة اخري",
+      "e": "not appear again"
+    },
+    {
+      "id": 594,
+      "a": "يمكنك اضافة فترة توقف عند جعل اول حرف في بيان الاعمال العلامة ( - )",
+      "e": "You can add a pause when making the first letter in the business statement the sign (-)"
+    },
+    {
+      "id": 595,
+      "a": "هذه الملاحظات تظهر في طباعة الحصر",
+      "e": "this note print in Bill of quantities"
+    },
+    {
+      "id": 597,
+      "a": "يتوفر الان تحديث جديد لتندراكس\nمن الافضل تحميلة لتجنب الاخطاء وللحصول علي مميزات",
+      "e": "There is an update for the tenderX platform\nIt is better to download it to avoid errors and to obtain advantages"
+    },
+    {
+      "id": 598,
+      "a": "اذا تم وضع نسبة التنزيل بقيمة اقل من الصفر تصبح نسبة زيادة",
+      "e": "If the download rate is set at a value less than zero, it becomes an increase rate"
+    },
+    {
+      "id": 599,
+      "a": " بعد اختيار العطاء رقم ",
+      "e": " After selecting Bid No "
+    },
+    {
+      "id": 600,
+      "a": "بيانات الشركة تظهر في اوامر الطباعة. وكذلك يعتبر شعار جميع المشاريع المطروحة كعطاء.",
+      "e": "Company data appears in print orders. Also, the logo of all tendered projects is considered."
+    },
+    {
+      "id": 602,
+      "a": "لتحديد عدد الارقام التي يمكنها الظهور بعد العلامة العشرية",
+      "e": "Specifies the number of digits that can appear after the decimal point"
+    },
+    {
+      "id": 603,
+      "a": "لتجنب الاخطاء يتم حفظ نسخة تلقائيا لقواعد بيانات النصوص ويمكن استرجاعها من خلال ( استعادة )",
+      "e": "To avoid errors, a copy is automatically saved to the text databases and can be retrieved through (Restore)."
+    },
+    {
+      "id": 604,
+      "a": "تضاف الي بيانات النشر ولتفقيط أرقام العملة",
+      "e": "Added to publishing data and used to convert numeric values into text based on the specified currency"
+    },
+    {
+      "id": 605,
+      "a": "يمكنك تغير مكان حفظ البيانات الي مكان اخر( تحتاج الي اعادة تشغيل تندراكس ) وللعمل بشكل جماعي يمكن تحديد المكان داخل ( الشبكة المحلية ) او ( جوجل درايف , دروب بوكس, ,وان درايف ) ",
+      "e": "You can change the location of saving the data to another location (you need to restart tenderX) and to work collectively, you can specify the location within the (local network) or (Google Drive, Dropbox, OneDrive)"
+    },
+    {
+      "id": 606,
+      "a": "تمتلك نسخة تندراكس علي نظام تشغيل وندوز مميزات اكبر في تغير مكان حفظ البيانات والعمل الجماعي",
+      "e": "The version of tenderX on Windows operation system has greater advantages in changing the location of saving data and group work"
+    },
+    {
+      "id": 607,
+      "a": "عند اول استخدام يجب تحديد علي الاقل (الدولة والثقافة) المستخدمة اذهب الي الاعدادات وقم بذلك.",
+      "e": "At the first use, you must specify at least (the country and culture) used, go to the settings and do so."
+    },
+    {
+      "id": 608,
+      "a": "يجب ادخال رقم اكبر من او يساوي صفر",
+      "e": "Must input number great than or equal zero"
+    },
+    {
+      "id": 609,
+      "a": "يجب ادخال رقم اكبر من او يساوي واحد",
+      "e": "Must input number great than or equal one"
+    },
+    {
+      "id": 610,
+      "a": "يمكنك اضافة عناصر جديدة الي القوائم والتصنيفات الرئيسية",
+      "e": "You can add new items to the main menus and categories"
+    },
+    {
+      "id": 611,
+      "a": "التالي",
+      "e": "Next"
+    },
+    {
+      "id": 612,
+      "a": "يجب اختيار نطاق الدولة",
+      "e": "The country domain must be selected"
+    },
+    {
+      "id": 613,
+      "a": "يجب اختيار الثقافة",
+      "e": "Culture must be chosen"
+    },
+    {
+      "id": 615,
+      "a": "الكود التعريفي",
+      "e": "ID"
+    },
+    {
+      "id": 616,
+      "a": " حالة العطاء ",
+      "e": " tender state"
+    },
+    {
+      "id": 617,
+      "a": "من قيمة العطاء",
+      "e": "from all tender value"
+    },
+    {
+      "id": 618,
+      "a": "السعر بعد التنزيل",
+      "e": "Price After Discount"
+    },
+    {
+      "id": 619,
+      "a": "الاجمالي بعد احتساب النسب",
+      "e": "total after per"
+    },
+    {
+      "id": 620,
+      "a": "الملاحظات الفنية",
+      "e": "Technical notes"
+    },
+    {
+      "id": 621,
+      "a": "الملاحظات المالية",
+      "e": "Financial notes"
+    },
+    {
+      "id": 622,
+      "a": "تم اكتمال بيانات العطاء الفني والمالي",
+      "e": "all data input for Financial and Technical is completed"
+    },
+    {
+      "id": 623,
+      "a": "لا يمكن اضافة اكثر من عطاء",
+      "e": "cant add more than one tender"
+    },
+    {
+      "id": 624,
+      "a": "النص",
+      "e": "text"
+    },
+    {
+      "id": 626,
+      "a": "هندية",
+      "e": "Indian"
+    },
+    {
+      "id": 627,
+      "a": "باكستانية",
+      "e": "Pakistani"
+    },
+    {
+      "id": 628,
+      "a": "سوف يتم حفظ المخطط علي هيئة صورة بامتداد png\nلتغير حجم ودقة الصورة استخدم الازرر التكبير و التصغير",
+      "e": "The chart will be saved as a png image\r\nTo change the size and resolution of the image, use zoom in and zoom out buttons."
+    },
+    {
+      "id": 629,
+      "a": " صورة",
+      "e": " Picture"
+    },
+    {
+      "id": 630,
+      "a": "اذا كنت تعمل مع فريق عمل (شبكة) يفضل خروج كافة المستخدمين.\nسوف يغلق تندراكس بعد اكمال مشروع الاسترجاع قم باعادة تشغيلة.",
+      "e": "If you are working with a team (network), it is preferable for all users to log out.\r\ntenderX will close after completing the recovery Project, restart it."
+    },
+    {
+      "id": 632,
+      "a": "سوف يغلق تندراكس بعد اكمال مشروع الاسترجاع قم باعادة تشغيلة.",
+      "e": "tenderX will close after completing the recovery Project, restart it."
+    },
+    {
+      "id": 633,
+      "a": "البنود",
+      "e": "Items"
+    },
+    {
+      "id": 634,
+      "a": "سوف يتم تصدير المجلد علي شكل ملف مضغوط zip",
+      "e": "folder will send as compress file .zip"
+    },
+    {
+      "id": 635,
+      "a": " فك الضغط",
+      "e": " Unzip"
+    },
+    {
+      "id": 636,
+      "a": "اختر امر الطباعة",
+      "e": "select print order"
+    },
+    {
+      "id": 637,
+      "a": "رسوم كراسة الشروط والمواصفات",
+      "e": "Tender Document Fee"
+    },
+    {
+      "id": 638,
+      "a": "نسبة الضمان الابتدائي %",
+      "e": "Initial Guarantee Percentage %"
+    },
+    {
+      "id": 639,
+      "a": "يعادل ",
+      "e": "Equivalent"
+    },
+    {
+      "id": 640,
+      "a": " في تمام الساعة ",
+      "e": " At the hour "
+    },
+    {
+      "id": 641,
+      "a": "التكاليف",
+      "e": "costs"
+    },
+    {
+      "id": 644,
+      "a": "لا يمكن تعديل المجموعة الا من مشرف المجموعة",
+      "e": "The group can only be modified by the group moderator"
+    },
+    {
+      "id": 645,
+      "a": "ادخل",
+      "e": "insert"
+    },
+    {
+      "id": 646,
+      "a": "غير متطابقة",
+      "e": "not match"
+    },
+    {
+      "id": 647,
+      "a": "تم اكتمال البيانات",
+      "e": "all data is completed"
+    },
+    {
+      "id": 648,
+      "a": "يجب تغير الاسم تم حجزة.",
+      "e": "The name has been reserved must be changed."
+    },
+    {
+      "id": 649,
+      "a": "مشرف",
+      "e": "Admin"
+    },
+    {
+      "id": 650,
+      "a": "hgh",
+      "e": "hgh"
+    },
+    {
+      "id": 651,
+      "a": "جاري التحقق من اسم المجموعة",
+      "e": "Checking the group name"
+    },
+    {
+      "id": 653,
+      "a": "جاري رفع الملف الي سحابة تندراكس",
+      "e": "The file is being uploaded to the tenderX cloud"
+    },
+    {
+      "id": 654,
+      "a": "لم يكتمل الاجراء. يمكنك اعادة المحاولة في وقت لاحق ",
+      "e": "The procedure is not completed. You can try again later"
+    },
+    {
+      "id": 655,
+      "a": "مرحبا بمجموعتك الجديدة علي سحابة تندراكس",
+      "e": "Welcome to your new group on tenderX Cloud"
+    },
+    {
+      "id": 656,
+      "a": "سوف يتم الانتقال الي مجموعاتك",
+      "e": "You will be moved to your groups"
+    },
+    {
+      "id": 657,
+      "a": "مرحبا",
+      "e": "Welcome"
+    },
+    {
+      "id": 658,
+      "a": "لم تقم بتحميل اي مجموعة !",
+      "e": "You have not downloaded any group!"
+    },
+    {
+      "id": 659,
+      "a": "الاعضاء",
+      "e": "Members"
+    },
+    {
+      "id": 660,
+      "a": "كلمة المرور",
+      "e": "Password"
+    },
+    {
+      "id": 661,
+      "a": "كلمة المرور غير صحيحة",
+      "e": "The password is incorrect"
+    },
+    {
+      "id": 662,
+      "a": "تم الاجراء المطلوب",
+      "e": "The required action has been taken"
+    },
+    {
+      "id": 663,
+      "a": "جمل البحث لا تقل عن 3 احرف",
+      "e": "Search phrases should not be less than 3 letters"
+    },
+    {
+      "id": 664,
+      "a": "لا توجد نتائج للبحث",
+      "e": "There are no search results"
+    },
+    {
+      "id": 665,
+      "a": "حفظ كلمة المرور",
+      "e": "Save Password"
+    },
+    {
+      "id": 666,
+      "a": "اتصال وتبادل البيانات",
+      "e": "Communication and data exchange"
+    },
+    {
+      "id": 667,
+      "a": "قد تكون قمت بانتهاك احدي قوانين تبادل ونشر البيانات الخاصة بشركة Google .\nلن تتمكن من استخدام منصة tenderX حتي يتم اتخاذ الاجراء المناسب.",
+      "e": "You may have violated one of Google's data sharing and publishing laws.\r\nYou will not be able to use the tenderX platform until appropriate action is taken."
+    },
+    {
+      "id": 668,
+      "a": "السماحية",
+      "e": "Permit"
+    },
+    {
+      "id": 669,
+      "a": "العضو",
+      "e": "member"
+    },
+    {
+      "id": 670,
+      "a": "لم يحدد",
+      "e": "not specify"
+    },
+    {
+      "id": 671,
+      "a": "مقاول",
+      "e": "contractor"
+    },
+    {
+      "id": 672,
+      "a": "اضافة عضو",
+      "e": "Add user"
+    },
+    {
+      "id": 673,
+      "a": "اسم العضو الجديد",
+      "e": "New User Name"
+    },
+    {
+      "id": 674,
+      "a": "اعد كتابة",
+      "e": "Rewrite"
+    },
+    {
+      "id": 675,
+      "a": "لا يمكنك رفع بيانات لخوادم جوجل التاريخ والوقت الذي يستخدمهم جهازك غير صحيحة.\nاجعل التاريخ والوقت في اعدادات الجهاز في وضع تلقائي ( توافق مع الشبكة ) واعد المحاولة.",
+      "e": "You cannot upload data to Google servers that are incorrect date and time used by your device.\r\nSet the date and time in the device settings to automatic mode (compatibility with the network) and try again."
+    },
+    {
+      "id": 676,
+      "a": "هناك مشكله ما بالتاريخ والوقت الخاصة بجهازك او باحدي اجهزة اعضاء المجموعة تاكد من ان التاريخ والوقت في اعدادات الجهاز في وضع تلقائي ( توافق مع الشبكة ).",
+      "e": "There is a problem with the date and time of your device or one of the devices of the group members. Make sure that the date and time in the device settings are in automatic mode (compatibility with the network)."
+    },
+    {
+      "id": 677,
+      "a": "hesham101",
+      "e": "hesham101"
+    },
+    {
+      "id": 678,
+      "a": "هذة المجموعة بالفعل من ضمن مجموعاتك",
+      "e": "This group is already in your groups"
+    },
+    {
+      "id": 680,
+      "a": "اختر# رقم العضو",
+      "e": "Select member # number "
+    },
+    {
+      "id": 681,
+      "a": "تعديل المجموعة",
+      "e": "Modify the group"
+    },
+    {
+      "id": 682,
+      "a": "أو",
+      "e": "Or"
+    },
+    {
+      "id": 683,
+      "a": "ما قمت بإدخاله ليس رقم يجب ادخال ارقام ",
+      "e": "What you entered is not a number You must enter numbers"
+    },
+    {
+      "id": 684,
+      "a": "عضو",
+      "e": "member"
+    },
+    {
+      "id": 685,
+      "a": "جديد",
+      "e": "New"
+    },
+    {
+      "id": 686,
+      "a": "اختر السماحية اولا",
+      "e": "Select permission first"
+    },
+    {
+      "id": 687,
+      "a": "سوف يتم حذف المجموعة من مجموعاتك",
+      "e": "The group will be removed from your groups"
+    },
+    {
+      "id": 688,
+      "a": "خروج من المجموعة",
+      "e": "Exit from group"
+    },
+    {
+      "id": 689,
+      "a": "ادخل كلمة مرور العضو",
+      "e": "Insert member password"
+    },
+    {
+      "id": 690,
+      "a": "مسح المجموعة سوف يؤدي الي مسح جميع الاعمال الخاصة بها وبأعضائها ولن تظهر في مشاريع البحث مرة اخري . هل انت متأكد ؟",
+      "e": "Deleting the group will delete all its businesses and members, and it will not appear in searches again. are you sure ?"
+    },
+    {
+      "id": 691,
+      "a": "لم يتم تحديد نطاق النشر! لن يظهر المشروع في بحث العاطاءات سواء العامة أو الجماعية.",
+      "e": "The publication scope is not defined! The project will not appear in the tenders search, whether public or group tenders."
+    },
+    {
+      "id": 692,
+      "a": "تم طرح المقايسة سوف يتم الانتقال الي المقايسات المطروحة.",
+      "e": "The assay has been submitted, it will move to the assays presented."
+    },
+    {
+      "id": 693,
+      "a": "بحث باستخدام",
+      "e": "Search using"
+    },
+    {
+      "id": 694,
+      "a": "حذف من الطرح",
+      "e": "Delete from the ad"
+    },
+    {
+      "id": 695,
+      "a": "اختر المجموعة",
+      "e": "Select Group"
+    },
+    {
+      "id": 696,
+      "a": "فتح مظاريف (بث مباشر)",
+      "e": "Envelopes (live)"
+    },
+    {
+      "id": 698,
+      "a": "لجنة التقييم الفني",
+      "e": "Technical Evaluation Committee"
+    },
+    {
+      "id": 699,
+      "a": "لجان فتح المظاريف المالية",
+      "e": "Committees for opening financial envelopes"
+    },
+    {
+      "id": 700,
+      "a": "لجان التقييم المالي",
+      "e": "Financial Evaluation Committees"
+    },
+    {
+      "id": 701,
+      "a": "مهندس,استشاري",
+      "e": "Engineer,consultative"
+    },
+    {
+      "id": 702,
+      "a": "مقاول,مورد",
+      "e": "Contractor,supplier"
+    },
+    {
+      "id": 703,
+      "a": "مواد خام",
+      "e": "Raw Materials"
+    },
+    {
+      "id": 704,
+      "a": "تسجيل الدخول",
+      "e": "Sign in"
+    },
+    {
+      "id": 705,
+      "a": "فني,حرفي",
+      "e": "Skiller,laborer"
+    },
+    {
+      "id": 706,
+      "a": "اسم المستخدم",
+      "e": "user name"
+    },
+    {
+      "id": 707,
+      "a": "دخول",
+      "e": "enter"
+    },
+    {
+      "id": 708,
+      "a": "نسيت كلمة المرور",
+      "e": "Forgot password"
+    },
+    {
+      "id": 709,
+      "a": " مستخدم جديد",
+      "e": " new user"
+    },
+    {
+      "id": 710,
+      "a": "اعد كلمة المرور",
+      "e": "Re-enter the password"
+    },
+    {
+      "id": 711,
+      "a": "انشاء مستخدم جديد",
+      "e": "create new user"
+    },
+    {
+      "id": 712,
+      "a": "ادخل اسم المستخدم",
+      "e": "Enter the user name"
+    },
+    {
+      "id": 713,
+      "a": " لا يقل عن",
+      "e": " not less than"
+    },
+    {
+      "id": 714,
+      "a": " 8 احرف",
+      "e": " 8 char"
+    },
+    {
+      "id": 715,
+      "a": "يجب ادخال البريد الالكتروني بشكل صحيح لكي تتمكن من استرجاع حسابك في حاله نسيان كلمة المرور.",
+      "e": "You must enter the email correctly so that you can recover your account in the event that you forget the password."
+    },
+    {
+      "id": 716,
+      "a": "هذا المستخدم تم تسجيلة من قبل",
+      "e": "This user has already been registered"
+    },
+    {
+      "id": 717,
+      "a": "علي منصة تندراكس",
+      "e": "On the tenderX platform"
+    },
+    {
+      "id": 718,
+      "a": "تم انشاء حسابك",
+      "e": "Your account has been created"
+    },
+    {
+      "id": 719,
+      "a": "اسم المستخدم او كلمة المرور غير صحيحة",
+      "e": "The user name or password is incorrect"
+    },
+    {
+      "id": 720,
+      "a": "خروج",
+      "e": "logout"
+    },
+    {
+      "id": 721,
+      "a": "تعديل بيانات المستخدم",
+      "e": "edit user data"
+    },
+    {
+      "id": 722,
+      "a": "اضافة جديد",
+      "e": "Add new"
+    },
+    {
+      "id": 723,
+      "a": "شخص",
+      "e": "Person"
+    },
+    {
+      "id": 724,
+      "a": "شركة",
+      "e": "Company"
+    },
+    {
+      "id": 725,
+      "a": "الاسم",
+      "e": "Name"
+    },
+    {
+      "id": 726,
+      "a": "التخصص في الاعمال",
+      "e": "Specialization in business"
+    },
+    {
+      "id": 728,
+      "a": "العنوان",
+      "e": "the address"
+    },
+    {
+      "id": 729,
+      "a": "ملخص السيرة الذاتية",
+      "e": "C.V summary"
+    },
+    {
+      "id": 730,
+      "a": "المؤهل الدراسي",
+      "e": "Educational Qualification"
+    },
+    {
+      "id": 731,
+      "a": "مؤهلات وشهادات أخرى",
+      "e": "Other qualifications and certificates"
+    },
+    {
+      "id": 732,
+      "a": "الخبرة المهنية",
+      "e": "Professional Experience"
+    },
+    {
+      "id": 733,
+      "a": "المهارات الإضافية",
+      "e": "Additional skills"
+    },
+    {
+      "id": 734,
+      "a": "نـشـر",
+      "e": "Publish"
+    },
+    {
+      "id": 735,
+      "a": "اكمل البيانات ثم اضغط نشر",
+      "e": "complete required data and then press publish"
+    },
+    {
+      "id": 736,
+      "a": "يجب ادخال",
+      "e": "must input"
+    },
+    {
+      "id": 737,
+      "a": "تم نشر السيرة الذاتية",
+      "e": "CV published"
+    },
+    {
+      "id": 738,
+      "a": "عدد سنوات",
+      "e": "Number Of years"
+    },
+    {
+      "id": 739,
+      "a": "سنة التخرج",
+      "e": "Graduation Year"
+    },
+    {
+      "id": 740,
+      "a": "شهادة الدبلوم",
+      "e": "Diploma certificate"
+    },
+    {
+      "id": 741,
+      "a": "شهادة البكالوريوس",
+      "e": "Bachelor's degree"
+    },
+    {
+      "id": 742,
+      "a": "شهادة الماجستير",
+      "e": "Master's degree"
+    },
+    {
+      "id": 743,
+      "a": "شهادة الدكتوراه",
+      "e": "Ph.D"
+    },
+    {
+      "id": 744,
+      "a": "أستاذ جامعي (بروفيسور)",
+      "e": "University professor (professor)"
+    },
+    {
+      "id": 745,
+      "a": "شهادة الدبلوم العالي",
+      "e": "Higher diploma certificate"
+    },
+    {
+      "id": 746,
+      "a": "يجب علي الاقل اختيار الدولة و تخصص الاعمال قبل الضغط علي بحث",
+      "e": "You must at least select the country and business specialty before clicking on search"
+    },
+    {
+      "id": 747,
+      "a": "الاجابة سوف تكون اكبر من او تساوي القيمة",
+      "e": "The answer will be greater than or equal to the value"
+    },
+    {
+      "id": 748,
+      "a": "أكواد\nومعايير",
+      "e": "Codes\r\nstandards"
+    },
+    {
+      "id": 749,
+      "a": "Using Google Services",
+      "e": "Using Google Services"
+    },
+    {
+      "id": 750,
+      "a": "عرض الكل",
+      "e": "Show All"
+    },
+    {
+      "id": 751,
+      "a": "بايت",
+      "e": "Byte"
+    },
+    {
+      "id": 752,
+      "a": "كيلو",
+      "e": "kilo"
+    },
+    {
+      "id": 753,
+      "a": "الحجم",
+      "e": "Size"
+    },
+    {
+      "id": 754,
+      "a": "نوع الملف",
+      "e": "File Type"
+    },
+    {
+      "id": 755,
+      "a": "تحميل",
+      "e": "Download"
+    },
+    {
+      "id": 756,
+      "a": "اكتمل التحميل",
+      "e": "Download completed"
+    },
+    {
+      "id": 757,
+      "a": "جاري التحميل",
+      "e": "Loading"
+    },
+    {
+      "id": 758,
+      "a": "استئناف التحميل",
+      "e": "Resume download"
+    },
+    {
+      "id": 759,
+      "a": "مقايسات وعطاءات",
+      "e": "Bids and tenders"
+    },
+    {
+      "id": 760,
+      "a": "سير ذاتية",
+      "e": "Curricula Vitae"
+    },
+    {
+      "id": 761,
+      "a": "معايير ومصادر",
+      "e": "Standards and sources"
+    },
+    {
+      "id": 762,
+      "a": "رقم البند",
+      "e": "Item No."
+    },
+    {
+      "id": 763,
+      "a": "السابق",
+      "e": "Previous"
+    },
+    {
+      "id": 764,
+      "a": "يجب ان يكون سعر المقاول في اعمال التشوينات اقل من سعرة المقدم في العطاء",
+      "e": "The contractor's price for the Supplies works must be less than the price submitted in the bid"
+    },
+    {
+      "id": 765,
+      "a": "قيمة البند بالعطاء",
+      "e": "The value of the item bid"
+    },
+    {
+      "id": 766,
+      "a": "لم تكتمل مشروع التحميل",
+      "e": "download not completed"
+    },
+    {
+      "id": 767,
+      "a": "عنوان بريدك الإلكتروني آمن تمامًا، ولن يُستخدم لأي أغراض تسويقية أو إعلانية او الافصاح عنه لاي جه كانت، فقط لتسجيل الدخول مستقبلاً.",
+      "e": "Your email address is completely secure; it will not be used for marketing, advertising, or disclosed to any party—only for future login."
+    },
+    {
+      "id": 768,
+      "a": "لا يوجد مستخدم بهذا الاسم",
+      "e": "There is no user with this name"
+    },
+    {
+      "id": 769,
+      "a": "tenderX خدمات",
+      "e": "tenderX Services"
+    },
+    {
+      "id": 770,
+      "a": "تم ارسال كلمة المرور الخاصة بك الي ",
+      "e": "Your password has been sent to me"
+    },
+    {
+      "id": 771,
+      "a": "الخاصة بالمستخدم",
+      "e": "User's own"
+    },
+    {
+      "id": 773,
+      "a": "اوافق علي التقيم مبدئيا",
+      "e": "I agree with the evaluation in principle"
+    },
+    {
+      "id": 774,
+      "a": "C.V",
+      "e": "C.V"
+    },
+    {
+      "id": 775,
+      "a": "النسبة الكلية للاعمال بالبند",
+      "e": "total percentage of work"
+    },
+    {
+      "id": 776,
+      "a": "النسبة الكلية لالتشوينات بالبند",
+      "e": "total percentage of Supplies"
+    },
+    {
+      "id": 777,
+      "a": "السعر الكلي للتشوينات",
+      "e": "total price of the Supplies"
+    },
+    {
+      "id": 778,
+      "a": "يجب انشاء حساب مستخدم اولا ( تسجيل الدخول )",
+      "e": "You must create a user account first (log in)"
+    },
+    {
+      "id": 779,
+      "a": "يجب ان لايزيد الاسم عن 50 حرف",
+      "e": "The name must not exceed 50 characters"
+    },
+    {
+      "id": 780,
+      "a": "تمت اضافة",
+      "e": "Added complete"
+    },
+    {
+      "id": 781,
+      "a": "هذا المستخدم موجود بالفعل بالمجموعة",
+      "e": "This user already exists in the group"
+    },
+    {
+      "id": 782,
+      "a": "تم حذف",
+      "e": "Deleted complete"
+    },
+    {
+      "id": 783,
+      "a": "تم تعديل صلاحيات العضو",
+      "e": "Member permissions have been modified"
+    },
+    {
+      "id": 784,
+      "a": "تعديل السماحية",
+      "e": "Edit permit"
+    },
+    {
+      "id": 785,
+      "a": "لا يمكن تعديل السماحية الخاصة بك فانت المشرف بالمجموعة\nلكي تتمكن من التعديل اجعل احد اعضاء المجموعة مشرف عليها.",
+      "e": "Your permission cannot be modified as you are the admin of the group\nIn order to be able to edit, make one of the group members a moderator."
+    },
+    {
+      "id": 786,
+      "a": "أنت المشرف الوحيد!\nلكي تتمكن من الخروج اجعل احد الاعضاء مشرف.",
+      "e": "You are the only moderator! To be able to log out, make one of the members a moderator."
+    },
+    {
+      "id": 787,
+      "a": "من صلاحيات المشرفين.",
+      "e": "From the powers of supervisors."
+    },
+    {
+      "id": 788,
+      "a": "تم تحديث المجموعة الي اخر تعديلات اجريت عليها.",
+      "e": "The group has been updated to the latest modifications made to it."
+    },
+    {
+      "id": 789,
+      "a": "انت لست عضو بالمجموعة !",
+      "e": "You are not a member of the group!"
+    },
+    {
+      "id": 790,
+      "a": "أضافة صورة",
+      "e": "Add Image"
+    },
+    {
+      "id": 791,
+      "a": "تعديل الصورة",
+      "e": "Edit Image"
+    },
+    {
+      "id": 792,
+      "a": "دخول",
+      "e": "Login"
+    },
+    {
+      "id": 793,
+      "a": "هل تود تحديث بيانات المجموعة ؟",
+      "e": "Would you like to update the group data?"
+    },
+    {
+      "id": 794,
+      "a": "هذا العضو موجود بالفعل داخل المجموعة !",
+      "e": "This member is already in the group!"
+    },
+    {
+      "id": 795,
+      "a": "خطا في المدخلات",
+      "e": "Input error"
+    },
+    {
+      "id": 796,
+      "a": "تاريخ الميلاد",
+      "e": "date of birth"
+    },
+    {
+      "id": 797,
+      "a": "تعليم اساسي",
+      "e": "Basic education"
+    },
+    {
+      "id": 798,
+      "a": "ملف ورد",
+      "e": "Word file"
+    },
+    {
+      "id": 799,
+      "a": "ملف اكسل",
+      "e": "Excel file"
+    },
+    {
+      "id": 800,
+      "a": "صفحة ويب",
+      "e": "Wep page"
+    },
+    {
+      "id": 801,
+      "a": "أفقي",
+      "e": "Landscape"
+    },
+    {
+      "id": 802,
+      "a": "رأسي",
+      "e": "Portrait"
+    },
+    {
+      "id": 804,
+      "a": "حجم الورق",
+      "e": "Paper size"
+    },
+    {
+      "id": 805,
+      "a": "اتجاة الطباعة",
+      "e": "Print direction"
+    },
+    {
+      "id": 806,
+      "a": "هامش الطباعة",
+      "e": "Print margin"
+    },
+    {
+      "id": 807,
+      "a": "الخط",
+      "e": "Font"
+    },
+    {
+      "id": 808,
+      "a": "اسم الخط",
+      "e": "Font name"
+    },
+    {
+      "id": 810,
+      "a": "الخبرة",
+      "e": "Experience"
+    },
+    {
+      "id": 811,
+      "a": "الكود التعريفي الخاص بالمقاول او المورد موجود مسبقا في قاعدة البيانات  الخاصة بك لتحديث بيناته قم بحذف ثم اعادة الادخال",
+      "e": "The contractor or supplier’s identification code already exists in your database. To update its information, delete it and re-enter it."
+    },
+    {
+      "id": 812,
+      "a": "تم تعديل السيرة الذاتية",
+      "e": "CV has been modified"
+    },
+    {
+      "id": 813,
+      "a": "الصلاحيات",
+      "e": "Permissions"
+    },
+    {
+      "id": 814,
+      "a": "عرض",
+      "e": "Show"
+    },
+    {
+      "id": 815,
+      "a": "امكانية الاشراف",
+      "e": "Possibility of supervision"
+    },
+    {
+      "id": 816,
+      "a": "تغير هذه الحاله من صلاحيات المشرف فقط",
+      "e": "This status changes the administrator's powers only"
+    },
+    {
+      "id": 817,
+      "a": "اقصي عدد مسموح به من المشرفين هو اثنين فقط \nهل تريد سحب الاشراف منك واعطائه للمستخدم ",
+      "e": "The maximum number of supervisors allowed is only two\r\nDo you want to withdraw supervision from you and give it to the user "
+    },
+    {
+      "id": 818,
+      "a": "لا يمكن تغيير هذه الصلاحية فانت مشرف. قم بإعطاء احد الاعضاء هذه الصلاحية وسوف تحذف من عندك تلقائيا",
+      "e": "This permission cannot be changed, as you are administrator. Give one of the members this permission and it will be automatically deleted"
+    },
+    {
+      "id": 819,
+      "a": "(في حاله القبول لا يمكنك التراجع في هذا الاجراء)",
+      "e": "(If you accept, you cannot undo this procedure)"
+    },
+    {
+      "id": 820,
+      "a": "صلاحيات الطباعة",
+      "e": "Printing permissions"
+    },
+    {
+      "id": 821,
+      "a": "صلاحيات الاطلاع",
+      "e": "Viewing permissions"
+    },
+    {
+      "id": 822,
+      "a": "صلاحيات التعديل",
+      "e": "Editing permissions"
+    },
+    {
+      "id": 823,
+      "a": "صلاحيات اخرى",
+      "e": "Other permissions"
+    },
+    {
+      "id": 824,
+      "a": "صلاحيات المستخدم",
+      "e": "User permissions"
+    },
+    {
+      "id": 825,
+      "a": "تحديد الكل",
+      "e": "Select All"
+    },
+    {
+      "id": 826,
+      "a": "لا يمكن ايقاف صلاحية للمشرف",
+      "e": "Admin permission cannot be disabled"
+    },
+    {
+      "id": 827,
+      "a": "أعضاء المشروع",
+      "e": "Project members"
+    },
+    {
+      "id": 828,
+      "a": "اضافة مستخدم",
+      "e": "Add user"
+    },
+    {
+      "id": 829,
+      "a": "اضافة مجموعة",
+      "e": "Add Group"
+    },
+    {
+      "id": 830,
+      "a": "اضافة للمشاريع",
+      "e": "Add to Projectes"
+    },
+    {
+      "id": 831,
+      "a": "اضافة للمجموعة",
+      "e": "Add to Group"
+    },
+    {
+      "id": 832,
+      "a": "هل ترغب في اضافة المستخدم للمجموعة ؟",
+      "e": "Would you like to add user to the group?"
+    },
+    {
+      "id": 833,
+      "a": "انت عضو جديد في المقايسة ولم يحدد لك اي صلاحيات حتي الان !",
+      "e": "You are a new member in the bid and no powers have been assigned to you yet!"
+    },
+    {
+      "id": 834,
+      "a": "عضو جديد لم يحدد له اي صلاحيات حتي الان!\nيجب تغير السماحية الخاصة به اولا",
+      "e": "A new member who has not been assigned any powers yet!\nIts permition must be changed first"
+    },
+    {
+      "id": 835,
+      "a": "انت لست عضو بالعلملية!",
+      "e": "You are not a member of the Project!"
+    },
+    {
+      "id": 836,
+      "a": "ليست من صلاحياتك ! ",
+      "e": "It is not within your authority!"
+    },
+    {
+      "id": 837,
+      "a": "التحكم في الصفوف",
+      "e": "Control Rows"
+    },
+    {
+      "id": 838,
+      "a": "لا يمكن تغير هذة الصلاحية للمقاول",
+      "e": "This authority of the contractor cannot be changed"
+    },
+    {
+      "id": 839,
+      "a": "بنود العطاء",
+      "e": "Bid items"
+    },
+    {
+      "id": 840,
+      "a": "عدد أحرف النص في",
+      "e": "The number of text characters in"
+    },
+    {
+      "id": 841,
+      "a": "و",
+      "e": "And"
+    },
+    {
+      "id": 842,
+      "a": "يجب ان تكون بين",
+      "e": "Must be in between"
+    },
+    {
+      "id": 843,
+      "a": "قيمة",
+      "e": "Value"
+    },
+    {
+      "id": 844,
+      "a": "يجب ادخال البريد الالكتروني بشكل صحيح.",
+      "e": "The email must be entered correctly."
+    },
+    {
+      "id": 845,
+      "a": "يجب ادخال رابط صحيح.",
+      "e": "You must enter a valid link."
+    },
+    {
+      "id": 846,
+      "a": "يجب الاختيار",
+      "e": "Must choose"
+    },
+    {
+      "id": 847,
+      "a": "عدد أحرف كلمة المرور في",
+      "e": "The number of characters in the password"
+    },
+    {
+      "id": 848,
+      "a": "انت بالفعل تمتلك سيره ذاتية علي منصة tenderX\nهل تود في الانتقال اليها؟",
+      "e": "You already have a CV on the tenderX platform\nWould you like to move there?"
+    },
+    {
+      "id": 849,
+      "a": "لم ينشئ سيرة ذاتية له علي المنصة حتي الان !",
+      "e": "He has not created his CV on the TenderX platform yet!"
+    },
+    {
+      "id": 850,
+      "a": "انت لم تنشئ سيرتك الذاتية حتي الان علي منصة tenderX!",
+      "e": "You have not created your CV yet on the tenderX platform!"
+    },
+    {
+      "id": 851,
+      "a": "انت لم تجري اي تعديل لإعادة النشر!",
+      "e": "You did not make any edits to repost!"
+    },
+    {
+      "id": 852,
+      "a": "التخصص",
+      "e": "Specialization"
+    },
+    {
+      "id": 853,
+      "a": "انت لم تنشئ او تنضم الي اي مجموعة!",
+      "e": "You did not create or join any group!"
+    },
+    {
+      "id": 854,
+      "a": "حفظ التغيرات",
+      "e": "Save changes"
+    },
+    {
+      "id": 855,
+      "a": "رفع",
+      "e": "Upload"
+    },
+    {
+      "id": 856,
+      "a": "شعار المشروع",
+      "e": "Project logo"
+    },
+    {
+      "id": 857,
+      "a": "بيانات النشر",
+      "e": "Publication data"
+    },
+    {
+      "id": 858,
+      "a": "بيانات اساسية",
+      "e": "Basic data"
+    },
+    {
+      "id": 859,
+      "a": "لا يمكن حذف هذا الصف.",
+      "e": "This row cannot be deleted."
+    },
+    {
+      "id": 860,
+      "a": "التواريخ",
+      "e": "Dates"
+    },
+    {
+      "id": 861,
+      "a": "النوع",
+      "e": "Type"
+    },
+    {
+      "id": 862,
+      "a": "وثائق ",
+      "e": "Documents"
+    },
+    {
+      "id": 863,
+      "a": "مدة اضافية",
+      "e": "Additional period"
+    },
+    {
+      "id": 864,
+      "a": "مدة توقف",
+      "e": "Pause duration"
+    },
+    {
+      "id": 865,
+      "a": "اخطار السلامة والصحة المهنية",
+      "e": "Occupational health and safety hazards"
+    },
+    {
+      "id": 867,
+      "a": "استلام الموقع",
+      "e": "Site Receipt"
+    },
+    {
+      "id": 868,
+      "a": "نهاية الاعمال فعليا",
+      "e": "Actually, the end of the Project"
+    },
+    {
+      "id": 869,
+      "a": "الاستلام الابتدائي",
+      "e": "Primary Receipt"
+    },
+    {
+      "id": 870,
+      "a": "البيان",
+      "e": "Statement"
+    },
+    {
+      "id": 871,
+      "a": "يجب ادخال البيان",
+      "e": "You must enter the statement"
+    },
+    {
+      "id": 872,
+      "a": "يجب تحديد النوع",
+      "e": "The type must be specified"
+    },
+    {
+      "id": 873,
+      "a": "رأس وتذييل",
+      "e": "Header and footer"
+    },
+    {
+      "id": 874,
+      "a": "هل انت متاكد سوف يتم حذف المشروع بالكامل؟ ",
+      "e": "Are you sure the entire Project will be deleted?"
+    },
+    {
+      "id": 875,
+      "a": "تقرير",
+      "e": "Rebort"
+    },
+    {
+      "id": 876,
+      "a": "ملخص التقرير",
+      "e": "Summary Rebort"
+    },
+    {
+      "id": 877,
+      "a": "احداث يوم",
+      "e": "Day events"
+    },
+    {
+      "id": 878,
+      "a": "بحث في",
+      "e": "Search in"
+    },
+    {
+      "id": 879,
+      "a": "النتائج",
+      "e": "Results"
+    },
+    {
+      "id": 880,
+      "a": "للبنود",
+      "e": "for Items"
+    },
+    {
+      "id": 881,
+      "a": "اشتراطات المشروع",
+      "e": "Project requirements"
+    },
+    {
+      "id": 882,
+      "a": "اشتراطات السلامة والصحة المهنية",
+      "e": "Occupational safety and health requirements"
+    },
+    {
+      "id": 883,
+      "a": "اشتراطات العطاء",
+      "e": "Bidding requirements"
+    },
+    {
+      "id": 884,
+      "a": "اشتراطات عامة",
+      "e": "General requirements"
+    },
+    {
+      "id": 885,
+      "a": "كل الاشتراطات",
+      "e": "All requirements"
+    },
+    {
+      "id": 886,
+      "a": "حفظ في الجهاز",
+      "e": "Save in device"
+    },
+    {
+      "id": 887,
+      "a": "هذة المشروع موجودة بالفعل. هل تريد تحديثها بهذا الملف؟",
+      "e": "This Project already exists. Do you want to Update it with this file.?"
+    },
+    {
+      "id": 888,
+      "a": "اختر نوع التصدير",
+      "e": "Choose the export type"
+    },
+    {
+      "id": 889,
+      "a": "تحت التطوير \uD83D\uDE0A",
+      "e": "Under development \uD83D\uDE0A"
+    },
+    {
+      "id": 890,
+      "a": "اختر نوع الحذف",
+      "e": "Choose the type of deletion"
+    },
+    {
+      "id": 891,
+      "a": "حذف من الجهاز",
+      "e": "Delete from device"
+    },
+    {
+      "id": 892,
+      "a": "حذف من السحابة",
+      "e": "Delete from the cloud"
+    },
+    {
+      "id": 893,
+      "a": "للتاكيد اكتب 1",
+      "e": "To confirm, type 1"
+    },
+    {
+      "id": 894,
+      "a": "الكل",
+      "e": "All"
+    },
+    {
+      "id": 895,
+      "a": "اختر الصلاحيات",
+      "e": "Choose permissions"
+    },
+    {
+      "id": 896,
+      "a": "صلاحيات السحابة",
+      "e": "Cloud permissions"
+    },
+    {
+      "id": 897,
+      "a": "اختر عناصر الصلاحية",
+      "e": "Select permission items"
+    },
+    {
+      "id": 898,
+      "a": "هذة الصلاحية لا يمكن ان يمتلكها غير مستخدم واحد فقط. ويجب ان يكون من المشرفين.",
+      "e": "This permission can only be held by one user. He must be an administrator."
+    },
+    {
+      "id": 899,
+      "a": "نشر",
+      "e": "Publish"
+    },
+    {
+      "id": 900,
+      "a": "حذف من الجهاز والسحابة",
+      "e": "Delete from device and cloud"
+    },
+    {
+      "id": 901,
+      "a": "اساسي",
+      "e": "Basic"
+    },
+    {
+      "id": 902,
+      "a": "هذة المشروع لم تعد موجودة علي السحابة !",
+      "e": "This Project no longer exists on the cloud!"
+    },
+    {
+      "id": 903,
+      "a": "نطاق البحث",
+      "e": "Search scope"
+    },
+    {
+      "id": 904,
+      "a": "نشر لمجموعاتي",
+      "e": "Publish to my groups"
+    },
+    {
+      "id": 905,
+      "a": "حذف المشروع",
+      "e": "Delete the Project"
+    },
+    {
+      "id": 906,
+      "a": "نص البند",
+      "e": "Modify item data"
+    },
+    {
+      "id": 907,
+      "a": "نوع التجميع",
+      "e": "Kind of sum"
+    },
+    {
+      "id": 908,
+      "a": "شكل التجميع",
+      "e": "Assembly form"
+    },
+    {
+      "id": 909,
+      "a": "تفاصيل العنصر",
+      "e": "Item details"
+    },
+    {
+      "id": 910,
+      "a": "من الجهاز",
+      "e": "From the device"
+    },
+    {
+      "id": 911,
+      "a": "استخدام الكاميرا",
+      "e": "Use the camera"
+    },
+    {
+      "id": 912,
+      "a": "طريقة جلب الصورة",
+      "e": "How to bring the image"
+    },
+    {
+      "id": 913,
+      "a": "فتح الملف",
+      "e": "Open the file"
+    },
+    {
+      "id": 914,
+      "a": "هل انت متاكد ؟",
+      "e": "are you sure?"
+    },
+    {
+      "id": 915,
+      "a": "عملية حذف",
+      "e": "Delete Process"
+    },
+    {
+      "id": 917,
+      "a": "حذف تفاصيل العنصر",
+      "e": "Delete item details"
+    },
+    {
+      "id": 918,
+      "a": "\"&nbsp\"",
+      "e": "\"&nbsp\""
+    },
+    {
+      "id": 919,
+      "a": "إجمالي التشوينات الحالية",
+      "e": "Total current Supplies quantity"
+    },
+    {
+      "id": 920,
+      "a": "اجمالي التشوينات السابقة",
+      "e": "Total previous Supplies quantity"
+    },
+    {
+      "id": 921,
+      "a": "اجمالي التشوينات",
+      "e": "Total Supplies"
+    },
+    {
+      "id": 922,
+      "a": "النسب",
+      "e": "Percentages"
+    },
+    {
+      "id": 923,
+      "a": "تحليل البيانات",
+      "e": "data analysis"
+    },
+    {
+      "id": 924,
+      "a": "قيمة التشوينات",
+      "e": "Value Supplies"
+    },
+    {
+      "id": 925,
+      "a": "اجمالي الاضافة للاعمال",
+      "e": "Total addition to the works"
+    },
+    {
+      "id": 926,
+      "a": "اجمالي الخصم للاعمال",
+      "e": "Total Works Discount"
+    },
+    {
+      "id": 927,
+      "a": "اجمالي الاضافة للتشوينات",
+      "e": "Total addition to Supplies"
+    },
+    {
+      "id": 928,
+      "a": "اجمالي الخصم للتشوينات",
+      "e": "Total discount for Supplies"
+    },
+    {
+      "id": 929,
+      "a": "اجمالي الاعمال",
+      "e": "Total Works"
+    },
+    {
+      "id": 930,
+      "a": "اجمالي التشوينات",
+      "e": "Total Supplies"
+    },
+    {
+      "id": 932,
+      "a": "بنسبة",
+      "e": "Percentage"
+    },
+    {
+      "id": 933,
+      "a": "الناتج",
+      "e": "result"
+    },
+    {
+      "id": 934,
+      "a": "قيمة الدفعة اعمال",
+      "e": "Value Of Works Payment"
+    },
+    {
+      "id": 935,
+      "a": "قيمة الدفعه تشوينات",
+      "e": "Value Of Supplies Payment"
+    },
+    {
+      "id": 936,
+      "a": "قيمة الدفعة",
+      "e": "Value Of Payment"
+    },
+    {
+      "id": 937,
+      "a": "هذة السماحية لا يمكن ان يمتلكها المقاول",
+      "e": "This permission cannot be owned by the contractor."
+    },
+    {
+      "id": 938,
+      "a": "استعادة",
+      "e": "Restor"
+    },
+    {
+      "id": 939,
+      "a": "وحدات البند",
+      "e": "Item units"
+    },
+    {
+      "id": 940,
+      "a": "مشاريع البند",
+      "e": "Item Operations"
+    },
+    {
+      "id": 941,
+      "a": "سيتم إضافة أعضاء هذه المجموعة إلى أعضاء المشروع (في حالة الرفض لن تتمكن من النشر في هذه المجموعة)",
+      "e": "Members of this group will be added to the project members (if rejected you will not be able to post in this group)"
+    },
+    {
+      "id": 942,
+      "a": "سوف يتم حذف اعضاء هذة المجموعة من اعضاء المشروع. في حاله الرفض لن يتم الغاء النشر لهذة المجموعة",
+      "e": "Members of this group will be removed from the project."
+    },
+    {
+      "id": 943,
+      "a": "عند انشاء عطاء جديد للطرح يتم انشاء مشروع جديدة في \"اعداد المشاريع\" تلقائيا.",
+      "e": "When you create a new bid for the offering, a new Project is automatically created in “Project Setup”."
+    },
+    {
+      "id": 944,
+      "a": "نتائج البحث",
+      "e": "research results"
+    },
+    {
+      "id": 946,
+      "a": "وفقًا للإعدادات الحالية على جهازك، ستُعتبر هذه الإعدادات هي الوضع الافتراضي لمنصة \"تندراكس\". وإذا كنت ترغب في تخصيص اعدادات خاصة بـ \"تندراكس\"، يمكنك ببساطة التوجه إلى قسم الإعدادات داخل المنصة وتحديد الخيارات التي تتناسب مع احتياجاتك.",
+      "e": "According to the current settings on your device, these settings will be considered the default for the \"TenderX\" platform. If you wish to customize the settings for \"TenderX,\" you can simply go to the settings section within the platform and select the options that best suit your needs."
+    },
+    {
+      "id": 947,
+      "a": "لتغيير ذلك، انتقل إلى الإعدادات.",
+      "e": " To change this go to Settings."
+    },
+    {
+      "id": 948,
+      "a": "القصر العيني . القاهرة . مصر",
+      "e": "Kasr El Aini. Cairo. Egypt"
+    },
+    {
+      "id": 949,
+      "a": "محاسب,اداري",
+      "e": "Accountant,managerial"
+    },
+    {
+      "id": 950,
+      "a": "تم تجاوز المدة المحدده يرجي اعادة المحاولة.",
+      "e": "The time limit has been exceeded. Please try again."
+    },
+    {
+      "id": 951,
+      "a": "هناك خطا ما في الاتصال بخدمات جوجل\nاعد المحاولة مرة اخري",
+      "e": "There is an error connecting to Google services. Try again later."
+    },
+    {
+      "id": 953,
+      "a": "لا يوجد خطأ.",
+      "e": "No error."
+    },
+    {
+      "id": 954,
+      "a": "طلب غير صحيح. تحقق من البيانات المدخلة.",
+      "e": "Bad request. Please check the input data."
+    },
+    {
+      "id": 955,
+      "a": "غير مصرح بالوصول. تحقق من بيانات الاعتماد الخاصة بك.",
+      "e": "Unauthorized access. Please check your credentials."
+    },
+    {
+      "id": 956,
+      "a": "ممنوع الوصول إلى المورد. تحقق من الأذونات.",
+      "e": "Access to the resource is forbidden. Please check the permissions."
+    },
+    {
+      "id": 957,
+      "a": "المورد غير موجود.",
+      "e": "Resource not found."
+    },
+    {
+      "id": 958,
+      "a": "خطأ في خادم الطلب. حاول مرة أخرى لاحقًا.",
+      "e": "Internal server error. Please try again later."
+    },
+    {
+      "id": 959,
+      "a": "الخدمة غير متوفرة حاليًا. حاول مرة أخرى لاحقًا.",
+      "e": "Service is currently unavailable. Please try again later."
+    },
+    {
+      "id": 960,
+      "a": "انتهت مهلة الطلب. حاول مرة أخرى لاحقًا.",
+      "e": "Request timeout. Please try again later."
+    },
+    {
+      "id": 961,
+      "a": "تم إلغاء العملية بسبب انتهاء المهلة أو إلغاء المستخدم.",
+      "e": "Operation was canceled due to timeout or user cancellation."
+    },
+    {
+      "id": 962,
+      "a": "حدث خطأ في الإدخال/الإخراج.",
+      "e": "An input/output error occurred."
+    },
+    {
+      "id": 963,
+      "a": "تم إلغاء العملية.",
+      "e": "Operation was canceled."
+    },
+    {
+      "id": 964,
+      "a": "حدث خطأ في المصادقة. يرجى التأكد من صحة بيانات الاعتماد الخاصة بك وحاول مرة أخرى.",
+      "e": "Authentication error. Please verify your credentials and try again."
+    },
+    {
+      "id": 965,
+      "a": "لا تملك الأذونات الكافية للوصول إلى هذا المورد.",
+      "e": "Insufficient permissions to access this resource."
+    },
+    {
+      "id": 966,
+      "a": "لم يتم العثور على الملف المطلوب.",
+      "e": "The requested file was not found."
+    },
+    {
+      "id": 967,
+      "a": "حدث تعارض في البيانات. يرجى محاولة المشروع مرة أخرى.",
+      "e": "A data conflict occurred. Please try the operation again."
+    },
+    {
+      "id": 968,
+      "a": "فشل الشرط السابق. تحقق من البيانات المدخلة وحاول مرة أخرى.",
+      "e": "Precondition failed. Please check the input data and try again."
+    },
+    {
+      "id": 969,
+      "a": "تجاوزت الحد الأقصى للطلبات. يرجى الانتظار قليلاً وحاول مرة أخرى.",
+      "e": "Rate limit exceeded. Please wait a moment and try again."
+    },
+    {
+      "id": 970,
+      "a": "حدث خطأ في خادم Google Drive. يرجى المحاولة مرة أخرى لاحقًا.",
+      "e": "A Google Drive server error occurred. Please try again later."
+    },
+    {
+      "id": 971,
+      "a": "خدمة Google Drive غير متوفرة مؤقتًا. يرجى المحاولة مرة أخرى لاحقًا.",
+      "e": "Google Drive service is temporarily unavailable. Please try again later."
+    },
+    {
+      "id": 972,
+      "a": "لا يوجد اتصال بالإنترنت.",
+      "e": "No internet connection."
+    },
+    {
+      "id": 973,
+      "a": "الوقت المحدد خارج النطاق.",
+      "e": "The specified time is out of range."
+    },
+    {
+      "id": 974,
+      "a": "حدث خطأ غير متوقع.",
+      "e": "An unexpected error occurred."
+    },
+    {
+      "id": 988,
+      "a": "ربما قد تم حذف الملف من السحابة",
+      "e": "The file may have been deleted from the cloud."
+    },
+    {
+      "id": 989,
+      "a": "محاولة العثور علي الملف مرة اخري",
+      "e": "Try to find the file again."
+    },
+    {
+      "id": 990,
+      "a": "انشاء ملف جديد علي السحابة",
+      "e": "Create a new file on the cloud"
+    },
+    {
+      "id": 991,
+      "a": "متابعة",
+      "e": "Continue"
+    },
+    {
+      "id": 992,
+      "a": "توقف",
+      "e": "Stop"
+    },
+    {
+      "id": 993,
+      "a": "ملاحظات:\n- تاكد من ان النص الذي ادخلتة متطابق تماما للنص الذي تبحث عنة.\n- أو قم بادخال كلمة واحدة متطابقة تماما مع اول كلمة في النص الذي تبحث عنه.\n- تاكد ان نطاق البحث (الدولة) يحتوي ما تريد البحث عنة.",
+      "e": "Notes:\r\n- Make sure the text you entered is exactly the same as the text you are searching for.\r\n- Or enter a single word that is exactly the same as the first word in the text you are searching for.\r\n- Make sure that the search scope (country) contains what you want to search for."
+    },
+    {
+      "id": 994,
+      "a": "تحديث الكل",
+      "e": "Update all"
+    },
+    {
+      "id": 995,
+      "a": "تحديث الملفات المرفقة فقط",
+      "e": "Update attached files only."
+    },
+    {
+      "id": 996,
+      "a": "محاسبة وادارة اعمال",
+      "e": "Accounting and Business Administration"
+    },
+    {
+      "id": 997,
+      "a": "ملاحظات:\n- تاكد من ان النص الذي ادخلتة متطابق تماما للنص الذي تبحث عنة.\n- أو قم بادخال كلمة واحدة متطابقة تماما مع اول كلمة في النص الذي تبحث عنه.",
+      "e": "Notes:\n- Make sure the text you entered is exactly the same as the text you are searching for.\n- Or enter a single word that is exactly the same as the first word in the text you are searching for."
+    },
+    {
+      "id": 998,
+      "a": "هل تريد مسح الصورة الحالية ؟",
+      "e": "Do you want to clear the current image?"
+    },
+    {
+      "id": 999,
+      "a": "شعار المجموعة",
+      "e": "Group logo"
+    },
+    {
+      "id": 1000,
+      "a": "رسم بياني",
+      "e": "graph"
+    },
+    {
+      "id": 1001,
+      "a": "تعاقد",
+      "e": "Contract"
+    },
+    {
+      "id": 1002,
+      "a": "1- الاستعانة بمحامٍ: من المستحسن استشارة محامٍ متخصص في عقود المقاولات لضمان شمولية العقد وحماية مصالح جميع الأطراف.\n2- النظام القانوني: قد تختلف المتطلبات القانونية لعقود المقاولات من دولة إلى أخرى، لذلك من المهم مراعاة القوانين المحلية السارية.\n3- التدقيق اللغوي: يجب تدقيق العقد لغوياً للتأكد من دقة المعنى ووضوح الصياغة.\n4- المستندات المرفقة: التأكد من أن جميع المستندات المرفقة بالعقد (مثل الرسومات والمواصفات) محدثة ومتوافقة مع العقد.\n5- التخصيص: يجب تخصيص هذا النموذج ليناسب طبيعة المشروع المعين والمتطلبات الخاصة بالطرفين.\n\n",
+      "e": "1- Seeking the assistance of a lawyer: It is advisable to consult a lawyer specializing in contracting contracts to ensure the comprehensiveness of the contract and protect the interests of all parties.\n2- Legal system: The legal requirements for contracting contracts may vary from one country to another, so it is important to take into account the applicable local laws.\n3- Linguistic review: The contract must be linguistically reviewed to ensure the accuracy of meaning and clarity of wording.\n4- Attached documents: Ensure that all documents attached to the contract (such as drawings and specifications) are up to date and consistent with the contract.\n5- Customization: This form must be customized to suit the nature of the specific project and the special requirements of both parties."
+    },
+    {
+      "id": 1003,
+      "a": "تعرض منصة تندراكس المواد القانونية الخاصة بالعقود FIDIC , AIA , NEC الدولية والمحلية.\nيمكنك تعديل النصوص التي تقوم بادخالها او تجاهل احد المواد كليا ليتناسب العقد مع متطلبات العمل.\nيعرض الجدول التالي الصفات العامة للتعاقدات.",
+      "e": "TenderX platform displays the legal materials for international and local contracts FIDIC, AIA, NEC.\r\nYou can modify the texts you enter or ignore any material completely to make the contract fit the work requirements.\r\nThe following table shows the general characteristics of contracts."
+    },
+    {
+      "id": 1004,
+      "a": "اسم المادة القانونية",
+      "e": "Legal Article Name"
+    },
+    {
+      "id": 1005,
+      "a": "وصف مبسط للمادة القانونية :\n",
+      "e": "A simplified description of the legal Article:\n"
+    },
+    {
+      "id": 1006,
+      "a": "بحث\nاعتماد",
+      "e": "Search\nApproval"
+    },
+    {
+      "id": 1007,
+      "a": "الاعتماد",
+      "e": "Accreditation"
+    },
+    {
+      "id": 1008,
+      "a": "tenderX Platform Specific Encryption",
+      "e": "tenderX Platform Specific Encryption"
+    },
+    {
+      "id": 1009,
+      "a": "الفرق",
+      "e": "Difference"
+    },
+    {
+      "id": 1010,
+      "a": "المدة",
+      "e": "Duration"
+    },
+    {
+      "id": 1011,
+      "a": "ساعة",
+      "e": "hour"
+    },
+    {
+      "id": 1012,
+      "a": "اختر الورقة",
+      "e": "Select Sheet"
+    },
+    {
+      "id": 1013,
+      "a": "يجب ان يكون اول صف في ورقة الاكسل المختارة معبر عن اسماء الاعمدة الاتية او بعض منها. \n*",
+      "e": "The first row in the selected Excel sheet must represent the names of the following columns or some of them.\n*"
+    },
+    {
+      "id": 1014,
+      "a": "البيانات التي سوف يتم اضافتها.",
+      "e": "Data to be added."
+    },
+    {
+      "id": 1015,
+      "a": "سوف يتم اضافة هذة القيم الي الجدول.",
+      "e": "These values ​​will be added to the table."
+    },
+    {
+      "id": 1016,
+      "a": "لم يتم العثور علي اي بيانات متطابقة.",
+      "e": "No matching data found."
+    },
+    {
+      "id": 1017,
+      "a": "تم اضافة بند جديد.",
+      "e": "A new item has been added."
+    },
+    {
+      "id": 1018,
+      "a": "بند",
+      "e": "Item"
+    },
+    {
+      "id": 1019,
+      "a": "اضافي",
+      "e": "External"
+    },
+    {
+      "id": 1020,
+      "a": "تغيير اسماء الاعمدة للبنود متاح فقط في الدفعة الاولي ولن تتمكن من اعادة تغير الاسماء في الدفعات الاخري",
+      "e": "Changing column names for items is only available in the first batch and you will not be able to change the names again in other batches."
+    },
+    {
+      "id": 1021,
+      "a": "ادخل الاسم الجديد",
+      "e": "Enter new name"
+    },
+    {
+      "id": 1022,
+      "a": "الاسم الذي قمت بادخالة غير مناسب تاكد ان:\n\n1- أول حرف يجب أن يكون حرفًا أو شرطة سفلية (_)\n\n2-لا يحتوي علي رموز\n\n3-غير موجود مسبقا",
+      "e": "The name you entered is not appropriate. Make sure that:\r\n\r\n1- The first character must be a letter or an underscore (_)\r\n\r\n2- Does not contain symbols\r\n\r\n3- Does not already exist"
+    },
+    {
+      "id": 1023,
+      "a": "افتح  Google Maps وحدد الموقع ثم اضغط مشاركة ومن قائمة البرامج اختر tenderX لاستقبال الموقع.",
+      "e": "Open Google Maps, select the location, then click Share and from the list of programs choose tenderX to receive the location."
+    },
+    {
+      "id": 1027,
+      "a": "يوجد تحديث متاح الان علي جوجل بلاي.",
+      "e": "An update is now available on Google Play."
+    },
+    {
+      "id": 1028,
+      "a": "هناك تحديثًا جديدًا لمنصة TenderX متاحًا الآن على Google Play.لتعزز الأداء، وتصلح الأخطاء المكتشفة .\nنسعد دائمًا بسماع آرائكم لتطوير التطبيق . لا تترددوا في إرسال اقتراحاتكم عبر القنوات المتاحة.",
+      "e": "A new update for TenderX platform is now available on Google Play. To enhance performance, and fix discovered bugs. We are always happy to hear your opinions to improve the application. Do not hesitate to send your suggestions through the available channels."
+    },
+    {
+      "id": 1029,
+      "a": "قم بمسح الباركود الخاص بمنصة tenderX",
+      "e": "Scan the barcode of the tenderX platform"
+    },
+    {
+      "id": 1030,
+      "a": "هذة الصلاحية لا يمكن ان يمتلكها غير مستخدم واحد فقط.",
+      "e": "This permission can only be held by one user."
+    },
+    {
+      "id": 1031,
+      "a": "تم الانتهاء من العرض الفني",
+      "e": "Technical Proposal is completed."
+    },
+    {
+      "id": 1032,
+      "a": "تم الانتهاء من العرض المالي",
+      "e": "Financial Proposal is completed."
+    },
+    {
+      "id": 1033,
+      "a": "تنبيه هام:\nنود أن نلفت انتباهك إلى أنه بعد اعتماد هذا الإجراء، لن تكون هناك إمكانية للرجوع عنه. كما سيتم حفظ البيانات والملفات المتعلقة به بشكل نهائي وغير قابل للتعديل.\nيرجى التأكد من جميع البيانات قبل المتابعة.\nإذا كنت بحاجة إلى أي تعديلات أو مراجعة، يمكنك الإلغاء !\n أما إذا كنت متأكدًا تمامًا من جميع البيانات، يرجى إدخال كلمة المرور الخاصة بك والضغط على \"موافق\".",
+      "e": "Important Notice:\r\nWe would like to draw your attention that after adopting this procedure, there will be no possibility of reversing it. The data and files related to it will be saved permanently and cannot be modified.\r\nPlease make sure of all the data before proceeding.\r\nIf you need any modifications or review, you can cancel!\r\nIf you are completely sure of all the data, please enter your password and click \"OK\"."
+    },
+    {
+      "id": 1034,
+      "a": "تم الاعتماد.",
+      "e": "Approved."
+    },
+    {
+      "id": 1035,
+      "a": "تم اعتماد العرض الفني",
+      "e": "Technical Proposal approved."
+    },
+    {
+      "id": 1036,
+      "a": "تم اعتماد العرض المالي",
+      "e": "Financial Proposal approved."
+    },
+    {
+      "id": 1037,
+      "a": "نوع الاعتماد",
+      "e": "Type of accreditation"
+    },
+    {
+      "id": 1038,
+      "a": "المشروع ليس له ملف تعريفي علي السحابة!",
+      "e": "The Project has no cloud profile!"
+    },
+    {
+      "id": 1039,
+      "a": "لم يتم تحديد موعد",
+      "e": "No date set"
+    },
+    {
+      "id": 1040,
+      "a": "دقيقة",
+      "e": "minute"
+    },
+    {
+      "id": 1041,
+      "a": "ثانية",
+      "e": "second"
+    },
+    {
+      "id": 1042,
+      "a": "الوقت المتبقي",
+      "e": "Time left"
+    },
+    {
+      "id": 1043,
+      "a": "لم يتم الاعتماد",
+      "e": "Not approved"
+    },
+    {
+      "id": 1044,
+      "a": "القرار",
+      "e": "Decision"
+    },
+    {
+      "id": 1045,
+      "a": "تم اعتماد لجنة فتح العروض الفنية",
+      "e": "Technical Bid Opening Committee has been approved"
+    },
+    {
+      "id": 1046,
+      "a": "لم تمت مشروع التحديث !",
+      "e": "The update Project was not completed!"
+    },
+    {
+      "id": 1047,
+      "a": "رئيس اللجنة",
+      "e": "Chairman committee"
+    },
+    {
+      "id": 1048,
+      "a": "لم يتم اعتماد اللجنة!",
+      "e": "committee has not approved!"
+    },
+    {
+      "id": 1049,
+      "a": "اعتماد رئيس اللجنة غير موجود",
+      "e": "The approval of the committee chairman is not available."
+    },
+    {
+      "id": 1050,
+      "a": "تم اعتماد اللجنة",
+      "e": "committee is approved."
+    },
+    {
+      "id": 1051,
+      "a": "جيجا",
+      "e": "GB"
+    },
+    {
+      "id": 1054,
+      "a": "اضافة ملف من الجهاز",
+      "e": "Add file from device"
+    },
+    {
+      "id": 1055,
+      "a": "ادخل اسم الصورة",
+      "e": "Enter the image name"
+    },
+    {
+      "id": 1056,
+      "a": "حدد ملف أو مجلد لعرض المشاريع التي يمكن تنفيذها.",
+      "e": "Select a file or folder to view the operations that can be performed."
+    },
+    {
+      "id": 1057,
+      "a": "استيراد الكل",
+      "e": "Import all"
+    },
+    {
+      "id": 1058,
+      "a": "تصدير الكل",
+      "e": "Export all"
+    },
+    {
+      "id": 1059,
+      "a": "عدد الأحرف \".\" لا يجب أن يكون أكثر أو أقل من 1 في اسم الملف",
+      "e": "The number of characters \".\" must not be more or less than 1 in the file name."
+    },
+    {
+      "id": 1060,
+      "a": "كيلو",
+      "e": "KB"
+    },
+    {
+      "id": 1061,
+      "a": "لا توجد ملفات",
+      "e": "No files found"
+    },
+    {
+      "id": 1062,
+      "a": "العرض الفني",
+      "e": "Technical Proposal"
+    },
+    {
+      "id": 1063,
+      "a": "العرض المالي",
+      "e": "Financial Proposal"
+    },
+    {
+      "id": 1064,
+      "a": "الملفات_العامة_للمشروع",
+      "e": "General_Project_files"
+    },
+    {
+      "id": 1065,
+      "a": "حصر",
+      "e": "Bill"
+    },
+    {
+      "id": 1066,
+      "a": "هذه الملفات لا تتطابق مع الموضع المحدد.",
+      "e": "These files do not match the specified location."
+    },
+    {
+      "id": 1067,
+      "a": "تم جلب الملفات :",
+      "e": "Files have been fetched:"
+    },
+    {
+      "id": 1068,
+      "a": "هذه المشروع ليست ضمن قائمة المشاريع. يجب إضافة المشروع أولاً.",
+      "e": "This Project is not in the Project list. The Project must be added first."
+    },
+    {
+      "id": 1069,
+      "a": "لا يمكنك التعديل علي الملفات.",
+      "e": "You cannot edit files."
+    },
+    {
+      "id": 1070,
+      "a": "محامي,استشاري",
+      "e": "lawyer,consultative"
+    },
+    {
+      "id": 1071,
+      "a": "عطاءات المقاولين",
+      "e": "Contractors Bids"
+    },
+    {
+      "id": 1072,
+      "a": "نسبة الضمان النهائي %",
+      "e": "Final Guarantee rate %"
+    },
+    {
+      "id": 1073,
+      "a": "خصم على إجمالي الدفعة",
+      "e": "Discount on the Total payment"
+    },
+    {
+      "id": 1074,
+      "a": "حجز من إجمالي الدفعة",
+      "e": "Reservation from the Total Payment"
+    },
+    {
+      "id": 1075,
+      "a": "القيمة",
+      "e": "Value"
+    },
+    {
+      "id": 1076,
+      "a": "ملفات_التعاقد",
+      "e": "Contract files"
+    },
+    {
+      "id": 1077,
+      "a": "نص المادة القانونية",
+      "e": "Text of the legal article"
+    },
+    {
+      "id": 1078,
+      "a": "استشارات قانونية",
+      "e": "Legal consultations"
+    },
+    {
+      "id": 1079,
+      "a": "لا توجد جداول زمنية للمشروع",
+      "e": "There are no timelines for the Project."
+    },
+    {
+      "id": 1080,
+      "a": "لا توجد جداول زمنية للبنود",
+      "e": "There are no timelines for the items"
+    },
+    {
+      "id": 1081,
+      "a": "اسماء الجداول",
+      "e": "Table names"
+    },
+    {
+      "id": 1082,
+      "a": "هل ترغب بتعديل معلومات تسجيل الدخول الخاصة بك؟",
+      "e": "Would you like to modify your login information?"
+    },
+    {
+      "id": 1083,
+      "a": "هل تريد تسجيل الخروج؟",
+      "e": "Do you want to log out?"
+    },
+    {
+      "id": 1084,
+      "a": "هل تريد إضافة مستخدم جديد؟",
+      "e": "Do you want to add a new user?"
+    },
+    {
+      "id": 1085,
+      "a": "نسيت كلمة السر؟",
+      "e": "Forgot your password?"
+    },
+    {
+      "id": 1086,
+      "a": "لا توجد بيانات مكتملة يمكن رسم مخطط لها!",
+      "e": "There is no complete data to plot!"
+    },
+    {
+      "id": 1087,
+      "a": "تباين الالوان",
+      "e": "Color contrast"
+    },
+    {
+      "id": 1088,
+      "a": "تختلف دقة الشاشة من جهاز إلى آخر، لذا يمكنك تغيير مستوى تباين الألوان حسب الوضع الأنسب لك.",
+      "e": "Screen resolution varies from device to device, so you can change the color contrast level to suit your situation."
+    },
+    {
+      "id": 1089,
+      "a": "إعادة الضبط",
+      "e": "Reset"
+    },
+    {
+      "id": 1090,
+      "a": "الحد الاقصي!  تم إعادة الضبط.",
+      "e": "Max! Reset."
+    },
+    {
+      "id": 1092,
+      "a": "تزامن",
+      "e": "Synchronize"
+    },
+    {
+      "id": 1093,
+      "a": "الربح",
+      "e": "Profit"
+    },
+    {
+      "id": 1095,
+      "a": "الضرائب",
+      "e": "Taxes"
+    },
+    {
+      "id": 1096,
+      "a": "تحديث",
+      "e": "Refresh"
+    },
+    {
+      "id": 1097,
+      "a": "عدد الأرقام العشرية",
+      "e": "Decimal places"
+    },
+    {
+      "id": 1099,
+      "a": "ليس الان \uD83D\uDE14",
+      "e": " Not now \uD83D\uDE14"
+    },
+    {
+      "id": 1100,
+      "a": " تم مشاركة موقع من Google Maps هل ترغب في فتح الموقع ؟",
+      "e": "A location has been shared from Google Maps. Would you like to open the location?"
+    },
+    {
+      "id": 1101,
+      "a": "هذا الرابط قد لا يكون من خرائط جوجل!",
+      "e": "This link may not be from Google Maps!"
+    },
+    {
+      "id": 1102,
+      "a": "موقع الشركة",
+      "e": "Company Location"
+    },
+    {
+      "id": 1103,
+      "a": "موقع العمل",
+      "e": "Work Location"
+    },
+    {
+      "id": 1104,
+      "a": "عنوان سيرة ذاتية",
+      "e": "CV Location"
+    },
+    {
+      "id": 1105,
+      "a": "لم تنشئ او تنضم الي اي مشروع !",
+      "e": "You have not created or joined any Project!"
+    },
+    {
+      "id": 1106,
+      "a": "لم يتم تحديد موقع!",
+      "e": "No location entered!"
+    },
+    {
+      "id": 1107,
+      "a": "تم تحديث موقع الشركة من خرائط جوجل.",
+      "e": "Company location updated from Google Maps."
+    },
+    {
+      "id": 1108,
+      "a": "تم تحديث موقع العمل لها من خرائط جوجل. يجب عمل مزامنة لحفظ التغير علي السحابة ولاشعار الاخرين بهذا التحديث",
+      "e": "Her work location has been updated from Google Maps. A sync is required to save the change to the cloud and notify others of this update."
+    },
+    {
+      "id": 1109,
+      "a": "تم تحديث الموقع على سيرتك الذاتية . اضغط علي تعديل واعد النشر لحفظ التغير علي السحابة ولاشعار الاخرين بهذا التحديث.",
+      "e": "The location on your resume has been updated. Click Edit and Republish to save the change to the cloud and notify others of this update."
+    },
+    {
+      "id": 1110,
+      "a": "شركة التعاون للبترول",
+      "e": "Cooperative Petroleum Company"
+    },
+    {
+      "id": 1111,
+      "a": "تم النشر",
+      "e": "Published"
+    },
+    {
+      "id": 1112,
+      "a": "لا توجد مجموعات محفوظة! \nهل ترغب في البحث عن اي مجموعات قد تكون منضم اليها؟",
+      "e": "There are no saved groups!\r\nWould you like to search for any groups you might be a member of?"
+    },
+    {
+      "id": 1113,
+      "a": "هل ترغب في النشر الي مجموعات؟",
+      "e": "Do you want to post to groups?"
+    },
+    {
+      "id": 1114,
+      "a": "سوف يتم انشاء مشروع جديد لاكمال عملية الطرح كعطاء",
+      "e": "A new project will be created to complete the bidding process as a tender."
+    },
+    {
+      "id": 1115,
+      "a": "التواريخ الاساسية والفترات",
+      "e": "Key dates and periods"
+    },
+    {
+      "id": 1116,
+      "a": "اختر من التواريخ",
+      "e": "Select from dates"
+    },
+    {
+      "id": 1118,
+      "a": "بيانات المشروع",
+      "e": "Project data"
+    },
+    {
+      "id": 1119,
+      "a": "اسم الناشر",
+      "e": "Publisher Name"
+    },
+    {
+      "id": 1120,
+      "a": "بيانات الناشر",
+      "e": "Publisher's data"
+    },
+    {
+      "id": 1121,
+      "a": "يوجد خطا ما في عنوان الرابط!",
+      "e": "There is an error in the link address!"
+    },
+    {
+      "id": 1123,
+      "a": "البند رقم",
+      "e": "Item No."
+    },
+    {
+      "id": 1124,
+      "a": "وحدات",
+      "e": "units"
+    },
+    {
+      "id": 1125,
+      "a": "اختر ملف من النوع deb",
+      "e": "Select a file of type deb"
+    },
+    {
+      "id": 1126,
+      "a": "هذا الملف xx موجود بالفعل، هل تريد استبداله؟",
+      "e": "This file xx already exists, do you want to replace it?"
+    },
+    {
+      "id": 1128,
+      "a": "نعم, لكل الملفات",
+      "e": "Yes, for all files."
+    },
+    {
+      "id": 1129,
+      "a": "العروض المقدمة",
+      "e": "Offers"
+    },
+    {
+      "id": 1130,
+      "a": "أعضاء اللجنة",
+      "e": "Committee Members"
+    },
+    {
+      "id": 1131,
+      "a": "إختر اللجنة",
+      "e": "Select the committee"
+    },
+    {
+      "id": 1132,
+      "a": "تم اعتماد لجنة بت العروض الفنية",
+      "e": "Technical Bid Evaluation Committee has been approved."
+    },
+    {
+      "id": 1133,
+      "a": "تم اعتماد لجنة فتح العروض المالية",
+      "e": "Financial Bid Opening Committee has been approved"
+    },
+    {
+      "id": 1134,
+      "a": "تم اعتماد لجنة بت العروض المالية",
+      "e": "Financial Bid Evaluation Committee has been approved"
+    },
+    {
+      "id": 1135,
+      "a": "https://goo.gl/maps/3AU3UvMjk9kgRgPb7",
+      "e": "https://goo.gl/maps/3AU3UvMjk9kgRgPb7"
+    },
+    {
+      "id": 1136,
+      "a": "مقايسة",
+      "e": "tender"
+    },
+    {
+      "id": 1137,
+      "a": "تحديث البث وحفظ التغييرات",
+      "e": "Update the broadcast and save changes"
+    },
+    {
+      "id": 1138,
+      "a": "الحالة محدثة ومتزامنة.",
+      "e": "Status is up to date and in sync."
+    },
+    {
+      "id": 1139,
+      "a": "يشمل جميع البنود.",
+      "e": "Includes all items"
+    },
+    {
+      "id": 1140,
+      "a": "ينطبق على هذا البند فقط.",
+      "e": "applies only to this item"
+    },
+    {
+      "id": 1141,
+      "a": "فحص",
+      "e": "Check"
+    },
+    {
+      "id": 1142,
+      "a": "يجب إعادة فحص العناصر الاتية",
+      "e": "The following items should be rechecked:"
+    },
+    {
+      "id": 1143,
+      "a": "تم اكتمال كل البيانات",
+      "e": "All data is complete"
+    },
+    {
+      "id": 1144,
+      "a": "اختر الاعتماد",
+      "e": "Choose accreditation"
+    },
+    {
+      "id": 1145,
+      "a": "إلغاء الاعتماد",
+      "e": "Deaccreditation"
+    },
+    {
+      "id": 1146,
+      "a": "كلمة المرور الخاصة بالمستخدم xx غير صحيحة.",
+      "e": "The password for user xx is incorrect."
+    },
+    {
+      "id": 1147,
+      "a": "أدخل كلمات مرور جميع الأعضاء، وبعد ذلك انقر فوق إلغاء الاعتماد مرة أخرى.",
+      "e": "Enter the passwords of all members, and then click Cancel accreditation again."
+    },
+    {
+      "id": 1148,
+      "a": "تم الانشاء علي السحابة",
+      "e": "Built on the cloud"
+    },
+    {
+      "id": 1149,
+      "a": "الاشعارات",
+      "e": "Notifications"
+    },
+    {
+      "id": 1150,
+      "a": "تفعيل الاشعارات",
+      "e": "Enable notifications"
+    },
+    {
+      "id": 1151,
+      "a": "اشعارات لجان العطاءات",
+      "e": "Tender Committees notification"
+    },
+    {
+      "id": 1152,
+      "a": "اشعارات النشر الجديد",
+      "e": "New Post notification"
+    },
+    {
+      "id": 1153,
+      "a": "تم إجراء بعض التعديلات على بيانات المشروع (xx). من الأفضل إجراء المزامنة مع بيانات السحابة لاشعار المشتركين بعد الانتهاء تماما من كل التعديلات.",
+      "e": "Some modifications have been made to the project data (xx). It is best to sync with the cloud data to notify subscribers after all modifications are completely finished."
+    },
+    {
+      "id": 1154,
+      "a": "اشعارات مزامنة السحابة",
+      "e": "Cloud sync notifications"
+    },
+    {
+      "id": 1155,
+      "a": "تساعد هذه الإشعارات على البقاء على اطلاع دائم واتخاذ قرارات دقيقة في الوقت المناسب.",
+      "e": "These notifications help you stay informed and make timely and accurate decisions."
+    },
+    {
+      "id": 1156,
+      "a": "استجابة السحابة",
+      "e": "Cloud Response"
+    },
+    {
+      "id": 1157,
+      "a": "الحد الاقصي لمدة انتظار استجابة السحابة لجلب أو تحميل البيانات تعتمد على سرعة الاتصال وحجم البيانات، وعادةً تتراوح بين ثوانٍ معدودة ودقائق في الحالات الكبيرة.",
+      "e": "The maximum time it takes for the cloud to respond to fetch or upload data depends on the connection speed and the size of the data, and usually ranges from a few seconds to minutes in large cases."
+    },
+    {
+      "id": 1158,
+      "a": "اقترب الموعد",
+      "e": "The date is approaching"
+    },
+    {
+      "id": 1159,
+      "a": "اقترب الموعد للجنة الفتح الفني لعملية (xx)",
+      "e": "The date for the Technical Bid Opening Committee for Operation (xx) is approaching."
+    },
+    {
+      "id": 1160,
+      "a": "سيؤدي إلغاء تحديد هذا الخيار إلى منعك من تلقي أي إشعارات.",
+      "e": "Unchecking this option will prevent you from receiving any notifications."
+    },
+    {
+      "id": 1161,
+      "a": "تلقي الإشعارات عند اقتراب لجان تقييم العطاءات",
+      "e": "Receive notifications when bid evaluation committees are approaching"
+    },
+    {
+      "id": 1162,
+      "a": "إشعارات بالعطاءات المنشورة لمجموعاتك أو للجمهور",
+      "e": "Notifications of bids posted to your groups or the public"
+    },
+    {
+      "id": 1163,
+      "a": "لتنبيهك في حالة تغير بيانات مشروع مشترك (المشاريع المشتركة مع عدد من المستخدمين عند اجراء اي تغير بها لن يشعر باقي المستخدمين بهذا الا بعد اجراء مزامنة لها مع السحابة)",
+      "e": "To alert you in case of a change in the data of a shared project (in shared projects with a number of users, when any change is made to them, the rest of the users will not feel this until they are synchronized with the cloud)"
+    },
+    {
+      "id": 1164,
+      "a": "هل ترغب في ارسال إشعارات بهذا النشر؟",
+      "e": "Do you want to send notifications for this post?"
+    },
+    {
+      "id": 1165,
+      "a": "تم نشر عطاء جديد (xx) من قبل (yy)",
+      "e": "New bid (xx) posted by (yy)"
+    },
+    {
+      "id": 1166,
+      "a": "قناة الإشعارات الخاصة بـ",
+      "e": "Notification channel for"
+    },
+    {
+      "id": 1167,
+      "a": "الإشعارات الخاصة بـ",
+      "e": "Notification channel "
+    },
+    {
+      "id": 1168,
+      "a": "التزامن الان",
+      "e": "Synchronization now"
+    },
+    {
+      "id": 1169,
+      "a": "تعديلات",
+      "e": "Modifications"
+    },
+    {
+      "id": 1170,
+      "a": "تم اجراء بعض التعديلات علي (xx) بواسطة (yy)",
+      "e": "Some modifications were made to (xx) by (yy)."
+    },
+    {
+      "id": 1171,
+      "a": "wUgI45663327821342595",
+      "e": "wUgI45663327821342595"
+    },
+    {
+      "id": 1173,
+      "a": "اختر نوع السيرة الذاتية",
+      "e": "Choose the type of CV"
+    },
+    {
+      "id": 1174,
+      "a": "إنشاء السيرة الذاتية",
+      "e": "Create a CV"
+    },
+    {
+      "id": 1175,
+      "a": "محادثة",
+      "e": "Conversation"
+    },
+    {
+      "id": 1176,
+      "a": "الاطلاع علي المساعدة",
+      "e": "View help"
+    },
+    {
+      "id": 1177,
+      "a": "لا توجد اشعارات",
+      "e": "No notifications"
+    },
+    {
+      "id": 1181,
+      "a": "نقدر تعاونك ونأمل أن تسهم آراؤك في تحسين تجربة الجميع.",
+      "e": "We appreciate your cooperation and hope your input will contribute to enhancing the experience for everyone."
+    },
+    {
+      "id": 1183,
+      "a": "اكتب رسالتك هنا...",
+      "e": "Write your message here..."
+    },
+    {
+      "id": 1186,
+      "a": "الجدوي",
+      "e": "Feasibility"
+    },
+    {
+      "id": 1187,
+      "a": "اختر العنصر لدراستة.",
+      "e": "Select the item to study."
+    },
+    {
+      "id": 1189,
+      "a": "نوع دراسة الجدوي",
+      "e": "Feasibility study type"
+    },
+    {
+      "id": 1190,
+      "a": "بناء العناصر الاساسية والفرعية",
+      "e": "Building the primary and secondary components"
+    },
+    {
+      "id": 1191,
+      "a": "استخدام النسب القياسية.",
+      "e": "Use standard ratios."
+    },
+    {
+      "id": 1192,
+      "a": "نوع الدراسة لا يهتم بهذا العنصر!\nهل اجبت علي جميع اسئله نوع الدراسة؟",
+      "e": "The type of study does not concern this element!\r\nHave you answered all the questions related to the type of study?"
+    },
+    {
+      "id": 1193,
+      "a": "تقييم دراسة الجدوي",
+      "e": "Feasibility Study Evaluation"
+    },
+    {
+      "id": 1194,
+      "a": "دراسة الجدوي",
+      "e": "Feasibility Study"
+    },
+    {
+      "id": 1195,
+      "a": "العناصر الرئيسية والفرعية لدراسة الجدوي",
+      "e": "Main and sub-elements of the feasibility study"
+    },
+    {
+      "id": 1196,
+      "a": "اختر اللجنة",
+      "e": "Select the committee"
+    },
+    {
+      "id": 1197,
+      "a": "الاجتماعات",
+      "e": "Meetings"
+    },
+    {
+      "id": 1198,
+      "a": "اضافة اجتماع",
+      "e": "Add a meeting"
+    },
+    {
+      "id": 1199,
+      "a": "ادخل عنوان اجتماع اللجنة",
+      "e": "Enter the title of the committee meeting."
+    },
+    {
+      "id": 1200,
+      "a": "توقيع",
+      "e": "Signature"
+    },
+    {
+      "id": 1201,
+      "a": "هل تود انشاء توقيع لهذا الاجتماع؟",
+      "e": "Would you like to create a signature for this meeting?"
+    },
+    {
+      "id": 1202,
+      "a": "تم انشاء توقيع للاجتماع.",
+      "e": "A signature has been created for the meeting."
+    },
+    {
+      "id": 1203,
+      "a": "هل ترغب في إزالة توقيع هذا الاجتماع؟",
+      "e": "Do you want to remove the signature for this meeting?"
+    },
+    {
+      "id": 1204,
+      "a": "تم حذف توقيع هذا الاجتماع.",
+      "e": "The signature of this meeting has been removed."
+    },
+    {
+      "id": 1205,
+      "a": "الحد الاقصي لعدد الاحرف هو",
+      "e": "Maximum number of characters is"
+    },
+    {
+      "id": 1206,
+      "a": "السماحية الرئيسية",
+      "e": "Main Permission"
+    },
+    {
+      "id": 1207,
+      "a": "السماحية الفرعية",
+      "e": "Sub Permission"
+    },
+    {
+      "id": 1208,
+      "a": "اختر",
+      "e": "Select"
+    },
+    {
+      "id": 1209,
+      "a": "فرق العمل",
+      "e": "work teams"
+    },
+    {
+      "id": 1210,
+      "a": "مسؤولين",
+      "e": "Administrators"
+    },
+    {
+      "id": 1211,
+      "a": "اسم فريق العمل",
+      "e": "Team Name"
+    },
+    {
+      "id": 1212,
+      "a": "فريق جديد",
+      "e": "New team"
+    },
+    {
+      "id": 1213,
+      "a": "ادخال جديد لاعلي",
+      "e": "New entry up"
+    },
+    {
+      "id": 1214,
+      "a": "ادخال جديد لاسفل",
+      "e": "New entry below"
+    },
+    {
+      "id": 1215,
+      "a": "تحريك لأعلى",
+      "e": "Move up"
+    },
+    {
+      "id": 1216,
+      "a": "تحريك لأسفل",
+      "e": "Move down"
+    },
+    {
+      "id": 1218,
+      "a": "ترقيم تابع",
+      "e": "Dependent numbering"
+    },
+    {
+      "id": 1219,
+      "a": "ترقيم غير تابع",
+      "e": "Independent numbering"
+    },
+    {
+      "id": 1220,
+      "a": "حذف العضو",
+      "e": "Delete Member"
+    },
+    {
+      "id": 1221,
+      "a": "مدير المسؤولين",
+      "e": "Manager of Administrators"
+    },
+    {
+      "id": 1222,
+      "a": "تعديل اسم الفريق",
+      "e": "Edit team name"
+    },
+    {
+      "id": 1223,
+      "a": "لا يمكن تعديل اسم هذا الفريق",
+      "e": "This team name cannot be edited."
+    },
+    {
+      "id": 1224,
+      "a": "مدير",
+      "e": "Manager"
+    },
+    {
+      "id": 1225,
+      "a": "عضو جديد",
+      "e": "New Member"
+    },
+    {
+      "id": 1226,
+      "a": "لم يتم تحديد رئيس لهذة اللجنة!",
+      "e": "No chairman has been appointed for this committee!"
+    },
+    {
+      "id": 1227,
+      "a": "مسح",
+      "e": "Clear"
+    },
+    {
+      "id": 1229,
+      "a": "محادثة :",
+      "e": "conversation :"
+    },
+    {
+      "id": 1231,
+      "a": "العضو الذي تريد اضافتة موجود مسبقا ضمن فريق عمل xx",
+      "e": "The member you want to add is already in the xx team."
+    },
+    {
+      "id": 1232,
+      "a": "اعضاء المشروع",
+      "e": "Project members"
+    },
+    {
+      "id": 1233,
+      "a": "محادثة مع الفريق",
+      "e": "Chat with the team"
+    },
+    {
+      "id": 1234,
+      "a": "باركود",
+      "e": "Barcode"
+    },
+    {
+      "id": 1235,
+      "a": " للتسجيل في تندراكس",
+      "e": "To register for tenderX"
+    },
+    {
+      "id": 1236,
+      "a": "عند التسجيل",
+      "e": "Upon registration"
+    },
+    {
+      "id": 1237,
+      "a": "بعض المعلومات التي قمت بمشاركتها بشكل عام مثل اسم البريد الإلكتروني",
+      "e": "Some publicly shared information, such as your email name."
+    },
+    {
+      "id": 1238,
+      "a": "سوف تشترك بملفات جوجل دريف الخاصة بتندراكس",
+      "e": "You will subscribe to tenderX's Google Drive files."
+    },
+    {
+      "id": 1239,
+      "a": "تسجيل الدخول لسحابة تندراكس",
+      "e": "Login to tenderX Cloud"
+    },
+    {
+      "id": 1240,
+      "a": "يجب أن تمتلك بريدًا إلكترونيًا على جوجل",
+      "e": "you must have a Google email account"
+    },
+    {
+      "id": 1241,
+      "a": "للتاكد أنك لست روبوتًا.",
+      "e": "To make sure you are not a robot."
+    },
+    {
+      "id": 1242,
+      "a": "سيكون لدى تندراكس إمكانية الوصول إلى :",
+      "e": "tenderX will have access to:"
+    },
+    {
+      "id": 1243,
+      "a": "لا يمكن الوصول إلى درايف المستخدم ، أو أي بيانات ، أو استغلال أي مساحة تخزين تابعة للمستخدم. ",
+      "e": "User's Drive, data, or storage space cannot be accessed or utilized."
+    },
+    {
+      "id": 1244,
+      "a": "سياسة الخصوصية المعتمدة من جوجل",
+      "e": "Google-approved Privacy Policy"
+    },
+    {
+      "id": 1245,
+      "a": "سياسة الخصوصية من جوجل",
+      "e": "Google Privacy Policy"
+    },
+    {
+      "id": 1246,
+      "a": "كمشاهد",
+      "e": "As Viewer"
+    },
+    {
+      "id": 1247,
+      "a": "كمحرر",
+      "e": "As Editor"
+    },
+    {
+      "id": 1248,
+      "a": "اختر طريقة تسجيل الدخول",
+      "e": "Choose login option"
+    },
+    {
+      "id": 1249,
+      "a": "يفضل",
+      "e": "Preferably"
+    },
+    {
+      "id": 1250,
+      "a": "اختر طريقة المصادقه",
+      "e": "Choose authentication method"
+    },
+    {
+      "id": 1251,
+      "a": "تسجيل الخروج",
+      "e": "Log out"
+    },
+    {
+      "id": 1252,
+      "a": "تطبيق فيسبوك غير مثبت على الجهاز.",
+      "e": "The Facebook app is not installed on the device."
+    },
+    {
+      "id": 1253,
+      "a": "تطبيق X غير مثبت على الجهاز.",
+      "e": "The X app is not installed on the device."
+    },
+    {
+      "id": 1254,
+      "a": "تم تسجيل الدخول كمشاهد",
+      "e": "You are logged in as a viewer."
+    },
+    {
+      "id": 1255,
+      "a": "تم تسجيل الدخول كمحرر",
+      "e": "Logged in as editor"
+    },
+    {
+      "id": 1256,
+      "a": "علي انظمة تشغيل وندوز يجب ان يكون الدخول كمحرر فقط.",
+      "e": "On Windows operating systems, you must log in as an editor only."
+    },
+    {
+      "id": 1257,
+      "a": "1215",
+      "e": "dfxvxvdf"
     }
   ]
 }
