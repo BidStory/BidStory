@@ -195,7 +195,47 @@ async function loadData() {
     console.error("💥 حدث خطأ أثناء تحميل أو تحليل الملفات:", err);
   }
 }
+async function loadDataFromWeb() {
+  try {
+    const imageFilePath = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_image.json";
+    const langFilePath = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_lang.json";
 
+    console.log(`📥 تحميل الملف من: ${imageFilePath}`);
+    console.log(`📥 تحميل الملف من: ${langFilePath}`);
+
+    const [responseImage, responseLang] = await Promise.all([
+      fetch(imageFilePath),
+      fetch(langFilePath)
+    ]);
+
+    if (!responseImage.ok || !responseLang.ok) {
+      throw new Error(`❌ فشل تحميل أحد الملفين:\n📄 image: ${responseImage.status}\n📄 lang: ${responseLang.status}`);
+    }
+
+    const [textImage, textLang] = await Promise.all([
+      responseImage.text(),
+      responseLang.text()
+    ]);
+
+    // إضافة رسائل للتأكد من النصوص المحملة
+   // console.log("📄 النص المحمل من data_image.json:", textImage);
+   // console.log("📄 النص المحمل من data_lang.json:", textLang);
+
+    try {
+      images = JSON.parse(textImage);
+      lang = JSON.parse(textLang);
+      console.log("✅ تم تحويل كلا الملفين إلى كائن JSON بنجاح.");
+      document.dispatchEvent(new Event("BidStoryDBReady"));
+
+    } catch (parseError) {
+      console.error("❌ فشل في تحليل أحد الملفين إلى JSON:", parseError);
+      throw parseError;
+    }
+
+  } catch (err) {
+    console.error("💥 حدث خطأ أثناء تحميل أو تحليل الملفات:", err);
+  }
+}
 
 
 
@@ -256,7 +296,7 @@ document.querySelectorAll('[id^="t_"]').forEach(textEl => {
 (async () => {
   if (window.location.hostname.includes("bidstory.github.io")) {
     console.log("✅ انت الان على الاستضافة الحقيقية (GitHub Pages).");
-    document.dispatchEvent(new Event("BidStoryDBReady"));
+   await loadDataFromWeb();
   } else {
     console.log("🧪 انت الان في بيئة تطوير محلية (Localhost أو نطاق تجريبي).");
    await loadData();
