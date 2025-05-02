@@ -182,9 +182,10 @@ async function loadData() {
       images = JSON.parse(textImage);
       lang = JSON.parse(textLang);
       console.log("✅ تم تحويل كلا الملفين إلى كائن JSON بنجاح.");
-      document.dispatchEvent(new Event("BidStoryDBReady"));
       Load=true;
       setTextAndImage();
+      document.dispatchEvent(new Event("BidStoryDBReady"));
+
     } catch (parseError) {
       console.error("❌ فشل في تحليل أحد الملفين إلى JSON:", parseError);
       throw parseError;
@@ -222,9 +223,10 @@ async function loadDataFromWeb() {
       images = JSON.parse(textImage);
       lang = JSON.parse(textLang);
       console.log("✅ تم تحويل كلا الملفين إلى كائن JSON بنجاح.");
-      document.dispatchEvent(new Event("BidStoryDBReady"));
       Load=true;
       setTextAndImage();
+      document.dispatchEvent(new Event("BidStoryDBReady"));
+
     } catch (parseError) {
       console.error("❌ فشل في تحليل أحد الملفين إلى JSON:", parseError);
       throw parseError;
