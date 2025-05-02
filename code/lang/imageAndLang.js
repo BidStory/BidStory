@@ -197,6 +197,7 @@ async function loadData() {
 }
 async function loadDataFromWeb() {
   try {
+    console.log('hi from web');
     const imageFilePath = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_image.json";
     const langFilePath = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_lang.json";
 
