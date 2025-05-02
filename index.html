@@ -10,8 +10,8 @@
   <script>
    
     // ✅ تحديد اللغة والاتجاه قبل تحميل أي شيء آخر
-    (function () {
-      delay(3000);
+    (async function () {
+     await delay(3000);
       const savedLang = JSON.parse(localStorage.getItem("languageSelect")) || "ar";
       const html = document.documentElement;
 
