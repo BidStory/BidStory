@@ -7,9 +7,13 @@
   <title>BidStory</title>
   <script src="/BidStory/code/lang/imageAndLang.js"></script>
   <script>
-    
+    async function delay ( ms )
+{
+  return new Promise( resolve => setTimeout( resolve, ms ) );
+}
     // ✅ تحديد اللغة والاتجاه قبل تحميل أي شيء آخر
     (function () {
+      delay(3000);
       const savedLang = JSON.parse(localStorage.getItem("languageSelect")) || "ar";
       const html = document.documentElement;
 
