@@ -1,211 +1,201 @@
 ﻿<!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BidStory</title>
-  <script src="/BidStory/js/tools.js"></script>
-  <script src="/BidStory/code/lang/imageAndLang.js"></script>
-  <script>
- 
-    // ✅ تحديد اللغة والاتجاه قبل تحميل أي شيء آخر
-    (async function () {
-     // انتظر حتى تصبح البيانات جاهزة إن كنت تعتمد على متغير مثل Load
-    while (typeof Load !== "undefined" && Load === false) {
-      await new Promise(resolve => setTimeout(resolve, 100));
-    }
-      const savedLang = JSON.parse(localStorage.getItem("languageSelect")) || "ar";
-      const html = document.documentElement;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BidStory</title>
 
-      if (savedLang === "en") {
-        useArabic=false;
-        html.lang = "en";
-        html.dir = "ltr";
-      } else {
-        useArabic=true;
-        html.lang = "ar";
-        html.dir = "rtl";
+    <!-- أيقونة التبويب -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- ملفات JavaScript المطلوبة مسبقًا -->
+    <script src="/BidStory/js/tools.js"></script>
+    <script src="/BidStory/code/lang/imageAndLang.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/BidStory/js/dataBase/dbManager.js"></script>
+    <script src="/BidStory/js/table/table.js"></script>
+
+    <!-- تنسيق مخصص للصفحة -->
+    <link rel="stylesheet" href="/BidStory/css/table.css">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background-color: #f5f5f5;
       }
-    })();
-  </script>
 
-  <!-- أيقونة التبويب -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+      nav {
+        background-color: #004080;
+        color: white;
+        padding: 10px;
+        text-align: center;
+      }
 
-  <!-- ملفات JavaScript المطلوبة مسبقًا -->
- 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="/BidStory/js/dataBase/dbManager.js"></script>
-  <script src="/BidStory/js/table/table.js"></script>
+      nav button {
+        background-color: #0073e6;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s;
+      }
 
-  <!-- تنسيق مخصص للصفحة -->
-  <link rel="stylesheet" href="/BidStory/css/table.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f5f5f5;
-    }
+      nav button:hover {
+        background-color: #005bb5;
+      }
 
-    nav {
-      background-color: #004080;
-      color: white;
-      padding: 10px;
-      text-align: center;
-    }
+      .section {
+        display: none;
+        padding: 20px;
+        background-color: white;
+        margin: 10px;
+        border-radius: 10px;
+      }
 
-    nav button {
-      background-color: #0073e6;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin: 5px;
-      cursor: pointer;
-      border-radius: 5px;
-      font-size: 16px;
-      transition: background-color 0.3s;
-    }
+      .active {
+        display: block;
+      }
+    </style>
+  </head>
 
-    nav button:hover {
-      background-color: #005bb5;
-    }
+  <body>
 
-    .section {
-      display: none;
-      padding: 20px;
-      background-color: white;
-      margin: 10px;
-      border-radius: 10px;
-    }
+    <!-- ✅ شريط التنقل بين الأقسام -->
+    <nav>
+      <button onclick="showSection('home')">
+        <img id="i_allmo" alt="Home" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+        <span id="t_159"></span>
+      </button>
+      <button onclick="showSection('setting')">
+        <img id="i_setting" alt="setting" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+        <span id="t_62"></span>
+      </button>
+      <button onclick="showSection('about')">عنّا</button>
+      <button onclick="showSection('contact')">تواصل معنا</button>
+    </nav>
 
-    .active {
-      display: block;
-    }
-  </style>
-</head>
+    <!-- ✅ الأقسام الأساسية -->
+    <div id="home" class="section active">
+      <h2 id="2"></h2>
+      <p>هنا تبدأ رحلتك مع قصص العطاءات المميزة.</p>
+    </div>
 
-<body>
+    <div id="setting" class="section"></div>
+    <div id="about" class="section"></div>
+    <div id="contact" class="section"></div>
 
-  <!-- ✅ شريط التنقل بين الأقسام -->
-  <nav>
-    <button onclick="showSection('home')">
-      <img id="i_allmo" alt="Home" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
-      <span id="t_159"></span>
-    </button>
-    <button onclick="showSection('setting')">
-      <img id="i_setting" alt="setting" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
-      <span id="t_62"></span>
-    </button>
-    <button onclick="showSection('about')">عنّا</button>
-    <button onclick="showSection('contact')">تواصل معنا</button>
-  </nav>
-
-  <!-- ✅ الأقسام الأساسية -->
-  <div id="home" class="section active">
-    <h2 id="2"></h2>
-    <p>هنا تبدأ رحلتك مع قصص العطاءات المميزة.</p>
-  </div>
-
-  <div id="setting" class="section"></div>
-  <div id="about" class="section"></div>
-  <div id="contact" class="section"></div>
-
-  <!-- ✅ JavaScript الخاص بالصفحة -->
-  <script>
-    //#region تحميل الصور وترجمة النصوص
-    document.addEventListener('BidStoryDBReady', () => {
-      (async () => {
-        await delay(50);
-        setTextAndImage();
-      })();
-    });
-    //#endregion
-
-    // تنفيذ الكود بعد تحميل الصفحة
-    window.addEventListener("DOMContentLoaded", () => {
-
-      // لتجنب تحميل الصفحات أكثر من مرة
-      const loadedPages = {
-        setting: false,
-        about: false,
-        contact: false,
-        home: false
-      };
-
-      /**
-       * ✅ دالة عرض القسم المطلوب وتحميل الصفحة المرتبطة به عند الحاجة
-       * @param {string} id - معرف القسم المطلوب
-       */
-      window.showSection = function (id) {
-        try {
-          // إخفاء كل الأقسام
-          document.querySelectorAll(".section").forEach(section => section.classList.remove("active"));
-
-          // إظهار القسم المطلوب
-          const targetSection = document.getElementById(id);
-          targetSection.classList.add("active");
-
-          // روابط الصفحات التي نريد تحميلها عند الطلب
-          const pageMap = {
-            setting: "pages/setting.html",
-            about: "pages/about.html",
-            contact: "pages/contact.html",
-            home: "pages/projects/allProjects.html"
-          };
-
-          // إذا لم تكن الصفحة محمّلة من قبل
-          if (pageMap[id] && !loadedPages[id]) {
-            targetSection.innerHTML = "<p>جاري التحميل...</p>";
-
-            fetch(pageMap[id])
-              .then(response => {
-                if (!response.ok) throw new Error("الملف غير موجود");
-                return response.text();
-              })
-              .then(html => {
-                // ✅ تحليل الـ HTML المؤقت لاستخراج السكريبتات
-                const temp = document.createElement("div");
-                temp.innerHTML = html;
-
-                // استخراج السكريبتات من الصفحة المحملة
-                const scripts = temp.querySelectorAll("script");
-                scripts.forEach(s => s.remove()); // إزالة السكريبتات مؤقتًا
-
-                targetSection.innerHTML = temp.innerHTML;
-
-                // ✅ إعادة تنفيذ السكريبتات
-                scripts.forEach(script => {
-                  const newScript = document.createElement("script");
-                  if (script.src) {
-                    newScript.src = script.src;
-                  } else {
-                    newScript.textContent = script.textContent;
-                  }
-                  document.body.appendChild(newScript);
-                });
-
-                loadedPages[id] = true;
-              })
-              .catch(error => {
-                targetSection.innerHTML = "<p>فشل تحميل الصفحة.</p>";
-                console.error("خطأ:", error);
-              });
-          }
-
-          (async () => {
-            await delay(50);
-            setTextAndImage();
-          })();
-
-        } catch (error) {
-          console.error("حدث خطأ:", error);
-          alert("حدث خطأ تقني، يرجى المحاولة لاحقًا.");
+    <!-- ✅ JavaScript الخاص بالتهيئة -->
+   
+   <script>
+      document.addEventListener( "DOMContentLoaded", async () =>
+      {
+        // ❗ انتظر حتى Load === true
+        while ( typeof Load !== "undefined" && Load === false )
+        {
+          await new Promise( resolve => setTimeout( resolve, 100 ) );
         }
-      };
-    });
-  </script>
 
-</body>
+        // ✅ إعداد اللغة والاتجاه
+        const savedLang = JSON.parse( localStorage.getItem( "languageSelect" ) ) || "ar";
+        const html = document.documentElement;
+        if ( savedLang === "en" )
+        {
+          useArabic = false;
+          html.lang = "en";
+          html.dir = "ltr";
+        } else
+        {
+          useArabic = true;
+          html.lang = "ar";
+          html.dir = "rtl";
+        }
+
+        
+
+        // ✅ تحميل الأقسام عند الطلب
+        const loadedPages = {
+          setting: false,
+          about: false,
+          contact: false,
+          home: false
+        };
+
+        window.showSection = function ( id )
+        {
+          try
+          {
+            document.querySelectorAll( ".section" ).forEach( section => section.classList.remove( "active" ) );
+            const targetSection = document.getElementById( id );
+            targetSection.classList.add( "active" );
+
+            const pageMap = {
+              setting: "pages/setting.html",
+              about: "pages/about.html",
+              contact: "pages/contact.html",
+              home: "pages/projects/allProjects.html"
+            };
+
+            if ( pageMap[ id ] && !loadedPages[ id ] )
+            {
+              targetSection.innerHTML = "<p>جاري التحميل...</p>";
+              fetch( pageMap[ id ] )
+                .then( response =>
+                {
+                  if ( !response.ok ) throw new Error( "الملف غير موجود" );
+                  return response.text();
+                } )
+                .then( html =>
+                {
+                  const temp = document.createElement( "div" );
+                  temp.innerHTML = html;
+                  const scripts = temp.querySelectorAll( "script" );
+                  scripts.forEach( s => s.remove() );
+                  targetSection.innerHTML = temp.innerHTML;
+
+                  scripts.forEach( script =>
+                  {
+                    const newScript = document.createElement( "script" );
+                    if ( script.src )
+                    {
+                      newScript.src = script.src;
+                    } else
+                    {
+                      newScript.textContent = script.textContent;
+                    }
+                    document.body.appendChild( newScript );
+                  } );
+
+                  loadedPages[ id ] = true;
+                } )
+                .catch( error =>
+                {
+                  targetSection.innerHTML = "<p>فشل تحميل الصفحة.</p>";
+                  console.error( "خطأ:", error );
+                } );
+            }
+
+            ( async () =>
+            {
+              await delay( 50 );
+              setTextAndImage();
+            } )();
+
+          } catch ( error )
+          {
+            console.error( "حدث خطأ:", error );
+            alert( "حدث خطأ تقني، يرجى المحاولة لاحقًا." );
+          }
+        };
+
+        // ✅ إظهار القسم الافتراضي
+        showSection( "home" );
+      } );
+    </script>
+
+  </body>
 
 </html>

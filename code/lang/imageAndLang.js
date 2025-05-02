@@ -184,6 +184,7 @@ async function loadData() {
       console.log("✅ تم تحويل كلا الملفين إلى كائن JSON بنجاح.");
       document.dispatchEvent(new Event("BidStoryDBReady"));
       Load=true;
+      setTextAndImage();
     } catch (parseError) {
       console.error("❌ فشل في تحليل أحد الملفين إلى JSON:", parseError);
       throw parseError;
@@ -223,6 +224,7 @@ async function loadDataFromWeb() {
       console.log("✅ تم تحويل كلا الملفين إلى كائن JSON بنجاح.");
       document.dispatchEvent(new Event("BidStoryDBReady"));
       Load=true;
+      setTextAndImage();
     } catch (parseError) {
       console.error("❌ فشل في تحليل أحد الملفين إلى JSON:", parseError);
       throw parseError;
