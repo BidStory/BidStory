@@ -200,7 +200,7 @@ async function loadData() {
 
 
 function getImage(clableValue) {
-  console.log(images);
+ 
   if (!images || !Array.isArray(images.image)) {
     console.error("❌ الكائن المدخل غير صالح أو لا يحتوي على مصفوفة 'image'.");
     return null;
@@ -215,6 +215,41 @@ function getImage(clableValue) {
     console.warn(`⚠️ لا يوجد عنصر بـ Clable = "${clableValue}".`);
     return null;
   }
+}
+let useArabic=true;
+function getLang(id ) {
+  if (!lang || !Array.isArray(lang.lang)) {
+    console.error("❌ الكائن 'lang' غير موجود أو غير صالح.");
+    return null;
+  }
+
+  const item = lang.lang.find(entry => entry.id == id);
+
+  if (!item) {
+    console.warn(`⚠️ لم يتم العثور على العنصر بالمعرف id = ${id}`);
+    return null;
+  }
+
+  return useArabic ? item.a : item.e;
+}
+
+function setTextAndImage()
+{
+ // تحميل الصور
+ document.querySelectorAll('[id^="i_"]').forEach(imgEl => {
+  const key = imgEl.id.slice(2); // إزالة "i_"
+  const src = getImage(key);
+  // @ts-ignore
+  if (src) imgEl.src = src;
+});
+
+// تحميل النصوص
+document.querySelectorAll('[id^="t_"]').forEach(textEl => {
+  const key = textEl.id.slice(2); // إزالة "t_"
+  const text = getLang(key);
+  if (text) textEl.textContent = text;
+});
+
 }
 
 

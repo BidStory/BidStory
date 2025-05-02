@@ -1,777 +1,207 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+﻿<!DOCTYPE html>
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام إدارة </title>
-    <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2980b9;
-            --success-color: #2ecc71;
-            --danger-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-        }
-        
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            background-color: var(--dark-color);
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            margin-bottom: 30px;
-            border-radius: 5px;
-        }
-        
-        h1 {
-            margin: 0;
-            font-size: 2.2em;
-        }
-        
-        .tabs {
-            display: flex;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            background-color: var(--light-color);
-            border: 1px solid #ddd;
-            border-bottom: none;
-            border-radius: 5px 5px 0 0;
-            margin-right: 5px;
-        }
-        
-        .tab.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .tab-content {
-            display: none;
-            padding: 20px;
-            background-color: white;
-            border-radius: 0 5px 5px 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        input[type="text"],
-        input[type="email"],
-        input[type="password"],
-        input[type="file"],
-        select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        
-        button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: var(--secondary-color);
-        }
-        
-        .btn-success {
-            background-color: var(--success-color);
-        }
-        
-        .btn-danger {
-            background-color: var(--danger-color);
-        }
-        
-        .btn-success:hover {
-            background-color: #27ae60;
-        }
-        
-        .btn-danger:hover {
-            background-color: #c0392b;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        
-        th, td {
-            padding: 12px;
-            text-align: right;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        th {
-            background-color: var(--light-color);
-            font-weight: bold;
-        }
-        
-        tr:hover {
-            background-color: #f9f9f9;
-        }
-        
-        .action-buttons button {
-            padding: 5px 10px;
-            margin-left: 5px;
-            font-size: 14px;
-        }
-        
-        .message {
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            display: none;
-        }
-        
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        .json-actions {
-            margin: 20px 0;
-            display: flex;
-            gap: 10px;
-        }
-        
-        .search-container {
-            margin-bottom: 20px;
-        }
-        
-        @media (max-width: 768px) {
-            .tabs {
-                flex-direction: column;
-            }
-            
-            .tab {
-                margin-bottom: 5px;
-                border-radius: 5px;
-            }
-            
-            .action-buttons {
-                display: flex;
-                flex-direction: column;
-                gap: 5px;
-            }
-            
-            .action-buttons button {
-                margin-left: 0;
-                width: 100%;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BidStory</title>
+  <script src="/BidStory/code/lang/imageAndLang.js"></script>
+  <script>
+    
+    // ✅ تحديد اللغة والاتجاه قبل تحميل أي شيء آخر
+    (function () {
+      const savedLang = JSON.parse(localStorage.getItem("languageSelect")) || "ar";
+      const html = document.documentElement;
+
+      if (savedLang === "en") {
+        useArabic=false;
+        html.lang = "en";
+        html.dir = "ltr";
+      } else {
+        useArabic=true;
+        html.lang = "ar";
+        html.dir = "rtl";
+      }
+    })();
+  </script>
+
+  <!-- أيقونة التبويب -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <!-- ملفات JavaScript المطلوبة مسبقًا -->
+ 
+  <script src="/BidStory/js/tools.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/BidStory/js/dataBase/dbManager.js"></script>
+  <script src="/BidStory/js/table/table.js"></script>
+
+  <!-- تنسيق مخصص للصفحة -->
+  <link rel="stylesheet" href="/BidStory/css/table.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f5f5f5;
+    }
+
+    nav {
+      background-color: #004080;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav button {
+      background-color: #0073e6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    nav button:hover {
+      background-color: #005bb5;
+    }
+
+    .section {
+      display: none;
+      padding: 20px;
+      background-color: white;
+      margin: 10px;
+      border-radius: 10px;
+    }
+
+    .active {
+      display: block;
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <header>
-            <h1>نظام إدارة البيانات</h1>
-        </header>
-        
-        <div class="tabs">
-            <div class="tab active" data-tab="register"> بيان جديد</div>
-            <div class="tab" data-tab="users-list">قائمة المعلومات</div>
-            <div class="tab" data-tab="json-data">استيراد/تصدير بيانات</div>
-        </div>
-        
-        <!-- تسجيل مستخدم جديد -->
-        <div id="register" class="tab-content active">
-            <h2>اضافة  جديد</h2>
-            <div id="register-message" class="message"></div>
-            
-            <form id="registerForm">
-                <div class="form-group">
-                    <label for="username">اسم الحاله:</label>
-                    <input type="text" id="username" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">البريد الإلكتروني:</label>
-                    <input type="email" id="email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">كلمة التعريف:</label>
-                    <input type="text" id="password" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="phone">رقم الهاتف:</label>
-                    <input type="text" id="phone">
-                </div>
-                
-                <div class="form-group">
-                    <label for="role">الدور:</label>
-                    <select id="role">
-                        <option value="user">مستخدم عادي</option>
-                        <option value="admin">مدير</option>
-                        <option value="editor">محرر</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="btn-success">اضافة  جديد</button>
-            </form>
-        </div>
-        
-        <!-- قائمة المستخدمين -->
-        <div id="users-list" class="tab-content">
-            <h2>قائمة المستخدمين</h2>
-            <div id="users-message" class="message"></div>
-            
-            <div class="search-container">
-                <input type="text" id="search-users" placeholder="ابحث عن مستخدم...">
-            </div>
-            
-            <table id="users-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>اسم المستخدم</th>
-                        <th>البريد الإلكتروني</th>
-                        <th>رقم الهاتف</th>
-                        <th>الدور</th>
-                        <th>تاريخ التسجيل</th>
-                        <th>إجراءات</th>
-                    </tr>
-                </thead>
-                <tbody id="users-table-body">
-                    <!-- سيتم ملؤها بالبيانات -->
-                </tbody>
-            </table>
-        </div>
-        
-        <!-- استيراد/تصدير بيانات -->
-        <div id="json-data" class="tab-content">
-            <h2>استيراد وتصدير بيانات JSON</h2>
-            <div id="json-message" class="message"></div>
-            
-            <div class="json-actions">
-                <button id="export-users" class="btn-success">تصدير جميع المستخدمين</button>
-                <button id="import-users" class="btn-success">استيراد مستخدمين</button>
-                <input type="file" id="import-file" accept=".json" style="display: none;">
-            </div>
-            
-            <div id="json-preview" style="margin-top: 20px; display: none;">
-                <h3>معاينة البيانات:</h3>
-                <pre id="json-content" style="background: #f5f5f5; padding: 10px; border-radius: 5px; max-height: 300px; overflow-y: auto;"></pre>
-            </div>
-        </div>
-    </div>
 
-    <!-- نموذج تعديل المستخدم -->
-    <div id="edit-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
-        <div style="background: white; padding: 20px; border-radius: 5px; width: 90%; max-width: 500px;">
-            <h2>تعديل بيانات المستخدم</h2>
-            <div id="edit-message" class="message"></div>
-            
-            <form id="editForm">
-                <input type="hidden" id="edit-id">
-                
-                <div class="form-group">
-                    <label for="edit-username">اسم المستخدم:</label>
-                    <input type="text" id="edit-username" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="edit-email">البريد الإلكتروني:</label>
-                    <input type="email" id="edit-email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="edit-phone">رقم الهاتف:</label>
-                    <input type="text" id="edit-phone">
-                </div>
-                
-                <div class="form-group">
-                    <label for="edit-role">الدور:</label>
-                    <select id="edit-role">
-                        <option value="user">مستخدم عادي</option>
-                        <option value="admin">مدير</option>
-                        <option value="editor">محرر</option>
-                    </select>
-                </div>
-                
-                <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-                    <button type="button" id="cancel-edit" class="btn-danger">إلغاء</button>
-                    <button type="submit" class="btn-success">حفظ التعديلات</button>
-                </div>
-            </form>
-        </div>
-    </div>
+  <!-- ✅ شريط التنقل بين الأقسام -->
+  <nav>
+    <button onclick="showSection('home')">
+      <img id="i_allmo" alt="Home" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+      <span id="t_159"></span>
+    </button>
+    <button onclick="showSection('setting')">
+      <img id="i_setting" alt="setting" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+      <span id="t_62"></span>
+    </button>
+    <button onclick="showSection('about')">عنّا</button>
+    <button onclick="showSection('contact')">تواصل معنا</button>
+  </nav>
 
-    <!-- تضمين مكتبة IndexedDB -->
-    <script src="js/indexedDBManager.js"></script>
-    
-    <script>
-        // تهيئة هيكل قاعدة البيانات
-        const databaseStores = [
-            {
-                name: 'users',
-                keyPath: 'id',
-                autoIncrement: true,
-                indexes: [
-                    { name: 'email', keyPath: 'email', unique: true },
-                    { name: 'username', keyPath: 'username', unique: true },
-                    { name: 'role', keyPath: 'role' }
-                ]
-            }
-        ];
+  <!-- ✅ الأقسام الأساسية -->
+  <div id="home" class="section active">
+    <h2 id="2"></h2>
+    <p>هنا تبدأ رحلتك مع قصص العطاءات المميزة.</p>
+  </div>
 
-        // إنشاء مدير قاعدة البيانات
-        const dbManager = manageIndexedDB('UserManagementSystem', 2, databaseStores);
+  <div id="setting" class="section"></div>
+  <div id="about" class="section"></div>
+  <div id="contact" class="section"></div>
 
-        // عناصر DOM
-        const tabs = document.querySelectorAll('.tab');
-        const tabContents = document.querySelectorAll('.tab-content');
-        const registerForm = document.getElementById('registerForm');
-        const editForm = document.getElementById('editForm');
-        const usersTableBody = document.getElementById('users-table-body');
-        const searchInput = document.getElementById('search-users');
-        const exportBtn = document.getElementById('export-users');
-        const importBtn = document.getElementById('import-users');
-        const importFile = document.getElementById('import-file');
-        const jsonPreview = document.getElementById('json-preview');
-        const jsonContent = document.getElementById('json-content');
-        const editModal = document.getElementById('edit-modal');
-        const cancelEditBtn = document.getElementById('cancel-edit');
+  <!-- ✅ JavaScript الخاص بالصفحة -->
+  <script>
+    //#region تحميل الصور وترجمة النصوص
+    document.addEventListener('BidStoryDBReady', () => {
+      (async () => {
+        await delay(50);
+        setTextAndImage();
+      })();
+    });
+    //#endregion
 
-        // رسائل
-        const messages = {
-            register: document.getElementById('register-message'),
-            users: document.getElementById('users-message'),
-            json: document.getElementById('json-message'),
-            edit: document.getElementById('edit-message')
-        };
+    // تنفيذ الكود بعد تحميل الصفحة
+    window.addEventListener("DOMContentLoaded", () => {
 
-        // عرض رسالة
-        function showMessage(element, text, type) {
-            element.textContent = text;
-            element.className = `message ${type}`;
-            element.style.display = 'block';
-            
-            setTimeout(() => {
-                element.style.display = 'none';
-            }, 5000);
-        }
+      // لتجنب تحميل الصفحات أكثر من مرة
+      const loadedPages = {
+        setting: false,
+        about: false,
+        contact: false,
+        home: false
+      };
 
-        // تبديل التبويبات
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('active'));
-                tabContents.forEach(c => c.classList.remove('active'));
-                
-                tab.classList.add('active');
-                document.getElementById(tab.dataset.tab).classList.add('active');
-                
-                if (tab.dataset.tab === 'users-list') {
-                    loadUsers();
-                }
-            });
-        });
+      /**
+       * ✅ دالة عرض القسم المطلوب وتحميل الصفحة المرتبطة به عند الحاجة
+       * @param {string} id - معرف القسم المطلوب
+       */
+      window.showSection = function (id) {
+        try {
+          // إخفاء كل الأقسام
+          document.querySelectorAll(".section").forEach(section => section.classList.remove("active"));
 
-        // تسجيل مستخدم جديد
-        registerForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const userData = {
-                username: document.getElementById('username').value,
-                email: document.getElementById('email').value,
-                password: document.getElementById('password').value,
-                phone: document.getElementById('phone').value,
-                role: document.getElementById('role').value,
-                registrationDate: new Date().toISOString()
-            };
-            
-            try {
-                // التحقق من عدم وجود البريد الإلكتروني مسبقًا
-                const existingUsers = await dbManager.getAllRecords('users', {
-                    index: 'email',
-                    query: userData.email
+          // إظهار القسم المطلوب
+          const targetSection = document.getElementById(id);
+          targetSection.classList.add("active");
+
+          // روابط الصفحات التي نريد تحميلها عند الطلب
+          const pageMap = {
+            setting: "pages/setting.html",
+            about: "pages/about.html",
+            contact: "pages/contact.html",
+            home: "pages/projects/allProjects.html"
+          };
+
+          // إذا لم تكن الصفحة محمّلة من قبل
+          if (pageMap[id] && !loadedPages[id]) {
+            targetSection.innerHTML = "<p>جاري التحميل...</p>";
+
+            fetch(pageMap[id])
+              .then(response => {
+                if (!response.ok) throw new Error("الملف غير موجود");
+                return response.text();
+              })
+              .then(html => {
+                // ✅ تحليل الـ HTML المؤقت لاستخراج السكريبتات
+                const temp = document.createElement("div");
+                temp.innerHTML = html;
+
+                // استخراج السكريبتات من الصفحة المحملة
+                const scripts = temp.querySelectorAll("script");
+                scripts.forEach(s => s.remove()); // إزالة السكريبتات مؤقتًا
+
+                targetSection.innerHTML = temp.innerHTML;
+
+                // ✅ إعادة تنفيذ السكريبتات
+                scripts.forEach(script => {
+                  const newScript = document.createElement("script");
+                  if (script.src) {
+                    newScript.src = script.src;
+                  } else {
+                    newScript.textContent = script.textContent;
+                  }
+                  document.body.appendChild(newScript);
                 });
-                
-                if (existingUsers.length > 0) {
-                    throw new Error('البريد الإلكتروني مسجل مسبقًا');
-                }
-                
-                // التحقق من عدم وجود اسم المستخدم مسبقًا
-                const existingUsernames = await dbManager.getAllRecords('users', {
-                    index: 'username',
-                    query: userData.username
-                });
-                
-                if (existingUsernames.length > 0) {
-                    throw new Error('اسم المستخدم مسجل مسبقًا');
-                }
-                
-                // إضافة المستخدم إلى قاعدة البيانات
-                const userId = await dbManager.addRecord('users', userData);
-                
-                showMessage(messages.register, 'تم تسجيل المستخدم الجديد بنجاح!', 'success');
-                registerForm.reset();
-                
-                // تحميل قائمة المستخدمين إذا كانت مفتوحة
-                if (document.getElementById('users-list').classList.contains('active')) {
-                    loadUsers();
-                }
-            } catch (error) {
-                showMessage(messages.register, error.message, 'error');
-                console.error('حدث خطأ أثناء التسجيل:', error);
-            }
-        });
 
-        // تحميل قائمة المستخدمين
-        async function loadUsers(searchTerm = '') {
-            try {
-                let users;
-                
-                if (searchTerm) {
-                    // البحث في جميع الحقول النصية
-                    const allUsers = await dbManager.getAllRecords('users');
-                    users = allUsers.filter(user => 
-                        user.username.includes(searchTerm) || 
-                        user.email.includes(searchTerm) ||
-                        user.phone.includes(searchTerm) ||
-                        user.role.includes(searchTerm)
-                    );
-                } else {
-                    users = await dbManager.getAllRecords('users');
-                }
-                
-                usersTableBody.innerHTML = '';
-                
-                if (users.length === 0) {
-                    usersTableBody.innerHTML = '<tr><td colspan="7" style="text-align: center;">لا يوجد مستخدمين مسجلين</td></tr>';
-                    return;
-                }
-                
-                users.forEach(user => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${user.id}</td>
-                        <td>${user.username}</td>
-                        <td>${user.email}</td>
-                        <td>${user.phone || '-'}</td>
-                        <td>${getRoleName(user.role)}</td>
-                        <td>${new Date(user.registrationDate).toLocaleString()}</td>
-                        <td class="action-buttons">
-                            <button class="edit-user" data-id="${user.id}">تعديل</button>
-                            <button class="delete-user" data-id="${user.id}">حذف</button>
-                        </td>
-                    `;
-                    usersTableBody.appendChild(row);
-                });
-                
-                // إضافة معالجات الأحداث لأزرار التعديل والحذف
-                document.querySelectorAll('.edit-user').forEach(btn => {
-                    btn.addEventListener('click', () => openEditModal(btn.dataset.id));
-                });
-                
-                document.querySelectorAll('.delete-user').forEach(btn => {
-                    btn.addEventListener('click', () => deleteUser(btn.dataset.id));
-                });
-                
-            } catch (error) {
-                showMessage(messages.users, 'حدث خطأ أثناء تحميل المستخدمين', 'error');
-                console.error('حدث خطأ أثناء تحميل المستخدمين:', error);
-            }
+                loadedPages[id] = true;
+              })
+              .catch(error => {
+                targetSection.innerHTML = "<p>فشل تحميل الصفحة.</p>";
+                console.error("خطأ:", error);
+              });
+          }
+
+          (async () => {
+            await delay(50);
+            setTextAndImage();
+          })();
+
+        } catch (error) {
+          console.error("حدث خطأ:", error);
+          alert("حدث خطأ تقني، يرجى المحاولة لاحقًا.");
         }
+      };
+    });
+  </script>
 
-        // الحصول على اسم الدور
-        function getRoleName(role) {
-            const roles = {
-                'user': 'مستخدم عادي',
-                'admin': 'مدير',
-                'editor': 'محرر'
-            };
-            return roles[role] || role;
-        }
-
-        // فتح نموذج التعديل
-        async function openEditModal(userId) {
-            try {
-                const user = await dbManager.getRecord('users', parseInt(userId));
-                
-                document.getElementById('edit-id').value = user.id;
-                document.getElementById('edit-username').value = user.username;
-                document.getElementById('edit-email').value = user.email;
-                document.getElementById('edit-phone').value = user.phone || '';
-                document.getElementById('edit-role').value = user.role;
-                
-                editModal.style.display = 'flex';
-            } catch (error) {
-                console.error('حدث خطأ أثناء فتح نموذج التعديل:', error);
-            }
-        }
-
-        // إغلاق نموذج التعديل
-        function closeEditModal() {
-            editModal.style.display = 'none';
-            editForm.reset();
-        }
-
-        // تعديل مستخدم
-        editForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const userData = {
-                id: parseInt(document.getElementById('edit-id').value),
-                username: document.getElementById('edit-username').value,
-                email: document.getElementById('edit-email').value,
-                phone: document.getElementById('edit-phone').value,
-                role: document.getElementById('edit-role').value,
-                // الحفاظ على البيانات الأخرى
-                    password: (await dbManager.getRecord('users', parseInt(document.getElementById('edit-id').value))).password,
-                    registrationDate: (await dbManager.getRecord('users', parseInt(document.getElementById('edit-id').value))).registrationDate
-                };
-          
-            
-            try {
-                // التحقق من عدم تكرار البريد الإلكتروني
-                const existingUsers = await dbManager.getAllRecords('users', {
-                    index: 'email',
-                    query: userData.email
-                });
-                
-                if (existingUsers.length > 0 && existingUsers[0].id !== userData.id) {
-                    throw new Error('البريد الإلكتروني مسجل مسبقًا لمستخدم آخر');
-                }
-                
-                // التحقق من عدم تكرار اسم المستخدم
-                const existingUsernames = await dbManager.getAllRecords('users', {
-                    index: 'username',
-                    query: userData.username
-                });
-                
-                if (existingUsernames.length > 0 && existingUsernames[0].id !== userData.id) {
-                    throw new Error('اسم المستخدم مسجل مسبقًا لمستخدم آخر');
-                }
-                
-                // تحديث البيانات
-                await dbManager.updateRecord('users', userData);
-                
-                showMessage(messages.edit, 'تم تحديث بيانات المستخدم بنجاح', 'success');
-                closeEditModal();
-                loadUsers();
-            } catch (error) {
-                showMessage(messages.edit, error.message, 'error');
-                console.error('حدث خطأ أثناء التعديل:', error);
-            }
-        });
-
-        // حذف مستخدم
-        async function deleteUser(userId) {
-            if (!confirm('هل أنت متأكد من حذف هذا المستخدم؟')) return;
-            
-            try {
-                await dbManager.deleteRecord('users', parseInt(userId));
-                showMessage(messages.users, 'تم حذف المستخدم بنجاح', 'success');
-                loadUsers();
-            } catch (error) {
-                showMessage(messages.users, 'حدث خطأ أثناء حذف المستخدم', 'error');
-                console.error('حدث خطأ أثناء حذف المستخدم:', error);
-            }
-        }
-
-        exportBtn.addEventListener('click', async function() {
-    try {
-        const users = await dbManager.getAllRecords('users');
-        const dataStr = JSON.stringify(users, null, 2);
-        
-        // عرض معاينة للبيانات
-        jsonContent.textContent = dataStr;
-        jsonPreview.style.display = 'block';
-        
-        // تعريف fileName هنا قبل استخدامه في كلا الفرعين
-        const fileName = `users_export_${new Date().toISOString().slice(0,10)}.json`;
-        
-        // استدعاء دالة حفظ الملف في التطبيق
-        if(typeof Android !== 'undefined') {
-            Android.saveJsonFile(dataStr, fileName);
-        } else {
-            // سلاح بديل إذا لم يكن في تطبيق
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            const downloadLink = document.createElement('a');
-            downloadLink.href = URL.createObjectURL(dataBlob);
-            downloadLink.download = fileName; // الآن المتغير معرّف
-            downloadLink.click();
-        }
-        
-        showMessage(messages.json, 'تم تصدير بيانات المستخدمين بنجاح', 'success');
-    } catch (error) {
-        showMessage(messages.json, 'حدث خطأ أثناء تصدير البيانات', 'error');
-        console.error('حدث خطأ أثناء تصدير البيانات:', error);
-    }
-});
-
-        // استيراد مستخدمين من ملف JSON
-       // استيراد مستخدمين من ملف JSON
-importBtn.addEventListener('click', function() {
-    if (typeof Android !== 'undefined') {
-        // في تطبيق Android
-        Android.requestFileImport();
-    } else {
-        // في المتصفح العادي
-        importFile.click();
-    }
-});
-
-// دالة لمعالجة النتيجة من Android
-function handleFileImportResult(jsonData) {
-    processImportedData(jsonData);
-}
-
-function handleFileImportError(error) {
-    showMessage(messages.json, error, 'error');
-}
-
-async function processImportedData(jsonData) {
-    try {
-        const users = JSON.parse(jsonData);
-        
-        if (!Array.isArray(users)) {
-            throw new Error('ملف JSON يجب أن يحتوي على مصفوفة من المستخدمين');
-        }
-        
-        // عرض معاينة للبيانات
-        jsonContent.textContent = JSON.stringify(users, null, 2);
-        jsonPreview.style.display = 'block';
-        
-        // استيراد البيانات
-        await dbManager.executeTransaction(['users'], 'readwrite', (tx) => {
-            const store = tx.objectStore('users');
-            users.forEach(user => {
-                store.put(user);
-            });
-        });
-        
-        showMessage(messages.json, `تم استيراد ${users.length} مستخدم بنجاح`, 'success');
-        loadUsers();
-    } catch (error) {
-        showMessage(messages.json, error.message, 'error');
-        console.error('حدث خطأ أثناء استيراد البيانات:', error);
-    }
-}
-
-// الاحتفاظ بالكود الأصلي للعمل في المتصفح
-importFile.addEventListener('change', async function(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    
-    try {
-        const fileContent = await readFileAsText(file);
-        await processImportedData(fileContent);
-    } catch (error) {
-        showMessage(messages.json, error.message, 'error');
-        console.error('حدث خطأ أثناء استيراد البيانات:', error);
-    }
-});
-        importFile.addEventListener('change', async function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            try {
-                const fileContent = await readFileAsText(file);
-                const users = JSON.parse(fileContent);
-                
-                if (!Array.isArray(users)) {
-                    throw new Error('ملف JSON يجب أن يحتوي على مصفوفة من المستخدمين');
-                }
-                
-                // عرض معاينة للبيانات
-                jsonContent.textContent = JSON.stringify(users, null, 2);
-                jsonPreview.style.display = 'block';
-                
-                // استيراد البيانات
-                await dbManager.executeTransaction(['users'], 'readwrite', (tx) => {
-                    const store = tx.objectStore('users');
-                    users.forEach(user => {
-                        store.put(user);
-                    });
-                });
-                
-                showMessage(messages.json, `تم استيراد ${users.length} مستخدم بنجاح`, 'success');
-                loadUsers();
-            } catch (error) {
-                showMessage(messages.json, error.message, 'error');
-                console.error('حدث خطأ أثناء استيراد البيانات:', error);
-            }
-        });
-
-        // قراءة الملف كنص
-        function readFileAsText(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = e => resolve(e.target.result);
-                reader.onerror = e => reject(new Error('فشل قراءة الملف'));
-                reader.readAsText(file);
-            });
-        }
-
-        // البحث عن المستخدمين
-        searchInput.addEventListener('input', function() {
-            loadUsers(this.value);
-        });
-
-        // إغلاق نموذج التعديل
-        cancelEditBtn.addEventListener('click', closeEditModal);
-
-        // عند تحميل الصفحة، تأكد من أن قاعدة البيانات مفتوحة
-        window.addEventListener('DOMContentLoaded', () => {
-            dbManager.open()
-                .then(() => {
-                    console.log('قاعدة البيانات جاهزة');
-                    if (document.getElementById('users-list').classList.contains('active')) {
-                        loadUsers();
-                    }
-                })
-                .catch(err => console.error('فشل فتح قاعدة البيانات:', err));
-        });
-    </script>
 </body>
+
 </html>

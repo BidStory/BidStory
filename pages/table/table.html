@@ -5,8 +5,8 @@
 <link rel="stylesheet" href="/BidStory/css/table.css">
 
 <div id="table2"></div> <!-- مكان إضافة الجدول -->
+<button onclick="tt.createNewRow()">إضافة صف</button>
 
-<button onclick="createNewRow()">إضافة صف</button>
 
 <div DivId id="RawTable" style="display: none;" class="">
   <table>
@@ -58,9 +58,21 @@
 </div>
 
 <script>
+  // تهيئة الجدول
 
-setTableParameter('table2','table','RawTable','RawAltTable',true,true);
-  // مستمع الحدث
+  let tt =   new setTableParameter(
+    'table2',        // ID of the container element
+    'table',         // Table ID and database name
+    'RawTable',      // ID of the row template to copy
+    'RawAltTable',   // ID of alternate row to show on click
+    true,            // Show table header?
+    true,            // Add alternate div when row is clicked?
+    true             // Start with new row?
+  );
+
+
+
+// مستمع الحدث
   document.addEventListener( 'tableDataChanged', ( event ) =>
   {
     const storeName = event.detail.storeName;

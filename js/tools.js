@@ -58,15 +58,229 @@ function CID(pattern = IDPattern.MIXED2_NUMS2, fixed = "") {
   */
 
 
-function clickButton(){
-document.querySelectorAll('.buttonT').forEach(button => {
-  button.addEventListener('click', () => {
-    button.classList.add('clicked');
-    // إزالة الكلاس بعد انتهاء الأنيميشن
-    setTimeout(() => {
-      button.classList.remove('clicked');
-    }, 500); // نفس مدة الأنيميشن
-  });
-});
-}
-//clickButton();
+  async function watchingAllInputs2IndexDB  (dbNoUpgrade,tableName)
+   {
+    // أنواع حقول الإدخال التي نريد مراقبتها (بدون الأزرار)
+    const inputSelectors = [
+      'input[type="text"]',
+      'input[type="date"]',
+      'input[type="time"]',
+      'input[type="radio"]',
+      'input[type="checkbox"]',
+      'input[type="number"]',
+      'input[type="email"]',
+      'input[type="password"]',
+      'textarea',
+      'select'
+    ];
+  
+    // البحث عن جميع حقول الإدخال في الصفحة
+    const inputs = document.querySelectorAll(inputSelectors.join(","));
+  
+    // مصفوفة لتخزين المعالجات (لإزالتها لاحقًا إذا لزم الأمر)
+    const inputListeners = [];
+  
+    // مراقبة كل حقل إدخال
+    inputs.forEach((input) => {
+      // @ts-ignore
+      // @ts-ignore
+      // @ts-ignore
+      // @ts-ignore
+      // @ts-ignore
+      const inputListener = (event) => {
+        let value;
+  
+        // تحديد القيمة حسب نوع الحقل
+        // @ts-ignore
+        if (input.type === "checkbox") {
+          // @ts-ignore
+          value = input.checked;
+        } 
+        // @ts-ignore
+        else if (input.type === "radio") {
+          // @ts-ignore
+          if (!input.checked) return;
+          // @ts-ignore
+          value = input.value;
+        } 
+        else {
+          // @ts-ignore
+          value = input.value;
+        }
+  
+        // حفظ القيمة في قاعدة البيانات (إذا كانت الدالة متاحة)
+        // @ts-ignore
+        if (typeof dbNoUpgrade?.keySet === 'function') {
+          // @ts-ignore
+          dbNoUpgrade.keySet(tableName, input.id, value);
+          console.log("💾 تم حفظ القيمة:", { id: input.id, value });
+        }
+      };
+  
+      // تحديد نوع الحدث المناسب (change للأزرار ومربعات الاختيار، input لباقي الحقول)
+      const eventType = 
+        // @ts-ignore
+        input.type === "radio" || 
+        // @ts-ignore
+        input.type === "checkbox" || 
+        input.tagName.toLowerCase() === "select"
+          ? "change" 
+          : "input";
+  
+      // إضافة المعالج للعنصر
+      input.addEventListener(eventType, inputListener);
+      
+      // تخزين المرجع لإزالة المعالج لاحقًا إذا لزم الأمر
+      inputListeners.push({ input, listener: inputListener });
+    });
+  
+    console.log(`🔍 بدأ مراقبة ${inputs.length} من حقول الإدخال في الصفحة`);
+    
+    // إرجاع مصفوفة المعالجات لإمكانية إزالتها لاحقًا
+    return inputListeners;
+  };
+
+
+  function watchAndSaveInputs2Local() {
+    const inputSelectors = [
+      'input[type="text"]',
+      'input[type="date"]',
+      'input[type="time"]',
+      'input[type="radio"]',
+      'input[type="checkbox"]',
+      'input[type="number"]',
+      'input[type="email"]',
+      'input[type="password"]',
+      'textarea',
+      'select'
+    ];
+  
+    const inputs = document.querySelectorAll(inputSelectors.join(','));
+    const inputListeners = [];
+  
+    inputs.forEach((input) => {
+      const handleInputChange = () => {
+        let value;
+  
+        // @ts-ignore
+        if (input.type === 'checkbox') {
+          // @ts-ignore
+          value = input.checked;
+        // @ts-ignore
+        } else if (input.type === 'radio') {
+          // @ts-ignore
+          if (!input.checked) return;
+          // @ts-ignore
+          value = input.value;
+        } else {
+          // @ts-ignore
+          value = input.value;
+        }
+  
+        if (input.id) {
+          localStorage.setItem(input.id, JSON.stringify(value));
+          console.log(`💾 تم حفظ "${input.id}":`, value);
+        } else {
+          console.warn('⚠️ لا يمكن الحفظ: العنصر ليس له معرّف (id)', input);
+        }
+      };
+  
+      const eventType = 
+        // @ts-ignore
+        input.type === 'radio' || 
+        // @ts-ignore
+        input.type === 'checkbox' || 
+        input.tagName.toLowerCase() === 'select'
+          ? 'change'
+          : 'input';
+  
+      input.addEventListener(eventType, handleInputChange);
+      inputListeners.push({ input, listener: handleInputChange });
+  
+      // استرجاع القيم المحفوظة من localStorage عند التحميل
+      if (input.id && localStorage.getItem(input.id)) {
+        // @ts-ignore
+        const savedValue = JSON.parse(localStorage.getItem(input.id));
+  
+        // @ts-ignore
+        if (input.type === 'checkbox') {
+          // @ts-ignore
+          input.checked = savedValue;
+        // @ts-ignore
+        } else if (input.type === 'radio') {
+          // @ts-ignore
+          if (input.value === savedValue) input.checked = true;
+        } else {
+          // @ts-ignore
+          input.value = savedValue;
+        }
+      }
+    });
+  
+    console.log(`🔍 جاري مراقبة ${inputs.length} من حقول الإدخال`);
+    return inputListeners;
+  }
+  
+ 
+  
+  
+  const restoreInputsFromLocal = () => {
+    // أنواع حقول الإدخال المطلوبة (نفس أنواع الدالة السابقة)
+    const inputSelectors = [
+      'input[type="text"]',
+      'input[type="date"]',
+      'input[type="time"]',
+      'input[type="radio"]',
+      'input[type="checkbox"]',
+      'input[type="number"]',
+      'input[type="email"]',
+      'input[type="password"]',
+      'textarea',
+      'select'
+    ];
+  
+    // البحث عن جميع حقول الإدخال في الصفحة
+    const inputs = document.querySelectorAll(inputSelectors.join(','));
+  
+    let restoredCount = 0;
+  
+    inputs.forEach((input) => {
+      if (!input.id) return; // تخطي العناصر بدون معرف
+  
+      const savedValue = localStorage.getItem(input.id);
+      if (savedValue === null) return; // لا يوجد قيمة محفوظة
+  
+      try {
+        const parsedValue = JSON.parse(savedValue);
+  
+        // تعيين القيمة حسب نوع الحقل
+        // @ts-ignore
+        if (input.type === 'checkbox') {
+          // @ts-ignore
+          input.checked = parsedValue;
+          restoredCount++;
+        } 
+        // @ts-ignore
+        else if (input.type === 'radio') {
+          // @ts-ignore
+          if (input.value === parsedValue) {
+            // @ts-ignore
+            input.checked = true;
+            restoredCount++;
+          }
+        } 
+        else {
+          // @ts-ignore
+          input.value = parsedValue;
+          restoredCount++;
+        }
+  
+      } catch (error) {
+        console.error(`❌ خطأ في تحليل القيمة المحفوظة للعنصر ${input.id}:`, error);
+      }
+    });
+  
+    console.log(`♻️ تم استعادة ${restoredCount} من القيم من localStorage`);
+    return restoredCount; // إرجاع عدد العناصر التي تمت استعادة قيمها
+  };
+  

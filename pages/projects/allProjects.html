@@ -1,0 +1,81 @@
+
+<script>
+
+    // تهيئة الجدول
+
+    let tt = new setTableParameter(
+        'table2',        // ID of the container element
+        'allProjectes',         // Table ID and database name
+        'RawTable',      // ID of the row template to copy
+        'RawAltTable',   // ID of alternate row to show on click
+        true,            // Show table header?
+        true,            // Add alternate div when row is clicked?
+        true             // Start with new row?
+    );
+
+    // مستمع الحدث
+    document.addEventListener( 'tableDataChanged', ( event ) =>
+    {
+        const storeName = event.detail.storeName;
+        console.log( `📢 تغيير في بيانات الجدول: ${ storeName }` );
+    } );
+
+    document.addEventListener( 'clickButtonInRow', ( event ) =>
+    {
+        const data = event.detail.kind;
+        console.log( `📢 تم الضغط علي ${ data }` );
+    } );
+
+</script>
+
+<div id="table2"></div> <!-- مكان إضافة الجدول -->
+
+<div DivId id="RawTable" style="display: none;" class="">
+    <table>
+        <thead class="hide-text">
+            <tr>
+                <th>العمود 1</th>
+                <th>العمود 2</th>
+                <th>العمود 3</th>
+                <th>العمود 4</th>
+                <th>العمود 5</th>
+                <th>العمود 6</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <input id="i1" class="inputT" type="text" placeholder="  ادخال من داخل الدف">
+                </td>
+                <td>
+                    <input id="i2" class="inputT" type="radio" placeholder="  ادخال من داخل الدف">
+                </td>
+                <td>
+                    <input id="i3" class="inputT" type="checkbox" placeholder="  ادخال من داخل الدف">
+                </td>
+                <td>
+                    <input id="i4" class="inputT" type="date" placeholder="  ادخال من داخل الدف">
+                </td>
+                <td>
+                    <select name="colors" id="color-select">
+                        <option value="">--Please choose an option--</option>
+                        <option value="red">Red</option>
+                        <option value="green">Green</option>
+                        <option value="blue">Blue</option>
+                        <option value="yellow">Yellow</option>
+                    </select>
+                </td>
+                <td>
+                    <button id="i5" class="buttonT">buttom</button>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<div DivId id="RawAltTable" style="display: none;" class="divT">
+    <button id="b1" class="buttonT">زر</button>
+
+</div>
+

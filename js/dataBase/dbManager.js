@@ -699,7 +699,7 @@ function upgrade ( dbName )
 }
 
 
-async function Delay ( ms )
+async function delay ( ms )
 {
   return new Promise( resolve => setTimeout( resolve, ms ) );
 }
