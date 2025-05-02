@@ -5,12 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BidStory</title>
+  <script src="/BidStory/js/tools.js"></script>
   <script src="/BidStory/code/lang/imageAndLang.js"></script>
   <script>
-    async function delay ( ms )
-{
-  return new Promise( resolve => setTimeout( resolve, ms ) );
-}
+   
     // ✅ تحديد اللغة والاتجاه قبل تحميل أي شيء آخر
     (function () {
       delay(3000);
@@ -34,7 +32,6 @@
 
   <!-- ملفات JavaScript المطلوبة مسبقًا -->
  
-  <script src="/BidStory/js/tools.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="/BidStory/js/dataBase/dbManager.js"></script>
   <script src="/BidStory/js/table/table.js"></script>

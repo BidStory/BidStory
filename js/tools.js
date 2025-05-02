@@ -284,3 +284,7 @@ function CID(pattern = IDPattern.MIXED2_NUMS2, fixed = "") {
     return restoredCount; // إرجاع عدد العناصر التي تمت استعادة قيمها
   };
   
+  async function delay ( ms )
+  {
+    return new Promise( resolve => setTimeout( resolve, ms ) );
+  }
