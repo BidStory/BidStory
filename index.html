@@ -114,7 +114,12 @@
           html.dir = "rtl";
         }
 
-        
+        // ✅ تحميل النصوص والصور بعد جاهزية قاعدة البيانات
+        document.addEventListener( 'BidStoryDBReady', async () =>
+        {
+          await delay( 50 );
+          setTextAndImage();
+        } );
 
         // ✅ تحميل الأقسام عند الطلب
         const loadedPages = {
