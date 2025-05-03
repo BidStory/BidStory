@@ -10,6 +10,7 @@ class Program
     // أوقات آخر تعديل للملفات
     private static DateTime _lastWriteTimeLang;
     private static DateTime _lastWriteTimeImage;
+    private static DateTime _lastWriteTimeLists;
 
     // المسار الأساسي للمشروع (5 مستويات لأعلى من مجلد التنفيذ)
     private static readonly string _baseDir = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName;
@@ -17,28 +18,32 @@ class Program
     // مسارات قواعد البيانات
     private static readonly string _dbPathLang = Path.Combine(_baseDir, "code", "lang", "data_lang.db");
     private static readonly string _dbPathImage = Path.Combine(_baseDir, "code", "lang", "data_image.db");
+    private static readonly string _dbPathLists = Path.Combine(_baseDir, "code", "lang", "data_lists.db");
 
     // مسارات ملفات الإخراج JSON
     private static readonly string _outPathLang = Path.Combine(_baseDir, "code", "lang", "data_lang.json");
     private static readonly string _outPathImage = Path.Combine(_baseDir, "code", "lang", "data_image.json");
+    private static readonly string _outPathLists = Path.Combine(_baseDir, "code", "lang", "data_lists.json");
 
     static void Main(string[] args)
     {
         Console.WriteLine($"=== SQLite Database Monitor ===");
-        Console.WriteLine($"Monitoring:\n1. {_dbPathLang}\n2. {_dbPathImage}");
+        Console.WriteLine($"Monitoring:\n1. {_dbPathLang}\n2. {_dbPathImage}\n3. {_dbPathLists}");
 
         // إعدادات نافذة الكونسول
-        Console.WindowHeight = 12;
+        Console.WindowHeight = 14;
         Console.WindowWidth = 90;
-        Console.Title = "SQLite Dual DB Monitor";
+        Console.Title = "SQLite Triple DB Monitor";
 
         // الحصول على تاريخ آخر تعديل للملفات عند البدء
         _lastWriteTimeLang = File.GetLastWriteTime(_dbPathLang);
         _lastWriteTimeImage = File.GetLastWriteTime(_dbPathImage);
+        _lastWriteTimeLists = File.GetLastWriteTime(_dbPathLists);
 
         Console.WriteLine($"\nLast modified times:");
         Console.WriteLine($"- Language DB: {_lastWriteTimeLang}");
         Console.WriteLine($"- Image DB:    {_lastWriteTimeImage}");
+        Console.WriteLine($"- Lists DB:    {_lastWriteTimeLists}");
         Console.WriteLine("\nPress Ctrl+C to exit");
 
         // بدء المراقبة كل 1000 مللي ثانية (1 ثانية)
@@ -52,7 +57,7 @@ class Program
     }
 
     /// <summary>
-    /// تفحص التغييرات في كلا الملفين كل ثانية
+    /// تفحص التغييرات في الملفات كل ثانية
     /// </summary>
     private static void CheckFileChanges(object state)
     {
@@ -63,6 +68,9 @@ class Program
 
             // التحقق من ملف الصور
             CheckSingleFile(_dbPathImage, _outPathImage, ref _lastWriteTimeImage, "Image");
+
+            // التحقق من ملف القوائم
+            CheckSingleFile(_dbPathLists, _outPathLists, ref _lastWriteTimeLists, "Lists");
         }
         catch (Exception ex)
         {
