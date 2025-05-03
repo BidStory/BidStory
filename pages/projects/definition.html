@@ -1,0 +1,130 @@
+<script>
+    let proId = null;
+    let dbNoUpgrade = null;
+    async function initDefinitionPage ()
+    {
+        console.log( "تم تشغيل صفحة definition _________________________" );
+        proId = localStorage.getItem( 'selectedProject' );
+        dbNoUpgrade = await new noUpgrade( proId );
+        let dbUpgrade = await new upgrade( proId );
+
+        if ( !await dbNoUpgrade.isTableExist( 'definition' ) )
+        {
+            await dbUpgrade.createKeyTable( 'definition' );
+        }
+        await restoreAllInputsFromIndexDB( "mainPage", dbNoUpgrade, 'definition' );
+        await watchingAllInputs2IndexDB( "mainPage", dbNoUpgrade, 'definition' );
+        await dbNoUpgrade.keySet( 'definition', 'id', proId );
+        document.getElementById( "proId" ).innerText = proId;
+        await initMap();
+    }
+
+</script>
+<style>
+    .leaflet-control-attribution {
+        font-size: 5px;
+        opacity: 0.5;
+    }
+</style>
+<div id="mainPage">
+    <!-- اسم المشروع -->
+    <label for="tt" id="t_133"></label>
+    <input type="text" id="proName">
+    <br><br>
+    <!-- عنوان موقع العمل -->
+    <label id="t_140"></label>
+    <br>
+    <br>
+    <div id="map" style="height: 400px; width: 100%;"></div>
+    <label id="posation" style="display: block; margin-top: 10px;"></label>
+
+
+
+
+    <br><br><br><br>
+    <!-- الكود التعريفي -->
+    <label for="tt" id="t_615"></label>
+    <label id="proId">
+</div>
+
+
+<script>
+
+    //#region الخرائط
+    let map, marker, clickCount = 0, position_ = null, clickTimeout = null;
+    const PROPHET_MOSQUE_COORDS = [ 24.4672, 39.6117 ];
+    async function initMap ()
+    {
+
+
+        if ( map )
+        {
+            map.remove();
+        }
+        // استرجاع الموقع المحفوظ من قاعدة البيانات
+        position_ = await dbNoUpgrade.keyGet( 'definition', 'position' );
+        const positionLabel = document.getElementById( 'posation' );
+
+        if ( position_ )
+        {
+            const [ lat, lng ] = position_.split( ',' ).map( Number );
+            position_ = [ lat, lng ];
+            map = L.map( 'map' ).setView( position_, 10 );
+            marker = L.marker( position_ ).addTo( map ); // وضع علامة في الموقع المحفوظ
+            if ( positionLabel )
+                {
+                    positionLabel.textContent = `📍 Latitude: ${ lat }, Longitude: ${ lng }`;
+                }
+        } else
+        {
+            map = L.map( 'map' ).setView( PROPHET_MOSQUE_COORDS, 10 );
+        }
+
+        // إضافة الطبقة الأساسية
+        L.tileLayer( 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        } ).addTo( map );
+
+        // الاستماع للنقرات على الخريطة
+        map.on( 'click', async function ( e )
+        {
+            clickCount++;
+            if ( clickCount === 1 )
+            {
+                clickTimeout = setTimeout( () => clickCount = 0, 300 );
+            } else if ( clickCount === 2 )
+            {
+                clearTimeout( clickTimeout );
+                clickCount = 0;
+
+                const latlng = [ e.latlng.lat, e.latlng.lng ];
+
+                if ( marker ) map.removeLayer( marker );
+                marker = L.marker( latlng ).addTo( map );
+
+                position_ = `${ latlng[ 0 ].toFixed( 5 ) },${ latlng[ 1 ].toFixed( 5 ) }`;
+                if ( positionLabel )
+                {
+                    positionLabel.textContent = `📍 Latitude: ${ latlng[ 0 ].toFixed( 5 ) }, Longitude: ${ latlng[ 1 ].toFixed( 5 ) }`;
+                }
+
+                await dbNoUpgrade.keySet( 'definition', 'position', position_ );
+                map.setView( latlng, 15 );
+            }
+        } );
+    }
+    //#endregion
+
+    //#region مراقبة اسم المشروع وتسجلة في اماكن اخري
+    const inputElement = document.getElementById( 'proName' );
+
+    // مراقبة التغييرات في المدخلات
+    inputElement.addEventListener( 'input', async function ( event )
+    {
+        const currentValue = event.target.value;
+        let dbNoUpgrade_ = await new noUpgrade( 'allProjectes' );
+        await dbNoUpgrade_.keySet( proId, 'projectName', currentValue );
+    } );
+    //#endregion
+
+</script>

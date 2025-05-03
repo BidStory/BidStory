@@ -1093,7 +1093,9 @@
             }
         }
 const PROPHET_MOSQUE_COORDS = [24.4672, 39.6117]; // إحداثيات المسجد النبوي
-        // تهيئة الخريطة
+     
+
+// تهيئة الخريطة
         function initMap() {
             // الخريطة الرئيسية في وضع التعديل
             map = L.map('map').setView(PROPHET_MOSQUE_COORDS, 10); // الرياض كموقع افتراضي
@@ -1133,6 +1135,8 @@ const PROPHET_MOSQUE_COORDS = [24.4672, 39.6117]; // إحداثيات المسج
                 }
             });
         }
+        
+        
         let viewMarker = null; // الآن يمكن استخدامه في initViewMap و showViewMode وغيرها
 
         // تهيئة خريطة العرض

@@ -180,6 +180,8 @@ function setTableParameter (
   {
     row.classList.add( "selected" );
     selectedRaw = row.id;
+    const event = new CustomEvent( "selectRow", { detail: { kind: selectedRaw } } );
+    document.dispatchEvent( event );
     console.log( "✅ تم اختيار الصف:", selectedRaw );
   };
 
@@ -255,7 +257,22 @@ function setTableParameter (
       }
     }
   };
-
+  const getAllRowsDataOnly = async () =>
+    {
+      const data = await dbNoUpgrade.getAllDataFromTable( rowsTable );
+      if ( data )
+      {
+       
+        for ( const rawId of data )
+        {
+          console.log( " معرف _________________________ الصف " + rawId.key );
+         
+          await getInput( rawId.key );
+       
+        }
+        
+      } 
+    };
   //#endregion
 
   //#region 📝 getInput: جلب القيم المحفوظة من قاعدة البيانات وتحديث الحقول المناسبة
@@ -547,14 +564,7 @@ function setTableParameter (
 
       // باقي الحقول: نراقب قيمها ونحدثها في القاعدة
       // @ts-ignore
-      // @ts-ignore
-      // @ts-ignore
-      // @ts-ignore
-      // @ts-ignore
-      // @ts-ignore
-      // @ts-ignore
-      // @ts-ignore
-      // @ts-ignore
+  
       const inputListener = ( event ) =>
       {
         const selectedTable = selectedRaw.replace( "_", "" );
@@ -1148,7 +1158,7 @@ function setTableParameter (
     // إدارة البيانات
     getInput,
     getAllRowsData,
-
+    getAllRowsDataOnly,
     // التحكم في العرض
     hideTableHeadInsideElement,
 

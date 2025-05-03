@@ -58,7 +58,7 @@ function CID(pattern = IDPattern.MIXED2_NUMS2, fixed = "") {
   */
 
 
-  async function watchingAllInputs2IndexDB  (dbNoUpgrade,tableName)
+  async function watchingAllInputs2IndexDB  (target,dbNoUpgrade,tableName)
    {
     // أنواع حقول الإدخال التي نريد مراقبتها (بدون الأزرار)
     const inputSelectors = [
@@ -73,15 +73,23 @@ function CID(pattern = IDPattern.MIXED2_NUMS2, fixed = "") {
       'textarea',
       'select'
     ];
-  
+ 
+    const containerElement = document.getElementById( target );
+ // التحقق من وجود العنصر، إذا لم يكن موجود نخرج من الدالة
+ if ( !containerElement )
+  {
+    console.error( "❌ لم يتم توفير عنصر الحاوية (Watching) watchAndSaveInputs2Local." );
+    return;
+  }
     // البحث عن جميع حقول الإدخال في الصفحة
-    const inputs = document.querySelectorAll(inputSelectors.join(","));
+    const inputs = containerElement.querySelectorAll(inputSelectors.join(","));
   
     // مصفوفة لتخزين المعالجات (لإزالتها لاحقًا إذا لزم الأمر)
     const inputListeners = [];
   
     // مراقبة كل حقل إدخال
     inputs.forEach((input) => {
+      // @ts-ignore
       // @ts-ignore
       // @ts-ignore
       // @ts-ignore
@@ -140,7 +148,64 @@ function CID(pattern = IDPattern.MIXED2_NUMS2, fixed = "") {
     return inputListeners;
   };
 
-
+  async function restoreAllInputsFromIndexDB(target, dbNoUpgrade, tableName) {
+    // أنواع الحقول التي نسترجع لها القيم
+    const inputSelectors = [
+      'input[type="text"]',
+      'input[type="date"]',
+      'input[type="time"]',
+      'input[type="radio"]',
+      'input[type="checkbox"]',
+      'input[type="number"]',
+      'input[type="email"]',
+      'input[type="password"]',
+      'textarea',
+      'select'
+    ];
+  
+    const containerElement = document.getElementById(target);
+    if (!containerElement) {
+      console.error("❌ لم يتم توفير عنصر الحاوية (Restoring) restoreAllInputsFromIndexDB.");
+      return;
+    }
+  
+    const inputs = containerElement.querySelectorAll(inputSelectors.join(","));
+  
+    for (const input of inputs) {
+      const inputId = input.id;
+      if (!inputId) continue; // تخطي العناصر بدون ID
+  
+      try {
+        // @ts-ignore
+        const value = await dbNoUpgrade?.keyGet?.(tableName, inputId);
+  
+        if (value === undefined) continue;
+  
+        // @ts-ignore
+        if (input.type === "checkbox") {
+          // @ts-ignore
+          input.checked = Boolean(value);
+        // @ts-ignore
+        } else if (input.type === "radio") {
+          // @ts-ignore
+          if (input.value === value) {
+            // @ts-ignore
+            input.checked = true;
+          }
+        } else {
+          // @ts-ignore
+          input.value = value;
+        }
+  
+        console.log("♻️ تم استرجاع القيمة:", { id: inputId, value });
+      } catch (error) {
+        console.error(`⚠️ خطأ أثناء استرجاع الحقل ${inputId}:`, error);
+      }
+    }
+  
+    console.log(`✅ تم استرجاع القيم لجميع الحقول (${inputs.length}) داخل العنصر ${target}`);
+  }
+  
   function watchAndSaveInputs2Local() {
     const inputSelectors = [
       'input[type="text"]',

@@ -288,6 +288,7 @@ document.querySelectorAll('[id^="t_"]').forEach(textEl => {
   const key = textEl.id.slice(2); // إزالة "t_"
   const text = getLang(key);
   if (text) textEl.textContent = text;
+
 });
 
 }
