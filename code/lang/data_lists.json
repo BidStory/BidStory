@@ -1,0 +1,2221 @@
+{
+  "ContractDisA": [
+    {
+      "id": 1,
+      "DIS": "الصفات",
+      "FIDIC": "عقد FIDIC",
+      "AIA": "عقد AIA",
+      "NEC": "عقد NEC"
+    },
+    {
+      "id": 2,
+      "DIS": "الوصف العام",
+      "FIDIC": "مجموعة عقود قياسية عالمية، مصممة خصيصًا لمشاريع البنية التحتية الكبرى والمعقدة، وتغطي مجموعة واسعة من المخاطر، وتوفر إطار عمل موحدًا للأطراف المتعاقدة.",
+      "AIA": "مجموعة عقود قياسية أمريكية، تستخدم بشكل رئيسي في مشاريع البناء والتشييد في الولايات المتحدة، وتوفر مجموعة متنوعة من النماذج لتلبية احتياجات مختلفة.",
+      "NEC": "نظام عقود مرن، يعتمد على مبادئ التعاون والتواصل، ويسمح بتخصيصه ليناسب متطلبات أي نوع من المشاريع."
+    },
+    {
+      "id": 4,
+      "DIS": "التركيز",
+      "FIDIC": "التركيز على توزيع المخاطر وتحديد المسؤوليات بوضوح، مع توفير إطار عمل شامل لإدارة المشروع.",
+      "AIA": "التركيز على توفير مجموعة متنوعة من النماذج لتلبية احتياجات مختلفة من المشاريع، مع التركيز على العلاقة التعاقدية بين المالك والمقاول.",
+      "NEC": "التركيز على التعاون والتواصل بين الأطراف المتعاقدة، وتحقيق النتائج المرجوة للمشروع."
+    },
+    {
+      "id": 5,
+      "DIS": "الهيكل",
+      "FIDIC": "هيكل موحد ومتكامل، يغطي جميع مراحل المشروع من التصميم إلى التسليم.",
+      "AIA": "هيكل مرن، يسمح بتعديل بنوده لتلبية احتياجات المشروع.",
+      "NEC": "هيكل مرن، يعتمد على مجموعة من الوحدات النمطية التي يمكن تجميعها لتلبية احتياجات المشروع."
+    },
+    {
+      "id": 6,
+      "DIS": "المخاطر",
+      "FIDIC": "يوفر آليات واضحة لتحديد وتوزيع المخاطر، مع التركيز على تخصيص المخاطر للطرف الأقدر على تحملها.",
+      "AIA": "يوفر آليات لتحديد وتوزيع المخاطر، ولكنها قد تكون أقل تفصيلاً من FIDIC.",
+      "NEC": "يوفر مرونة كبيرة في توزيع المخاطر، ويسمح بتخصيصها وفقًا لاتفاق الأطراف."
+    },
+    {
+      "id": 7,
+      "DIS": "الدفع",
+      "FIDIC": "يوفر مجموعة متنوعة من خيارات الدفع، بما في ذلك الدفع على أساس الكميات أو الوحدات أو الزمن.",
+      "AIA": "يوفر مجموعة متنوعة من خيارات الدفع، بما في ذلك الدفع على أساس الكميات أو الوحدات أو الزمن.",
+      "NEC": "يوفر مرونة كبيرة في تحديد شروط الدفع، ويمكن تخصيصها وفقًا لاتفاق الأطراف."
+    },
+    {
+      "id": 8,
+      "DIS": "التغييرات",
+      "FIDIC": "يوفر آليات واضحة لإدارة التغييرات في المشروع، مع تحديد الإجراءات اللازمة للحصول على الموافقة على التغييرات.",
+      "AIA": "يوفر آليات لإدارة التغييرات، ولكنها قد تكون أقل تفصيلاً من FIDIC.",
+      "NEC": "يوفر مرونة كبيرة في إدارة التغييرات، ويسمح بتنفيذ التغييرات بسرعة وفعالية."
+    },
+    {
+      "id": 9,
+      "DIS": "حل النزاعات",
+      "FIDIC": "يوفر آليات لحل النزاعات، مثل التحكيم أو اللجوء إلى القضاء.",
+      "AIA": "يوفر آليات لحل النزاعات، مثل التحكيم أو اللجوء إلى القضاء.",
+      "NEC": "يوفر آليات مرنة لحل النزاعات، ويمكن تكييفها مع احتياجات المشروع، مع تشجيع الحلول التعاونية."
+    },
+    {
+      "id": 10,
+      "DIS": "المميزات",
+      "FIDIC": "معترف به عالميًا، يوفر إطار عمل موثوق به، يقلل من النزاعات، يوفر حماية قانونية للأطراف المتعاقدة.",
+      "AIA": "مناسب للمشاريع الأمريكية، يوفر مجموعة متنوعة من النماذج، يسهل فهمه.",
+      "NEC": "مرونة عالية، يمكن تكييفه مع أي نوع من المشاريع، يسهل الفهم، يشجع التعاون."
+    }
+  ],
+  "ContractDisE": [
+    {
+      "id": 1,
+      "DIS": "Attributes",
+      "FIDIC": "FIDIC Contract",
+      "AIA": "AIA Contract",
+      "NEC": "NEC Contract"
+    },
+    {
+      "id": 2,
+      "DIS": "General Description",
+      "FIDIC": "A global standard set of contracts, specifically designed for large and complex infrastructure projects, covering a wide range of risks, and providing a unified framework for contracting parties.",
+      "AIA": "A standard set of American contracts, used primarily in construction projects in the United States, and provides a variety of forms to meet different needs.",
+      "NEC": "A flexible contract system, based on the principles of cooperation and communication, and allows it to be customized to suit the requirements of any type of project."
+    },
+    {
+      "id": 3,
+      "DIS": "Focus",
+      "FIDIC": "Focus on risk allocation and clear definition of responsibilities, while providing a comprehensive project management framework.",
+      "AIA": "Focus on providing a variety of forms to meet different project needs, with an emphasis on the contractual relationship between the owner and the contractor.",
+      "NEC": "Focus on cooperation and communication between the contracting parties, and achieving the desired results of the project."
+    },
+    {
+      "id": 4,
+      "DIS": "Structure",
+      "FIDIC": "A unified and integrated structure, covering all stages of the project from design to delivery.",
+      "AIA": "Flexible structure, allowing its terms to be modified to meet the needs of the project.",
+      "NEC": "Flexible structure, based on a set of modules that can be assembled to meet the needs of the project."
+    },
+    {
+      "id": 5,
+      "DIS": "Risks",
+      "FIDIC": "Provides clear mechanisms for identifying and allocating risks, with a focus on allocating risks to the party best able to bear them.",
+      "AIA": "Provides mechanisms for identifying and allocating risks, but may be less detailed than FIDIC.",
+      "NEC": "Provides great flexibility in distributing risks, and allows them to be customized according to the agreement of the parties."
+    },
+    {
+      "id": 6,
+      "DIS": "Payment",
+      "FIDIC": "Provides a variety of payment options, including payment based on quantities, units or time.",
+      "AIA": "Provides a variety of payment options, including payment based on quantities, units, or time.",
+      "NEC": "Provides great flexibility in determining payment terms, and can be customized according to the agreement of the parties."
+    },
+    {
+      "id": 7,
+      "DIS": "Changes",
+      "FIDIC": "Provides clear mechanisms for managing changes to the project, specifying the procedures required to obtain approval for changes.",
+      "AIA": "Provides mechanisms for managing changes, but may be less detailed than FIDIC.",
+      "NEC": "Provides great flexibility in managing changes, and allows changes to be implemented quickly and effectively."
+    },
+    {
+      "id": 8,
+      "DIS": "Dispute Resolution",
+      "FIDIC": "Provides mechanisms for resolving disputes, such as arbitration or resorting to the judiciary.",
+      "AIA": "Provides mechanisms for resolving disputes, such as arbitration or resorting to the judiciary.",
+      "NEC": "Provides flexible mechanisms for resolving disputes, and can be adapted to the needs of the project, while encouraging collaborative solutions."
+    },
+    {
+      "id": 9,
+      "DIS": "Features",
+      "FIDIC": "Globally recognized, provides a reliable framework, reduces disputes, and provides legal protection for contracting parties.",
+      "AIA": "Suitable for US projects, provides a variety of forms, easy to understand.",
+      "NEC": "High flexibility, can be adapted to any type of project, easy to understand, encourages cooperation."
+    }
+  ],
+  "contractA": [
+    {
+      "id": 1,
+      "num": 1,
+      "txt": "الأطراف المتعاقدة",
+      "not1": "تحديد دقيق لاسم وعنوان كل طرف، بما في ذلك التسجيل التجاري ورقم الضريبة.( يجب التأكد من أن الطرفين يتمتعان بالأهلية القانونية لعقد الصفقات.)"
+    },
+    {
+      "id": 2,
+      "num": 2,
+      "txt": "الإخطارات",
+      "not1": "تحديد طريقة تبادل الإخطارات بين الأطراف، سواء كانت كتابية أو إلكترونية.( يضمن هذا البند وصول الإخطارات إلى الطرف الآخر في الوقت المناسب.)"
+    },
+    {
+      "id": 3,
+      "num": 3,
+      "txt": "نطاق العمل و وصفة",
+      "not1": "وصف تفصيلي لكافة الأعمال. يمكن استخدام جدول تفصيلي يوضح كل عمل على حدة مع الكميات والمواصفات.( يمكن إضافة رسومات هندسية توضيحية لنطاق العمل.)"
+    },
+    {
+      "id": 4,
+      "num": 4,
+      "txt": "المدة",
+      "not1": "تحديد تاريخ البدء وتاريخ الانتهاء المتوقع لكل مرحلة من مراحل المشروع.  مثال: تبدأ المرحلة الأولى (الأعمال الإنشائية) في 1/1/20.. وتنتهي في 31/3/20...( يمكن تحديد غرامات التأخير اليومية في حالة عدم الالتزام بالجدول الزمني.)"
+    },
+    {
+      "id": 5,
+      "num": 5,
+      "txt": "إدارة المشروع",
+      "not1": "تحديد هيكل إدارة المشروع وآلية اتخاذ القرارات.( يحدد العقد بوضوح هيكل إدارة المشروع.يمكن إنشاء لجنة إدارة مشروع لاتخاذ القرارات الهامة.)"
+    },
+    {
+      "id": 6,
+      "num": 6,
+      "txt": "إدارة المخاطر",
+      "not1": "تحديد إجراءات إدارة المخاطر، وتحديد المخاطر المحتملة، وتقييمها، ووضع خطط للتصدي لها.( يركز العقد على تحديد وتقييم المخاطر بشكل منهجي.يمكن استخدام مصفوفة المخاطر لتقييم المخاطر.)"
+    },
+    {
+      "id": 7,
+      "num": 7,
+      "txt": "إدارة الجودة",
+      "not1": "تحديد نظام إدارة الجودة، بما في ذلك معايير الجودة، وإجراءات الفحص والاختبار.( يضمن العقد تحقيق الجودة المطلوبة.يمكن اعتماد معايير الجودة الدولية مثل ISO 9001.)"
+    },
+    {
+      "id": 8,
+      "num": 8,
+      "txt": "إدارة التغييرات",
+      "not1": "تحديد إجراءات إدارة التغييرات، بما في ذلك طلب التغيير، والموافقة عليه، وتنفيذه.( يوفر العقد آلية واضحة لإدارة التغييرات.يمكن استخدام برنامج لإدارة التغييرات لتسجيل ومتابعة التغييرات.)"
+    },
+    {
+      "id": 9,
+      "num": 9,
+      "txt": "المهندس",
+      "not1": "تحديد دور المهندس المشرف على المشروع ومسؤولياته.( يعتبر المهندس هو الوسيط بين صاحب العمل والمقاول.يمكن تحديد مؤهلات المهندس وخبرته.)"
+    },
+    {
+      "id": 10,
+      "num": 10,
+      "txt": "سرية المعلومات",
+      "not1": "تحديد المعلومات السرية التي يجب على الأطراف حمايتها وعدم الكشف عنها لأي طرف ثالث.( يحافظ هذا البند على سرية المعلومات التجارية والفنية.)"
+    },
+    {
+      "id": 11,
+      "num": 11,
+      "txt": "الملكية الفكرية",
+      "not1": "تحديد ملكية التصاميم والمخططات والمواصفات الفنية، وحقوق الاستخدام.  مثال: جميع التصاميم والمخططات هي ملك للمالك، ولا يجوز للمقاول استخدامها لأي غرض آخر دون الحصول على موافقة كتابية.( يمكن إضافة بند يتعلق بتسجيل براءات الاختراع أو حقوق الطبع والنشر.)"
+    },
+    {
+      "id": 12,
+      "num": 12,
+      "txt": "الاحتفاظ بالسجلات",
+      "not1": "نوعية السجلات التي يجب الاحتفاظ بها ومدة الاحتفاظ بها.  مثال: يجب الاحتفاظ بسجلات الدفع والمراسلات لمدة خمس سنوات على الأقل.( يمكن تحديد مكان حفظ السجلات.)"
+    },
+    {
+      "id": 13,
+      "num": 13,
+      "txt": "ضمان الجودة",
+      "not1": "تحديد معايير الجودة المطلوبة، ومدة الضمان، والإجراءات المتخذة في حالة وجود عيوب. (يجب أن تكون جميع المواد المستخدمة وفقًا للمواصفات القياسية. يمكن إضافة بند يتعلق بفحص واختبار المواد قبل استخدامها.)"
+    },
+    {
+      "id": 14,
+      "num": 14,
+      "txt": "الصيانة الدورية",
+      "not1": "تحديد المسؤول عن صيانة الأعمال بعد التسليم ومدة الصيانة وطريقة تنفيذها.( يضمن هذا البند الحفاظ على جودة الأعمال لفترة أطول.)"
+    },
+    {
+      "id": 15,
+      "num": 15,
+      "txt": "التأمين",
+      "not1": "تحديد أنواع التأمينات المطلوبة (مسؤولية مدنية، حريق، تأمين العمال)، وقيمة التغطية التأمينية، وشركة التأمين.( يجب التأكد من أن بوليصة التأمين تغطي جميع المخاطر المحتملة.)"
+    },
+    {
+      "id": 16,
+      "num": 16,
+      "txt": "السلامة والصحة المهنية",
+      "not1": "تحديد الالتزامات المتعلقة بسلامة العمال، وتوفير بيئة عمل آمنة، والتقيد بالقوانين واللوائح ذات الصلة.  (يجب على المقاول توفير معدات السلامة الشخصية لجميع العمال، وإجراء تدريبات دورية حول السلامة. يمكن إضافة بند يتعلق بتعيين منسق سلامة في موقع المشروع.)"
+    },
+    {
+      "id": 17,
+      "num": 17,
+      "txt": "حماية البيئة",
+      "not1": "تحديد الالتزامات المتعلقة بحماية البيئة، مثل إدارة النفايات، وتقليل التلوث.  (يجب على المقاول التخلص من النفايات بشكل آمن، واستخدام مواد صديقة للبيئة قدر الإمكان. يمكن إضافة بند يتعلق بالحصول على التراخيص البيئية اللازمة.)"
+    },
+    {
+      "id": 18,
+      "num": 18,
+      "txt": "التأمين على الأعمال",
+      "not1": "تحديد نوعية التأمين على الأعمال المنفذة، مثل التأمين على الأضرار التي قد تلحق بالأعمال أثناء التنفيذ.( يضمن هذا البند حماية الأطراف من الخسائر غير المتوقعة التي قد تحدث أثناء تنفيذ المشروع.)"
+    },
+    {
+      "id": 19,
+      "num": 19,
+      "txt": "المسؤولية عن الأضرار",
+      "not1": "تحديد المسؤولية عن أي أضرار تلحق بأطراف ثالثة نتيجة لتنفيذ الأعمال.( يحمي هذا البند الأطراف من المطالبات القانونية.)"
+    },
+    {
+      "id": 20,
+      "num": 20,
+      "txt": "الضمانات المصنعية",
+      "not1": "تحديد الضمانات التي تقدمها الشركات المصنعة للمواد المستخدمة في المشروع.( يضمن هذا البند جودة المواد المستخدمة ويسهل إجراء أي تصليحات أو استبدالات في حالة وجود عيوب.)"
+    },
+    {
+      "id": 21,
+      "num": 21,
+      "txt": "التغييرات في التصميم",
+      "not1": "الإجراءات المتبعة عند إجراء تغييرات على التصاميم، وآلية حساب التكاليف الإضافية أو الخصومات.  مثال: يجب تقديم طلب تغيير كتابياً، ويجب موافقة الطرفين على أي تعديل قبل تنفيذه.( يمكن إضافة بند يتعلق بمدة الإجابة على طلبات التغيير.)"
+    },
+    {
+      "id": 22,
+      "num": 22,
+      "txt": "التعويضات",
+      "not1": "تحديد القيمة الإجمالية للعقد، وشروط الدفع (أقساط شهرية، نسبة إنجاز)، وشروط احتساب الفوائد التأخيرية.(يمكن إضافة بند يتعلق بتعديل الأسعار في حالة تغير الأسعار العالمية للمواد.)"
+    },
+    {
+      "id": 23,
+      "num": 23,
+      "txt": "التعديلات",
+      "not1": "تحديد الإجراءات اللازمة لطلب التعديلات، وآلية الموافقة عليها، وكيفية حساب التكاليف الإضافية أو الخصومات.  ( يجب تقديم طلب التعديل كتابياً، ويجب موافقة الطرفين على أي تعديل قبل تنفيذه. يمكن إضافة بند يتعلق بمدة الإجابة على طلبات التعديل.)"
+    },
+    {
+      "id": 24,
+      "num": 24,
+      "txt": "إنهاء العقد",
+      "not1": "الحالات التي يجوز فيها لأي من الطرفين إنهاء العقد، والإجراءات المتبعة في حالة الإنهاء.  مثال: يمكن لأي من الطرفين إنهاء العقد إذا تخلف الطرف الآخر عن تنفيذ التزاماته الأساسية.( يجب تحديد التعويضات المستحقة في حالة الإنهاء.)"
+    },
+    {
+      "id": 25,
+      "num": 25,
+      "txt": "تسليم الأعمال",
+      "not1": "الإجراءات المتبعة لتسليم الأعمال، والمستندات المطلوبة لإثبات التسليم.  مثال: يتم تسليم الأعمال بعد إعداد تقرير تفصيلي عن حالة الأعمال، وإجراء الفحص النهائي.( يجب تحديد المسؤول عن تسليم الأعمال وتسلمها.)"
+    },
+    {
+      "id": 26,
+      "num": 26,
+      "txt": "القوة القاهرة (فترات التوقف)",
+      "not1": "تحديد الأحداث التي تعتبر ظروفاً قاهرة، وآثارها على تنفيذ العقد، والإجراءات التي يجب اتخاذها.  مثال: تعتبر الحروب، الكوارث الطبيعية، الأوبئة، والأوامر الحكومية ظروفاً قاهرة.( يمكن إضافة بند يتعلق بتقديم إخطار كتابي بالظرف القاهر.)"
+    },
+    {
+      "id": 27,
+      "num": 27,
+      "txt": "التأخير",
+      "not1": "تحديد المسؤولية عن التأخير في تنفيذ الأعمال، والعواقب المترتبة على ذلك.  مثال: إذا كان التأخير بسبب المقاول، فإنه يكون مسؤولاً عن أي خسائر يتكبدها المالك.( يمكن تحديد غرامات التأخير اليومية.)"
+    },
+    {
+      "id": 28,
+      "num": 28,
+      "txt": "الفسخ",
+      "not1": "الحالات التي يجوز فيها فسخ العقد، والإجراءات المتبعة في حالة الفسخ.  مثال: يمكن للمالك فسخ العقد إذا تخلف المقاول عن تنفيذ التزاماته الأساسية.( يجب تحديد التعويضات المستحقة في حالة الفسخ.)"
+    },
+    {
+      "id": 29,
+      "num": 29,
+      "txt": "تسوية المنازعات",
+      "not1": "الطريقة المتفق عليها لحل أي نزاع ينشأ عن العقد، مثل التحكيم أو اللجوء إلى القضاء.  مثال: يتم تسوية أي نزاع عن طريق التحكيم في غرفة التجارة الدولية وفقًا لقواعدها.( يجب تحديد القوانين التي تحكم العقد ومكان التحكيم.)"
+    },
+    {
+      "id": 30,
+      "num": 30,
+      "txt": "التحكيم",
+      "not1": "تحديد مؤسسة التحكيم التي ستتولى تسوية أي نزاعات تنشأ عن العقد والقانون الحاكم على العقد.( يوفر هذا البند آلية سريعة وفعالة لحل النزاعات.)"
+    },
+    {
+      "id": 31,
+      "num": 31,
+      "txt": "الوثائق المرفقة",
+      "not1": "تحديد قائمة بالوثائق المرفقة"
+    }
+  ],
+  "contractE": [
+    {
+      "id": 1,
+      "num": 1,
+      "txt": "Contracting Parties",
+      "not1": "Precise identification of the name and address of each party, including commercial registration and tax number. (It must be ensured that both parties have the legal capacity to enter into contracts.)"
+    },
+    {
+      "id": 2,
+      "num": 2,
+      "txt": "Notices",
+      "not1": "Specification of the method for exchanging notifications between parties, whether written or electronic. (This clause ensures that notifications are received by the other party in a timely manner.)"
+    },
+    {
+      "id": 3,
+      "num": 3,
+      "txt": "Scope of Work and Description",
+      "not1": "Detailed description of all works. A detailed table can be used to specify each task individually with quantities and specifications. (Illustrative drawings can be added to define the scope of work.)"
+    },
+    {
+      "id": 4,
+      "num": 4,
+      "txt": "Duration",
+      "not1": "Specification of the start date and the expected completion date for each phase of the project. Example: The first phase (construction works) starts on 01/01/20.. and ends on 31/03/20... (Daily delay penalties can be specified in case of non-compliance with the timeline.)"
+    },
+    {
+      "id": 5,
+      "num": 5,
+      "txt": "Project Management",
+      "not1": "Definition of the project management structure and decision-making mechanism. (The contract clearly defines the project management structure. A project management committee can be established to make key decisions.)"
+    },
+    {
+      "id": 6,
+      "num": 6,
+      "txt": "Risk Management",
+      "not1": "Specification of risk management procedures, including identifying, assessing, and developing mitigation plans for potential risks. (The contract focuses on systematically identifying and assessing risks. A risk matrix can be used to evaluate risks.)"
+    },
+    {
+      "id": 7,
+      "num": 7,
+      "txt": "Quality Management",
+      "not1": "Specification of the quality management system, including quality standards, inspection, and testing procedures. (The contract ensures the required quality is achieved. International quality standards such as ISO 9001 can be adopted.)"
+    },
+    {
+      "id": 8,
+      "num": 8,
+      "txt": "Change Management",
+      "not1": "Specification of change management procedures, including change request, approval, and implementation. (The contract provides a clear mechanism for managing changes. A change management software can be used to record and monitor changes.)"
+    },
+    {
+      "id": 9,
+      "num": 9,
+      "txt": "Engineer",
+      "not1": "Definition of the supervising engineer's role and responsibilities. (The engineer acts as an intermediary between the owner and the contractor. The engineer's qualifications and experience can be specified.)"
+    },
+    {
+      "id": 10,
+      "num": 10,
+      "txt": "Confidentiality of Information",
+      "not1": "Specification of confidential information that must be protected by the parties and not disclosed to any third party. (This clause protects the confidentiality of commercial and technical information.)"
+    },
+    {
+      "id": 11,
+      "num": 11,
+      "txt": "Intellectual Property",
+      "not1": "Definition of the ownership of designs, drawings, and technical specifications, and the rights to use them. Example: All designs and drawings are the property of the owner and cannot be used by the contractor for any other purpose without written consent. (A clause relating to the registration of patents or copyrights can be added.)"
+    },
+    {
+      "id": 12,
+      "num": 12,
+      "txt": "Record Keeping",
+      "not1": "Specification of the type of records that must be retained and the duration of retention. Example: Payment records and correspondence must be retained for at least five years. (The location for storing records can be specified.)"
+    },
+    {
+      "id": 13,
+      "num": 13,
+      "txt": "Quality Assurance",
+      "not1": "Specification of the required quality standards, warranty duration, and actions to be taken in case of defects. (All materials used must comply with standard specifications. A clause relating to the inspection and testing of materials before use can be added.)"
+    },
+    {
+      "id": 14,
+      "num": 14,
+      "txt": "Routine Maintenance",
+      "not1": "Definition of the responsibility for maintaining works after delivery and the duration and method of maintenance. (This clause ensures the quality of works is preserved for a longer period.)"
+    },
+    {
+      "id": 15,
+      "num": 15,
+      "txt": "Insurance",
+      "not1": "Specification of the required types of insurance (liability, fire, worker insurance), the coverage value, and the insurance company. (The insurance policy must cover all potential risks.)"
+    },
+    {
+      "id": 16,
+      "num": 16,
+      "txt": "Occupational Safety and Health",
+      "not1": "Specification of obligations related to worker safety, providing a safe work environment, and compliance with relevant laws and regulations. (The contractor must provide personal protective equipment for all workers and conduct regular safety training. A clause relating to appointing a safety coordinator at the project site can be added.)"
+    },
+    {
+      "id": 17,
+      "num": 17,
+      "txt": "Environmental Protection",
+      "not1": "Specification of obligations related to environmental protection, such as waste management and pollution reduction. (The contractor must safely dispose of waste and use environmentally friendly materials as much as possible. A clause relating to obtaining necessary environmental permits can be added.)"
+    },
+    {
+      "id": 18,
+      "num": 18,
+      "txt": "Works Insurance",
+      "not1": "Specification of the type of insurance for the works executed, such as insurance for damages that may occur during execution. (This clause protects the parties from unexpected losses that may occur during project execution.)"
+    },
+    {
+      "id": 19,
+      "num": 19,
+      "txt": "Liability for Damages",
+      "not1": "Definition of liability for damages caused to third parties as a result of executing the works. (This clause protects the parties from legal claims.)"
+    },
+    {
+      "id": 20,
+      "num": 20,
+      "txt": "Manufacturer Warranties",
+      "not1": "Specification of warranties provided by manufacturers of materials used in the project. (This clause ensures the quality of materials used and facilitates any repairs or replacements in case of defects.)"
+    },
+    {
+      "id": 21,
+      "num": 21,
+      "txt": "Design Changes",
+      "not1": "Procedures to be followed when making changes to designs, and the mechanism for calculating additional costs or discounts. Example: A change request must be submitted in writing, and both parties must agree to any modification before implementation. (A clause relating to the response time for change requests can be added.)"
+    },
+    {
+      "id": 22,
+      "num": 22,
+      "txt": "Compensation",
+      "not1": "Specification of the total contract value, payment terms (monthly installments, progress payments), and conditions for calculating delay interest. (A clause relating to price adjustment in case of global price changes of materials can be added.)"
+    },
+    {
+      "id": 23,
+      "num": 23,
+      "txt": "Amendments",
+      "not1": "Procedures for requesting amendments, the approval mechanism, and how to calculate additional costs or discounts. (The amendment request must be submitted in writing, and both parties must agree to any modification before implementation. A clause relating to the response time for amendment requests can be added.)"
+    },
+    {
+      "id": 24,
+      "num": 24,
+      "txt": "Termination of Contract",
+      "not1": "Circumstances in which either party may terminate the contract and the procedures to be followed in case of termination. Example: Either party may terminate the contract if the other party fails to fulfill its essential obligations. (Compensation due in case of termination must be specified.)"
+    },
+    {
+      "id": 25,
+      "num": 25,
+      "txt": "Delivery of Works",
+      "not1": "Procedures for handing over works and the documents required to prove delivery. Example: Works are handed over after preparing a detailed report on the condition of the works and conducting a final inspection. (The responsible party for handing over and receiving works must be specified.)"
+    },
+    {
+      "id": 26,
+      "num": 26,
+      "txt": "Force Majeure (Stopovers)",
+      "not1": "Definition of events considered force majeure and their impact on contract execution, and the actions to be taken. Example: Wars, natural disasters, epidemics, and government orders are considered force majeure events. (A clause relating to providing written notice of the force majeure event can be added.)"
+    },
+    {
+      "id": 27,
+      "num": 27,
+      "txt": "Delay",
+      "not1": "Definition of responsibility for delays in executing the works and the resulting consequences. Example: If the delay is caused by the contractor, they are responsible for any losses incurred by the owner. (Daily delay penalties can be specified.)"
+    },
+    {
+      "id": 28,
+      "num": 28,
+      "txt": "Termination",
+      "not1": "Circumstances in which the contract may be terminated, and the procedures to be followed in case of termination. Example: The owner may terminate the contract if the contractor fails to fulfill its essential obligations. (Compensation due in case of termination must be specified.)"
+    },
+    {
+      "id": 29,
+      "num": 29,
+      "txt": "Dispute Resolution",
+      "not1": "The agreed method for resolving any disputes arising from the contract, such as arbitration or litigation. Example: Any dispute shall be settled by arbitration in the International Chamber of Commerce in accordance with its rules. (The laws governing the contract and the place of arbitration must be specified.)"
+    },
+    {
+      "id": 30,
+      "num": 30,
+      "txt": "Arbitration",
+      "not1": "Designation of the arbitration institution that will handle any disputes arising from the contract and the governing law. (This clause provides a quick and efficient mechanism for resolving disputes.)"
+    },
+    {
+      "id": 31,
+      "num": 31,
+      "txt": "Attached Documents",
+      "not1": "Specification of the attached documents list."
+    }
+  ],
+  "Answer1": [
+    {
+      "AnswerByEn": "Improving quality of life or providing a public service.",
+      "AnswerByAr": "تحسين جودة الحياة أو تقديم خدمة عامة.",
+      "Value": "1"
+    },
+    {
+      "AnswerByEn": "Achieving significant economic profits.",
+      "AnswerByAr": "تحقيق أرباح اقتصادية كبيرة.",
+      "Value": "2"
+    },
+    {
+      "AnswerByEn": "Combining social and economic objectives.",
+      "AnswerByAr": "دمج بين الأهداف الاجتماعية والاقتصادية.",
+      "Value": "3"
+    }
+  ],
+  "AltItems": [
+    {
+      "Kind": "ID",
+      "Ar": "الفكرة الرئيسية",
+      "En": "Main Idea",
+      "HintAr": "تحديد جوهر المشروع والغرض منه.",
+      "HintEn": "Define the core purpose and essence of the project.",
+      "Value": "14.166666666666666",
+      "id_": 1
+    },
+    {
+      "Kind": "ID",
+      "Ar": "تحليل الفكرة",
+      "En": "Idea Analysis",
+      "HintAr": "تقييم جدوى الفكرة من الناحية الفنية والاقتصادية والاجتماعية.",
+      "HintEn": "Assess the feasibility of the idea from technical, economic, and social perspectives.",
+      "Value": "14.166666666666666",
+      "id_": 2
+    },
+    {
+      "Kind": "ID",
+      "Ar": "الأهداف الذكية",
+      "En": "SMART Goals",
+      "HintAr": "وضع أهداف محددة وقابلة للقياس وقابلة للتحقيق وواقعية ومرتبطة بزمن.",
+      "HintEn": "Set Specific, Measurable, Achievable, Relevant, and Time-bound objectives.",
+      "Value": "14.166666666666666",
+      "id_": 3
+    },
+    {
+      "Kind": "ID",
+      "Ar": "المهمة والرؤية",
+      "En": "Mission and Vision",
+      "HintAr": "تحديد الغرض من المشروع والرؤية المستقبلية له.",
+      "HintEn": "Define the project's purpose and future vision.",
+      "Value": "14.166666666666666",
+      "id_": 4
+    },
+    {
+      "Kind": "ID",
+      "Ar": "القيم",
+      "En": "Values",
+      "HintAr": "تحديد المبادئ والأخلاقيات التي ستوجه قرارات المشروع.",
+      "HintEn": "Identify the principles and ethics guiding the project's decisions.",
+      "Value": "14.166666666666666",
+      "id_": 5
+    },
+    {
+      "Kind": "ID",
+      "Ar": "تحليل SWOT",
+      "En": "SWOT Analysis",
+      "HintAr": "تقييم نقاط القوة والضعف والفرص والتهديدات للمشروع.",
+      "HintEn": "Evaluate the project's Strengths, Weaknesses, Opportunities, and Threats.",
+      "Value": "14.166666666666666",
+      "id_": 6
+    },
+    {
+      "Kind": "MA",
+      "Ar": "حجم السوق",
+      "En": "Market Size",
+      "HintAr": "فهم حجم السوق المستهدف وإمكاناته.",
+      "HintEn": "Understand the size and potential of the target market.",
+      "Value": null,
+      "id_": 7
+    },
+    {
+      "Kind": "MA",
+      "Ar": "المنافسون",
+      "En": "Competitors",
+      "HintAr": "تحليل المنافسين وفهم استراتيجياتهم ونقاط قوتهم وضعفهم.",
+      "HintEn": "Analyze competitors and understand their strategies, strengths, and weaknesses.",
+      "Value": null,
+      "id_": 8
+    },
+    {
+      "Kind": "MA",
+      "Ar": "الاتجاهات",
+      "En": "Trends",
+      "HintAr": "دراسة الاتجاهات الحالية والمستقبلية في السوق.",
+      "HintEn": "Study current and future market trends.",
+      "Value": null,
+      "id_": 9
+    },
+    {
+      "Kind": "MA",
+      "Ar": "العملاء",
+      "En": "Customers",
+      "HintAr": "فهم احتياجات العملاء وتوقعاتهم.",
+      "HintEn": "Understand customer needs and expectations.",
+      "Value": null,
+      "id_": 10
+    },
+    {
+      "Kind": "MA",
+      "Ar": "قنوات التسويق",
+      "En": "Marketing Channels",
+      "HintAr": "تحديد أفضل الطرق للوصول إلى العملاء.",
+      "HintEn": "Identify the best ways to reach customers.",
+      "Value": null,
+      "id_": 11
+    },
+    {
+      "Kind": "MA",
+      "Ar": "التسعير",
+      "En": "Pricing",
+      "HintAr": "وضع استراتيجية تسعير تنافسية ومربحة.",
+      "HintEn": "Develop a competitive and profitable pricing strategy.",
+      "Value": null,
+      "id_": 12
+    },
+    {
+      "Kind": "MA",
+      "Ar": "تحليل PEST",
+      "En": "PEST Analysis",
+      "HintAr": "تقييم العوامل السياسية والاقتصادية والاجتماعية والتكنولوجية المؤثرة على المشروع.",
+      "HintEn": "Evaluate Political, Economic, Social, and Technological factors affecting the project.",
+      "Value": null,
+      "id_": 13
+    },
+    {
+      "Kind": "TF",
+      "Ar": "الموارد المطلوبة",
+      "En": "Required Resources",
+      "HintAr": "تحديد الموارد البشرية والمادية والمالية اللازمة لتنفيذ المشروع.",
+      "HintEn": "Identify the human, material, and financial resources needed for the project.",
+      "Value": null,
+      "id_": 14
+    },
+    {
+      "Kind": "TF",
+      "Ar": "التكنولوجيا",
+      "En": "Technology",
+      "HintAr": "تقييم التكنولوجيا المستخدمة ومدى ملاءمتها للمشروع.",
+      "HintEn": "Assess the technology used and its suitability for the project.",
+      "Value": null,
+      "id_": 15
+    },
+    {
+      "Kind": "TF",
+      "Ar": "عمليات الإنتاج",
+      "En": "Production Processes",
+      "HintAr": "تحليل العمليات الإنتاجية لضمان الكفاءة والفعالية.",
+      "HintEn": "Analyze production processes to ensure efficiency and effectiveness.",
+      "Value": null,
+      "id_": 16
+    },
+    {
+      "Kind": "TF",
+      "Ar": "الجودة والمواصفات",
+      "En": "Quality and Specifications",
+      "HintAr": "ضمان أن المنتج أو الخدمة تلبي معايير الجودة المطلوبة.",
+      "HintEn": "Ensure the product or service meets required quality standards.",
+      "Value": null,
+      "id_": 17
+    },
+    {
+      "Kind": "TF",
+      "Ar": "البنية التحتية",
+      "En": "Infrastructure",
+      "HintAr": "تقييم البنية التحتية اللازمة لدعم المشروع.",
+      "HintEn": "Evaluate the infrastructure needed to support the project.",
+      "Value": null,
+      "id_": 18
+    },
+    {
+      "Kind": "TF",
+      "Ar": "الأثر البيئي",
+      "En": "Environmental Impact",
+      "HintAr": "تقييم تأثير المشروع على البيئة.",
+      "HintEn": "Assess the project's impact on the environment.",
+      "Value": null,
+      "id_": 19
+    },
+    {
+      "Kind": "TF",
+      "Ar": "كفاءة الطاقة",
+      "En": "Energy Efficiency",
+      "HintAr": "ضمان استخدام الطاقة بشكل فعال ومستدام.",
+      "HintEn": "Ensure efficient and sustainable energy use.",
+      "Value": null,
+      "id_": 20
+    },
+    {
+      "Kind": "TF",
+      "Ar": "السلامة التشغيلية",
+      "En": "Operational Safety",
+      "HintAr": "ضمان سلامة العمليات والموظفين.",
+      "HintEn": "Ensure the safety of operations and employees.",
+      "Value": null,
+      "id_": 21
+    },
+    {
+      "Kind": "TF",
+      "Ar": "جودة المنتج",
+      "En": "Product Quality",
+      "HintAr": "ضمان أن المنتج يلبي توقعات العملاء.",
+      "HintEn": "Ensure the product meets customer expectations.",
+      "Value": null,
+      "id_": 22
+    },
+    {
+      "Kind": "FF",
+      "Ar": "التكاليف",
+      "En": "Costs",
+      "HintAr": "حساب التكاليف الإجمالية للمشروع.",
+      "HintEn": "Calculate the total costs of the project.",
+      "Value": "10.625",
+      "id_": 23
+    },
+    {
+      "Kind": "FF",
+      "Ar": "الإيرادات",
+      "En": "Revenues",
+      "HintAr": "تقدير الإيرادات المتوقعة من المشروع.",
+      "HintEn": "Estimate the expected revenues from the project.",
+      "Value": "10.625",
+      "id_": 24
+    },
+    {
+      "Kind": "FF",
+      "Ar": "الربحية",
+      "En": "Profitability",
+      "HintAr": "تقييم قدرة المشروع على تحقيق الأرباح.",
+      "HintEn": "Assess the project's ability to generate profits.",
+      "Value": "10.625",
+      "id_": 25
+    },
+    {
+      "Kind": "FF",
+      "Ar": "تحليل الحساسية",
+      "En": "Sensitivity Analysis",
+      "HintAr": "فهم كيفية تأثر المشروع بالتغيرات في المتغيرات الرئيسية.",
+      "HintEn": "Understand how the project is affected by changes in key variables.",
+      "Value": "10.625",
+      "id_": 26
+    },
+    {
+      "Kind": "FF",
+      "Ar": "مصادر التمويل",
+      "En": "Funding Sources",
+      "HintAr": "تحديد مصادر التمويل وكيفية الحصول عليها.",
+      "HintEn": "Identify funding sources and how to secure them.",
+      "Value": "10.625",
+      "id_": 27
+    },
+    {
+      "Kind": "FF",
+      "Ar": "نقطة التعادل",
+      "En": "Break-even Point",
+      "HintAr": "تحديد النقطة التي يتساوى فيها الإيرادات مع التكاليف.",
+      "HintEn": "Determine the point where revenues equal costs.",
+      "Value": "10.625",
+      "id_": 28
+    },
+    {
+      "Kind": "FF",
+      "Ar": "تحليل التدفق النقدي",
+      "En": "Cash Flow Analysis",
+      "HintAr": "تقييم التدفقات النقدية الداخلة والخارجة.",
+      "HintEn": "Evaluate incoming and outgoing cash flows.",
+      "Value": "10.625",
+      "id_": 29
+    },
+    {
+      "Kind": "FF",
+      "Ar": "تحليل القيمة الزمنية للمال",
+      "En": "Time Value of Money Analysis",
+      "HintAr": "تقييم القيمة الحالية للتدفقات النقدية المستقبلية.",
+      "HintEn": "Assess the present value of future cash flows.",
+      "Value": "10.625",
+      "id_": 30
+    },
+    {
+      "Kind": "RA",
+      "Ar": "تصنيف المخاطر",
+      "En": "Risk Classification",
+      "HintAr": "تحديد وتصنيف المخاطر المحتملة.",
+      "HintEn": "Identify and classify potential risks.",
+      "Value": null,
+      "id_": 31
+    },
+    {
+      "Kind": "RA",
+      "Ar": "تقييم الاحتمالية والأثر",
+      "En": "Probability and Impact Assessment",
+      "HintAr": "تقييم احتمالية حدوث المخاطر وأثرها على المشروع.",
+      "HintEn": "Evaluate the likelihood and impact of risks on the project.",
+      "Value": null,
+      "id_": 32
+    },
+    {
+      "Kind": "RA",
+      "Ar": "خطط إدارة المخاطر",
+      "En": "Risk Management Plans",
+      "HintAr": "وضع استراتيجيات للتعامل مع المخاطر.",
+      "HintEn": "Develop strategies to address risks.",
+      "Value": null,
+      "id_": 33
+    },
+    {
+      "Kind": "RA",
+      "Ar": "التأمين",
+      "En": "Insurance",
+      "HintAr": "تقييم الحاجة إلى التأمين لتغطية المخاطر.",
+      "HintEn": "Assess the need for insurance to cover risks.",
+      "Value": null,
+      "id_": 34
+    },
+    {
+      "Kind": "RA",
+      "Ar": "تحليل السيناريوهات",
+      "En": "Scenario Analysis",
+      "HintAr": "دراسة سيناريوهات مختلفة لنتائج المشروع.",
+      "HintEn": "Study different scenarios for project outcomes.",
+      "Value": null,
+      "id_": 35
+    },
+    {
+      "Kind": "LA",
+      "Ar": "الامتثال القانوني",
+      "En": "Legal Compliance",
+      "HintAr": "ضمان أن المشروع يلتزم بالقوانين واللوائح.",
+      "HintEn": "Ensure the project complies with laws and regulations.",
+      "Value": null,
+      "id_": 36
+    },
+    {
+      "Kind": "LA",
+      "Ar": "حقوق الملكية الفكرية",
+      "En": "Intellectual Property Rights",
+      "HintAr": "حماية حقوق الملكية الفكرية للمشروع.",
+      "HintEn": "Protect the project's intellectual property rights.",
+      "Value": null,
+      "id_": 37
+    },
+    {
+      "Kind": "LA",
+      "Ar": "العقود",
+      "En": "Contracts",
+      "HintAr": "إدارة العقود مع الموردين والعملاء.",
+      "HintEn": "Manage contracts with suppliers and customers.",
+      "Value": null,
+      "id_": 38
+    },
+    {
+      "Kind": "SA",
+      "Ar": "الأثر الاجتماعي",
+      "En": "Social Impact",
+      "HintAr": "تقييم تأثير المشروع على المجتمع.",
+      "HintEn": "Assess the project's impact on society.",
+      "Value": null,
+      "id_": 39
+    },
+    {
+      "Kind": "SA",
+      "Ar": "العلاقات العامة",
+      "En": "Public Relations",
+      "HintAr": "بناء صورة إيجابية للمشروع لدى الجمهور.",
+      "HintEn": "Build a positive public image for the project.",
+      "Value": null,
+      "id_": 40
+    },
+    {
+      "Kind": "SA",
+      "Ar": "المسؤولية الاجتماعية للشركات",
+      "En": "Corporate Social Responsibility (CSR)",
+      "HintAr": "ضمان أن المشروع يتبنى ممارسات مسؤولة اجتماعيًا.",
+      "HintEn": "Ensure the project adopts socially responsible practices.",
+      "Value": null,
+      "id_": 41
+    },
+    {
+      "Kind": "EA",
+      "Ar": "الملوثات",
+      "En": "Pollutants",
+      "HintAr": "تقييم تأثير المشروع على التلوث البيئي.",
+      "HintEn": "Assess the project's impact on environmental pollution.",
+      "Value": null,
+      "id_": 42
+    },
+    {
+      "Kind": "EA",
+      "Ar": "إدارة النفايات",
+      "En": "Waste Management",
+      "HintAr": "وضع استراتيجيات فعالة لإدارة النفايات.",
+      "HintEn": "Develop effective waste management strategies.",
+      "Value": null,
+      "id_": 43
+    },
+    {
+      "Kind": "EA",
+      "Ar": "الأثر على الموارد الطبيعية",
+      "En": "Impact on Natural Resources",
+      "HintAr": "تقييم تأثير المشروع على الموارد الطبيعية.",
+      "HintEn": "Assess the project's impact on natural resources.",
+      "Value": null,
+      "id_": 44
+    },
+    {
+      "Kind": "EA",
+      "Ar": "الاستدامة",
+      "En": "Sustainability",
+      "HintAr": "ضمان أن المشروع يتبنى ممارسات مستدامة.",
+      "HintEn": "Ensure the project adopts sustainable practices.",
+      "Value": null,
+      "id_": 45
+    },
+    {
+      "Kind": "OA",
+      "Ar": "الهيكل التنظيمي",
+      "En": "Organizational Structure",
+      "HintAr": "تصميم هيكل تنظيمي فعال لدعم المشروع.",
+      "HintEn": "Design an effective organizational structure to support the project.",
+      "Value": null,
+      "id_": 46
+    },
+    {
+      "Kind": "OA",
+      "Ar": "الأدوار والمسؤوليات",
+      "En": "Roles and Responsibilities",
+      "HintAr": "تحديد الأدوار والمسؤوليات داخل المشروع.",
+      "HintEn": "Define roles and responsibilities within the project.",
+      "Value": null,
+      "id_": 47
+    },
+    {
+      "Kind": "OA",
+      "Ar": "تدريب الموظفين",
+      "En": "Employee Training",
+      "HintAr": "ضمان أن الموظفين مدربين بشكل جيد.",
+      "HintEn": "Ensure employees are well-trained.",
+      "Value": null,
+      "id_": 48
+    },
+    {
+      "Kind": "OA",
+      "Ar": "ثقافة الشركة",
+      "En": "Company Culture",
+      "HintAr": "بناء ثقافة تنظيمية تدعم أهداف المشروع.",
+      "HintEn": "Build an organizational culture that supports the project's goals.",
+      "Value": null,
+      "id_": 49
+    },
+    {
+      "Kind": "MK",
+      "Ar": "استراتيجيات التسويق",
+      "En": "Marketing Strategies",
+      "HintAr": "وضع استراتيجيات تسويقية فعالة.",
+      "HintEn": "Develop effective marketing strategies.",
+      "Value": "0",
+      "id_": 50
+    },
+    {
+      "Kind": "MK",
+      "Ar": "بناء العلامة التجارية",
+      "En": "Brand Building",
+      "HintAr": "بناء هوية قوية للعلامة التجارية.",
+      "HintEn": "Build a strong brand identity.",
+      "Value": "0",
+      "id_": 51
+    },
+    {
+      "Kind": "MK",
+      "Ar": "إدارة المبيعات",
+      "En": "Sales Management",
+      "HintAr": "وضع خطط لزيادة المبيعات.",
+      "HintEn": "Develop plans to increase sales.",
+      "Value": "0",
+      "id_": 52
+    },
+    {
+      "Kind": "MK",
+      "Ar": "التسويق الرقمي",
+      "En": "Digital Marketing",
+      "HintAr": "استخدام الأدوات الرقمية لتعزيز التسويق.",
+      "HintEn": "Use digital tools to enhance marketing.",
+      "Value": "0",
+      "id_": 53
+    },
+    {
+      "Kind": "TN",
+      "Ar": "التطورات التكنولوجية",
+      "En": "Technological Developments",
+      "HintAr": "تقييم التطورات التكنولوجية التي يمكن أن تفيد المشروع.",
+      "HintEn": "Assess technological advancements that could benefit the project.",
+      "Value": "0",
+      "id_": 54
+    },
+    {
+      "Kind": "TN",
+      "Ar": "الابتكار",
+      "En": "Innovation",
+      "HintAr": "تشجيع الابتكار لتحسين المنتجات أو العمليات.",
+      "HintEn": "Encourage innovation to improve products or processes.",
+      "Value": "0",
+      "id_": 55
+    },
+    {
+      "Kind": "TN",
+      "Ar": "الأتمتة",
+      "En": "Automation",
+      "HintAr": "استخدام الأتمتة لزيادة الكفاءة.",
+      "HintEn": "Use automation to increase efficiency.",
+      "Value": "0",
+      "id_": 56
+    },
+    {
+      "Kind": "TN",
+      "Ar": "الذكاء الاصطناعي",
+      "En": "Artificial Intelligence",
+      "HintAr": "تقييم استخدام الذكاء الاصطناعي لتحسين العمليات.",
+      "HintEn": "Assess the use of AI to improve operations.",
+      "Value": "0",
+      "id_": 57
+    },
+    {
+      "Kind": "EF",
+      "Ar": "التغيرات السياسية",
+      "En": "Political Changes",
+      "HintAr": "تقييم تأثير التغيرات السياسية على المشروع.",
+      "HintEn": "Evaluate the impact of political changes on the project.",
+      "Value": null,
+      "id_": 58
+    },
+    {
+      "Kind": "EF",
+      "Ar": "التغيرات الاقتصادية",
+      "En": "Economic Changes",
+      "HintAr": "تقييم تأثير التغيرات الاقتصادية على المشروع.",
+      "HintEn": "Evaluate the impact of economic changes on the project.",
+      "Value": null,
+      "id_": 59
+    },
+    {
+      "Kind": "EF",
+      "Ar": "العولمة",
+      "En": "Globalization",
+      "HintAr": "فهم تأثير العولمة على المشروع.",
+      "HintEn": "Understand the impact of globalization on the project.",
+      "Value": null,
+      "id_": 60
+    },
+    {
+      "Kind": "EF",
+      "Ar": "المنافسة العالمية",
+      "En": "Global Competition",
+      "HintAr": "تقييم المنافسة العالمية وكيفية التعامل معها.",
+      "HintEn": "Assess global competition and how to address it.",
+      "Value": null,
+      "id_": 61
+    },
+    {
+      "Kind": "CI",
+      "Ar": "آليات التحديث",
+      "En": "Upgrading Mechanisms",
+      "HintAr": "وضع خطط لتحديث المشروع باستمرار.",
+      "HintEn": "Develop plans to continuously update the project.",
+      "Value": null,
+      "id_": 62
+    },
+    {
+      "Kind": "CI",
+      "Ar": "مؤشرات الأداء الرئيسية (KPIs)",
+      "En": "Key Performance Indicators (KPIs)",
+      "HintAr": "تحديد مؤشرات الأداء لقياس نجاح المشروع.",
+      "HintEn": "Define KPIs to measure the project's success.",
+      "Value": null,
+      "id_": 63
+    },
+    {
+      "Kind": "SU",
+      "Ar": "التأثير البيئي والاجتماعي طويل الأجل",
+      "En": "Long-term Environmental and Social Impact",
+      "HintAr": "تقييم التأثير البيئي والاجتماعي للمشروع على المدى الطويل.",
+      "HintEn": "Assess the project's long-term environmental and social impact.",
+      "Value": null,
+      "id_": 64
+    },
+    {
+      "Kind": "SU",
+      "Ar": "الممارسات المستدامة",
+      "En": "Sustainable Practices",
+      "HintAr": "ضمان أن المشروع يتبنى ممارسات مستدامة.",
+      "HintEn": "Ensure the project adopts sustainable practices.",
+      "Value": null,
+      "id_": 65
+    }
+  ],
+  "Answer2": [
+    {
+      "AnswerByEn": "Environment with strong social impact (schools, places of worship).",
+      "AnswerByAr": "بيئة ذات تأثير اجتماعي قوي (مدارس، أماكن عبادة).",
+      "Value": "1"
+    },
+    {
+      "AnswerByEn": "Purely industrial or commercial environment.",
+      "AnswerByAr": "بيئة صناعية أو تجارية بحتة.",
+      "Value": "2"
+    },
+    {
+      "AnswerByEn": "Mixed environment requiring legal and social compliance.",
+      "AnswerByAr": "بيئة مختلطة تتطلب توافقًا قانونيًا واجتماعيًا.",
+      "Value": "3"
+    }
+  ],
+  "Answer3": [
+    {
+      "AnswerByEn": "Technical and financial challenges only.",
+      "AnswerByAr": "تحديات تقنية ومالية فقط.",
+      "Value": "1"
+    },
+    {
+      "AnswerByEn": "Legal or social challenges.",
+      "AnswerByAr": "تحديات قانونية أو اجتماعية.",
+      "Value": "2"
+    },
+    {
+      "AnswerByEn": "Environmental and regulatory challenges.",
+      "AnswerByAr": "تحديات بيئية وتنظيمية.",
+      "Value": "3"
+    }
+  ],
+  "Answer4": [
+    {
+      "AnswerByEn": "The project has a long-term and sustainable impact.",
+      "AnswerByAr": "المشروع له تأثير طويل المدى ومستدام.",
+      "Value": "1"
+    },
+    {
+      "AnswerByEn": "The project relies on continuous technical improvements.",
+      "AnswerByAr": "المشروع يعتمد على تحسينات تقنية دائمة.",
+      "Value": "2"
+    },
+    {
+      "AnswerByEn": "The project focuses on achieving only a specific goal.",
+      "AnswerByAr": "المشروع يركز على تحقيق هدف محدد فقط.",
+      "Value": "3"
+    }
+  ],
+  "BasItems": [
+    {
+      "Kind": "ID",
+      "Ar": "تحديد الفكرة والأهداف",
+      "En": "Define the idea and objectives",
+      "HintAr": "يُعد تحديد الأهداف باستخدام معايير\u00A0SMART\u00A0(محددة، قابلة للقياس، قابلة للتحقيق، واقعية، مرتبطة بزمن) خطوة أساسية لضمان وضوح الرؤية وإمكانية تحقيقها. بالإضافة إلى ذلك، يساعد تحليل\u00A0SWOT\u00A0(نقاط القوة، الضعف، الفرص، التهديدات) في فهم البيئة الداخلية والخارجية للمشروع. يمكن تعميق التحليل باستخدام\u00A0PESTEL\u00A0لدراسة العوامل السياسية، الاقتصادية، الاجتماعية، التكنولوجية، البيئية، والقانونية التي قد تؤثر على المشروع.",
+      "HintEn": "Setting objectives using\u00A0SMART\u00A0criteria (Specific, Measurable, Achievable, Realistic, Time-bound) is a fundamental step to ensure clarity and achievability. Additionally,\u00A0SWOT analysis\u00A0(Strengths, Weaknesses, Opportunities, Threats) helps in understanding the internal and external environment of the project.\u00A0Proposed addition: Deepen the analysis using\u00A0PESTEL\u00A0to study political, economic, social, technological, environmental, and legal factors that may impact the project.",
+      "Value": "50",
+      "Standard": "100"
+    },
+    {
+      "Kind": "MA",
+      "Ar": "دراسة السوق",
+      "En": "Market Study",
+      "HintAr": "يلعب تحليل السوق دورًا محوريًا في فهم البيئة التنافسية وتحديد الاتجاهات الحالية والمستقبلية. باستخدام أدوات مثل\u00A0PEST Analysis\u00A0(تحليل العوامل السياسية، الاقتصادية، الاجتماعية، التكنولوجية) وPorter’s Five Forces\u00A0(تحليل القوى التنافسية)، يمكن تحديد حجم السوق وقوة المنافسين. يُفضل استخدام\u00A0Customer Journey Mapping\u00A0لفهم سلوك العملاء وتجاربهم بشكل أكثر تفصيلاً.",
+      "HintEn": "Market analysis plays a pivotal role in understanding the competitive environment and identifying current and future trends. Using tools such as\u00A0PEST Analysis\u00A0(Political, Economic, Social, Technological) and\u00A0Porter’s Five Forces, the market size and competitor strength can be determined.\u00A0Proposed addition: Utilize\u00A0Customer Journey Mapping\u00A0to better understand customer behavior and experiences.",
+      "Value": "40",
+      "Standard": "200"
+    },
+    {
+      "Kind": "TF",
+      "Ar": "تحليل الجدوى الفنية",
+      "En": "Technical Feasibility Analysis",
+      "HintAr": "يتطلب تقييم الجوانب الفنية تحديد الموارد اللازمة (مثل الأراضي، المعدات، العمالة) والتكنولوجيا المناسبة. الالتزام بمعايير\u00A0ISO 9001\u00A0(إدارة الجودة) وISO 14001\u00A0(إدارة البيئة) يضمن تحقيق معايير الجودة والاستدامة. يمكن إجراء تحليل للتكنولوجيا الناشئة (Emerging Technologies) لتقييم تأثيرها المحتمل على المشروع في المستقبل.",
+      "HintEn": "Evaluating technical aspects requires identifying necessary resources (e.g., land, equipment, labor) and appropriate technology. Adherence to\u00A0ISO 9001\u00A0(Quality Management) and\u00A0ISO 14001\u00A0(Environmental Management) ensures quality and sustainability standards.\u00A0Proposed addition: Conduct an analysis of\u00A0Emerging Technologies\u00A0to assess their potential impact on the project in the future.",
+      "Value": "45",
+      "Standard": "150"
+    },
+    {
+      "Kind": "FF",
+      "Ar": "تحليل الجدوى المالية",
+      "En": "Financial Feasibility Analysis",
+      "HintAr": "يُعد تحليل الجوانب المالية عنصرًا حاسمًا لضمان جدوى المشروع. باستخدام مؤشرات مثل\u00A0NPV\u00A0(القيمة الحالية الصافية)،\u00A0IRR\u00A0(معدل العائد الداخلي)، وROI\u00A0(عائد الاستثمار)، يمكن تقييم الربحية المالية. يُفضل إجراء تحليل سيناريوهات (Scenario Analysis) لتقييم تأثير التقلبات المالية المحتملة على نتائج المشروع.",
+      "HintEn": "Financial analysis is a critical element to ensure project feasibility. Using indicators such as\u00A0NPV\u00A0(Net Present Value),\u00A0IRR\u00A0(Internal Rate of Return), and\u00A0ROI\u00A0(Return on Investment), financial profitability can be evaluated.\u00A0Proposed addition: Perform\u00A0Scenario Analysis\u00A0to assess the impact of potential financial fluctuations on project outcomes.",
+      "Value": "45",
+      "Standard": "200"
+    },
+    {
+      "Kind": "RA",
+      "Ar": "تحليل المخاطر",
+      "En": "Risk Analysis",
+      "HintAr": "يُسهم تحديد المخاطر المحتملة وإدارتها في تقليل احتمالية الفشل. استخدام معايير\u00A0ISO 31000\u00A0(إدارة المخاطر) وRisk Matrix\u00A0(مصفوفة المخاطر) يوفر إطارًا منهجيًا لتقييم المخاطر. يمكن استخدام\u00A0FMEA\u00A0(تحليل أنماط الفشل وتأثيراتها) لتقييم المخاطر الفنية والعملياتية بشكل أكثر تفصيلاً.",
+      "HintEn": "Identifying and managing potential risks reduces the likelihood of failure. Using\u00A0ISO 31000\u00A0(Risk Management) and\u00A0Risk Matrix\u00A0provides a systematic framework for risk assessment.\u00A0Proposed addition: Utilize\u00A0FMEA\u00A0(Failure Modes and Effects Analysis) to evaluate technical and operational risks in greater detail.",
+      "Value": "65",
+      "Standard": "80"
+    },
+    {
+      "Kind": "LA",
+      "Ar": "تحليل قانوني",
+      "En": "Legal Analysis",
+      "HintAr": "يضمن الالتزام بالقوانين واللوائح وحماية حقوق الملكية الفكرية تقليل المخاطر القانونية. تشمل المعايير الدولية\u00A0GDPR\u00A0(اللائحة العامة لحماية البيانات) وSOX\u00A0(قانون ساربينز أوكسلي). يُفضل إجراء تحليل شامل للقوانين المحلية والدولية ذات الصلة بالمشروع.",
+      "HintEn": "Compliance with laws, regulations, and intellectual property rights minimizes legal risks. International standards include\u00A0GDPR\u00A0(General Data Protection Regulation) and\u00A0SOX\u00A0(Sarbanes-Oxley Act).\u00A0Proposed addition: Conduct a comprehensive analysis of local and international laws relevant to the project.",
+      "Value": "40",
+      "Standard": "50"
+    },
+    {
+      "Kind": "SA",
+      "Ar": "تحليل اجتماعي",
+      "En": "Social Analysis",
+      "HintAr": "يُسهم تقييم الأثر الاجتماعي في بناء علاقات إيجابية مع المجتمع المحلي. تشمل المعايير الدولية\u00A0CSR\u00A0(المسؤولية الاجتماعية للشركات) وUN SDGs\u00A0(أهداف التنمية المستدامة). يمكن تقييم تأثير المشروع على الفئات المهمشة أو الضعيفة في المجتمع لتعزيز العدالة الاجتماعية.",
+      "HintEn": "Assessing social impact helps build positive relationships with the local community. International standards include\u00A0CSR\u00A0(Corporate Social Responsibility) and\u00A0UN SDGs\u00A0(United Nations Sustainable Development Goals).\u00A0Proposed addition: Evaluate the project’s impact on marginalized or vulnerable groups to promote social justice.",
+      "Value": "30",
+      "Standard": "30"
+    },
+    {
+      "Kind": "EA",
+      "Ar": "تحليل بيئي",
+      "En": "Environmental Analysis",
+      "HintAr": "يُعد تقييم الأثر البيئي والالتزام بالمعايير البيئية أمرًا ضروريًا لضمان استدامة المشروع. تشمل المعايير الدولية\u00A0ISO 14001\u00A0(إدارة البيئة) وLEED Certification\u00A0(شهادة المباني الخضراء). يمكن استخدام\u00A0Life Cycle Assessment\u00A0(تحليل دورة حياة المنتج) لتقييم الأثر البيئي الكامل للمشروع.",
+      "HintEn": "Evaluating environmental impact and adhering to environmental standards is essential for project sustainability. International standards include\u00A0ISO 14001\u00A0(Environmental Management) and\u00A0LEED Certification\u00A0(Leadership in Energy and Environmental Design).\u00A0Proposed addition: Use\u00A0Life Cycle Assessment\u00A0to evaluate the full environmental impact of the project.",
+      "Value": "55",
+      "Standard": "40"
+    },
+    {
+      "Kind": "OA",
+      "Ar": "تحليل تنظيمي",
+      "En": "Organizational Analysis",
+      "HintAr": "يُسهم تحديد الهيكل التنظيمي المناسب وبناء ثقافة مؤسسية قوية في تحسين كفاءة العمليات. تشمل المعايير الدولية\u00A0ISO 9001\u00A0(إدارة الجودة) وHRM Best Practices\u00A0(أفضل ممارسات إدارة الموارد البشرية). يمكن استخدام نماذج العمل المرنة (Agile Organizational Models) لتعزيز القدرة على التكيف مع التغيرات.",
+      "HintEn": "Defining an appropriate organizational structure and building a strong corporate culture enhances operational efficiency. International standards include\u00A0ISO 9001\u00A0(Quality Management) and\u00A0HRM Best Practices\u00A0(Human Resource Management).\u00A0Proposed addition: Implement\u00A0Agile Organizational Models\u00A0to improve adaptability to changes.",
+      "Value": "25",
+      "Standard": "30"
+    },
+    {
+      "Kind": "MK",
+      "Ar": "تحليل تسويقي",
+      "En": "Marketing Analysis",
+      "HintAr": "يُعد تحديد استراتيجيات تسويق فعالة أمرًا أساسيًا للوصول إلى العملاء المستهدفين وبناء علامة تجارية قوية. تشمل المعايير الدولية\u00A04Ps of Marketing\u00A0(المنتج، السعر، المكان، الترويج) وDigital Marketing Metrics. يمكن استخدام أدوات مثل\u00A0Google Analytics\u00A0وSEO\u00A0لتحسين استراتيجيات التسويق الرقمي.",
+      "HintEn": "Developing effective marketing strategies is essential for reaching target customers and building a strong brand. International standards include the\u00A04Ps of Marketing\u00A0(Product, Price, Place, Promotion) and\u00A0Digital Marketing Metrics.\u00A0Proposed addition: Use tools such as\u00A0Google Analytics\u00A0and\u00A0SEO\u00A0to enhance digital marketing strategies.",
+      "Value": "25",
+      "Standard": "40"
+    },
+    {
+      "Kind": "TN",
+      "Ar": "تحليل التكنولوجي",
+      "En": "Technological Analysis",
+      "HintAr": "يُسهم تقييم التكنولوجيا المستخدمة والقدرة على التكيف مع التغيرات التكنولوجية في ضمان استمرارية المشروع. تشمل المعايير الدولية\u00A0ITIL\u00A0(إدارة خدمات تكنولوجيا المعلومات) وAgile Methodology\u00A0(منهجية تطوير البرمجيات المرنة). يمكن تقييم تأثير الذكاء الاصطناعي (AI) وإنترنت الأشياء (IoT) على المشروع.",
+      "HintEn": "Evaluating the technology used and the ability to adapt to technological changes ensures project continuity. International standards include\u00A0ITIL\u00A0(Information Technology Infrastructure Library) and\u00A0Agile Methodology.\u00A0Proposed addition: Assess the impact of\u00A0Artificial Intelligence (AI)\u00A0and\u00A0Internet of Things (IoT)\u00A0on the project.",
+      "Value": "10",
+      "Standard": "40"
+    },
+    {
+      "Kind": "EF",
+      "Ar": "العوامل الخارجية",
+      "En": "External Factors",
+      "HintAr": "يُسهم تحليل التأثيرات الخارجية مثل التغيرات السياسية والاقتصادية في تقليل المخاطر غير المتوقعة. تشمل المعايير الدولية\u00A0PEST Analysis\u00A0وScenario Planning\u00A0(تخطيط السيناريوهات). يمكن إجراء تحليل للتأثيرات الجيوسياسية (Geopolitical Analysis) لفهم تأثير العوامل الدولية على المشروع.",
+      "HintEn": "Analyzing external influences such as political and economic changes reduces unforeseen risks. International standards include\u00A0PEST Analysis\u00A0and\u00A0Scenario Planning.\u00A0Proposed addition: Conduct\u00A0Geopolitical Analysis\u00A0to understand the impact of international factors on the project.",
+      "Value": "10",
+      "Standard": "40"
+    },
+    {
+      "Kind": "CI",
+      "Ar": "التحديث المستمر",
+      "En": "Continuous Updates",
+      "HintAr": "يُسهم تحديث دراسة الجدوى بشكل دوري في مواكبة التغيرات في السوق والبيئة التشغيلية. تشمل المعايير الدولية\u00A0Kaizen\u00A0(فلسفة التحسين المستمر) وPDCA Cycle\u00A0(دورة التخطيط، التنفيذ، التحقق، والعمل). يمكن تطبيق نظام مراقبة مستمر (Continuous Monitoring System) لتتبع التغيرات وتحديث الدراسة تلقائيًا.",
+      "HintEn": "Regularly updating the feasibility study ensures alignment with market and operational changes. International standards include\u00A0Kaizen\u00A0(Continuous Improvement) and\u00A0PDCA Cycle\u00A0(Plan-Do-Check-Act).\u00A0Proposed addition: Implement a\u00A0Continuous Monitoring System\u00A0to track changes and update the study automatically.",
+      "Value": "20",
+      "Standard": "20"
+    },
+    {
+      "Kind": "SU",
+      "Ar": "الاستدامة",
+      "En": "Sustainability",
+      "HintAr": "يُسهم تقييم استدامة المشروع في ضمان التزامه بالممارسات المستدامة ونجاحه على المدى الطويل. تشمل المعايير الدولية\u00A0UN SDGs\u00A0(أهداف التنمية المستدامة) وTriple Bottom Line\u00A0(الربحية، الناس، الكوكب). يمكن تقييم تأثير المشروع على الاقتصاد الدائري (Circular Economy) لتعزيز استخدام الموارد بشكل مستدام.",
+      "HintEn": "Assessing project sustainability ensures adherence to sustainable practices and long-term success. International standards include\u00A0UN SDGs\u00A0and\u00A0Triple Bottom Line\u00A0(Profit, People, Planet).\u00A0Proposed addition: Evaluate the project’s impact on the\u00A0Circular Economy\u00A0to promote sustainable resource use.",
+      "Value": "20",
+      "Standard": "40"
+    }
+  ],
+  "StuEval": [
+    {
+      "q_ar": "ما مدى وضوح فكرة المشروع وأهدافه؟",
+      "q_en": "How clear is the project's idea and objectives?",
+      "a1_ar": "واضحة تمامًا ومحددة",
+      "a2_ar": "واضحة إلى حد ما",
+      "a3_ar": "غير واضحة تمامًا",
+      "a4_ar": "غير واضحة على الإطلاق",
+      "a1_en": "Very clear and well-defined",
+      "a2_en": "Somewhat clear",
+      "a3_en": "Not very clear",
+      "a4_en": "Not clear at all",
+      "val": null,
+      "id": 1
+    },
+    {
+      "q_ar": "ما حجم الطلب في السوق على المنتج/الخدمة؟",
+      "q_en": "What is the market demand for the product/service?",
+      "a1_ar": "الطلب مرتفع ومتصاعد",
+      "a2_ar": "الطلب مستقر",
+      "a3_ar": "الطلب منخفض لكنه قابل للنمو",
+      "a4_ar": "الطلب منخفض وغير ثابت",
+      "a1_en": "High and growing demand",
+      "a2_en": "Stable demand",
+      "a3_en": "Low demand but has growth potential",
+      "a4_en": "Low and unstable demand",
+      "val": null,
+      "id": 2
+    },
+    {
+      "q_ar": "ما مدى توافر التكنولوجيا والبنية التحتية لتنفيذ المشروع؟",
+      "q_en": "How available are the technology and infrastructure?",
+      "a1_ar": "التكنولوجيا والبنية التحتية متوفرة بالكامل",
+      "a2_ar": "متوفرة جزئيًا مع إمكانية التطوير",
+      "a3_ar": "متوفرة بشكل محدود",
+      "a4_ar": "غير متوفرة إطلاقًا",
+      "a1_en": "Fully available",
+      "a2_en": "Partially available with potential for improvement",
+      "a3_en": "Limited availability",
+      "a4_en": "Not available at all",
+      "val": null,
+      "id": 3
+    },
+    {
+      "q_ar": "ما مدى جدوى المشروع المالية (الإيرادات والتكاليف)؟",
+      "q_en": "What is the financial feasibility of the project?",
+      "a1_ar": "العوائد المتوقعة تتجاوز التكاليف بشكل كبير",
+      "a2_ar": "العوائد تتجاوز التكاليف بشكل طفيف",
+      "a3_ar": "العوائد بالكاد تغطي التكاليف",
+      "a4_ar": "التكاليف تتجاوز العوائد",
+      "a1_en": "Revenues significantly exceed costs",
+      "a2_en": "Revenues slightly exceed costs",
+      "a3_en": "Revenues barely cover costs",
+      "a4_en": "Costs exceed revenues",
+      "val": null,
+      "id": 4
+    },
+    {
+      "q_ar": "ما مستوى المخاطر المحتملة للمشروع؟",
+      "q_en": "What is the level of potential risks for the project?",
+      "a1_ar": "المخاطر منخفضة ويمكن إدارتها بسهولة",
+      "a2_ar": "المخاطر متوسطة مع احتمالية التحكم بها",
+      "a3_ar": "المخاطر مرتفعة لكنها قابلة للإدارة",
+      "a4_ar": "المخاطر مرتفعة جدًا وغير قابلة للإدارة",
+      "a1_en": "Low risks that can be easily managed",
+      "a2_en": "Medium risks with manageable potential",
+      "a3_en": "High risks but manageable",
+      "a4_en": "Very high risks and unmanageable",
+      "val": null,
+      "id": 5
+    },
+    {
+      "q_ar": "هل يتوافق المشروع مع القوانين واللوائح المحلية والدولية؟",
+      "q_en": "Does the project comply with local and international laws?",
+      "a1_ar": "متوافق تمامًا مع جميع القوانين",
+      "a2_ar": "متوافق مع بعض التعديلات القانونية المطلوبة",
+      "a3_ar": "بحاجة إلى تعديلات قانونية كبيرة",
+      "a4_ar": "غير متوافق إطلاقًا",
+      "a1_en": "Fully compliant with all regulations",
+      "a2_en": "Compliant with some required legal adjustments",
+      "a3_en": "Requires major legal adjustments",
+      "a4_en": "Not compliant at all",
+      "val": null,
+      "id": 6
+    },
+    {
+      "q_ar": "ما تأثير المشروع على البيئة والمجتمع؟",
+      "q_en": "What is the project's impact on the environment and society?",
+      "a1_ar": "تأثير إيجابي كبير",
+      "a2_ar": "تأثير إيجابي محدود",
+      "a3_ar": "تأثير سلبي محدود",
+      "a4_ar": "تأثير سلبي كبير",
+      "a1_en": "Strong positive impact",
+      "a2_en": "Limited positive impact",
+      "a3_en": "Limited negative impact",
+      "a4_en": "Significant negative impact",
+      "val": null,
+      "id": 7
+    },
+    {
+      "q_ar": "ما مدى استدامة المشروع على المدى الطويل؟",
+      "q_en": "How sustainable is the project in the long term?",
+      "a1_ar": "مستدام تمامًا ويحقق نموًا مستمرًا",
+      "a2_ar": "مستدام بشكل جزئي مع وجود تحديات بسيطة",
+      "a3_ar": "مستدام على المدى القصير فقط",
+      "a4_ar": "غير مستدام إطلاقًا",
+      "a1_en": "Fully sustainable with continuous growth",
+      "a2_en": "Partially sustainable with minor challenges",
+      "a3_en": "Sustainable only in the short term",
+      "a4_en": "Not sustainable at all",
+      "val": null,
+      "id": 8
+    }
+  ],
+  "Question1": [
+    {
+      "QuestionByEn": "What is the main objective of the project and how important is it?",
+      "QuestionByAr": "ما هو الهدف الرئيسي للمشروع ومدى أهميته؟",
+      "ID": "20",
+      "MA": "15",
+      "TF": "10",
+      "FF": "15",
+      "RA": "10",
+      "LA": "5",
+      "SA": "5",
+      "EA": "10",
+      "OA": "5",
+      "MK": "5",
+      "TN": "0",
+      "EF": "0",
+      "CI": "0",
+      "SU": "0",
+      "id_": 1
+    }
+  ],
+  "Question2": [
+    {
+      "QuestionByEn": "What is the target environment for project implementation?",
+      "QuestionByAr": "ما هي البيئة المستهدفة لتنفيذ المشروع؟",
+      "ID": "5",
+      "MA": "10",
+      "TF": "15",
+      "FF": "10",
+      "RA": "10",
+      "LA": "10",
+      "SA": "10",
+      "EA": "10",
+      "OA": "10",
+      "MK": "5",
+      "TN": "5",
+      "EF": "5",
+      "CI": "0",
+      "SU": "0",
+      "id_": 1
+    }
+  ],
+  "Question3": [
+    {
+      "QuestionByEn": "What are the risks and challenges that the project may face?",
+      "QuestionByAr": "ما هي المخاطر والتحديات التي قد تواجه المشروع؟",
+      "ID": "0",
+      "MA": "0",
+      "TF": "0",
+      "FF": "0",
+      "RA": "30",
+      "LA": "20",
+      "SA": "10",
+      "EA": "20",
+      "OA": "5",
+      "MK": "5",
+      "TN": "0",
+      "EF": "0",
+      "CI": "5",
+      "SU": "0",
+      "id_": 1
+    }
+  ],
+  "Question4": [
+    {
+      "QuestionByEn": "How sustainable and scalable is the project in the long term?",
+      "QuestionByAr": "ما مدى استدامة المشروع وقابليته للتطوير على المدى البعيد؟",
+      "ID": "5",
+      "MA": "0",
+      "TF": "10",
+      "FF": "5",
+      "RA": "5",
+      "LA": "0",
+      "SA": "0",
+      "EA": "5",
+      "OA": "0",
+      "MK": "5",
+      "TN": "5",
+      "EF": "5",
+      "CI": "15",
+      "SU": "20",
+      "id_": 1
+    }
+  ],
+  "committee": [
+    {
+      "id": 1,
+      "ar": "لجنة التنفيذ (IMC)",
+      "en": "Implementation Committee (IMC)"
+    },
+    {
+      "id": 2,
+      "ar": "لجنة الجودة (QC)",
+      "en": "Quality Committee (QC)"
+    },
+    {
+      "id": 3,
+      "ar": "لجنة السلامة والصحة المهنية (OSHC)",
+      "en": "Occupational Safety and Health Committee (OSHC)"
+    },
+    {
+      "id": 4,
+      "ar": "لجنة المخاطر (RC)",
+      "en": "Risk Committee (RC)"
+    },
+    {
+      "id": 5,
+      "ar": "لجنة التخطيط (PLC)",
+      "en": "Planning Committee (PLC)"
+    },
+    {
+      "id": 6,
+      "ar": "لجنة المشتريات (PRC)",
+      "en": "Procurement Committee (PRC)"
+    },
+    {
+      "id": 7,
+      "ar": "لجنة التقييم المالي (FEC)",
+      "en": "Financial Evaluation Committee (FEC)"
+    },
+    {
+      "id": 8,
+      "ar": "لجنة التقييم الفني (TEC)",
+      "en": "Technical Evaluation Committee (TEC)"
+    },
+    {
+      "id": 9,
+      "ar": "لجنة مشاركة الأطراف المعنية (SEC)",
+      "en": "Stakeholder Engagement Committee (SEC) (New)"
+    },
+    {
+      "id": 10,
+      "ar": "اللجنة البيئية (EC)",
+      "en": "Environmental Committee (EC)"
+    },
+    {
+      "id": 11,
+      "ar": "لجنة إدارة التغيير (CMC)",
+      "en": "Change Management Committee (CMC)"
+    },
+    {
+      "id": 12,
+      "ar": "لجنة التحضير (PC)",
+      "en": "Preparation Committee (PC)"
+    },
+    {
+      "id": 13,
+      "ar": "لجنة الإغلاق (CLSC)",
+      "en": "Closure Committee (CLSC)"
+    },
+    {
+      "id": 14,
+      "ar": "لجنة التمويل (FC)",
+      "en": "Financing Committee (FC)"
+    },
+    {
+      "id": 15,
+      "ar": "لجنة سلامة المرور (TSC)",
+      "en": "Traffic Safety Committee (TSC)"
+    },
+    {
+      "id": 16,
+      "ar": "لجنة التدقيق الداخلي (IAC)",
+      "en": "Internal Audit Committee (IAC)"
+    },
+    {
+      "id": 17,
+      "ar": "لجنة سلسلة التوريد (SCC)",
+      "en": "Supply Chain Committee (SCC)"
+    },
+    {
+      "id": 18,
+      "ar": "لجنة إدارة الوثائق (DMC)",
+      "en": "Document Management Committee (DMC)"
+    },
+    {
+      "id": 19,
+      "ar": "لجنة الابتكار (IC)",
+      "en": "Innovation Committee (IC)"
+    },
+    {
+      "id": 20,
+      "ar": "لجنة التدريب (TC)",
+      "en": "Training Committee (TC)"
+    },
+    {
+      "id": 21,
+      "ar": "لجنة علاقات المجتمع (CRC)",
+      "en": "Community Relations Committee (CRC)"
+    },
+    {
+      "id": 22,
+      "ar": "لجنة الإعلام والتسويق (MMC)",
+      "en": "Media and Marketing Committee (MMC)"
+    },
+    {
+      "id": 23,
+      "ar": "لجنة الفتح الفني (TOC)",
+      "en": "Technical Opening Committee (TOC)"
+    },
+    {
+      "id": 24,
+      "ar": "لجنة الفتح المالي (FOC)",
+      "en": "Financial Opening Committee (FOC)"
+    }
+  ],
+  "Tax_mo": [
+    {
+      "id": 1,
+      "arabic_name": "تشمل الضريبة",
+      "english_name": "Include Tax",
+      "CIndex": 0
+    },
+    {
+      "id": 2,
+      "arabic_name": "لا تشمل الضريبة",
+      "english_name": "Tax is not included",
+      "CIndex": 1
+    },
+    {
+      "id": 3,
+      "arabic_name": "معفي من الضرائب",
+      "english_name": "tax Exempt",
+      "CIndex": 2
+    }
+  ],
+  "Time_mo": [
+    {
+      "id": 1,
+      "arabic_name": "امر الاسناد",
+      "english_name": "Work Order",
+      "CIndex": 0
+    },
+    {
+      "id": 2,
+      "arabic_name": "اخطار السلامة والصحة المهنية",
+      "english_name": "Occupational health and safety hazards",
+      "CIndex": 1
+    },
+    {
+      "id": 3,
+      "arabic_name": "بداية وثائق التامين",
+      "english_name": "Beginning of insurance documents",
+      "CIndex": 2
+    },
+    {
+      "id": 4,
+      "arabic_name": "استلام الموقع",
+      "english_name": "Site Receipt",
+      "CIndex": 3
+    },
+    {
+      "id": 5,
+      "arabic_name": "نهاية الاعمال فعليا",
+      "english_name": "Actually, the end of the process",
+      "CIndex": 4
+    },
+    {
+      "id": 6,
+      "arabic_name": "الاستلام الابتدائي",
+      "english_name": "Primary Receipt",
+      "CIndex": 5
+    },
+    {
+      "id": 7,
+      "arabic_name": "نهاية وثائق التامين",
+      "english_name": "End of insurance documents",
+      "CIndex": 6
+    }
+  ],
+  "fixKindWork": [
+    {
+      "id": 12,
+      "arabic_name": "ميكانيكية",
+      "english_name": "Mechanical",
+      "CIndex": 0
+    },
+    {
+      "id": 13,
+      "arabic_name": "مدنية",
+      "english_name": "Civil",
+      "CIndex": 1
+    },
+    {
+      "id": 14,
+      "arabic_name": "كهربية",
+      "english_name": "Electrical",
+      "CIndex": 3
+    },
+    {
+      "id": 15,
+      "arabic_name": "اعلانات",
+      "english_name": "Advertising",
+      "CIndex": 10
+    },
+    {
+      "id": 16,
+      "arabic_name": "انشائية",
+      "english_name": "Construction",
+      "CIndex": 2
+    },
+    {
+      "id": 17,
+      "arabic_name": "تطهير ونظافة",
+      "english_name": "Cleaning",
+      "CIndex": 12
+    },
+    {
+      "id": 18,
+      "arabic_name": "الكترونية",
+      "english_name": "Electronic",
+      "CIndex": 5
+    },
+    {
+      "id": 19,
+      "arabic_name": "اعتيادية",
+      "english_name": "Regular",
+      "CIndex": 9
+    },
+    {
+      "id": 20,
+      "arabic_name": "تشطيبات",
+      "english_name": "Finishes",
+      "CIndex": 11
+    },
+    {
+      "id": 21,
+      "arabic_name": "صيانة",
+      "english_name": "Maintenance",
+      "CIndex": 6
+    },
+    {
+      "id": 22,
+      "arabic_name": "صيانة دورية",
+      "english_name": "Maintenance (periodic)",
+      "CIndex": 7
+    },
+    {
+      "id": 23,
+      "arabic_name": "صيانة وقائية",
+      "english_name": "Maintenance (Preventive)",
+      "CIndex": 8
+    },
+    {
+      "id": 26,
+      "arabic_name": "قوي كهربية",
+      "english_name": "Power Electrical",
+      "CIndex": 4
+    }
+  ],
+  "pand_mo": [
+    {
+      "id": 1,
+      "arabic_name": "استثماري",
+      "english_name": "Investment",
+      "CIndex": 0
+    },
+    {
+      "id": 2,
+      "arabic_name": "استراتيجي",
+      "english_name": "Strategic",
+      "CIndex": 1
+    },
+    {
+      "id": 3,
+      "arabic_name": "صيانة الات",
+      "english_name": "Machine Maintenance",
+      "CIndex": 2
+    },
+    {
+      "id": 4,
+      "arabic_name": "صيانة مبني",
+      "english_name": "Building Maintenance",
+      "CIndex": 3
+    },
+    {
+      "id": 5,
+      "arabic_name": "صيانة اثاث",
+      "english_name": "Furniture Maintenance",
+      "CIndex": 4
+    },
+    {
+      "id": 6,
+      "arabic_name": "حساب شخص",
+      "english_name": "Personal Account",
+      "CIndex": 5
+    },
+    {
+      "id": 7,
+      "arabic_name": "متنوع",
+      "english_name": "diverse",
+      "CIndex": 6
+    },
+    {
+      "id": 8,
+      "arabic_name": "تشغيلي",
+      "english_name": "Operational",
+      "CIndex": 7
+    },
+    {
+      "id": 9,
+      "arabic_name": "طارئ",
+      "english_name": "Emergency",
+      "CIndex": 8
+    },
+    {
+      "id": 10,
+      "arabic_name": "تطوير",
+      "english_name": "Development",
+      "CIndex": 9
+    },
+    {
+      "id": 11,
+      "arabic_name": "رأسمالي",
+      "english_name": "Capital",
+      "CIndex": 10
+    },
+    {
+      "id": 12,
+      "arabic_name": "مخصص",
+      "english_name": "Dedicated",
+      "CIndex": 11
+    }
+  ],
+  "kind_mo": [
+    {
+      "id": 111,
+      "arabic_name": "مناقصة عامة",
+      "english_name": "Open Tender",
+      "not1Arabic": "مفتوحة لجميع المشاركين.",
+      "not2Arabic": "يمكن أن تكون إلكترونية أو ورقية.",
+      "not1English": "Open to all participants.",
+      "not2English": "Can be electronic or paper-based.",
+      "CIndex": 1
+    },
+    {
+      "id": 112,
+      "arabic_name": "مناقصة محدودة",
+      "english_name": "Limited Tender",
+      "not1Arabic": "مقصورة على قائمة مختارة من المشاركين.",
+      "not2Arabic": "يتم تحديد المعايير المسبقة لاختيار المشاركين.",
+      "not1English": " Limited to a selected list of participants.",
+      "not2English": " Predefined criteria for selecting participants.",
+      "CIndex": 2
+    },
+    {
+      "id": 113,
+      "arabic_name": "مناقصة مقيدة",
+      "english_name": "Restricted Tender",
+      "not1Arabic": "مشابهة للمحدودة ولكن بمعايير اختيار أكثر دقة.",
+      "not2Arabic": "قد تتطلب مؤهلات خاصة للمشاركة.",
+      "not1English": " Similar to limited but with more precise selection criteria.",
+      "not2English": " May require special qualifications for participation.",
+      "CIndex": 3
+    },
+    {
+      "id": 114,
+      "arabic_name": "مناقصة متعددة المراحل",
+      "english_name": "Multi-stage Tender",
+      "not1Arabic": "تتم على عدة مراحل.",
+      "not2Arabic": "لكل مرحلة معايير تقييم محددة.",
+      "not1English": " Conducted in multiple stages.",
+      "not2English": " Each stage has specific evaluation criteria.",
+      "CIndex": 4
+    },
+    {
+      "id": 115,
+      "arabic_name": "مناقصة دولية",
+      "english_name": "International Tender",
+      "not1Arabic": "تشارك فيها شركات من دول مختلفة.",
+      "not2Arabic": "تخضع للأنظمة والقوانين الدولية.",
+      "not1English": " Involves companies from different countries.",
+      "not2English": " Subject to international regulations and laws.",
+      "CIndex": 5
+    },
+    {
+      "id": 116,
+      "arabic_name": "مناقصة طارئة",
+      "english_name": "Emergency Tender",
+      "not1Arabic": "لإجراءات عاجلة.",
+      "not2Arabic": "تتطلب إجراءات مبسطة وسريعة.",
+      "not1English": " For urgent procedures.",
+      "not2English": " Requires simplified and fast procedures.",
+      "CIndex": 6
+    },
+    {
+      "id": 117,
+      "arabic_name": "مناقصة مشتركة",
+      "english_name": "Joint Tender",
+      "not1Arabic": "يتم إطلاقها من قبل عدة جهات.",
+      "not2Arabic": "تجمع بين احتياجات عدة جهات.",
+      "not1English": " Initiated by multiple entities.",
+      "not2English": " Combines the needs of multiple entities.",
+      "CIndex": 7
+    },
+    {
+      "id": 118,
+      "arabic_name": "مناقصة تنافسية محلية",
+      "english_name": "Local Competitive Tender",
+      "not1Arabic": "مقصورة على الشركات المحلية.",
+      "not2Arabic": "لدعم الاقتصاد المحلي.",
+      "not1English": " Limited to local companies.",
+      "not2English": " To support the local economy.",
+      "CIndex": 8
+    },
+    {
+      "id": 120,
+      "arabic_name": "مناقصة تكميلية",
+      "english_name": "Supplementary Tender",
+      "not1Arabic": "لإضافة أعمال أو خدمات إضافية لعقد قائم.",
+      "not2Arabic": "قد تتطلب تعديل العقد الأصلي.",
+      "not1English": " To add additional works or services to an existing contract.",
+      "not2English": " May require modification of the original contract.",
+      "CIndex": 10
+    },
+    {
+      "id": 121,
+      "arabic_name": "مناقصة توفير العمالة",
+      "english_name": "Labour Supply Tender",
+      "not1Arabic": "لتوفير العمالة المطلوبة لتنفيذ مشروع.",
+      "not2Arabic": "تشمل تحديد المؤهلات والخبرات المطلوبة.",
+      "not1English": " To provide the required labor for project execution.",
+      "not2English": " Includes defining the required qualifications and experience.",
+      "CIndex": 11
+    },
+    {
+      "id": 122,
+      "arabic_name": "عقد توريد",
+      "english_name": "Supply Contract",
+      "not1Arabic": "لشراء السلع.",
+      "not2Arabic": "يشمل المواصفات الفنية وشروط الدفع.",
+      "not1English": " For the purchase of goods.",
+      "not2English": " Includes technical specifications and payment terms.",
+      "CIndex": 12
+    },
+    {
+      "id": 123,
+      "arabic_name": "عقد خدمات",
+      "english_name": "Service Contract",
+      "not1Arabic": "للحصول على خدمات.",
+      "not2Arabic": "يحدد مستوى الخدمة المطلوبة.",
+      "not1English": " For obtaining services.",
+      "not2English": " Specifies the required level of service.",
+      "CIndex": 13
+    },
+    {
+      "id": 124,
+      "arabic_name": "عقد إنشاء",
+      "english_name": "Construction Contract",
+      "not1Arabic": "لبناء مشاريع.",
+      "not2Arabic": "يشمل التصميم والبناء.",
+      "not1English": " For project construction.",
+      "not2English": " Includes design and construction.",
+      "CIndex": 14
+    },
+    {
+      "id": 125,
+      "arabic_name": "عقد صيانة",
+      "english_name": "Maintenance Contract",
+      "not1Arabic": "لصيانة الأصول.",
+      "not2Arabic": "يحدد فترات الصيانة والإصلاح.",
+      "not1English": " For asset maintenance.",
+      "not2English": " Specifies maintenance and repair intervals.",
+      "CIndex": 15
+    },
+    {
+      "id": 126,
+      "arabic_name": "عقد استشارات",
+      "english_name": "Consultancy Contract",
+      "not1Arabic": "للحصول على خدمات استشارية.",
+      "not2Arabic": "يحدد نطاق الخدمات الاستشارية.",
+      "not1English": " For obtaining consultancy services.",
+      "not2English": " Defines the scope of consultancy services.",
+      "CIndex": 16
+    },
+    {
+      "id": 127,
+      "arabic_name": "عقد التشغيل والصيانة",
+      "english_name": "Operation and Maintenance Contract",
+      "not1Arabic": "يجمع بين التشغيل والصيانة.",
+      "not2Arabic": "يضمن استمرارية تشغيل الأصول.",
+      "not1English": " Combines operation and maintenance.",
+      "not2English": " Ensures the continuity of asset operation.",
+      "CIndex": 17
+    },
+    {
+      "id": 128,
+      "arabic_name": "عقد التصميم والبناء",
+      "english_name": "Design and Build Contract",
+      "not1Arabic": "يشمل التصميم والبناء في عقد واحد.",
+      "not2Arabic": "يقلل من المخاطر ويختصر الوقت.",
+      "not1English": " Includes design and construction in one contract.",
+      "not2English": " Reduces risks and saves time.",
+      "CIndex": 18
+    },
+    {
+      "id": 129,
+      "arabic_name": "عقد BOT",
+      "english_name": "Build-Operate-Transfer Contract",
+      "not1Arabic": "بناء وتشغيل ونقل المشروع.",
+      "not2Arabic": "شائع في مشاريع البنية التحتية.",
+      "not1English": " Build, Operate, and Transfer the project.",
+      "not2English": " Common in infrastructure projects.",
+      "CIndex": 19
+    },
+    {
+      "id": 130,
+      "arabic_name": "عقد PPP",
+      "english_name": "Public-Private Partnership",
+      "not1Arabic": "شراكة بين القطاع العام والخاص.",
+      "not2Arabic": "لتنفيذ مشاريع كبيرة.",
+      "not1English": " Public-Private Partnership.",
+      "not2English": " For executing large projects.",
+      "CIndex": 20
+    },
+    {
+      "id": 131,
+      "arabic_name": "عقد كونسورتيوم",
+      "english_name": "Consortium Contract",
+      "not1Arabic": "عقد يجمع بين عدة شركات.",
+      "not2Arabic": "لتنفيذ مشاريع معقدة.",
+      "not1English": " Contract involving multiple companies.",
+      "not2English": " For executing complex projects.",
+      "CIndex": 21
+    },
+    {
+      "id": 132,
+      "arabic_name": "أمر شراء مباشر",
+      "english_name": "Direct Purchase Order",
+      "not1Arabic": "لشراء سلع أو خدمات بشكل مباشر.",
+      "not2Arabic": "يستخدم في الحالات الطارئة.",
+      "not1English": " For direct purchase of goods or services.",
+      "not2English": " Used in emergency situations.",
+      "CIndex": 22
+    },
+    {
+      "id": 133,
+      "arabic_name": "أمر إحلال",
+      "english_name": "Replacement Order",
+      "not1Arabic": "لاستبدال سلعة أو خدمة.",
+      "not2Arabic": "عندما يكون هناك تلف أو عطل.",
+      "not1English": " To replace a good or service.",
+      "not2English": " When there is damage or malfunction.",
+      "CIndex": 23
+    },
+    {
+      "id": 134,
+      "arabic_name": "أمر إصلاح",
+      "english_name": "Repair Order",
+      "not1Arabic": "لإصلاح سلعة أو خدمة.",
+      "not2Arabic": "لتصحيح الأعطال أو الأضرار.",
+      "not1English": " To repair a good or service.",
+      "not2English": " To correct faults or damages.",
+      "CIndex": 24
+    },
+    {
+      "id": 135,
+      "arabic_name": "أمر شراء طارئ",
+      "english_name": "Emergency Purchase Order",
+      "not1Arabic": "لشراء سلع أو خدمات في حالات الطوارئ.",
+      "not2Arabic": "يتطلب موافقات خاصة.",
+      "not1English": " For emergency purchase of goods or services.",
+      "not2English": " Requires special approvals.",
+      "CIndex": 25
+    },
+    {
+      "id": 136,
+      "arabic_name": "اتفاقية إطارية",
+      "english_name": "Framework Agreement",
+      "not1Arabic": "لتحديد الشروط العامة للتعاون المستقبلي.",
+      "not2Arabic": "كأساس لعقود مستقبلية.",
+      "not1English": " To define general terms for future cooperation.",
+      "not2English": " As a basis for future contracts.",
+      "CIndex": 26
+    },
+    {
+      "id": 137,
+      "arabic_name": "اتفاقية شراكة",
+      "english_name": "Partnership Agreement",
+      "not1Arabic": "لتأسيس شراكة بين طرفين.",
+      "not2Arabic": "لتقاسم الأرباح والمخاطر.",
+      "not1English": " To establish a partnership between two parties.",
+      "not2English": " To share profits and risks.",
+      "CIndex": 27
+    },
+    {
+      "id": 138,
+      "arabic_name": "اتفاقية ترخيص",
+      "english_name": "Licensing Agreement",
+      "not1Arabic": "لمنح حق استخدام الملكية الفكرية.",
+      "not2Arabic": "لحماية حقوق الملكية الفكرية.",
+      "not1English": " To grant the right to use intellectual property.",
+      "not2English": " To protect intellectual property rights.",
+      "CIndex": 28
+    },
+    {
+      "id": 139,
+      "arabic_name": "اتفاقية تقديم خدمات",
+      "english_name": "Service Level Agreement (SLA)",
+      "not1Arabic": "تحدد مستوى الخدمة المتفق عليه.",
+      "not2Arabic": "لضمان جودة الخدمات المقدمة.",
+      "not1English": " Specifies the agreed level of service.",
+      "not2English": " To ensure the quality of services provided.",
+      "CIndex": 29
+    },
+    {
+      "id": 140,
+      "arabic_name": "اتفاقية تسوية",
+      "english_name": "Settlement Agreement",
+      "not1Arabic": "لحل النزاعات.",
+      "not2Arabic": "لتجنب التقاضي.",
+      "not1English": " To resolve disputes.",
+      "not2English": " To avoid litigation.",
+      "CIndex": 30
+    },
+    {
+      "id": 141,
+      "arabic_name": "اتفاقية تحكيم",
+      "english_name": "Arbitration Agreement",
+      "not1Arabic": "لتسوية النزاعات عن طريق التحكيم.",
+      "not2Arabic": "بديل عن التقاضي.",
+      "not1English": " To settle disputes through arbitration.",
+      "not2English": " An alternative to litigation.",
+      "CIndex": 31
+    },
+    {
+      "id": 142,
+      "arabic_name": "اتفاقية سرية",
+      "english_name": "Confidentiality Agreement",
+      "not1Arabic": "لحماية المعلومات السرية.",
+      "not2Arabic": "لحماية الأسرار التجارية.",
+      "not1English": " To protect confidential information.",
+      "not2English": " To protect trade secrets.",
+      "CIndex": 32
+    },
+    {
+      "id": 143,
+      "arabic_name": "استجلاب أسعار",
+      "english_name": "Price Quotation",
+      "not1Arabic": "طلب أسعار من عدة موردين.",
+      "not2Arabic": "مرحلة أولية لتحديد التكاليف.",
+      "not1English": " Request for prices from multiple suppliers.",
+      "not2English": " An initial stage to determine costs.",
+      "CIndex": 33
+    },
+    {
+      "id": 144,
+      "arabic_name": "طلب عروض",
+      "english_name": "Request for Quotation (RFQ)",
+      "not1Arabic": "طلب عروض تفصيلية.",
+      "not2Arabic": "للحصول على عروض تفصيلية من الموردين.",
+      "not1English": " Request for detailed proposals.",
+      "not2English": " To obtain detailed proposals from suppliers.",
+      "CIndex": 34
+    },
+    {
+      "id": 145,
+      "arabic_name": "طلب اقتراحات",
+      "english_name": "Request for Proposal (RFP)",
+      "not1Arabic": "طلب اقتراحات لحل مشكلة معينة.",
+      "not2Arabic": "للحصول على حلول مبتكرة.",
+      "not1English": " Request for suggestions to solve a specific problem.",
+      "not2English": " To obtain innovative solutions.",
+      "CIndex": 35
+    },
+    {
+      "id": 146,
+      "arabic_name": "طلب معلومات",
+      "english_name": "Request for Information (RFI)",
+      "not1Arabic": "للحصول على معلومات أولية.",
+      "not2Arabic": "لفهم المتطلبات بشكل أفضل.",
+      "not1English": " To obtain preliminary information.",
+      "not2English": " To better understand the requirements.",
+      "CIndex": 36
+    },
+    {
+      "id": 147,
+      "arabic_name": "طلب تصديق",
+      "english_name": "Request for Qualification (RFQ)",
+      "not1Arabic": "للحصول على تصديق على قدرة المورد.",
+      "not2Arabic": "لتقييم مؤهلات الموردين.",
+      "not1English": " To certify the supplier's capability.",
+      "not2English": " To assess suppliers' qualifications.",
+      "CIndex": 37
+    },
+    {
+      "id": 148,
+      "arabic_name": "عقد بالتراضي",
+      "english_name": "Negotiated Contract",
+      "not1Arabic": "يتم التفاوض فيه مباشرة مع المقاول.",
+      "not2Arabic": "يستخدم في حالات محددة.",
+      "not1English": " Directly negotiated with the contractor.",
+      "not2English": " Used in specific cases.",
+      "CIndex": 38
+    },
+    {
+      "id": 149,
+      "arabic_name": "اتفاقية شراء طويل الأجل",
+      "english_name": "Long-term Purchase Agreement",
+      "not1Arabic": "لشراء مواد أو خدمات على مدى فترة طويلة.",
+      "not2Arabic": "لتوفير الاستقرار والتخطيط المالي.",
+      "not1English": " For long-term purchase of goods or services.",
+      "not2English": " To provide stability and financial planning.",
+      "CIndex": 39
+    },
+    {
+      "id": 150,
+      "arabic_name": "أمر تغيير",
+      "english_name": "Change Order",
+      "not1Arabic": "لتعديل أو إضافة على عقد قائم.",
+      "not2Arabic": "لتلبية متطلبات جديدة أو إجراء تغييرات على المشروع.",
+      "not1English": " To amend or add to an existing contract.",
+      "not2English": " To meet new requirements or make changes to the project.",
+      "CIndex": 40
+    }
+  ]
+}
