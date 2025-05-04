@@ -1,0 +1,16 @@
+localStorage.getItem(input.id)
+localStorage.setItem(input.id, JSON.stringify(value));
+
+
+      document.getElementById("languageSelect").value = savedLang;
+
+
+  // اختيار العنصر
+  const inputElement = document.getElementById('proName');
+
+  // مراقبة التغييرات في المدخلات
+  inputElement.addEventListener('input', function (event) {
+    const currentValue = event.target.value;
+    console.log("📝 قيمة المدخل الحالية:", currentValue);
+  });
+  

@@ -250,13 +250,34 @@ async function loadDataFromWeb() {
   }
 }
 
-function getKindValueByCIndex(cIndex, key) {
+function getKindTenderValueByCIndex(cIndex, key) {
   if (!lists || !Array.isArray(lists.kind_mo)) {
     console.warn("⚠️ lists.kind_mo غير موجود أو ليس مصفوفة.");
     return null;
   }
 
   const item = lists.kind_mo.find(entry => entry.CIndex == cIndex);
+  
+  if (!item) {
+    console.warn(`⚠️ لم يتم العثور على عنصر بـ CIndex = ${cIndex}`);
+    return null;
+  }
+
+  if (!(key in item)) {
+    console.warn(`⚠️ المفتاح '${key}' غير موجود في العنصر.`);
+    return null;
+  }
+
+  return item[key];
+}
+
+function getKindFinancialByCIndex(cIndex, key) {
+  if (!lists || !Array.isArray(lists.pand_mo)) {
+    console.warn("⚠️ lists.pand_mo غير موجود أو ليس مصفوفة.");
+    return null;
+  }
+
+  const item = lists.pand_mo.find(entry => entry.CIndex == cIndex);
   
   if (!item) {
     console.warn(`⚠️ لم يتم العثور على عنصر بـ CIndex = ${cIndex}`);

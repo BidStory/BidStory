@@ -43,10 +43,13 @@
     </select>
     <br>
     <label id="kindMoDisc" ></label>
-
-
-    <br><br><br><br>
-    <!-- الكود التعريفي -->
+    <!-- نوع البند المالي -->
+    <br> <br>
+    <select id="kindFinancialSelect">
+        <option disabled selected id="t_137"></option>
+    </select>
+     <!-- الكود التعريفي -->
+    <br><br>
     <label for="tt" id="t_615"></label>
     <label id="proId">
 </div>
@@ -141,7 +144,7 @@
 
         for ( let cIndex = 1; cIndex <= 40; cIndex++ )
         {
-            const name = getKindValueByCIndex( cIndex, langSelect );
+            const name = getKindTenderValueByCIndex( cIndex, langSelect );
             if ( name )
             {
                 const option = document.createElement( "option" );
@@ -153,13 +156,43 @@
     }
     populateKindMoSelect();
     //#endregion
-//let kindMoSelect=0;
+
+
+
+    //#region اختيار نوع البند المالي
+    let langSelect_ = '';
+
+    if ( useArabic ) { langSelect_ = 'arabic_name';} else { langSelect_ = 'english_name'; }
+    function populateKindFinancialSelect ()
+    {
+        const select = document.getElementById( "kindFinancialSelect" );
+
+        for ( let cIndex = 0; cIndex <= 10; cIndex++ )
+        {
+            const name = getKindFinancialByCIndex( cIndex, langSelect );
+            if ( name )
+            {
+                const option = document.createElement( "option" );
+                option.value = cIndex;
+                option.textContent = name;
+                select.appendChild( option );
+            }
+        }
+    }
+    populateKindFinancialSelect();
+    //#endregion
+
+
+
+
+
+    //الاستماع الي تغير البيانات في الجدول
     document.addEventListener( 'tableDataChanged',async ( event ) =>
     {
         const storeName = event.detail.storeName;
         if(storeName=='definition'){
          let   kindMoSelect = await dbNoUpgrade.keyGet( 'definition', 'kindMoSelect' );
-            document.getElementById("kindMoDisc").innerText =  getKindValueByCIndex( kindMoSelect, langSelect1 )+" "+ getKindValueByCIndex( kindMoSelect, langSelect2 );
+            document.getElementById("kindMoDisc").innerText =  getKindTenderValueByCIndex( kindMoSelect, langSelect1 )+" "+ getKindTenderValueByCIndex( kindMoSelect, langSelect2 );
 
              
         }
