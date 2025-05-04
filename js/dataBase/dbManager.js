@@ -77,7 +77,8 @@ function noUpgrade ( dbName )
         const request = store.put( data );
 
         // @ts-ignore
-        request.onsuccess = () => resolve();tableChangedEvent(tableName);
+        request.onsuccess = () => resolve();
+        tableChangedEvent(tableName,dbName);
         request.onerror = ( e ) => reject( e.target.error );
       } );
 
@@ -172,7 +173,7 @@ function noUpgrade ( dbName )
           deleteRequest.onsuccess = () =>
           {
             console.log( `✅ [keyDelete] تم حذف العنصر (key: ${ key }) بنجاح من ${ tableName }` );
-            tableChangedEvent(tableName);
+            tableChangedEvent(tableName,dbName);
           };
           deleteRequest.onerror = () =>
           {
@@ -698,9 +699,6 @@ function upgrade ( dbName )
   } )();
 }
 
-
-
-
 async function exportTableWithSchemaAndData ( dbName, storeName )
 {
   console.log( "🔄 بدء عملية استخراج البيانات من قاعدة البيانات..." );
@@ -1152,7 +1150,7 @@ async function deleteDatabase ( dbName )
 }
 
 // دالة تنشئ حدث مخصص عندما يتغير الجدول
-function tableChangedEvent(tableName) {
-  const event = new CustomEvent('tableDataChanged', { detail: { storeName: tableName } });
+function tableChangedEvent(tableName,dbName) {
+  const event = new CustomEvent('tableDataChanged', { detail: { storeName: tableName ,dataName:dbName} });
   document.dispatchEvent(event);
 }

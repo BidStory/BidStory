@@ -302,7 +302,7 @@ function setTableParameter (
 
     // البحث عن الحقول التي نريد مراقبتها
     const inputs = containerElement.querySelectorAll(
-      'input[type="text"], input[type="date"], input[type="time"], input[type="radio"], input[type="checkbox"], select'
+      'input[type="text"],input[type="number"],input[type="url"], input[type="date"], input[type="time"], input[type="radio"], input[type="checkbox"], select'
     );
 
     // تكرار على الحقول وجلب قيمها من قاعدة البيانات
@@ -529,6 +529,7 @@ function setTableParameter (
 
     // تحديد أنواع الحقول التي نريد مراقبتها
     const selectors = [
+      'input[type="number"]','input[type="url"]',
       'input[type="text"]', // الحقول النصية
       'input[type="date"]', // حقول التاريخ
       'input[type="time"]', // حقول الوقت
