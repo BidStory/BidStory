@@ -37,8 +37,12 @@
     <br>
     <div id="map" style="height: 400px; width: 100%;"></div>
     <label id="posation" style="display: block; margin-top: 10px;"></label>
-
-
+    <!-- نوع المناقصة -->
+    <select id="kindMoSelect">
+        <option disabled selected id="t_1258"></option>
+    </select>
+    <br>
+    <label id="kindMoDisc" ></label>
 
 
     <br><br><br><br>
@@ -46,7 +50,6 @@
     <label for="tt" id="t_615"></label>
     <label id="proId">
 </div>
-
 
 <script>
 
@@ -72,9 +75,9 @@
             map = L.map( 'map' ).setView( position_, 10 );
             marker = L.marker( position_ ).addTo( map ); // وضع علامة في الموقع المحفوظ
             if ( positionLabel )
-                {
-                    positionLabel.textContent = `📍 Latitude: ${ lat }, Longitude: ${ lng }`;
-                }
+            {
+                positionLabel.textContent = `📍 Latitude: ${ lat }, Longitude: ${ lng }`;
+            }
         } else
         {
             map = L.map( 'map' ).setView( PROPHET_MOSQUE_COORDS, 10 );
@@ -126,5 +129,41 @@
         await dbNoUpgrade_.keySet( proId, 'projectName', currentValue );
     } );
     //#endregion
+
+    //#region اختيار نوع المناقصة
+    let langSelect = '';
+    let langSelect1 = '';
+    let langSelect2 = '';
+    if ( useArabic ) { langSelect = 'arabic_name'; langSelect1 = 'not1Arabic'; langSelect2 = 'not2Arabic';} else { langSelect = 'english_name'; langSelect1 = 'not1English'; langSelect2 = 'not2English';}
+    function populateKindMoSelect ()
+    {
+        const select = document.getElementById( "kindMoSelect" );
+
+        for ( let cIndex = 1; cIndex <= 40; cIndex++ )
+        {
+            const name = getKindValueByCIndex( cIndex, langSelect );
+            if ( name )
+            {
+                const option = document.createElement( "option" );
+                option.value = cIndex;
+                option.textContent = name;
+                select.appendChild( option );
+            }
+        }
+    }
+    populateKindMoSelect();
+    //#endregion
+//let kindMoSelect=0;
+    document.addEventListener( 'tableDataChanged',async ( event ) =>
+    {
+        const storeName = event.detail.storeName;
+        if(storeName=='definition'){
+         let   kindMoSelect = await dbNoUpgrade.keyGet( 'definition', 'kindMoSelect' );
+            document.getElementById("kindMoDisc").innerText =  getKindValueByCIndex( kindMoSelect, langSelect1 )+" "+ getKindValueByCIndex( kindMoSelect, langSelect2 );
+
+             
+        }
+    } );
+
 
 </script>

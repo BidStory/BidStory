@@ -90,11 +90,6 @@ function CID(pattern = IDPattern.MIXED2_NUMS2, fixed = "") {
     // مراقبة كل حقل إدخال
     inputs.forEach((input) => {
       // @ts-ignore
-      // @ts-ignore
-      // @ts-ignore
-      // @ts-ignore
-      // @ts-ignore
-      // @ts-ignore
       const inputListener = (event) => {
         let value;
   

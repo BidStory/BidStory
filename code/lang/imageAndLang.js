@@ -153,41 +153,48 @@ function exportIndexedDBToJSON(dbName = "BidStoryDB") {
 
 let images = null;
 let lang = null;
+let lists = null;
 let Load = false;
+
 async function loadData() {
   try {
-    Load=false;
+    Load = false;
     const imageFilePath = "/BidStory/code/lang/data_image.json";
     const langFilePath = "/BidStory/code/lang/data_lang.json";
+    const listsFilePath = "/BidStory/code/lang/data_lists.json";
 
     console.log(`📥 تحميل الملف من: ${imageFilePath}`);
     console.log(`📥 تحميل الملف من: ${langFilePath}`);
+    console.log(`📥 تحميل الملف من: ${listsFilePath}`);
 
-    const [responseImage, responseLang] = await Promise.all([
+    const [responseImage, responseLang, responseLists] = await Promise.all([
       fetch(imageFilePath),
-      fetch(langFilePath)
+      fetch(langFilePath),
+      fetch(listsFilePath)
     ]);
 
-    if (!responseImage.ok || !responseLang.ok) {
-      throw new Error(`❌ فشل تحميل أحد الملفين:\n📄 image: ${responseImage.status}\n📄 lang: ${responseLang.status}`);
+    if (!responseImage.ok || !responseLang.ok || !responseLists.ok) {
+      throw new Error(`❌ فشل تحميل أحد الملفات:\n📄 image: ${responseImage.status}\n📄 lang: ${responseLang.status}\n📄 lists: ${responseLists.status}`);
     }
 
-    const [textImage, textLang] = await Promise.all([
+    const [textImage, textLang, textLists] = await Promise.all([
       responseImage.text(),
-      responseLang.text()
+      responseLang.text(),
+      responseLists.text()
     ]);
 
-    
     try {
       images = JSON.parse(textImage);
       lang = JSON.parse(textLang);
-      console.log("✅ تم تحويل كلا الملفين إلى كائن JSON بنجاح.");
-      Load=true;
+      lists = JSON.parse(textLists);
+
+      console.log("✅ تم تحويل الملفات الثلاثة إلى كائنات JSON بنجاح.");
+      Load = true;
       setTextAndImage();
       document.dispatchEvent(new Event("BidStoryDBReady"));
 
     } catch (parseError) {
-      console.error("❌ فشل في تحليل أحد الملفين إلى JSON:", parseError);
+      console.error("❌ فشل في تحليل أحد الملفات إلى JSON:", parseError);
       throw parseError;
     }
 
@@ -195,40 +202,46 @@ async function loadData() {
     console.error("💥 حدث خطأ أثناء تحميل أو تحليل الملفات:", err);
   }
 }
+
 async function loadDataFromWeb() {
   try {
-    Load=false;
+    Load = false;
     const imageFilePath = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_image.json";
     const langFilePath = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_lang.json";
+    const listsFilePath = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_lists.json";
 
     console.log(`📥 تحميل الملف من: ${imageFilePath}`);
     console.log(`📥 تحميل الملف من: ${langFilePath}`);
+    console.log(`📥 تحميل الملف من: ${listsFilePath}`);
 
-    const [responseImage, responseLang] = await Promise.all([
+    const [responseImage, responseLang, responseLists] = await Promise.all([
       fetch(imageFilePath),
-      fetch(langFilePath)
+      fetch(langFilePath),
+      fetch(listsFilePath)
     ]);
 
-    if (!responseImage.ok || !responseLang.ok) {
-      throw new Error(`❌ فشل تحميل أحد الملفين:\n📄 image: ${responseImage.status}\n📄 lang: ${responseLang.status}`);
+    if (!responseImage.ok || !responseLang.ok || !responseLists.ok) {
+      throw new Error(`❌ فشل تحميل أحد الملفات:\n📄 image: ${responseImage.status}\n📄 lang: ${responseLang.status}\n📄 lists: ${responseLists.status}`);
     }
 
-    const [textImage, textLang] = await Promise.all([
+    const [textImage, textLang, textLists] = await Promise.all([
       responseImage.text(),
-      responseLang.text()
+      responseLang.text(),
+      responseLists.text()
     ]);
 
-   
     try {
       images = JSON.parse(textImage);
       lang = JSON.parse(textLang);
-      console.log("✅ تم تحويل كلا الملفين إلى كائن JSON بنجاح.");
-      Load=true;
+      lists = JSON.parse(textLists);
+
+      console.log("✅ تم تحويل الملفات الثلاثة إلى كائنات JSON بنجاح.");
+      Load = true;
       setTextAndImage();
       document.dispatchEvent(new Event("BidStoryDBReady"));
 
     } catch (parseError) {
-      console.error("❌ فشل في تحليل أحد الملفين إلى JSON:", parseError);
+      console.error("❌ فشل في تحليل أحد الملفات إلى JSON:", parseError);
       throw parseError;
     }
 
@@ -237,6 +250,26 @@ async function loadDataFromWeb() {
   }
 }
 
+function getKindValueByCIndex(cIndex, key) {
+  if (!lists || !Array.isArray(lists.kind_mo)) {
+    console.warn("⚠️ lists.kind_mo غير موجود أو ليس مصفوفة.");
+    return null;
+  }
+
+  const item = lists.kind_mo.find(entry => entry.CIndex == cIndex);
+  
+  if (!item) {
+    console.warn(`⚠️ لم يتم العثور على عنصر بـ CIndex = ${cIndex}`);
+    return null;
+  }
+
+  if (!(key in item)) {
+    console.warn(`⚠️ المفتاح '${key}' غير موجود في العنصر.`);
+    return null;
+  }
+
+  return item[key];
+}
 
 
 function getImage(clableValue) {

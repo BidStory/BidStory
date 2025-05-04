@@ -20,7 +20,7 @@ await tt.getAllRowsDataOnly();
     document.addEventListener( 'tableDataChanged', ( event ) =>
     {
         const storeName = event.detail.storeName;
-        console.log( `📢 تغيير في بيانات الجدول: ${ storeName }` );
+        console.log( `📢1 تغيير في بيانات الجدول: ${ storeName }` );
     } );
 
     document.addEventListener( 'clickButtonInRow', ( event ) =>
