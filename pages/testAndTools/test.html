@@ -1,35 +1,104 @@
-<script src="/BidStory/js/tools.js"></script> <!-- أدوات مساعدة عامة -->
-<script>
-	const input = [
-  "",        // بداية القسم الأول
-  "",         // عنصر سيتم تحويله إلى "1"
-  "",         // عنصر سيتم تحويله إلى "2"
-  "-",        // فاصل يجب أن يبقى في نفس الموضع
-  "2",         // عنصر سيتم تحويله إلى "3"
-  "3",        // نهاية القسم الأول
-  "*",        // بداية القسم الثاني
-  "5",         // عنصر سيتم تحويله إلى "1"
-  ".",        // عنصر سيتم ترقيمه كفرع "1.1"
-  ".",        // عنصر سيتم ترقيمه كفرع "1.2"
-  "*",        // بداية القسم الثاني
-  "..",       // عنصر سيتم ترقيمه كفرع أعمق "1.2.1"
-  "3",         // عنصر رئيسي جديد "2"
-  ".",        // نهاية القسم الثاني
-  ".",
-  "..",
-  ".5.",
-  "6.",
-  "..7",
-];
-const output = reNumber(input);
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>زر بتأثير ضغط بطيء</title>
+  <style>
+    .btn-slow {
+      display: inline-block;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(145deg, #4a6bff, #3a5bef);
+      color: white;
+      padding: 18px 36px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 20px rgba(58, 91, 239, 0.4);
+      z-index: 0;
+    }
 
-const result = {
-  name: "BidStory",
-  version: 1,
-  data: ["item1", "item2"]
-};
-let rr= "hesham";
-q( rr);
-ض(rr+"55");
+    .btn-slow:active {
+      transform: scale(0.92) translateY(8px);
+      box-shadow: 0 2px 5px rgba(58, 91, 239, 0.2);
+      background: linear-gradient(145deg, #3a5bef, #2a4bdf);
+    }
 
-</script>
+    /* موجة دائرية من المنتصف */
+    .btn-slow:active::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      animation: slowRipple 1.5s ease-out;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @keyframes slowRipple {
+      0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 1;
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0.5;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(2.5);
+        opacity: 0;
+      }
+    }
+
+    /* تظليل تدريجي أثناء الضغط */
+    .btn-slow:active::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.1);
+      animation: slowDarken 1s linear;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @keyframes slowDarken {
+      0% {
+        opacity: 0;
+        background: rgba(0,0,0,0);
+      }
+      25% {
+        opacity: 0.25;
+        background: rgba(0,0,0,0.05);
+      }
+      50% {
+        opacity: 0.5;
+        background: rgba(0,0,0,0.1);
+      }
+      75% {
+        opacity: 0.75;
+        background: rgba(0,0,0,0.15);
+      }
+      100% {
+        opacity: 1;
+        background: rgba(0,0,0,0.2);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="btn-slow">زر أنيق</button>
+
+</body>
+</html>

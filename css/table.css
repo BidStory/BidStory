@@ -38,10 +38,7 @@ thead.show-text th {
 
 /* Responsive Adjustments */
 @media (max-width: 600px) {
-  .buttonT {
-    font-size: 14px;
-    padding: 10px 8px;
-  }
+ 
   .toast {
     bottom: 20px;
     right: 20px;
@@ -79,7 +76,6 @@ thead.show-text th {
 .labelT,
 .divT,
 .textareaT,
-.buttonT,
 .inputT,
 .cellT,
 .rowT {
@@ -167,20 +163,22 @@ thead.show-text th {
 
 /* Button General Style */
 .buttonT {
-  border: none;
-  padding: 12px 20px;
-  font-size: 16px;
+  border: 1px solid #f8f5f5;
+  box-sizing: border-box;
   border-radius: 12px;
-  color: white;
-  cursor: pointer;
+  background-color: transparent;
+  color: #020000;
   transition: background-color 0.3s, transform 0.2s;
-  flex: 1;
-  background-color: #007bff; /* مثال على لون */
 }
 
 /* إضافة كلاس خاص بالضغط */
-.buttonT.clicked {
-  animation: buttonClickAnimation 0.5s forwards;
+.buttonTT {
+  border: 1px solid #020000;
+  box-sizing: border-box;
+  border-radius: 12px;
+  background-color: transparent;
+  color: #020000;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 /* تعريف الأنيميشن */

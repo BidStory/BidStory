@@ -313,8 +313,6 @@ function getKindTaxByCIndex(cIndex, key) {
 
   return item[key];
 }
-
-
 function getImage(clableValue) {
  
   if (!images || !Array.isArray(images.image)) {
@@ -335,6 +333,7 @@ function getImage(clableValue) {
 
 let useArabic=true;
 function getLang(id ) {
+
   if (!lang || !Array.isArray(lang.lang)) {
     console.error("❌ الكائن 'lang' غير موجود أو غير صالح.");
     return null;
@@ -362,7 +361,8 @@ function setTextAndImage()
 
 // تحميل النصوص
 document.querySelectorAll('[id^="t_"]').forEach(textEl => {
-  const key = textEl.id.slice(2); // إزالة "t_"
+  const match = textEl.id.match(/^t_([^_]+)/);
+  const key = match ? match[1] : null;
   const text = getLang(key);
   if (text) textEl.textContent = text;
 

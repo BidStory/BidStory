@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html> 
+﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -15,7 +15,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- مكتبة SweetAlert2 للتنبيهات -->
   <script src="/BidStory/js/dataBase/dbManager.js"></script> <!-- إدارة قاعدة البيانات -->
   <script src="/BidStory/js/table/table.js"></script> <!-- إدارة الجداول -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />  <!-- مكتبة الخرائط  -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" /> <!-- مكتبة الخرائط  -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><!-- مكتبة الخرائط  -->
 
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
@@ -84,41 +84,52 @@
 
   <!-- ✅ شريط تنقل فرعي يظهر بعد اختيار مشروع -->
   <nav id="nav2" style="display: none;">
+    <!-- تعريف المشروع -->
     <button onclick="showSection('definition')">
-      <!-- تعريف المشروع -->
       <img id="i_id" alt="definition" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
       <span id="t_253"></span>
+    </button>
+    <!-- بنود المشروع -->
+    <button onclick="showSection('pands')">
+      <img id="i_items" alt="pands" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+      <span id="t_633"></span>
     </button>
   </nav>
 
   <!-- ✅ الأقسام (تظهر حسب القسم المختار) -->
   <div id="home" class="section active"></div> <!-- الصفحة الرئيسية -->
-  <div id="setting" class="section"></div>     <!-- الإعدادات -->
-  <div id="definition" class="section"></div>  <!-- تعريف المشروع -->
+  <div id="setting" class="section"></div> <!-- الإعدادات -->
+  <div id="definition" class="section"></div> <!-- تعريف المشروع -->
+  <div id="pands" class="section"></div> <!-- بنود المشروع -->
 
   <!-- ✅ JavaScript الخاص بالتهيئة -->
   <script>
-    document.addEventListener("DOMContentLoaded", async () => {
+    document.addEventListener("DOMContentLoaded", async () =>
+    {
       // ❗ انتظر حتى يتم تعيين قيمة Load = true
-      while (typeof Load !== "undefined" && Load === false) {
+      while (typeof Load !== "undefined" && Load === false)
+      {
         await new Promise(resolve => setTimeout(resolve, 100));
       }
 
       // ✅ إعداد اللغة والاتجاه (RTL أو LTR)
       const savedLang = JSON.parse(localStorage.getItem("languageSelect")) || "ar";
       const html = document.documentElement;
-      if (savedLang === "en") {
+      if (savedLang === "en")
+      {
         useArabic = false;
         html.lang = "en";
         html.dir = "ltr";
-      } else {
+      } else
+      {
         useArabic = true;
         html.lang = "ar";
         html.dir = "rtl";
       }
 
       // ✅ عند جاهزية قاعدة البيانات، حمّل النصوص والصور حسب اللغة
-      document.addEventListener('BidStoryDBReady', async () => {
+      document.addEventListener('BidStoryDBReady', async () =>
+      {
         await delay(50);
         setTextAndImage();
       });
@@ -127,12 +138,15 @@
       const loadedPages = {
         setting: false,
         definition: false,
+        pands: false,
         home: false
       };
 
       // ✅ دالة لإظهار قسم معين وتحميله عند الحاجة
-      window.showSection = function (id) {
-        try {
+      window.showSection = function (id)
+      {
+        try
+        {
           // إخفاء جميع الأقسام
           document.querySelectorAll(".section").forEach(section => section.classList.remove("active"));
 
@@ -144,19 +158,23 @@
           const pageMap = {
             setting: "pages/setting.html",
             definition: "pages/projects/definition.html",
+            pands: "pages/projects/pands.html",
             home: "pages/projects/allProjects.html"
           };
 
           // تحميل الصفحة إذا لم تكن محمّلة من قبل
-          if (pageMap[id] && !loadedPages[id]) {
+          if (pageMap[id] && !loadedPages[id])
+          {
             targetSection.innerHTML = "<p>جاري التحميل...</p>";
 
             fetch(pageMap[id])
-              .then(response => {
+              .then(response =>
+              {
                 if (!response.ok) throw new Error("الملف غير موجود");
                 return response.text();
               })
-              .then(html => {
+              .then(html =>
+              {
                 const temp = document.createElement("div");
                 temp.innerHTML = html;
 
@@ -168,11 +186,14 @@
                 targetSection.innerHTML = temp.innerHTML;
 
                 // إعادة تفعيل السكريبتات المحذوفة يدويًا
-                scripts.forEach(script => {
+                scripts.forEach(script =>
+                {
                   const newScript = document.createElement("script");
-                  if (script.src) {
+                  if (script.src)
+                  {
                     newScript.src = script.src;
-                  } else {
+                  } else
+                  {
                     newScript.textContent = script.textContent;
                   }
                   document.body.appendChild(newScript);
@@ -180,31 +201,41 @@
 
                 // وسم الصفحة كـ "تم تحميلها"
                 loadedPages[id] = true;
-         
+
               })
-              .catch(error => {
+              .catch(error =>
+              {
                 targetSection.innerHTML = "<p>فشل تحميل الصفحة.</p>";
                 console.error("خطأ:", error);
               });
           }
 
-      
-          // تحديث النصوص والصور بعد التبديل
-          (async () => {
+
+          // تنفيذ مهام خاصة بالصفحة المختارة 
+          (async () =>
+          {
             await delay(100);
-            if (id == 'home') {
-              await initAllProjectPage ();
-            const nav_ = document.getElementById("nav2");
-            nav_.style.display = "none";
-            localStorage.setItem('selectedProject', '');
-          }
-          if (id == 'definition') {
-           await initDefinitionPage();
-          }
-          await  setTextAndImage();
+            if (id == 'home')
+            {
+              await initAllProjectPage();
+              const nav_ = document.getElementById("nav2");
+              nav_.style.display = "none";
+              localStorage.setItem('selectedProject', '');
+            }
+            if (id == 'definition')
+            {
+              await initDefinitionPage();
+            }
+            if (id == 'pands')
+            {
+              await initItemsPage();
+            }
+            //لترقية النصوص والصور الخاصة بالصفحة التي تم تحميلها
+            await setTextAndImage();
           })();
 
-        } catch (error) {
+        } catch (error)
+        {
           console.error("حدث خطأ:", error);
           alert("حدث خطأ تقني، يرجى المحاولة لاحقًا.");
         }
