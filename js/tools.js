@@ -1,3 +1,5 @@
+
+//#region دوال توليد المعرفات الفريدة 
 // أنماط التوليد
 const IDPattern = {
   CHAR1_TIME: 0, // حرف صغير + وقت
@@ -45,7 +47,6 @@ function CID(pattern = IDPattern.MIXED2_NUMS2, fixed = "") {
   }
 
   const generatedID = fixed + patternGenerators[pattern]();
-  //console.log(generatedID);
   return generatedID;
 }
 
@@ -56,8 +57,9 @@ function CID(pattern = IDPattern.MIXED2_NUMS2, fixed = "") {
   CID(IDPattern.CHAR1_TIME); // مثال على الاستخدام
   CID(IDPattern.MIXED2_NUMS2); // مثال على الاستخدام
   */
+//#endregion
 
-
+//#region دوال حفظ واسترجاع البيانات
   async function watchingAllInputs2IndexDB  (target,dbNoUpgrade,tableName)
    {
     // أنواع حقول الإدخال التي نريد مراقبتها (بدون الأزرار)
@@ -284,9 +286,6 @@ function CID(pattern = IDPattern.MIXED2_NUMS2, fixed = "") {
     return inputListeners;
   }
   
- 
-  
-  
   const restoreInputsFromLocal = () => {
     // أنواع حقول الإدخال المطلوبة (نفس أنواع الدالة السابقة)
     const inputSelectors = [
@@ -347,7 +346,126 @@ function CID(pattern = IDPattern.MIXED2_NUMS2, fixed = "") {
     console.log(`♻️ تم استعادة ${restoredCount} من القيم من localStorage`);
     return restoredCount; // إرجاع عدد العناصر التي تمت استعادة قيمها
   };
-  
+  //#endregion 
+
+  //هذة الداله تقوم بالترقيم علي طريقة البنود حيث تراعي العلامات الخاصة مثل * و _ و فواصل . الارقام
+  function reNumber(inlet) {
+    const final = []; // الناتج النهائي بعد المعالجة
+    const lisNum = []; // لتجميع العناصر بين العلامات *
+    const dashIndexes = []; // أماكن وجود عناصر "-" لإعادتها لاحقاً
+    let index = 0;
+
+    // دالة داخلية لإعادة ترقيم العناصر حسب مستويات الترقيم (مثل 1، 1.1، 1.2)
+    function reNumberx(ss) {
+        const final = [...ss]; // نسخ القائمة لتجنب التعديل المباشر
+        const count = final.length;
+
+        for (let i = 0; i < count; i++) {
+            if (i === 0) {
+                final[i] = "1"; // العنصر الأول دوماً هو "1"
+            } else {
+                const previous = final[i - 1];
+                const current = final[i];
+                const dotCountP = (previous.match(/\./g) || []).length;
+                const dotCountC = (current.match(/\./g) || []).length;
+
+                if (dotCountC === 0) {
+                    // مستوى رئيسي جديد
+                    let a = 1;
+                    while (true) {
+                        if (!final[i - a].includes('.')) {
+                            final[i] = (parseInt(final[i - a]) + 1).toString();
+                            break;
+                        }
+                        a++;
+                    }
+                } else {
+                    if (!previous.includes('.')) {
+                        final[i] = previous + ".1"; // بداية مستوى فرعي جديد
+                    } else {
+                        if (dotCountC === dotCountP) {
+                            // نفس مستوى الفرعية
+                            const parts = previous.split('.');
+                            const lastNum = parseInt(parts[parts.length - 1]) + 1;
+                            parts[parts.length - 1] = lastNum.toString();
+                            final[i] = parts.join('.');
+                        } else if (dotCountC > dotCountP) {
+                            // مستوى أعمق
+                            final[i] = previous + ".1";
+                        } else if (dotCountC < dotCountP) {
+                            // الرجوع إلى مستوى أعلى
+                            let a = 1;
+                            while (true) {
+                                const backItem = final[i - a];
+                                if (backItem.includes('.')) {
+                                    const p = (backItem.match(/\./g) || []).length;
+                                    if (p === dotCountC) {
+                                        const parts = backItem.split('.');
+                                        const lastNum = parseInt(parts[parts.length - 1]) + 1;
+                                        parts[parts.length - 1] = lastNum.toString();
+                                        final[i] = parts.join('.');
+                                        break;
+                                    }
+                                }
+                                a++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return final;
+    }
+
+    try {
+        for (const item of inlet) {
+            if (item === "*") {
+                if (lisNum.length > 0) {
+                    const reLisNum = reNumberx(lisNum);
+                    final.push(...reLisNum);
+                    lisNum.length = 0; // إفراغ القائمة
+                }
+                final.push(item); // إضافة العلامة كما هي
+            } else if (item === "-") {
+                dashIndexes.push(index); // تخزين موقع -
+            } else {
+                lisNum.push(item); // تجميع العناصر التي تحتاج ترقيم
+            }
+            index++;
+        }
+
+        // إعادة ترقيم آخر مجموعة إن وُجدت
+        if (lisNum.length > 0) {
+            const reLisNum = reNumberx(lisNum);
+            final.push(...reLisNum);
+        }
+
+        // إعادة إدراج "-" في أماكنها الأصلية
+        for (const i of dashIndexes) {
+            final.splice(i, 0, "-");
+        }
+
+    } catch (err) {
+        console.error("❌ Error:", err);
+    }
+
+    return final;
+}
+
+
+
+//#region لتبسيط استدعاء الكتابة في الكونسول
+function q(output){
+  console.log( output);
+}
+function Q(output) {
+  console.log( output);
+}
+function ض(output) {
+  console.log( output);
+}
+//#endregion
+
   async function delay ( ms )
   {
     return new Promise( resolve => setTimeout( resolve, ms ) );

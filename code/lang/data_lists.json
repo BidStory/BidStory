@@ -2217,5 +2217,81 @@
       "not2English": " To meet new requirements or make changes to the project.",
       "CIndex": 40
     }
+  ],
+  "unit": [
+    {
+      "id": 1,
+      "arabic_name": "مقطوعية",
+      "english_name": "Partial",
+      "CIndex": 1
+    },
+    {
+      "id": 2,
+      "arabic_name": "عدد",
+      "english_name": "Numerical",
+      "CIndex": 2
+    },
+    {
+      "id": 3,
+      "arabic_name": "متر طولي",
+      "english_name": "Meter ( Longitudinal )",
+      "CIndex": 3
+    },
+    {
+      "id": 4,
+      "arabic_name": "متر مسطح",
+      "english_name": "Meter ( Flat )",
+      "CIndex": 4
+    },
+    {
+      "id": 5,
+      "arabic_name": "متر مكعب",
+      "english_name": "Meter ( Cubic )",
+      "CIndex": 5
+    },
+    {
+      "id": 6,
+      "arabic_name": "بوصة قطرية",
+      "english_name": "Diagonal Inch",
+      "CIndex": 6
+    },
+    {
+      "id": 7,
+      "arabic_name": "كجم",
+      "english_name": "Kg",
+      "CIndex": 7
+    },
+    {
+      "id": 8,
+      "arabic_name": "طن",
+      "english_name": "Tons",
+      "CIndex": 8
+    },
+    {
+      "id": 9,
+      "arabic_name": "بدون",
+      "english_name": "nan",
+      "CIndex": 9
+    }
+  ],
+  "pandType": [
+    {
+      "id": 1,
+      "arabic_name": "بند اساسي",
+      "english_name": "Basic Item",
+      "CIndex": 1
+    },
+    {
+      "id": 2,
+      "arabic_name": "بند اضافي",
+      "english_name": "External Item",
+      "CIndex": 2
+    },
+    {
+      "id": 3,
+      "arabic_name": "مهمات ( مخزن )",
+      "english_name": "Store Item",
+      "CIndex": 3
+    }
   ]
 }

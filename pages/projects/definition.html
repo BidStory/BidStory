@@ -18,7 +18,7 @@
         await dbNoUpgrade.keySet('definition', 'id', proId);
         document.getElementById("proId").innerText = proId;
         await initMap();
-        await setupData();
+        await setupDataWithOutEvent();
 
     }
 
@@ -201,8 +201,6 @@
     populateKindMoSelect();
     //#endregion
 
-
-
     //#region اختيار نوع البند المالي
     let langSelect_ = '';
 
@@ -225,7 +223,6 @@
     }
     populateKindFinancialSelect();
     //#endregion
-
 
     //#region اختيار نوع الضرائب
 
@@ -255,19 +252,16 @@
 
     const handleTableDataChanged = async (event) =>
     {
-
-
         const storeName = event.detail.storeName;
         //event.detail.dataName
         if (storeName == 'definition')
         {
             await setupData();
         }
-
-
-
     };
+
     async function setupData()
+
     {
 
         let kindMoSelect = await dbNoUpgrade.keyGet('definition', 'kindMoSelect');
@@ -290,6 +284,28 @@
             document.addEventListener('tableDataChanged', handleTableDataChanged);
         }
     }
+
+    async function setupDataWithOutEvent()
+
+    {
+
+        let kindMoSelect = await dbNoUpgrade.keyGet('definition', 'kindMoSelect');
+        document.getElementById("kindMoDisc").innerText = getKindTenderValueByCIndex(kindMoSelect, langSelect1) + " " + getKindTenderValueByCIndex(kindMoSelect, langSelect2);
+
+        let taxSelect = await dbNoUpgrade.keyGet('definition', 'kindTaxSelect');
+
+        if (taxSelect == '0')
+        {
+            document.getElementById("div_tax").style.display = '';
+        } else
+        {
+            document.getElementById("div_tax").style.display = 'none';
+            document.getElementById("taxValuePercentage").value = '';
+
+            await dbNoUpgrade.keySet('definition', 'taxValuePercentage', '');
+        }
+    }
+
     //#endregion
 
 </script>

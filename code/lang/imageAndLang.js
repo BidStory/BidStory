@@ -314,6 +314,7 @@ function getKindTaxByCIndex(cIndex, key) {
   return item[key];
 }
 
+
 function getImage(clableValue) {
  
   if (!images || !Array.isArray(images.image)) {
@@ -331,6 +332,7 @@ function getImage(clableValue) {
     return null;
   }
 }
+
 let useArabic=true;
 function getLang(id ) {
   if (!lang || !Array.isArray(lang.lang)) {

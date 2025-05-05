@@ -182,8 +182,8 @@
     },
     {
       "id": 50,
-      "a": "نسبة الضرائب%",
-      "e": "Tax Rate%"
+      "a": "نسبة الضرائب %",
+      "e": "Tax Rate %"
     },
     {
       "id": 51,
@@ -1843,7 +1843,7 @@
     {
       "id": 431,
       "a": "وصف العمل",
-      "e": "work description"
+      "e": "Work description"
     },
     {
       "id": 432,
@@ -1878,7 +1878,7 @@
     {
       "id": 439,
       "a": "رابط تحميل ملفات ملحقة",
-      "e": "attached files download link"
+      "e": "Attached files download link"
     },
     {
       "id": 440,
@@ -5644,6 +5644,11 @@
       "id": 1258,
       "a": "اختر نوع المناقصة",
       "e": "Select the type of tender"
+    },
+    {
+      "id": 1259,
+      "a": "اختر نوع البند المالي",
+      "e": "Select the type of financial item"
     }
   ]
 }

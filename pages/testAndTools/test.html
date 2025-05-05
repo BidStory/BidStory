@@ -1,157 +1,35 @@
-<!DOCTYPE html>
-<html>
+<script src="/BidStory/js/tools.js"></script> <!-- أدوات مساعدة عامة -->
+<script>
+	const input = [
+  "",        // بداية القسم الأول
+  "",         // عنصر سيتم تحويله إلى "1"
+  "",         // عنصر سيتم تحويله إلى "2"
+  "-",        // فاصل يجب أن يبقى في نفس الموضع
+  "2",         // عنصر سيتم تحويله إلى "3"
+  "3",        // نهاية القسم الأول
+  "*",        // بداية القسم الثاني
+  "5",         // عنصر سيتم تحويله إلى "1"
+  ".",        // عنصر سيتم ترقيمه كفرع "1.1"
+  ".",        // عنصر سيتم ترقيمه كفرع "1.2"
+  "*",        // بداية القسم الثاني
+  "..",       // عنصر سيتم ترقيمه كفرع أعمق "1.2.1"
+  "3",         // عنصر رئيسي جديد "2"
+  ".",        // نهاية القسم الثاني
+  ".",
+  "..",
+  ".5.",
+  "6.",
+  "..7",
+];
+const output = reNumber(input);
 
-	<head>
-		<title>Test DBManager</title>
-	</head>
+const result = {
+  name: "BidStory",
+  version: 1,
+  data: ["item1", "item2"]
+};
+let rr= "hesham";
+q( rr);
+ض(rr+"55");
 
-	<body>
-		<h3>📥 المدخلات</h3>
-		Database Name
-		<label>Database Name: <input id="dbName" value="dataBaseName" /></label><br />
-		<hr>
-		<label>Key Table: <input id="keyTable" value="keyTable" /></label><br />
-
-		<label>Key 1: <input id="key1" value="key1" /></label><br />
-
-		<label>Value 1: <input id="val1" value="val1" /></label><br />
-		get
-		<label>Key 2: <input id="key2" value="key2" /></label><br />
-		deley
-		<label>Key 3: <input id="key3" value="key3" /></label><br />
-		<button onclick="createKeyTable()">createKeyTable</button>
-		<button onclick="add2KeyTable()">add 2 keyTable</button>
-		<button onclick="getFromKeyTable()">get from key table</button>
-		<button onclick="deleteFromKeyTable()">delete from key table</button>
-		<br>
-		<br>
-		<hr>
-		<label>Table Name: <input id="tableName" value="newTable" /></label><br />
-
-		<label>Columns: <input id="columns" value='["col1","col2","col3"]' /></label><br /><br />
-		<button onclick="create_table()">create table</button>
-		<button onclick="insertInTable_()">add 2 table</button>
-		<button onclick="getAllDataFromTable0()">getAllDataFromTable</button>
-		<br>
-		<br>
-		<hr>
-		<button onclick="exportTable()">exportTable</button>
-		<button onclick="importTable()">importTable</button>
-		<br>
-		<br>
-		<button onclick="exportDadaBase()">exportDadaBase</button>
-		<button onclick="importDadaBase()">importDadaBase</button>
-		<br>
-		<br>
-		<button onclick="deletTable()">deleteTable</button>
-		<button onclick="deletdaBase()">deleteDatabase</button>
-
-		<h3>📝 الناتج JSON</h3>
-		table_<br>
-		<textarea id="output1" rows="8" cols="60"  placeholder="j1"></textarea><br />
-		<br>
-		dataBase_<br>
-		<textarea id="output3" rows="8" cols="60" placeholder="j3"></textarea>
-		<br>
-		keyTable<br>
-		<textarea id="output2" rows="8" cols="60" placeholder="j2"></textarea><br />
-	
-		<script>
-			const getVal = ( id ) => document.getElementById( id ).value;
-
-			async function createKeyTable ()
-			{
-				const db = await upgrade( getVal( 'dbName' ) );
-				await db.createKeyTable( getVal( 'keyTable' ) );
-			}
-
-			async function getAllDataFromTable0 ()
-			{
-				const db = await noUpgrade( getVal( 'dbName' ) );
-				const data = await db.getAllDataFromTable( getVal( 'tableName' ) );
-				console.log( data );
-			}
-
-			async function add2KeyTable ()
-			{
-				const db = await noUpgrade( getVal( 'dbName' ) );
-				await db.keySet( getVal( 'keyTable' ), getVal( 'key1' ), getVal( 'val1' ) );
-			}
-
-			async function getFromKeyTable ()
-			{
-				const db = await noUpgrade( getVal( 'dbName' ) );
-				await db.keyGet( getVal( 'keyTable' ), getVal( 'key2' ) );
-			}
-
-			async function deleteFromKeyTable ()
-			{
-				const db = await noUpgrade( getVal( 'dbName' ) );
-				await db.keyDelete( getVal( 'keyTable' ), getVal( 'key3' ) );
-			}
-
-			async function create_table ()
-			{
-				const db = await upgrade( getVal( 'dbName' ) );
-				//await db.createTable( getVal( 'tableName' ), JSON.parse( getVal( 'columns' ) ) );
-				await db.createTable( getVal( 'tableName' ),[
-  "col1",
-  ["col2_not", true],
-  "col3"
-] );
-
-			}
-
-			async function insertInTable_ ()
-			{
-				const db = await noUpgrade( getVal( 'dbName' ) );
-				await db.insertInTable( getVal( 'tableName' ),["v1", "v22", "v3"]);
-			}
-
-			let table_, keyTable, dataBase_;
-
-			async function exportTable ()
-			{
-				table_ = await exportTableWithSchemaAndData( getVal( 'dbName' ), getVal( 'tableName' ) );
-				document.getElementById( 'output1' ).value = JSON.stringify( table_, null, 2 );
-
-				//keyTable = await exportTableWithSchemaAndData( getVal( 'dbName' ), getVal( 'keyTable' ) );
-				//document.getElementById( 'output2' ).value = JSON.stringify( keyTable, null, 2 );
-			}
-
-			async function importTable ()
-			{
-				const jsonString = document.getElementById('output1').value;
-  const jsonData = JSON.parse(jsonString);
-  await importOrUpdateFromJSON(jsonData);
-
-			}
-
-			async function exportDadaBase ()
-			{
-				dataBase_ = await exportEntireDatabase( getVal( 'dbName' ) );
-				document.getElementById( 'output3' ).value = JSON.stringify( dataBase_, null, 2 );
-			}
-
-			async function importDadaBase ()
-			{
-				const jsonString = document.getElementById('output3').value;
-  const jsonData = JSON.parse(jsonString);
-  await importOrUpdateFromJSON(jsonData);
-			}
-
-			async function deletTable ()
-			{
-				//await deleteTable( getVal( 'dbName' ), getVal( 'keyTable' ) );
-				await deleteTable( getVal( 'dbName' ), getVal( 'tableName' ) );
-
-			}
-
-			async function deletdaBase ()
-			{
-				await deleteDatabase( getVal( 'dbName' ) );
-			}
-		</script>
-	</body>
-
-</html>
+</script>
