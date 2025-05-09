@@ -6,8 +6,6 @@
     async function initItemsPage() 
     {
         proId_ = "ite_" + localStorage.getItem("selectedProject");
-        dbNoUp_item = await new noUpgrade(proId_);
-        dbUp_item = await new upgrade(proId_);
     }
     proId_ = "ite_" + localStorage.getItem("selectedProject");
 
@@ -20,10 +18,7 @@
         true, // Add alternate div when row is clicked?
         true // Start with new row?
     );
-    async function initAllProjectPage()
-    {
-        await tt.getAllRowsDataOnly();
-    }
+   
     // مستمع الحدث
     document.addEventListener("tableDataChanged", (event) =>
     {
@@ -36,17 +31,17 @@
     {
 
         const data = event.detail.kind;
-        console.log(`📢 تم الضغط علي  ${data[0]} -> buttom id`);
-       const parts = data[0].split('_');
-        const part2 = parts[2];
-        if (part2 == 'controlNum')
-        {
-            const dataAll = await dbNoUp_item.getAllDataFromTable(data[1].replace('_', ''));
-            q(dataAll);
-        }
-        
-    });
+        const button = document.getElementById(data[0]);
 
+        button.classList.remove("buttonTT", "buttonT"); // لإعادة تشغيل الأنيميشن
+
+        button.classList.add("buttonTT");
+        button.className = "buttonTT"; // لإعادة تشغيل الأنيميشن
+
+        console.log(`📢 تم الضغط علي ${data} ${data[0]} kkkkkkkkk---kkkkk`);
+
+
+    });
 
     document.addEventListener("selectRow", (event) =>
     {
@@ -71,14 +66,7 @@
         </thead>
         <tbody>
             <tr>
-                <td>
-                    <input id="pandNum" type="text" placeholder="" style="
-              width: 30px;
-              border: none;
-              background-color: transparent;
-              color: black;
-            " />
-                </td>
+                <td></td>
                 <td>
                     <input id="pandText" type="text" placeholder="" readonly
                         style="border: none; background-color: transparent; color: black" />
@@ -97,6 +85,6 @@
     const input = document.getElementById("pandText");
     if (input)
     {
-        input.placeholder = getLang(906);
+        input.placeholder = getLang(1260);
     }
 </script>

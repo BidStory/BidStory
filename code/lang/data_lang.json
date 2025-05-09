@@ -5649,6 +5649,11 @@
       "id": 1259,
       "a": "اختر نوع البند المالي",
       "e": "Select the type of financial item"
+    },
+    {
+      "id": 1260,
+      "a": "بند جديد",
+      "e": "New item"
     }
   ]
 }
