@@ -29,11 +29,14 @@ class Program
     {
         Console.WriteLine($"=== SQLite Database Monitor ===");
         Console.WriteLine($"Monitoring:\n1. {_dbPathLang}\n2. {_dbPathImage}\n3. {_dbPathLists}");
-
         // إعدادات نافذة الكونسول
-        Console.WindowHeight = 14;
-        Console.WindowWidth = 90;
-        Console.Title = "SQLite Triple DB Monitor";
+if (OperatingSystem.IsWindows())
+{
+    Console.WindowHeight = 14;
+    Console.WindowWidth = 90;
+    Console.Title = "SQLite Triple DB Monitor";
+}
+    
 
         // الحصول على تاريخ آخر تعديل للملفات عند البدء
         _lastWriteTimeLang = File.GetLastWriteTime(_dbPathLang);
