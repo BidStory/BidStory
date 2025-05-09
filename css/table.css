@@ -90,7 +90,11 @@ thead.show-text th {
   display: inline-block;
   padding: 2px 4px;
 }
-
+.divS{
+  min-height: 3px;
+  max-height: 3px;
+  height: 3px;
+}
 /* Canvas styling */
 .canvasT {
   border: 2px solid #6c757d;
@@ -104,8 +108,7 @@ thead.show-text th {
 }
 
 /* Video player styling */
-.videoT {
-}
+
 
 /* Image styling */
 .imgT {

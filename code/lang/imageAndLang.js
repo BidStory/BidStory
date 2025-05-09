@@ -323,7 +323,7 @@ function getImage(clableValue) {
   const foundItem = images.image.find(item => item.Clable === clableValue);
 
   if (foundItem) {
-    console.log(`✅ تم العثور على العنصر بـ Clable = "${clableValue}".`);
+    //console.log(`✅ تم العثور على العنصر بـ Clable = "${clableValue}".`);
     return foundItem.Cdata;
   } else {
     console.warn(`⚠️ لا يوجد عنصر بـ Clable = "${clableValue}".`);

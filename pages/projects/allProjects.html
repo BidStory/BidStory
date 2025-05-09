@@ -1,8 +1,6 @@
-
 <script>
 
     // تهيئة الجدول
- 
     let tt = new setTableParameter(
         'table2',        // ID of the container element
         'allPro',         // Table ID and database name
@@ -12,31 +10,38 @@
         false,            // Add alternate div when row is clicked?
         true             // Start with new row?
     );
-    async function initAllProjectPage ()
+
+    async function initAllProjectPage()
     {
-await tt.getAllRowsDataOnly();
+        await tt.getAllRowsDataOnly();
+        const input = document.getElementById("projectName");
+        if (input)
+        {
+            input.placeholder = getLang(269); // ✅ غيّر النص حسب رغبتك
+        }
     }
+    
     // مستمع الحدث
-    document.addEventListener( 'tableDataChanged', ( event ) =>
+    document.addEventListener('tableDataChanged', (event) =>
     {
         const storeName = event.detail.storeName;
-        console.log( `📢1 تغيير في بيانات الجدول: ${ storeName }` );
-    } );
+        console.log(`📢1 تغيير في بيانات الجدول: ${storeName}`);
+    });
 
-    document.addEventListener( 'clickButtonInRow', ( event ) =>
+    document.addEventListener('clickButtonInRow', (event) =>
     {
         const data = event.detail.kind;
-        console.log( `📢 تم الضغط علي ${ data }` );
-    } );
+        console.log(`📢 تم الضغط علي ${data}`);
+    });
 
-    document.addEventListener( 'selectRow', ( event ) =>
+    document.addEventListener('selectRow', (event) =>
     {
         const data = event.detail.kind;
-        console.log( `📢 تم اختيار الصف ${ data }` );
+        console.log(`📢 تم اختيار الصف ${data}`);
         localStorage.setItem('selectedProject', data.replace('_', ''));
         const nav_ = document.getElementById("nav2");
-        nav_.style.display="";
-    } );
+        nav_.style.display = "";
+    });
 
 </script>
 
@@ -54,13 +59,15 @@ await tt.getAllRowsDataOnly();
         <tbody>
             <tr>
                 <td>
-                    <img id="i_new_mo_" alt="Home" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                    <img id="i_new_mo_" alt="Home"
+                        style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
                 </td>
                 <td>
-                    <input id="projectName" type="text" placeholder="" readonly style="border: none; background-color: transparent; color: black;" >
+                    <input id="projectName" type="text" placeholder="" readonly
+                        style="border: none; background-color: transparent; color: black;">
                 </td>
-               
-           
+
+
             </tr>
 
         </tbody>
@@ -73,8 +80,5 @@ await tt.getAllRowsDataOnly();
 </div>
 
 <script>
- const input = document.getElementById("projectName");
-  if (input) {
-    input.placeholder = getLang(269); // ✅ غيّر النص حسب رغبتك
-  }
+
 </script>

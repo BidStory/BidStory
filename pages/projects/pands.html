@@ -1,9 +1,13 @@
 <script>
     let proId_ = null;
+    let dbNoUp_item = null;
+    let dbUp_item = null;
     // تهيئة الجدول
-    async function initItemsPage()
+    async function initItemsPage() 
     {
         proId_ = "ite_" + localStorage.getItem("selectedProject");
+        dbNoUp_item = await new noUpgrade(proId_);
+        dbUp_item = await new upgrade(proId_);
     }
     proId_ = "ite_" + localStorage.getItem("selectedProject");
 
@@ -12,7 +16,7 @@
         proId_, // Table ID and database name
         "itemsTable_raw", // ID of the row template to copy
         "itemsTable_Altraw", // ID of alternate row to show on click
-        false, // Show table header?
+        true, // Show table header?
         true, // Add alternate div when row is clicked?
         true // Start with new row?
     );
@@ -27,21 +31,22 @@
         console.log(`📢1 تغيير في بيانات الجدول: ${storeName}`);
     });
 
-    document.addEventListener("clickButtonInRow", (event) =>
+
+    document.addEventListener("clickButtonInRow", async (event) =>
     {
 
         const data = event.detail.kind;
-        const button = document.getElementById(data[0]);
-
-        button.classList.remove("buttonTT", "buttonT"); // لإعادة تشغيل الأنيميشن
-
-        button.classList.add("buttonTT");
-        button.className = "buttonTT"; // لإعادة تشغيل الأنيميشن
-
-        console.log(`📢 تم الضغط علي ${data} ${data[0]} kkkkkkkkk---kkkkk`);
-
-
+        console.log(`📢 تم الضغط علي  ${data[0]} -> buttom id`);
+       const parts = data[0].split('_');
+        const part2 = parts[2];
+        if (part2 == 'controlNum')
+        {
+            const dataAll = await dbNoUp_item.getAllDataFromTable(data[1].replace('_', ''));
+            q(dataAll);
+        }
+        
     });
+
 
     document.addEventListener("selectRow", (event) =>
     {
@@ -60,13 +65,20 @@
     <table>
         <thead class="hide-text">
             <tr>
-                <th>العمود 1</th>
-                <th>العمود 2</th>
+                <th id="t_37"></th>
+                <th id="t_413"></th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td></td>
+                <td>
+                    <input id="pandNum" type="text" placeholder="" style="
+              width: 30px;
+              border: none;
+              background-color: transparent;
+              color: black;
+            " />
+                </td>
                 <td>
                     <input id="pandText" type="text" placeholder="" readonly
                         style="border: none; background-color: transparent; color: black" />
@@ -77,13 +89,14 @@
 </div>
 
 <div DivId id="itemsTable_Altraw" style="display: none" class="">
+    <div style="min-height: 6px"></div>
     <button type="button" id="t_138_1" class="buttonT"></button>
-    <button type="button" id="t_472_2" class="buttonT"></button>
+    <button type="button" id="t_472_controlNum" class="buttonT"></button>
 </div>
 <script>
     const input = document.getElementById("pandText");
     if (input)
     {
-        input.placeholder = getLang(1260);
+        input.placeholder = getLang(906);
     }
 </script>
