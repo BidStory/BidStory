@@ -1,4 +1,5 @@
 
+//this is tools.js file
 //#region دوال توليد المعرفات الفريدة 
 // أنماط التوليد
 const IDPattern = {
@@ -92,6 +93,7 @@ function CID(pattern = IDPattern.MIXED2_NUMS2, fixed = "") {
   
     // مراقبة كل حقل إدخال
     inputs.forEach((input) => {
+      // @ts-ignore
       // @ts-ignore
       const inputListener = (event) => {
         let value;
@@ -470,3 +472,40 @@ function ض(output) {
   {
     return new Promise( resolve => setTimeout( resolve, ms ) );
   }
+
+
+  /**
+   * ينتقل إلى الصفحة الرئيسية (section#home)
+   */
+  // @ts-ignore
+  window.navigateToHome = function() {
+    try {
+      // ابقِ loadedPages['home'] كما هو إذا كنت لا تريد إعادة تحميله من الصفر
+      // @ts-ignore
+      showSection('home');
+    } catch (e) {
+      console.error("navigateToHome error:", e);
+    }
+  };
+
+  /**
+   * يعيد تحميل القسم الحالي (select) من جديد،
+   * ويفرض على showSection بإعادة جلب HTML طالما ننزع علامة loadedPages
+   */
+  // @ts-ignore
+  window.reloadCurrentSection = function() {
+    try {
+      // @ts-ignore
+      if (!select) {
+        console.warn("لا يوجد قسم مختار حاليًا لإعادة تحميله.");
+        return;
+      }
+      // أزل العلم حتى يُعاد تحميل HTML من الصفحات الفرعية
+      // @ts-ignore
+      loadedPages[select] = false;
+      // @ts-ignore
+      showSection(select);
+    } catch (e) {
+      console.error("reloadCurrentSection error:", e);
+    }
+  };

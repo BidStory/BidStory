@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿<!---this is index.html file---->
+
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -104,6 +106,22 @@
 
   <!-- ✅ JavaScript الخاص بالتهيئة -->
   <script>
+       // ✅ تحديد الأقسام التي تم تحميلها مسبقاً لتجنب التكرار
+       const loadedPages = {
+        setting: false,
+        definition: false,
+        pands: false,
+        home: false
+      };
+      // تعيين مسارات ملفات HTML الخاصة بكل قسم
+      const pageMap = {
+        setting: "pages/setting.html",
+        definition: "pages/projects/definition.html",
+        pands: "pages/projects/pands.html",
+        home: "pages/projects/allProjects.html"
+      };
+      let select=null;
+      let targetSection=null;
     document.addEventListener("DOMContentLoaded", async () =>
     {
       // ❗ انتظر حتى يتم تعيين قيمة Load = true
@@ -134,80 +152,28 @@
         setTextAndImage();
       });
 
-      // ✅ تحديد الأقسام التي تم تحميلها مسبقاً لتجنب التكرار
-      const loadedPages = {
-        setting: false,
-        definition: false,
-        pands: false,
-        home: false
-      };
-
+  
       // ✅ دالة لإظهار قسم معين وتحميله عند الحاجة
-      window.showSection = function (id)
+      window.showSection = function (select_)
       {
         try
         {
+          select=select_;
           // إخفاء جميع الأقسام
           document.querySelectorAll(".section").forEach(section => section.classList.remove("active"));
 
           // إظهار القسم المطلوب
-          const targetSection = document.getElementById(id);
+           targetSection = document.getElementById(select_);
           targetSection.classList.add("active");
 
-          // تعيين مسارات ملفات HTML الخاصة بكل قسم
-          const pageMap = {
-            setting: "pages/setting.html",
-            definition: "pages/projects/definition.html",
-            pands: "pages/projects/pands.html",
-            home: "pages/projects/allProjects.html"
-          };
+
 
           // تحميل الصفحة إذا لم تكن محمّلة من قبل
-          if (pageMap[id] && !loadedPages[id])
+          if (pageMap[select_] && !loadedPages[select_])
           {
             targetSection.innerHTML = "<p>جاري التحميل...</p>";
+            load_R();
 
-            fetch(pageMap[id])
-              .then(response =>
-              {
-                if (!response.ok) throw new Error("الملف غير موجود");
-                return response.text();
-              })
-              .then(html =>
-              {
-                const temp = document.createElement("div");
-                temp.innerHTML = html;
-
-                // إزالة السكريبتات مؤقتاً من الصفحة المحمّلة
-                const scripts = temp.querySelectorAll("script");
-                scripts.forEach(s => s.remove());
-
-                // إدراج المحتوى بعد إزالة السكريبتات
-                targetSection.innerHTML = temp.innerHTML;
-
-                // إعادة تفعيل السكريبتات المحذوفة يدويًا
-                scripts.forEach(script =>
-                {
-                  const newScript = document.createElement("script");
-                  if (script.src)
-                  {
-                    newScript.src = script.src;
-                  } else
-                  {
-                    newScript.textContent = script.textContent;
-                  }
-                  document.body.appendChild(newScript);
-                });
-
-                // وسم الصفحة كـ "تم تحميلها"
-                loadedPages[id] = true;
-
-              })
-              .catch(error =>
-              {
-                targetSection.innerHTML = "<p>فشل تحميل الصفحة.</p>";
-                console.error("خطأ:", error);
-              });
           }
 
 
@@ -215,21 +181,22 @@
           (async () =>
           {
             await delay(100);
-            if (id == 'home')
+            if (select_ == 'home')
             {
               await initAllProjectPage();
               const nav_ = document.getElementById("nav2");
               nav_.style.display = "none";
               localStorage.setItem('selectedProject', '');
             }
-            if (id == 'definition')
+            if (select_ == 'definition')
             {
               await initDefinitionPage();
             }
-            if (id == 'pands')
+            if (select_ == 'pands')
             {
               await initItemsPage();
             }
+
             //لترقية النصوص والصور الخاصة بالصفحة التي تم تحميلها
             await setTextAndImage();
           })();
@@ -244,8 +211,54 @@
       // ✅ إظهار القسم الافتراضي (الصفحة الرئيسية)
       showSection("home");
     });
+    async function load_R()
+    {
+      q('سوف يتم الانتقال الي ->  '+ select);
+      fetch(pageMap[select])
+        .then(response =>
+        {
+          if (!response.ok) throw new Error("الملف غير موجود");
+          return response.text();
+        })
+        .then(html =>
+        {
+          const temp = document.createElement("div");
+          temp.innerHTML = html;
+
+          // إزالة السكريبتات مؤقتاً من الصفحة المحمّلة
+          const scripts = temp.querySelectorAll("script");
+          scripts.forEach(s => s.remove());
+
+          // إدراج المحتوى بعد إزالة السكريبتات
+          targetSection.innerHTML = temp.innerHTML;
+
+          // إعادة تفعيل السكريبتات المحذوفة يدويًا
+          scripts.forEach(script =>
+          {
+            const newScript = document.createElement("script");
+            if (script.src)
+            {
+              newScript.src = script.src;
+            } else
+            {
+              newScript.textContent = script.textContent;
+            }
+            document.body.appendChild(newScript);
+          });
+          definition;
+          // وسم الصفحة كـ "تم تحميلها"
+          loadedPages[select] = true;
+
+        })
+        .catch(error =>
+        {
+          targetSection.innerHTML = "<p>فشل تحميل الصفحة.</p>";
+          console.error("خطأ:", error);
+        });
+    }
   </script>
 
 </body>
 
 </html>
+
