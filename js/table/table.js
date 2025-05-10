@@ -972,7 +972,12 @@ function setTableParameter(
   };
 
   let stop_ = 0;
-  // @ts-ignore
+
+  let isTableRun = false;//هذا المتغير يشير انا هناك عمليات تجري في الخلفية يجب انتظارها
+  const checkProcessRun = async () => {
+    return isTableRun;
+  }
+   // @ts-ignore
   const showCustomButtonsDialog = async () =>
   {
     if (selectedRaw)
@@ -1022,16 +1027,20 @@ function setTableParameter(
           allowEscapeKey: false,
           backdrop: true, // خلفية سوداء خفيفة
           position: "center", // وسط الشاشة بالضبط
-          didOpen: () =>
+          didOpen:async () =>
           {
+            isTableRun=true;
             // @ts-ignore
             document
               .getElementById("btn1")
               ?.addEventListener("click", async () =>
               {
+                isTableRun=true;
                 await moveRow();
+                
                 // @ts-ignore
                 Swal.close();
+                isTableRun=false;
                 stop_ = 0;
               });
             // @ts-ignore
@@ -1039,9 +1048,11 @@ function setTableParameter(
               .getElementById("btn2")
               ?.addEventListener("click", async () =>
               {
+                isTableRun=true;
                 await moveRow(false);
                 // @ts-ignore
                 Swal.close();
+                isTableRun=false;
                 stop_ = 0;
               });
             // @ts-ignore
@@ -1049,9 +1060,11 @@ function setTableParameter(
               .getElementById("btn3")
               ?.addEventListener("click", async () =>
               {
+                isTableRun=true;
                 await inserNewRow();
                 // @ts-ignore
                 Swal.close();
+                isTableRun=false;
                 stop_ = 0;
               });
             // @ts-ignore
@@ -1059,9 +1072,11 @@ function setTableParameter(
               .getElementById("btn4")
               ?.addEventListener("click", async () =>
               {
+                isTableRun=true;
                 await inserNewRow(false);
                 // @ts-ignore
                 Swal.close();
+                isTableRun=false;
                 stop_ = 0;
               });
             // @ts-ignore
@@ -1069,9 +1084,11 @@ function setTableParameter(
               .getElementById("btn5")
               ?.addEventListener("click", async () =>
               {
+                isTableRun=true;
                 await deleteSelectedRow();
                 // @ts-ignore
                 Swal.close();
+                isTableRun=false;
                 stop_ = 0;
               });
             // @ts-ignore
@@ -1079,6 +1096,7 @@ function setTableParameter(
             {
               // @ts-ignore
               Swal.close();
+              isTableRun=false;
               stop_ = 0;
             });
             // @ts-ignore
@@ -1086,9 +1104,11 @@ function setTableParameter(
               .getElementById("btn7")
               ?.addEventListener("click", async () =>
               {
+                isTableRun=true;
                 await copyRow();
                 // @ts-ignore
                 Swal.close();
+                isTableRun=false;
                 stop_ = 0;
               });
             // @ts-ignore
@@ -1096,9 +1116,11 @@ function setTableParameter(
               .getElementById("btn8")
               ?.addEventListener("click", async () =>
               {
+                isTableRun=true;
                 await pastRow();
                 // @ts-ignore
                 Swal.close();
+                isTableRun=false;
                 stop_ = 0;
               });
             // @ts-ignore
@@ -1106,9 +1128,11 @@ function setTableParameter(
               .getElementById("btn9")
               ?.addEventListener("click", async () =>
               {
+                isTableRun=true;
                 await pastRow(false);
                 // @ts-ignore
                 Swal.close();
+                isTableRun=false;
                 stop_ = 0;
               });
           },
@@ -1164,7 +1188,7 @@ function setTableParameter(
     getAllRowsDataOnly,
     // التحكم في العرض
     hideTableHeadInsideElement,
-
+checkProcessRun,
     // إدارة الأحداث
     startWatchingAllInputsAndButtons,
     stopWatchingAllInputsAndButtons,
@@ -1173,6 +1197,7 @@ function setTableParameter(
     tableContaner: tableContaner_,
     tableId: tableId,
     selectedRaw: selectedRaw,
+    isTableRun,
 
   };
 

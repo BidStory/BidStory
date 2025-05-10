@@ -1,16 +1,16 @@
 <!---this is pands.html file---->
 <script>
-   
+
     let proId_ = null;
     let dbNoUp_item = null;
     let dbUp_item = null;
-    
+
     // تهيئة الجدول
     async function initItemsPage() 
     {
 
         proId_ = "ite_" + localStorage.getItem("selectedProject");
-        dbNoUp_item= await new noUpgrade(proId_);
+        dbNoUp_item = await new noUpgrade(proId_);
 
         //ادخال نص التعريف لكل البنود
         const inputs = document.querySelectorAll('[id="pandText"]');
@@ -18,9 +18,9 @@
         {
             input.placeholder = getLang(1260);
         });
-await renumber_();
+        await renumber_();
     }
-   
+
     proId_ = "ite_" + localStorage.getItem("selectedProject");
 
     let pandsTable = new setTableParameter(
@@ -32,38 +32,63 @@ await renumber_();
         true, // Add alternate div when row is clicked?
         true // Start with new row?
     );
-    
+    let isWatcherEnabled = true; // هذا المتغير للتحكم في تشغيل الكود
+
     // مستمع الحدث
-    document.addEventListener("tableDataChanged",async (event) =>
+    document.addEventListener("tableDataChanged", async (event) =>
     {
+        if (!isWatcherEnabled) return; // إذا كان الكود مغلقًا، سيتم تخطي الكود هنا.
+
         const storeName = event.detail.storeName;
         const dataName = event.detail.dataName;
-       if(dataName && dataName.includes("ite_"))//اذا كان الاسم يحتوي علي ite_
-       {
-        await renumber_(storeName);
-       // window.reloadCurrentSection();
-       }
+        if (dataName && dataName.includes("ite_"))//اذا كان الاسم يحتوي علي ite_
+        {
+            await renumber_();
+            // window.reloadCurrentSection();
+        }
     });
+    async function renumber_() {
+    isWatcherEnabled = false; // تعطيل الكود مؤقتًا
+    try {
+        while(await pandsTable.checkProcessRun()==true){ await delay(50);}
+         // تأخير قليل قبل بدء العملية
+        let re = [];
+        let parentId = [];
+        let outPuts = document.querySelectorAll('[id="pandNumber"]');
 
-    async function renumber_(storeName) {
-        await delay(200);
-    let re = [];
-    let outPuts = document.querySelectorAll('[id="pandNumber"]');
+        // جمع القيم الحالية
+        outPuts.forEach((el) => {
+            re.push(el.value);
 
-    // جمع القيم الحالية
-    outPuts.forEach((el) => {
-        re.push(el.value);
-    });
 
-    // إعادة الترقيم
-    let ree = reNumber(re); // تأكد أن reNumber تعيد مصفوفة مرقمة حسب ترتيب re
+            parentId.push(el.parentElement.parentElement.parentElement.parentElement.parentElement.id.replace('_',''));
+           
 
-    // تعيين القيم الجديدة
-    outPuts.forEach((el, index) => {
+            
+        });
 
-        el.value = ree[index];
-    });
-    
+        // إعادة الترقيم
+        let ree = reNumber(re); // تأكد أن reNumber تعيد مصفوفة مرقمة حسب ترتيب re
+let index_=null;
+
+        // تعيين القيم الجديدة
+        outPuts.forEach((el, index) => {
+            index_=ree[index];
+            if(/^[a-zA-Z]{4}\d+/.test(parentId[index])){
+            // قم بتسجيل القيم لتوضيح التغييرات
+            // تحديث البيانات في قاعدة البيانات
+            dbNoUp_item.keySet(parentId[index].replace('_',''), 'pandNumber',index_);
+            // تعيين القيمة الجديدة للعناصر
+            el.value = index_;
+            }
+        });
+
+        await delay(200); // تأخير قليل بعد التعيين
+    } catch (error) {
+        console.error("حدث خطأ أثناء إعادة الترقيم:", error);
+    } finally {
+        isWatcherEnabled = true; // إعادة تمكين الكود بعد الانتهاء من العملية
+    }
 }
 
     document.addEventListener("clickButtonInRow", async (event) =>
@@ -106,7 +131,7 @@ await renumber_();
 
                 </td>
                 <td>
-                    <input id="pandText" type="text" placeholder="" 
+                    <input id="pandText" type="text" placeholder=""
                         style="border: none; background-color: transparent; color: black" />
                 </td>
             </tr>
