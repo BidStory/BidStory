@@ -21,27 +21,6 @@
         }
     }
     
-    // مستمع الحدث
-    document.addEventListener('tableDataChanged', (event) =>
-    {
-        const storeName = event.detail.storeName;
-        console.log(`📢1 تغيير في بيانات الجدول: ${storeName}`);
-    });
-
-    document.addEventListener('clickButtonInRow', (event) =>
-    {
-        const data = event.detail.kind;
-        console.log(`📢 تم الضغط علي ${data}`);
-    });
-
-    document.addEventListener('selectRow', (event) =>
-    {
-        const data = event.detail.kind;
-        console.log(`📢 تم اختيار الصف ${data}`);
-        localStorage.setItem('selectedProject', data.replace('_', ''));
-        const nav_ = document.getElementById("nav2");
-        nav_.style.display = "";
-    });
 
 </script>
 
