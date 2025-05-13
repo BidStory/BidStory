@@ -72,17 +72,5 @@
 
 
 
-// مستمع الحدث
-  document.addEventListener( 'tableDataChanged', ( event ) =>
-  {
-    const storeName = event.detail.storeName;
-    console.log( `📢 تغيير في بيانات الجدول: ${ storeName }` );
-  } );
-
-  document.addEventListener( 'clickButtonInRow', ( event ) =>
-  {
-    const data = event.detail.kind;
-    console.log( `📢 تم الضغط علي ${ data }` );
-  } );
 
 </script>

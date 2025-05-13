@@ -14,3 +14,11 @@ localStorage.setItem(input.id, JSON.stringify(value));
     console.log("📝 قيمة المدخل الحالية:", currentValue);
   });
   
+console.log(typeof myFunc);
+
+JSON.parse(
+  JSON.stringify(
+
+
+
+

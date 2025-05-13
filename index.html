@@ -3,114 +3,116 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BidStory</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BidStory</title>
 
-  <!-- أيقونة التبويب (favicon) التي تظهر بجانب عنوان الصفحة في المتصفح -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- أيقونة التبويب (favicon) التي تظهر بجانب عنوان الصفحة في المتصفح -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 
-  <!-- ملفات JavaScript المطلوبة مسبقًا -->
-  <script src="/BidStory/js/tools.js"></script> <!-- أدوات مساعدة عامة -->
-  <script src="/BidStory/code/lang/imageAndLang.js"></script> <!-- إدارة النصوص والصور حسب اللغة -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- مكتبة SweetAlert2 للتنبيهات -->
-  <script src="/BidStory/js/dataBase/dbManager.js"></script> <!-- إدارة قاعدة البيانات -->
-  <script src="/BidStory/js/table/table.js"></script> <!-- إدارة الجداول -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" /> <!-- مكتبة الخرائط  -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><!-- مكتبة الخرائط  -->
+    <!-- ملفات JavaScript المطلوبة مسبقًا -->
+    <script src="/BidStory/js/tools.js"></script> <!-- أدوات مساعدة عامة -->
+    <script src="/BidStory/code/lang/imageAndLang.js"></script> <!-- إدارة النصوص والصور حسب اللغة -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- مكتبة SweetAlert2 للتنبيهات -->
+    <script src="/BidStory/js/dataBase/dbManager.js"></script> <!-- إدارة قاعدة البيانات -->
+    <script src="/BidStory/js/table/table.js"></script> <!-- إدارة الجداول -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" /> <!-- مكتبة الخرائط  -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><!-- مكتبة الخرائط  -->
 
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 
-  <!-- تنسيق مخصص للصفحة -->
-  <link rel="stylesheet" href="/BidStory/css/table.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f5f5f5;
-    }
+    <!-- تنسيق مخصص للصفحة -->
+    <link rel="stylesheet" href="/BidStory/css/table.css">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background-color: #f5f5f5;
+      }
 
-    nav {
-      background-color: #004080;
-      color: white;
-      padding: 10px;
-      text-align: center;
-    }
+      nav {
+        background-color: #004080;
+        color: white;
+        padding: 10px;
+        text-align: center;
+      }
 
-    nav button {
-      background-color: #0073e6;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin: 5px;
-      cursor: pointer;
-      border-radius: 5px;
-      font-size: 16px;
-      transition: background-color 0.3s;
-    }
+      nav button {
+        background-color: #0073e6;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s;
+      }
 
-    nav button:hover {
-      background-color: #005bb5;
-    }
+      nav button:hover {
+        background-color: #005bb5;
+      }
 
-    .section {
-      display: none;
-      padding: 20px;
-      background-color: white;
-      margin: 10px;
-      border-radius: 10px;
-    }
+      .section {
+        display: none;
+        padding: 20px;
+        background-color: white;
+        margin: 10px;
+        border-radius: 10px;
+      }
 
-    .active {
-      display: block;
-    }
-  </style>
-</head>
+      .active {
+        display: block;
+      }
+    </style>
+  </head>
 
-<body>
+  <body>
 
-  <!-- ✅ شريط التنقل بين الأقسام الرئيسية -->
-  <nav>
-    <button onclick="showSection('home')">
-      <!-- أيقونة الصفحة الرئيسية -->
-      <img id="i_allmo" alt="Home" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
-      <span id="t_159"></span>
-    </button>
-    <button onclick="showSection('setting')">
-      <!-- أيقونة الإعدادات -->
-      <img id="i_setting" alt="setting" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
-      <span id="t_62"></span>
-    </button>
-  </nav>
+    <!-- ✅ شريط التنقل بين الأقسام الرئيسية -->
+    <nav>
+      <button onclick="showSection('home')">
+        <!-- أيقونة الصفحة الرئيسية -->
+        <img id="i_allmo" alt="Home" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+        <span id="t_159"></span>
+      </button>
+      <button onclick="showSection('setting')">
+        <!-- أيقونة الإعدادات -->
+        <img id="i_setting" alt="setting" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+        <span id="t_62"></span>
+      </button>
+    </nav>
 
-  <!-- ✅ شريط تنقل فرعي يظهر بعد اختيار مشروع -->
-  <nav id="nav2" style="display: none;">
-    <!-- تعريف المشروع -->
-    <button onclick="showSection('definition')">
-      <img id="i_id" alt="definition" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
-      <span id="t_253"></span>
-    </button>
-    <!-- بنود المشروع -->
-    <button onclick="showSection('pands')">
-      <img id="i_items" alt="pands" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
-      <span id="t_633"></span>
-    </button>
-  </nav>
+    <!-- ✅ شريط تنقل فرعي يظهر بعد اختيار مشروع -->
+    <nav id="nav2" style="display: none;">
+      <!-- تعريف المشروع -->
+      <button onclick="showSection('definition')">
+        <img id="i_id" alt="definition" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+        <span id="t_253"></span>
+      </button>
+      <!-- بنود المشروع -->
+      <button onclick="showSection('pands')">
+        <img id="i_items" alt="pands" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+        <span id="t_633"></span>
+      </button>
+    </nav>
 
-  <!-- ✅ الأقسام (تظهر حسب القسم المختار) -->
-  <div id="home" class="section active"></div> <!-- الصفحة الرئيسية -->
-  <div id="setting" class="section"></div> <!-- الإعدادات -->
-  <div id="definition" class="section"></div> <!-- تعريف المشروع -->
-  <div id="pands" class="section"></div> <!-- بنود المشروع -->
+    <!-- ✅ الأقسام (تظهر حسب القسم المختار) -->
+    <div id="home" class="section active"></div> <!-- الصفحة الرئيسية -->
+    <div id="setting" class="section"></div> <!-- الإعدادات -->
+    <div id="definition" class="section"></div> <!-- تعريف المشروع -->
+    <div id="pands" class="section"></div> <!-- بنود المشروع -->
+    <div id="selectedPand" class="section"></div> <!-- بند المشروع -->
 
-  <!-- ✅ JavaScript الخاص بالتهيئة -->
-  <script>
-       // ✅ تحديد الأقسام التي تم تحميلها مسبقاً لتجنب التكرار
-       const loadedPages = {
+    <!-- ✅ JavaScript الخاص بالتهيئة -->
+    <script>
+      // ✅ تحديد الأقسام التي تم تحميلها مسبقاً لتجنب التكرار
+      const loadedPages = {
         setting: false,
         definition: false,
         pands: false,
+        selectedPand: false,
         home: false
       };
       // تعيين مسارات ملفات HTML الخاصة بكل قسم
@@ -118,147 +120,156 @@
         setting: "pages/setting.html",
         definition: "pages/projects/definition.html",
         pands: "pages/projects/pands.html",
+        selectedPand: "pages/projects/selectedPand.html",
         home: "pages/projects/allProjects.html"
       };
-      let select=null;
-      let targetSection=null;
-    document.addEventListener("DOMContentLoaded", async () =>
-    {
-      // ❗ انتظر حتى يتم تعيين قيمة Load = true
-      while (typeof Load !== "undefined" && Load === false)
+      let selectedPage = null;
+      let targetSection = null;
+      document.addEventListener( "DOMContentLoaded", async () =>
       {
-        await new Promise(resolve => setTimeout(resolve, 100));
-      }
+        // ❗ انتظر حتى يتم تعيين قيمة Load = true
+        while ( typeof Load !== "undefined" && Load === false )
+        {
+          await new Promise( resolve => setTimeout( resolve, 100 ) );
+        }
 
-      // ✅ إعداد اللغة والاتجاه (RTL أو LTR)
-      const savedLang = JSON.parse(localStorage.getItem("languageSelect")) || "ar";
-      const html = document.documentElement;
-      if (savedLang === "en")
-      {
-        useArabic = false;
-        html.lang = "en";
-        html.dir = "ltr";
-      } else
-      {
-        useArabic = true;
-        html.lang = "ar";
-        html.dir = "rtl";
-      }
+        // ✅ إعداد اللغة والاتجاه (RTL أو LTR)
+        const html = document.documentElement;
+         if (JSON.parse( savedLang)  == "ar" )
+        {
+          useArabic = true;
+          html.lang = "ar";
+          html.dir = "rtl";
+        } else
+        {
+             useArabic = false;
+          html.lang = "en";
+          html.dir = "ltr";
 
-      // ✅ عند جاهزية قاعدة البيانات، حمّل النصوص والصور حسب اللغة
-      document.addEventListener('BidStoryDBReady', async () =>
-      {
-        await delay(50);
-        setTextAndImage();
-      });
+        }
 
-  
-      // ✅ دالة لإظهار قسم معين وتحميله عند الحاجة
-      window.showSection = function (select_)
+        // ✅ عند جاهزية قاعدة البيانات، حمّل النصوص والصور حسب اللغة
+        document.addEventListener( 'BidStoryDBReady', async () =>
+        {
+          await delay( 50 );
+          setTextAndImage();
+        } );
+
+
+        // ✅ دالة لإظهار قسم معين وتحميله عند الحاجة
+        window.showSection = function ( selectedPage_ )
+        {
+          try
+          {
+            selectedPage = selectedPage_;
+            // إخفاء جميع الأقسام
+            document.querySelectorAll( ".section" ).forEach( section => section.classList.remove( "active" ) );
+
+            // إظهار القسم المطلوب
+            targetSection = document.getElementById( selectedPage_ );
+            targetSection.classList.add( "active" );
+
+
+
+            // تحميل الصفحة إذا لم تكن محمّلة من قبل
+            if ( pageMap[ selectedPage_ ] && !loadedPages[ selectedPage_ ] )
+            {
+              targetSection.innerHTML = "<p>جاري التحميل...</p>";
+              load_R();
+
+            }
+
+
+            // تنفيذ مهام خاصة بالصفحة المختارة 
+            ( async () =>
+            {
+              await delay( 100 );
+              if ( selectedPage_ == 'home' )
+              {
+                await initAllProjectPage();
+                const nav_ = document.getElementById( "nav2" );
+                nav_.style.display = "none";
+                localStorage.setItem( 'selectedProject', '' );
+                   localStorage.setItem( 'selectedPand', '' );
+              }
+              if ( selectedPage_ == 'definition' )
+              {
+                await initDefinitionPage();
+              }
+              if ( selectedPage_ == 'pands' )
+              {
+                await initItemsPage();
+              }
+              if ( selectedPage_ == 'selectedPand' )
+              {
+                await initSelectedPandPage();
+              }
+              //لترقية النصوص والصور الخاصة بالصفحة التي تم تحميلها
+              await setTextAndImage();
+            } )();
+
+          } catch ( error )
+          {
+            console.error( "حدث خطأ:", error );
+            alert( "حدث خطأ تقني، يرجى المحاولة لاحقًا." );
+          }
+        };
+
+        // ✅ إظهار القسم الافتراضي (الصفحة الرئيسية)
+        showSection( "home" );
+      } );
+      async function load_R ()
       {
         try
         {
-          select=select_;
-          // إخفاء جميع الأقسام
-          document.querySelectorAll(".section").forEach(section => section.classList.remove("active"));
 
-          // إظهار القسم المطلوب
-           targetSection = document.getElementById(select_);
-          targetSection.classList.add("active");
-
-
-
-          // تحميل الصفحة إذا لم تكن محمّلة من قبل
-          if (pageMap[select_] && !loadedPages[select_])
-          {
-            targetSection.innerHTML = "<p>جاري التحميل...</p>";
-            load_R();
-
-          }
-
-
-          // تنفيذ مهام خاصة بالصفحة المختارة 
-          (async () =>
-          {
-            await delay(100);
-            if (select_ == 'home')
+          console.log( typeof q );
+          q( 'سوف يتم الانتقال الي -> 00000      ' + selectedPage );
+          fetch( pageMap[ selectedPage ] )
+            .then( response =>
             {
-              await initAllProjectPage();
-              const nav_ = document.getElementById("nav2");
-              nav_.style.display = "none";
-              localStorage.setItem('selectedProject', '');
-            }
-            if (select_ == 'definition')
+              if ( !response.ok ) throw new Error( "الملف غير موجود" );
+              return response.text();
+            } )
+            .then( html =>
             {
-              await initDefinitionPage();
-            }
-            if (select_ == 'pands')
+              const temp = document.createElement( "div" );
+              temp.innerHTML = html;
+
+              // إزالة السكريبتات مؤقتاً من الصفحة المحمّلة
+              const scripts = temp.querySelectorAll( "script" );
+              scripts.forEach( s => s.remove() );
+
+              // إدراج المحتوى بعد إزالة السكريبتات
+              targetSection.innerHTML = temp.innerHTML;
+
+              // إعادة تفعيل السكريبتات المحذوفة يدويًا
+              scripts.forEach( script =>
+              {
+                const newScript = document.createElement( "script" );
+                if ( script.src )
+                {
+                  newScript.src = script.src;
+                } else
+                {
+                  newScript.textContent = script.textContent;
+                }
+                document.body.appendChild( newScript );
+              } );
+              definition;
+              // وسم الصفحة كـ "تم تحميلها"
+              loadedPages[ selectedPage ] = true;
+
+            } )
+            .catch( error =>
             {
-              await initItemsPage();
-            }
+              targetSection.innerHTML = "<p>فشل تحميل الصفحة.</p>";
+              console.error( "خطأ:", error );
+            } );
+        } catch ( er ) { console.error( er ); }
+      }
+    </script>
 
-            //لترقية النصوص والصور الخاصة بالصفحة التي تم تحميلها
-            await setTextAndImage();
-          })();
-
-        } catch (error)
-        {
-          console.error("حدث خطأ:", error);
-          alert("حدث خطأ تقني، يرجى المحاولة لاحقًا.");
-        }
-      };
-
-      // ✅ إظهار القسم الافتراضي (الصفحة الرئيسية)
-      showSection("home");
-    });
-    async function load_R()
-    {
-      q('سوف يتم الانتقال الي ->  '+ select);
-      fetch(pageMap[select])
-        .then(response =>
-        {
-          if (!response.ok) throw new Error("الملف غير موجود");
-          return response.text();
-        })
-        .then(html =>
-        {
-          const temp = document.createElement("div");
-          temp.innerHTML = html;
-
-          // إزالة السكريبتات مؤقتاً من الصفحة المحمّلة
-          const scripts = temp.querySelectorAll("script");
-          scripts.forEach(s => s.remove());
-
-          // إدراج المحتوى بعد إزالة السكريبتات
-          targetSection.innerHTML = temp.innerHTML;
-
-          // إعادة تفعيل السكريبتات المحذوفة يدويًا
-          scripts.forEach(script =>
-          {
-            const newScript = document.createElement("script");
-            if (script.src)
-            {
-              newScript.src = script.src;
-            } else
-            {
-              newScript.textContent = script.textContent;
-            }
-            document.body.appendChild(newScript);
-          });
-          definition;
-          // وسم الصفحة كـ "تم تحميلها"
-          loadedPages[select] = true;
-
-        })
-        .catch(error =>
-        {
-          targetSection.innerHTML = "<p>فشل تحميل الصفحة.</p>";
-          console.error("خطأ:", error);
-        });
-    }
-  </script>
-
-</body>
+  </body>
 
 </html>
-

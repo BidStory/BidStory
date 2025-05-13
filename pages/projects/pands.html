@@ -6,22 +6,27 @@
     let dbUp_item = null;
 
     // تهيئة الجدول
-    async function initItemsPage() 
+    async function initItemsPage () 
     {
-
-        proId_ = "ite_" + localStorage.getItem("selectedProject");
-        dbNoUp_item = await new noUpgrade(proId_);
-
-        //ادخال نص التعريف لكل البنود
-        const inputs = document.querySelectorAll('[id="pandText"]');
-        inputs.forEach(input =>
+        try
         {
-            input.placeholder = getLang(1260);
-        });
-        await renumber_();
+            proId_ = "ite_" + localStorage.getItem( "selectedProject" );
+            dbNoUp_item = await new noUpgrade( proId_ );
+
+            //ادخال نص التعريف لكل البنود
+            const inputs = document.querySelectorAll( '[id="pandText"]' );
+            inputs.forEach( input =>
+            {
+                input.placeholder = getLang( 1260 );
+            } );
+            await renumber_();
+        } catch ( er )
+        {
+            console.error(er);
+        }
     }
 
-    proId_ = "ite_" + localStorage.getItem("selectedProject");
+    proId_ = "ite_" + localStorage.getItem( "selectedProject" );
 
     let pandsTable = new setTableParameter(
         "itemsTable", // ID of the container element
@@ -32,83 +37,63 @@
         true, // Add alternate div when row is clicked?
         true // Start with new row?
     );
-    let isWatcherEnabled = true; // هذا المتغير للتحكم في تشغيل الكود
 
-    // مستمع الحدث
-    document.addEventListener("tableDataChanged", async (event) =>
+ 
+    async function renumber_ ()
     {
-        if (!isWatcherEnabled) return; // إذا كان الكود مغلقًا، سيتم تخطي الكود هنا.
-
-        const storeName = event.detail.storeName;
-        const dataName = event.detail.dataName;
-        if (dataName && dataName.includes("ite_"))//اذا كان الاسم يحتوي علي ite_
+        isTableWatcherEnabled = false; // تعطيل الكود مؤقتًا
+        try
         {
-            await renumber_();
-            // window.reloadCurrentSection();
-        }
-    });
-    async function renumber_() {
-    isWatcherEnabled = false; // تعطيل الكود مؤقتًا
-    try {
-        while(await pandsTable.checkProcessRun()==true){ await delay(50);}
-         // تأخير قليل قبل بدء العملية
-        let re = [];
-        let parentId = [];
-        let outPuts = document.querySelectorAll('[id="pandNumber"]');
+            while ( await pandsTable.checkProcessRun() == true ) { await delay( 50 ); }
+            // تأخير قليل قبل بدء العملية
+            let numbeList = [];
+            let parentId = [];
+            let outPuts = document.querySelectorAll( '[id="pandNumber"]' );
 
-        // جمع القيم الحالية
-        outPuts.forEach((el) => {
-            re.push(el.value);
+            // جمع القيم الحالية
+            outPuts.forEach( ( el ) =>
+            {
+                numbeList.push( el.value );
 
 
-            parentId.push(el.parentElement.parentElement.parentElement.parentElement.parentElement.id.replace('_',''));
-           
+                parentId.push( el.parentElement.parentElement.parentElement.parentElement.parentElement.id.replace( '_', '' ) );
 
-            
-        });
 
-        // إعادة الترقيم
-        let ree = reNumber(re); // تأكد أن reNumber تعيد مصفوفة مرقمة حسب ترتيب re
-let index_=null;
 
-        // تعيين القيم الجديدة
-        outPuts.forEach((el, index) => {
-            index_=ree[index];
-            if(/^[a-zA-Z]{4}\d+/.test(parentId[index])){
-            // قم بتسجيل القيم لتوضيح التغييرات
-            // تحديث البيانات في قاعدة البيانات
-            dbNoUp_item.keySet(parentId[index].replace('_',''), 'pandNumber',index_);
-            // تعيين القيمة الجديدة للعناصر
-            el.value = index_;
+            } );
+
+            // إعادة الترقيم
+            let noAfterRenumber = reNumber( numbeList ); // تأكد أن reNumber تعيد مصفوفة مرقمة حسب ترتيب re
+            let index_ = null;
+
+            // تعيين القيم الجديدة
+            outPuts.forEach( ( el, index ) =>
+            {
+                index_ = noAfterRenumber[ index ];
+                if(parentId[ index ] ){
+                if ( /^[a-zA-Z]{4}\d+/.test( parentId[ index ] ) )
+                {
+                  
+                    // قم بتسجيل القيم لتوضيح التغييرات
+                    // تحديث البيانات في قاعدة البيانات
+                    dbNoUp_item.keySet( parentId[ index ].replace( '_', '' ), 'pandNumber', index_ );
+                    // تعيين القيمة الجديدة للعناصر
+                    el.value = index_;
+                }
             }
-        });
+            } );
 
-        await delay(200); // تأخير قليل بعد التعيين
-    } catch (error) {
-        console.error("حدث خطأ أثناء إعادة الترقيم:", error);
-    } finally {
-        isWatcherEnabled = true; // إعادة تمكين الكود بعد الانتهاء من العملية
+            await delay( 200 ); // تأخير قليل بعد التعيين
+        } catch ( error )
+        {
+            console.error( "حدث خطأ أثناء إعادة الترقيم:", error );
+        } finally
+        {
+            isTableWatcherEnabled = true; // إعادة تمكين الكود بعد الانتهاء من العملية
+        }
     }
-}
-
-    document.addEventListener("clickButtonInRow", async (event) =>
-    {
-
-        const data = event.detail.kind;
-
-        console.log(`📢 تم الضغط علي ${data} ${data[0]} kkkkkkkkk---kkkkk`);
 
 
-    });
-
-    document.addEventListener("selectRow", (event) =>
-    {
-        const data = event.detail.kind;
-        console.log(`📢 تم اختيار الصف ${data}`);
-        localStorage.setItem("selectedProject", data.replace("_", ""));
-        const nav_ = document.getElementById("nav2");
-        nav_.style.display = "";
-    });
 </script>
 
 <div id="itemsTable"></div>
@@ -141,7 +126,7 @@ let index_=null;
 
 <div DivId id="itemsTable_Altraw" style="display: none" class="">
     <div style="min-height: 6px"></div>
-    <button type="button" id="t_138_1" class="buttonT"></button>
+    <button type="button" id="t_138_open" class="buttonT"></button>
     <button type="button" id="t_1261_controlNum" class="buttonT"></button>
 </div>
 <script>

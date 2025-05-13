@@ -1,22 +1,21 @@
 <script>
     let proId = null;
     let dbNoUpgrade = null;
-    async function initDefinitionPage()
+    async function initDefinitionPage ()
     {
 
-        console.log("تم تشغيل صفحة definition _________________________");
-        proId = 'def_'+localStorage.getItem('selectedProject');
-        dbNoUpgrade = await new noUpgrade(proId);
-        let dbUpgrade = await new upgrade(proId);
+        proId = 'def_' + localStorage.getItem( 'selectedProject' );
+        dbNoUpgrade = await new noUpgrade( proId );
+        let dbUpgrade = await new upgrade( proId );
 
-        if (!await dbNoUpgrade.isTableExist('definition'))
+        if ( !await dbNoUpgrade.isTableExist( 'definition' ) )
         {
-            await dbUpgrade.createKeyTable('definition');
+            await dbUpgrade.createKeyTable( 'definition' );
         }
-        await restoreAllInputsFromIndexDB("mainPage", dbNoUpgrade, 'definition');
-        await watchingAllInputs2IndexDB("mainPage", dbNoUpgrade, 'definition');
-        await dbNoUpgrade.keySet('definition', 'id', proId);
-        document.getElementById("proId").innerText = proId;
+        await restoreAllInputsFromIndexDB( "mainDefinationPage", dbNoUpgrade, 'definition' );
+        await watchingAllInputs2IndexDB( "mainDefinationPage", dbNoUpgrade, 'definition' );
+        await dbNoUpgrade.keySet( 'definition', 'id', proId );
+        document.getElementById( "proId" ).innerText = proId;
         await initMap();
         await setupDataWithOutEvent();
 
@@ -29,7 +28,7 @@
         opacity: 0.5;
     }
 </style>
-<div id="mainPage">
+<div id="mainDefinationPage">
     <!-- اسم المشروع -->
     <h3 id="t_133"></h3>
     <input type="text" id="proName">
@@ -73,28 +72,28 @@
     <br> <br>
     <h3 id="t_439"></h3>
     <input type="url" id="filesLink">
- <!--  سعر كراسة الشروط  -->
- <br> <br>
- <h3 id="t_637"></h3>
- <input type="number" id="documentFee">
-    
-<!--قيمه التامين الابتدائي  -->
-<br> <br>
-<h3 id="t_440"></h3>
-<input type="number" id="initialGuaranteeValue">
-   
-<!--نسبة التامين النهائي  -->
-<br> <br>
-<h3 id="t_1072"></h3>
-<input type="number" id="finalGuaranteeValue">
-   
+    <!--  سعر كراسة الشروط  -->
+    <br> <br>
+    <h3 id="t_637"></h3>
+    <input type="number" id="documentFee">
+
+    <!--قيمه التامين الابتدائي  -->
+    <br> <br>
+    <h3 id="t_440"></h3>
+    <input type="number" id="initialGuaranteeValue">
+
+    <!--نسبة التامين النهائي  -->
+    <br> <br>
+    <h3 id="t_1072"></h3>
+    <input type="number" id="finalGuaranteeValue">
 
 
- 
- 
+
+
+
     <!-- الكود التعريفي -->
     <br><br>
-    <h3  id="t_615"></h3>
+    <h3 id="t_615"></h3>
     <label id="proId">
 </div>
 
@@ -102,99 +101,99 @@
 
     //#region الخرائط
     let map, marker, clickCount = 0, position_ = null, clickTimeout = null;
-    const PROPHET_MOSQUE_COORDS = [24.4672, 39.6117];
-    async function initMap()
+    const PROPHET_MOSQUE_COORDS = [ 24.4672, 39.6117 ];
+    async function initMap ()
     {
 
 
-        if (map)
+        if ( map )
         {
             map.remove();
         }
         // استرجاع الموقع المحفوظ من قاعدة البيانات
-        position_ = await dbNoUpgrade.keyGet('definition', 'position');
-        const positionLabel = document.getElementById('posation');
+        position_ = await dbNoUpgrade.keyGet( 'definition', 'position' );
+        const positionLabel = document.getElementById( 'posation' );
 
-        if (position_)
+        if ( position_ )
         {
-            const [lat, lng] = position_.split(',').map(Number);
-            position_ = [lat, lng];
-            map = L.map('map').setView(position_, 10);
-            marker = L.marker(position_).addTo(map); // وضع علامة في الموقع المحفوظ
-            if (positionLabel)
+            const [ lat, lng ] = position_.split( ',' ).map( Number );
+            position_ = [ lat, lng ];
+            map = L.map( 'map' ).setView( position_, 10 );
+            marker = L.marker( position_ ).addTo( map ); // وضع علامة في الموقع المحفوظ
+            if ( positionLabel )
             {
-                positionLabel.textContent = `📍 Latitude: ${lat}, Longitude: ${lng}`;
+                positionLabel.textContent = `📍 Latitude: ${ lat }, Longitude: ${ lng }`;
             }
         } else
         {
-            map = L.map('map').setView(PROPHET_MOSQUE_COORDS, 10);
+            map = L.map( 'map' ).setView( PROPHET_MOSQUE_COORDS, 10 );
         }
 
         // إضافة الطبقة الأساسية
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer( 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
+        } ).addTo( map );
 
         // الاستماع للنقرات على الخريطة
-        map.on('click', async function (e)
+        map.on( 'click', async function ( e )
         {
             clickCount++;
-            if (clickCount === 1)
+            if ( clickCount === 1 )
             {
-                clickTimeout = setTimeout(() => clickCount = 0, 300);
-            } else if (clickCount === 2)
+                clickTimeout = setTimeout( () => clickCount = 0, 300 );
+            } else if ( clickCount === 2 )
             {
-                clearTimeout(clickTimeout);
+                clearTimeout( clickTimeout );
                 clickCount = 0;
 
-                const latlng = [e.latlng.lat, e.latlng.lng];
+                const latlng = [ e.latlng.lat, e.latlng.lng ];
 
-                if (marker) map.removeLayer(marker);
-                marker = L.marker(latlng).addTo(map);
+                if ( marker ) map.removeLayer( marker );
+                marker = L.marker( latlng ).addTo( map );
 
-                position_ = `${latlng[0].toFixed(5)},${latlng[1].toFixed(5)}`;
-                if (positionLabel)
+                position_ = `${ latlng[ 0 ].toFixed( 5 ) },${ latlng[ 1 ].toFixed( 5 ) }`;
+                if ( positionLabel )
                 {
-                    positionLabel.textContent = `📍 Latitude: ${latlng[0].toFixed(5)}, Longitude: ${latlng[1].toFixed(5)}`;
+                    positionLabel.textContent = `📍 Latitude: ${ latlng[ 0 ].toFixed( 5 ) }, Longitude: ${ latlng[ 1 ].toFixed( 5 ) }`;
                 }
 
-                await dbNoUpgrade.keySet('definition', 'position', position_);
-                map.setView(latlng, 15);
+                await dbNoUpgrade.keySet( 'definition', 'position', position_ );
+                map.setView( latlng, 15 );
             }
-        });
+        } );
     }
     //#endregion
 
     //#region مراقبة اسم المشروع وتسجلة في اماكن اخري
-    const inputElement = document.getElementById('proName');
+    const inputElement = document.getElementById( 'proName' );
 
     // مراقبة التغييرات في المدخلات
-    inputElement.addEventListener('input', async function (event)
+    inputElement.addEventListener( 'input', async function ( event )
     {
         const currentValue = event.target.value;
-        let dbNoUpgrade_ = await new noUpgrade('allProjectes');
-        await dbNoUpgrade_.keySet(proId, 'projectName', currentValue);
-    });
+        let dbNoUpgrade_ = await new noUpgrade( 'allProjectes' );
+        await dbNoUpgrade_.keySet( proId, 'projectName', currentValue );
+    } );
     //#endregion
 
     //#region اختيار نوع المناقصة
     let langSelect = '';
     let langSelect1 = '';
     let langSelect2 = '';
-    if (useArabic) { langSelect = 'arabic_name'; langSelect1 = 'not1Arabic'; langSelect2 = 'not2Arabic'; } else { langSelect = 'english_name'; langSelect1 = 'not1English'; langSelect2 = 'not2English'; }
-    function populateKindMoSelect()
+    if ( useArabic ) { langSelect = 'arabic_name'; langSelect1 = 'not1Arabic'; langSelect2 = 'not2Arabic'; } else { langSelect = 'english_name'; langSelect1 = 'not1English'; langSelect2 = 'not2English'; }
+    function populateKindMoSelect ()
     {
-        const select = document.getElementById("kindMoSelect");
+        const select = document.getElementById( "kindMoSelect" );
 
-        for (let cIndex = 1; cIndex <= 40; cIndex++)
+        for ( let cIndex = 1; cIndex <= 40; cIndex++ )
         {
-            const name = getKindTenderValueByCIndex(cIndex, langSelect);
-            if (name)
+            const name = getKindTenderValueByCIndex( cIndex, langSelect );
+            if ( name )
             {
-                const option = document.createElement("option");
+                const option = document.createElement( "option" );
                 option.value = cIndex;
                 option.textContent = name;
-                select.appendChild(option);
+                select.appendChild( option );
             }
         }
     }
@@ -204,20 +203,20 @@
     //#region اختيار نوع البند المالي
     let langSelect_ = '';
 
-    if (useArabic) { langSelect_ = 'arabic_name'; } else { langSelect_ = 'english_name'; }
-    function populateKindFinancialSelect()
+    if ( useArabic ) { langSelect_ = 'arabic_name'; } else { langSelect_ = 'english_name'; }
+    function populateKindFinancialSelect ()
     {
-        const select = document.getElementById("kindFinancialSelect");
+        const select = document.getElementById( "kindFinancialSelect" );
 
-        for (let cIndex = 0; cIndex <= 10; cIndex++)
+        for ( let cIndex = 0; cIndex <= 10; cIndex++ )
         {
-            const name = getKindFinancialByCIndex(cIndex, langSelect);
-            if (name)
+            const name = getKindFinancialByCIndex( cIndex, langSelect );
+            if ( name )
             {
-                const option = document.createElement("option");
+                const option = document.createElement( "option" );
                 option.value = cIndex;
                 option.textContent = name;
-                select.appendChild(option);
+                select.appendChild( option );
             }
         }
     }
@@ -226,19 +225,19 @@
 
     //#region اختيار نوع الضرائب
 
-    function populateTaxSelect()
+    function populateTaxSelect ()
     {
-        const select = document.getElementById("kindTaxSelect");
+        const select = document.getElementById( "kindTaxSelect" );
 
-        for (let cIndex = 0; cIndex <= 2; cIndex++)
+        for ( let cIndex = 0; cIndex <= 2; cIndex++ )
         {
-            const name = getKindTaxByCIndex(cIndex, langSelect);
-            if (name)
+            const name = getKindTaxByCIndex( cIndex, langSelect );
+            if ( name )
             {
-                const option = document.createElement("option");
+                const option = document.createElement( "option" );
                 option.value = cIndex;
                 option.textContent = name;
-                select.appendChild(option);
+                select.appendChild( option );
             }
         }
     }
@@ -248,61 +247,54 @@
     //#region الاستماع الي تغير البيانات في الجدول
 
     // ربط الحدث
-    document.addEventListener('tableDataChanged', handleTableDataChanged);
 
-    const handleTableDataChanged = async (event) =>
+    async function setupDefinationData ()
     {
-        const storeName = event.detail.storeName;
-        //event.detail.dataName
-        if (storeName == 'definition')
+        try
         {
-            await setupData();
-        }
-    };
+            let kindMoSelect = await dbNoUpgrade.keyGet( 'definition', 'kindMoSelect' );
+            document.getElementById( "kindMoDisc" ).innerText = getKindTenderValueByCIndex( kindMoSelect, langSelect1 ) + " " + getKindTenderValueByCIndex( kindMoSelect, langSelect2 );
 
-    async function setupData()
+            let taxSelect = await dbNoUpgrade.keyGet( 'definition', 'kindTaxSelect' );
 
-    {
+            if ( taxSelect == '0' )
+            {
+                document.getElementById( "div_tax" ).style.display = '';
+            } else
+            {
+                document.getElementById( "div_tax" ).style.display = 'none';
+                document.getElementById( "taxValuePercentage" ).value = '';
 
-        let kindMoSelect = await dbNoUpgrade.keyGet('definition', 'kindMoSelect');
-        document.getElementById("kindMoDisc").innerText = getKindTenderValueByCIndex(kindMoSelect, langSelect1) + " " + getKindTenderValueByCIndex(kindMoSelect, langSelect2);
-
-        let taxSelect = await dbNoUpgrade.keyGet('definition', 'kindTaxSelect');
-
-        if (taxSelect == '0')
+                // إزالة الحدث 
+                isTableWatcherEnabled = false;
+                await dbNoUpgrade.keySet( 'definition', 'taxValuePercentage', '' );
+            }
+        } catch ( er ) { console.error( er ); }
+        finally
         {
-            document.getElementById("div_tax").style.display = '';
-        } else
-        {
-            document.getElementById("div_tax").style.display = 'none';
-            document.getElementById("taxValuePercentage").value = '';
-
-            // إزالة الحدث 
-            document.removeEventListener('tableDataChanged', handleTableDataChanged);
-            await dbNoUpgrade.keySet('definition', 'taxValuePercentage', '');
             // ربط الحدث
-            document.addEventListener('tableDataChanged', handleTableDataChanged);
+            isTableWatcherEnabled = true;
         }
     }
+    
 
-    async function setupDataWithOutEvent()
-
+    async function setupDataWithOutEvent ()
     {
 
-        let kindMoSelect = await dbNoUpgrade.keyGet('definition', 'kindMoSelect');
-        document.getElementById("kindMoDisc").innerText = getKindTenderValueByCIndex(kindMoSelect, langSelect1) + " " + getKindTenderValueByCIndex(kindMoSelect, langSelect2);
+        let kindMoSelect = await dbNoUpgrade.keyGet( 'definition', 'kindMoSelect' );
+        document.getElementById( "kindMoDisc" ).innerText = getKindTenderValueByCIndex( kindMoSelect, langSelect1 ) + " " + getKindTenderValueByCIndex( kindMoSelect, langSelect2 );
 
-        let taxSelect = await dbNoUpgrade.keyGet('definition', 'kindTaxSelect');
+        let taxSelect = await dbNoUpgrade.keyGet( 'definition', 'kindTaxSelect' );
 
-        if (taxSelect == '0')
+        if ( taxSelect == '0' )
         {
-            document.getElementById("div_tax").style.display = '';
+            document.getElementById( "div_tax" ).style.display = '';
         } else
         {
-            document.getElementById("div_tax").style.display = 'none';
-            document.getElementById("taxValuePercentage").value = '';
+            document.getElementById( "div_tax" ).style.display = 'none';
+            document.getElementById( "taxValuePercentage" ).value = '';
 
-            await dbNoUpgrade.keySet('definition', 'taxValuePercentage', '');
+            await dbNoUpgrade.keySet( 'definition', 'taxValuePercentage', '' );
         }
     }
 

@@ -179,9 +179,9 @@ function setTableParameter(
   {
     row.classList.add("selected");
     selectedRaw = row.id;
-    const event = new CustomEvent("selectRow", { detail: { kind: selectedRaw } });
+    const event = new CustomEvent("selectRow", { detail: { Raw: selectedRaw ,dataBase:tableId} });
     document.dispatchEvent(event);
-    console.log("✅ تم اختيار الصف:", selectedRaw);
+    console.log("✅ تم اختيار الصف في احدي الجداول:",'اسم الصف', selectedRaw,'اسم القاعدة',tableId);
   };
 
   //#endregion
@@ -264,7 +264,6 @@ function setTableParameter(
 
       for (const rawId of data)
       {
-        console.log(" معرف _________________________ الصف " + rawId.key);
 
         await getInput(rawId.key);
 
@@ -556,7 +555,7 @@ function setTableParameter(
           // يمكنك الآن تنفيذ باقي العمليات بعد تحديد الصف
           const buttonId = input.id || "(no id)";
       
-          clickButtonInRow([buttonId, target]);
+          clickButtonInRow([buttonId, target,tableId]);
         };
 
         input.addEventListener("click", buttonListener);
@@ -892,7 +891,6 @@ function setTableParameter(
       // @ts-ignore
       copyId = CID(IDPattern.MIXED4_TIME);
       table_x.table = copyId;
-      //let jsonData=JSON.stringify( table_, null, 2 );
       // @ts-ignore
       await importOrUpdateFromJSON(table_x);
     } else
