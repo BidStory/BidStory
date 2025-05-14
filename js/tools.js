@@ -87,7 +87,7 @@ async function watchingAllInputs2IndexDB ( target, dbNoUpgrade, tableName )
   // التحقق من وجود العنصر، إذا لم يكن موجود نخرج من الدالة
   if ( !containerElement )
   {
-    console.error( "❌ لم يتم توفير عنصر الحاوية (Watching) watchAndSaveInputs2Local." );
+    console.error( "❌ لم يتم توفير عنصر الحاوية (watchingAllInputs2IndexDB)." );
     return;
   }
   // البحث عن جميع حقول الإدخال في الصفحة
@@ -230,7 +230,10 @@ async function restoreAllInputsFromIndexDB ( target, dbNoUpgrade, tableName )
   console.log( `✅ تم استرجاع القيم لجميع الحقول (${ inputs.length }) داخل العنصر ${ target }` );
 }
 
-function watchAndSaveInputs2Local() {
+function watchAndSaveInputs2Local(target) {
+   // @ts-ignore
+   if ( selectedPage == 'setting' )
+        {
   const inputSelectors = [
     'input[type="text"]',
     'input[type="date"]',
@@ -244,8 +247,14 @@ function watchAndSaveInputs2Local() {
     'textarea',
     'select'
   ];
-
-  const inputs = document.querySelectorAll(inputSelectors.join(','));
+  const containerElement = document.getElementById( target );
+  // التحقق من وجود العنصر، إذا لم يكن موجود نخرج من الدالة
+  if ( !containerElement )
+  {
+    console.error( "❌ لم يتم توفير عنصر الحاوية (watchAndSaveInputs2Local) ." );
+    return;
+  }
+  const inputs = containerElement.querySelectorAll(inputSelectors.join(','));
   const inputListeners = [];
 
   inputs.forEach((input) => {
@@ -309,6 +318,7 @@ function watchAndSaveInputs2Local() {
   console.log(`🔍 جاري مراقبة ${inputs.length} من حقول الإدخال`);
 
   return inputListeners;
+}
 }
 
 

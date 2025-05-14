@@ -30,6 +30,11 @@
     <input type="number" id="sear">
      <br>
     <input type="number" id="tot">
+    <br>
+    <h3 id="t_137"></h3>
+    <select id="kindFinancialSelectPand">
+        <option disabled selected id="t_1259"></option>
+    </select>
 </div>
 
 <script>
@@ -47,4 +52,26 @@
                   isTableWatcherEnabled=true;
 }
 
+    //#region اختيار نوع البند المالي
+    let langSelect_ = '';
+
+    if ( useArabic ) { langSelect_ = 'arabic_name'; } else { langSelect_ = 'english_name'; }
+    function pandKindFinancialSelect ()
+    {
+        const select = document.getElementById( "kindFinancialSelectPand" );
+
+        for ( let cIndex = 0; cIndex <= 10; cIndex++ )
+        {
+            const name = getKindFinancialByCIndex( cIndex, langSelect );
+            if ( name )
+            {
+                const option = document.createElement( "option" );
+                option.value = cIndex;
+                option.textContent = name;
+                select.appendChild( option );
+            }
+        }
+    }
+    pandKindFinancialSelect();
+    //#endregion
 </script>

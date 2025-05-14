@@ -1,20 +1,20 @@
 <script>
     let proId = null;
-    let dbNoUpgrade = null;
+    let dbNoUpgradeDefination = null;
     async function initDefinitionPage ()
     {
 
         proId = 'def_' + localStorage.getItem( 'selectedProject' );
-        dbNoUpgrade = await new noUpgrade( proId );
+        dbNoUpgradeDefination = await new noUpgrade( proId );
         let dbUpgrade = await new upgrade( proId );
 
-        if ( !await dbNoUpgrade.isTableExist( 'definition' ) )
+        if ( !await dbNoUpgradeDefination.isTableExist( 'definition' ) )
         {
             await dbUpgrade.createKeyTable( 'definition' );
         }
-        await restoreAllInputsFromIndexDB( "mainDefinationPage", dbNoUpgrade, 'definition' );
-        await watchingAllInputs2IndexDB( "mainDefinationPage", dbNoUpgrade, 'definition' );
-        await dbNoUpgrade.keySet( 'definition', 'id', proId );
+        await restoreAllInputsFromIndexDB( "mainDefinationPage", dbNoUpgradeDefination, 'definition' );
+        await watchingAllInputs2IndexDB( "mainDefinationPage", dbNoUpgradeDefination, 'definition' );
+        await dbNoUpgradeDefination.keySet( 'definition', 'id', proId );
         document.getElementById( "proId" ).innerText = proId;
         await initMap();
         await setupDataWithOutEvent();
@@ -111,7 +111,7 @@
             map.remove();
         }
         // استرجاع الموقع المحفوظ من قاعدة البيانات
-        position_ = await dbNoUpgrade.keyGet( 'definition', 'position' );
+        position_ = await dbNoUpgradeDefination.keyGet( 'definition', 'position' );
         const positionLabel = document.getElementById( 'posation' );
 
         if ( position_ )
@@ -157,7 +157,7 @@
                     positionLabel.textContent = `📍 Latitude: ${ latlng[ 0 ].toFixed( 5 ) }, Longitude: ${ latlng[ 1 ].toFixed( 5 ) }`;
                 }
 
-                await dbNoUpgrade.keySet( 'definition', 'position', position_ );
+                await dbNoUpgradeDefination.keySet( 'definition', 'position', position_ );
                 map.setView( latlng, 15 );
             }
         } );
@@ -252,10 +252,10 @@
     {
         try
         {
-            let kindMoSelect = await dbNoUpgrade.keyGet( 'definition', 'kindMoSelect' );
+            let kindMoSelect = await dbNoUpgradeDefination.keyGet( 'definition', 'kindMoSelect' );
             document.getElementById( "kindMoDisc" ).innerText = getKindTenderValueByCIndex( kindMoSelect, langSelect1 ) + " " + getKindTenderValueByCIndex( kindMoSelect, langSelect2 );
 
-            let taxSelect = await dbNoUpgrade.keyGet( 'definition', 'kindTaxSelect' );
+            let taxSelect = await dbNoUpgradeDefination.keyGet( 'definition', 'kindTaxSelect' );
 
             if ( taxSelect == '0' )
             {
@@ -267,7 +267,7 @@
 
                 // إزالة الحدث 
                 isTableWatcherEnabled = false;
-                await dbNoUpgrade.keySet( 'definition', 'taxValuePercentage', '' );
+                await dbNoUpgradeDefination.keySet( 'definition', 'taxValuePercentage', '' );
             }
         } catch ( er ) { console.error( er ); }
         finally
@@ -281,10 +281,10 @@
     async function setupDataWithOutEvent ()
     {
 
-        let kindMoSelect = await dbNoUpgrade.keyGet( 'definition', 'kindMoSelect' );
+        let kindMoSelect = await dbNoUpgradeDefination.keyGet( 'definition', 'kindMoSelect' );
         document.getElementById( "kindMoDisc" ).innerText = getKindTenderValueByCIndex( kindMoSelect, langSelect1 ) + " " + getKindTenderValueByCIndex( kindMoSelect, langSelect2 );
 
-        let taxSelect = await dbNoUpgrade.keyGet( 'definition', 'kindTaxSelect' );
+        let taxSelect = await dbNoUpgradeDefination.keyGet( 'definition', 'kindTaxSelect' );
 
         if ( taxSelect == '0' )
         {
@@ -294,7 +294,7 @@
             document.getElementById( "div_tax" ).style.display = 'none';
             document.getElementById( "taxValuePercentage" ).value = '';
 
-            await dbNoUpgrade.keySet( 'definition', 'taxValuePercentage', '' );
+            await dbNoUpgradeDefination.keySet( 'definition', 'taxValuePercentage', '' );
         }
     }
 
