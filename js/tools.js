@@ -651,18 +651,22 @@ document.addEventListener( "selectRow", async ( event ) =>
 
 
 //#endregion
+let useArabic=true;
 let savedLang = "en";
 let DecimalPoint = 2;
-
+    let langSelectList0 = '';
+      let langSelectList1 = '';
+       let langSelectList2 = '';
 async function getSetting() {
     const storedLang = localStorage.getItem("languageSelect");
     // التحقق من صحة قيمة اللغة
     savedLang = (storedLang === "ar" || storedLang === "en") ? storedLang : "en";
-    
+    if (savedLang === "ar") {useArabic = true;}else{useArabic = false;}
     // التحقق من صحة قيمة النقطة العشرية
     const storedDecimalPoint = localStorage.getItem("DecimalPoint");
     DecimalPoint = storedDecimalPoint ? Math.min(Math.max(parseInt(JSON.parse(storedDecimalPoint)) || 2, 0), 5) : 2;
-    
+        if ( useArabic ) { langSelectList0 = 'arabic_name'; langSelectList1 = 'not1Arabic'; langSelectList2 = 'not2Arabic' } else { langSelectList0 = 'english_name'; langSelectList1 = 'not1English'; langSelectList2 = 'not2English' }
+
     console.log('savedLang ->', savedLang, 'DecimalPoint ->', DecimalPoint);
 }
 

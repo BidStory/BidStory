@@ -177,21 +177,17 @@
     //#endregion
 
     //#region اختيار نوع المناقصة
-    let langSelect = '';
-    let langSelect1 = '';
-    let langSelect2 = '';
-    if ( useArabic ) { langSelect = 'arabic_name'; langSelect1 = 'not1Arabic'; langSelect2 = 'not2Arabic'; } else { langSelect = 'english_name'; langSelect1 = 'not1English'; langSelect2 = 'not2English'; }
-    function populateKindMoSelect ()
-    {
-        const select = document.getElementById( "kindMoSelect" );
+   function populateKindMoSelect ()
+   {
+       const select = document.getElementById( "kindMoSelect" );
 
-        for ( let cIndex = 1; cIndex <= 40; cIndex++ )
-        {
-            const name = getKindTenderValueByCIndex( cIndex, langSelect );
-            if ( name )
-            {
-                const option = document.createElement( "option" );
-                option.value = cIndex;
+       for ( let cIndex = 1; cIndex <= 40; cIndex++ )
+       {
+           const name = getKindTenderValueByCIndex( cIndex, langSelectList0 );
+           if ( name )
+           {
+               const option = document.createElement( "option" );
+               option.value = cIndex;
                 option.textContent = name;
                 select.appendChild( option );
             }
@@ -201,16 +197,15 @@
     //#endregion
 
     //#region اختيار نوع البند المالي
-    let langSelect_ = '';
+    
 
-    if ( useArabic ) { langSelect_ = 'arabic_name'; } else { langSelect_ = 'english_name'; }
-    function populateKindFinancialSelect ()
+    function projectKindFinancialSelect ()
     {
         const select = document.getElementById( "kindFinancialSelect" );
 
         for ( let cIndex = 0; cIndex <= 10; cIndex++ )
         {
-            const name = getKindFinancialByCIndex( cIndex, langSelect );
+            const name = getKindFinancialByCIndex( cIndex, langSelectList0 );
             if ( name )
             {
                 const option = document.createElement( "option" );
@@ -220,7 +215,7 @@
             }
         }
     }
-    populateKindFinancialSelect();
+    projectKindFinancialSelect();
     //#endregion
 
     //#region اختيار نوع الضرائب
@@ -231,7 +226,7 @@
 
         for ( let cIndex = 0; cIndex <= 2; cIndex++ )
         {
-            const name = getKindTaxByCIndex( cIndex, langSelect );
+            const name = getKindTaxByCIndex( cIndex, langSelectList0 );
             if ( name )
             {
                 const option = document.createElement( "option" );
@@ -253,7 +248,7 @@
         try
         {
             let kindMoSelect = await dbNoUpgradeDefination.keyGet( 'definition', 'kindMoSelect' );
-            document.getElementById( "kindMoDisc" ).innerText = getKindTenderValueByCIndex( kindMoSelect, langSelect1 ) + " " + getKindTenderValueByCIndex( kindMoSelect, langSelect2 );
+            document.getElementById( "kindMoDisc" ).innerText = getKindTenderValueByCIndex( kindMoSelect, langSelectList1 ) + " " + getKindTenderValueByCIndex( kindMoSelect, langSelectList2 );
 
             let taxSelect = await dbNoUpgradeDefination.keyGet( 'definition', 'kindTaxSelect' );
 
@@ -282,7 +277,7 @@
     {
 
         let kindMoSelect = await dbNoUpgradeDefination.keyGet( 'definition', 'kindMoSelect' );
-        document.getElementById( "kindMoDisc" ).innerText = getKindTenderValueByCIndex( kindMoSelect, langSelect1 ) + " " + getKindTenderValueByCIndex( kindMoSelect, langSelect2 );
+        document.getElementById( "kindMoDisc" ).innerText = getKindTenderValueByCIndex( kindMoSelect, langSelectList1 ) + " " + getKindTenderValueByCIndex( kindMoSelect, langSelectList2 );
 
         let taxSelect = await dbNoUpgradeDefination.keyGet( 'definition', 'kindTaxSelect' );
 

@@ -53,16 +53,15 @@
 }
 
     //#region اختيار نوع البند المالي
-    let langSelect_ = '';
 
-    if ( useArabic ) { langSelect_ = 'arabic_name'; } else { langSelect_ = 'english_name'; }
+
     function pandKindFinancialSelect ()
     {
         const select = document.getElementById( "kindFinancialSelectPand" );
 
         for ( let cIndex = 0; cIndex <= 10; cIndex++ )
         {
-            const name = getKindFinancialByCIndex( cIndex, langSelect );
+            const name = getKindFinancialByCIndex( cIndex, langSelectList0 );
             if ( name )
             {
                 const option = document.createElement( "option" );

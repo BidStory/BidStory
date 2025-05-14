@@ -331,7 +331,7 @@ function getImage(clableValue) {
   }
 }
 
-let useArabic=true;
+
 function getLang(id ) {
 
   if (!lang || !Array.isArray(lang.lang)) {
