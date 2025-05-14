@@ -135,17 +135,14 @@
 
         // ✅ إعداد اللغة والاتجاه (RTL أو LTR)
         const html = document.documentElement;
-         if (JSON.parse( savedLang)  == "ar" )
-        {
-          useArabic = true;
-          html.lang = "ar";
-          html.dir = "rtl";
-        } else
-        {
-             useArabic = false;
-          html.lang = "en";
-          html.dir = "ltr";
-
+        if (savedLang === "ar") {
+            useArabic = true;
+            html.lang = "ar";
+            html.dir = "rtl";
+        } else {
+            useArabic = false;
+            html.lang = "en";
+            html.dir = "ltr";
         }
 
         // ✅ عند جاهزية قاعدة البيانات، حمّل النصوص والصور حسب اللغة

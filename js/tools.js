@@ -1,4 +1,3 @@
-
 //this is tools.js file
 
 
@@ -100,6 +99,7 @@ async function watchingAllInputs2IndexDB ( target, dbNoUpgrade, tableName )
   // مراقبة كل حقل إدخال
   inputs.forEach( ( input ) =>
   {
+    // @ts-ignore
     // @ts-ignore
     // @ts-ignore
     // @ts-ignore
@@ -230,8 +230,7 @@ async function restoreAllInputsFromIndexDB ( target, dbNoUpgrade, tableName )
   console.log( `✅ تم استرجاع القيم لجميع الحقول (${ inputs.length }) داخل العنصر ${ target }` );
 }
 
-function watchAndSaveInputs2Local ()
-{
+function watchAndSaveInputs2Local() {
   const inputSelectors = [
     'input[type="text"]',
     'input[type="date"]',
@@ -246,153 +245,74 @@ function watchAndSaveInputs2Local ()
     'select'
   ];
 
-  const inputs = document.querySelectorAll( inputSelectors.join( ',' ) );
+  const inputs = document.querySelectorAll(inputSelectors.join(','));
   const inputListeners = [];
 
-  inputs.forEach( ( input ) =>
-  {
-    const handleInputChange = () =>
-    {
+  inputs.forEach((input) => {
+    const handleInputChange = () => {
       let value;
 
       // @ts-ignore
-      if ( input.type === 'checkbox' )
-      {
+      if (input.type === 'checkbox') {
         // @ts-ignore
-        value = input.checked;
+        value = input.checked ? 'true' : 'false';
+      // @ts-ignore
+      } else if (input.type === 'radio') {
         // @ts-ignore
-      } else if ( input.type === 'radio' )
-      {
-        // @ts-ignore
-        if ( !input.checked ) return;
+        if (!input.checked) return;
         // @ts-ignore
         value = input.value;
-      } else
-      {
+      } else {
         // @ts-ignore
         value = input.value;
       }
 
-      if ( input.id )
-      {
-        localStorage.setItem( input.id, JSON.stringify( value ) );
-        console.log( `💾 تم حفظ "${ input.id }":`, value );
-      } else
-      {
-        console.warn( '⚠️ لا يمكن الحفظ: العنصر ليس له معرّف (id)', input );
+      if (input.id) {
+        localStorage.setItem(input.id, value);
+        console.log(`💾 تم حفظ "${input.id}":`, value);
+      } else {
+        console.warn('⚠️ لا يمكن الحفظ: العنصر ليس له معرّف (id)', input);
       }
-
     };
 
     const eventType =
       // @ts-ignore
       input.type === 'radio' ||
-        // @ts-ignore
-        input.type === 'checkbox' ||
-        input.tagName.toLowerCase() === 'select'
+      // @ts-ignore
+      input.type === 'checkbox' ||
+      input.tagName.toLowerCase() === 'select'
         ? 'change'
         : 'input';
 
-    input.addEventListener( eventType, handleInputChange );
-    inputListeners.push( { input, listener: handleInputChange } );
+    input.addEventListener(eventType, handleInputChange);
+    inputListeners.push({ input, listener: handleInputChange });
 
     // استرجاع القيم المحفوظة من localStorage عند التحميل
-    if ( input.id && localStorage.getItem( input.id ) )
-    {
-      // @ts-ignore
-      const savedValue = JSON.parse( localStorage.getItem( input.id ) );
+    if (input.id && localStorage.getItem(input.id) !== null) {
+      const savedValue = localStorage.getItem(input.id);
 
       // @ts-ignore
-      if ( input.type === 'checkbox' )
-      {
+      if (input.type === 'checkbox') {
         // @ts-ignore
-        input.checked = savedValue;
+        input.checked = savedValue === 'true';
+      // @ts-ignore
+      } else if (input.type === 'radio') {
         // @ts-ignore
-      } else if ( input.type === 'radio' )
-      {
-        // @ts-ignore
-        if ( input.value === savedValue ) input.checked = true;
-      } else
-      {
+        if (input.value === savedValue) input.checked = true;
+      } else {
         // @ts-ignore
         input.value = savedValue;
       }
     }
-  } );
+  });
 
-  console.log( `🔍 جاري مراقبة ${ inputs.length } من حقول الإدخال` );
+  console.log(`🔍 جاري مراقبة ${inputs.length} من حقول الإدخال`);
 
   return inputListeners;
 }
 
-const restoreInputsFromLocal = () =>
-{
-  // أنواع حقول الإدخال المطلوبة (نفس أنواع الدالة السابقة)
-  const inputSelectors = [
-    'input[type="text"]',
-    'input[type="date"]',
-    'input[type="time"]',
-    'input[type="radio"]',
-    'input[type="checkbox"]',
-    'input[type="number"]',
-    'input[type="url"]',
-    'input[type="email"]',
-    'input[type="password"]',
-    'textarea',
-    'select'
-  ];
 
-  // البحث عن جميع حقول الإدخال في الصفحة
-  const inputs = document.querySelectorAll( inputSelectors.join( ',' ) );
 
-  let restoredCount = 0;
-
-  inputs.forEach( ( input ) =>
-  {
-    if ( !input.id ) return; // تخطي العناصر بدون معرف
-
-    const savedValue = localStorage.getItem( input.id );
-    if ( savedValue === null ) return; // لا يوجد قيمة محفوظة
-
-    try
-    {
-      const parsedValue = JSON.parse( savedValue );
-
-      // تعيين القيمة حسب نوع الحقل
-      // @ts-ignore
-      if ( input.type === 'checkbox' )
-      {
-        // @ts-ignore
-        input.checked = parsedValue;
-        restoredCount++;
-      }
-      // @ts-ignore
-      else if ( input.type === 'radio' )
-      {
-        // @ts-ignore
-        if ( input.value === parsedValue )
-        {
-          // @ts-ignore
-          input.checked = true;
-          restoredCount++;
-        }
-      }
-      else
-      {
-        // @ts-ignore
-        input.value = parsedValue;
-        restoredCount++;
-      }
-
-    } catch ( error )
-    {
-      console.error( `❌ خطأ في تحليل القيمة المحفوظة للعنصر ${ input.id }:`, error );
-    }
-  } );
-
-  console.log( `♻️ تم استعادة ${ restoredCount } من القيم من localStorage` );
-  return restoredCount; // إرجاع عدد العناصر التي تمت استعادة قيمها
-};
 //#endregion 
 
 //هذة الداله تقوم بالترقيم علي طريقة البنود حيث تراعي العلامات الخاصة مثل * و _ و فواصل . الارقام
@@ -725,11 +645,18 @@ let savedLang = "en";
 let DecimalPoint = 2;
 
 async function getSetting() {
-    savedLang =(localStorage.getItem("languageSelect") || "en").trim();
+    const storedLang = localStorage.getItem("languageSelect");
+    // التحقق من صحة قيمة اللغة
+    savedLang = (storedLang === "ar" || storedLang === "en") ? storedLang : "en";
     
-    // @ts-ignore
-    DecimalPoint = parseInt(JSON.parse(localStorage.getItem("DecimalPoint"))) || 2;
+    // التحقق من صحة قيمة النقطة العشرية
+    const storedDecimalPoint = localStorage.getItem("DecimalPoint");
+    DecimalPoint = storedDecimalPoint ? Math.min(Math.max(parseInt(JSON.parse(storedDecimalPoint)) || 2, 0), 5) : 2;
+    
     console.log('savedLang ->', savedLang, 'DecimalPoint ->', DecimalPoint);
 }
 
- getSetting();
+// تأكد من تنفيذ الدالة بشكل متزامن عند بدء التطبيق
+(async () => {
+    await getSetting();
+})();
