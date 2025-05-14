@@ -313,6 +313,28 @@ function getKindTaxByCIndex(cIndex, key) {
 
   return item[key];
 }
+
+function getUnitByCIndex(cIndex, key) {
+  
+  if (!lists || !Array.isArray(lists.unit)) {
+    console.warn("⚠️ lists.unit غير موجود أو ليس مصفوفة.");
+    return null;
+  }
+
+  const item = lists.unit.find(entry => entry.CIndex == cIndex);
+  
+  if (!item) {
+    console.warn(`⚠️ لم يتم العثور على عنصر بـ CIndex = ${cIndex}`);
+    return null;
+  }
+
+  if (!(key in item)) {
+    console.warn(`⚠️ المفتاح '${key}' غير موجود في العنصر.`);
+    return null;
+  }
+
+  return item[key];
+}
 function getImage(clableValue) {
  
   if (!images || !Array.isArray(images.image)) {

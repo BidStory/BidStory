@@ -35,6 +35,10 @@
     <select id="kindFinancialSelectPand">
         <option disabled selected id="t_1259"></option>
     </select>
+ <h3 id="t_66"></h3>
+     <select id="UnitPand">
+        <option disabled selected id="t_1262"></option>
+    </select>
 </div>
 
 <script>
@@ -52,9 +56,29 @@
                   isTableWatcherEnabled=true;
 }
 
+
+    //#region اختيار نوع وحدة القياس
+    function pandUnitSelect ()
+    {
+        const select = document.getElementById( "UnitPand" );
+
+        for ( let cIndex = 0; cIndex <= 10; cIndex++ )
+        {
+            const name = getUnitByCIndex( cIndex, langSelectList0 );
+            if ( name )
+            {
+                const option = document.createElement( "option" );
+                option.value = cIndex;
+                option.textContent = name;
+                select.appendChild( option );
+            }
+        }
+    }
+    pandUnitSelect();
+    //#endregion
+
+
     //#region اختيار نوع البند المالي
-
-
     function pandKindFinancialSelect ()
     {
         const select = document.getElementById( "kindFinancialSelectPand" );
