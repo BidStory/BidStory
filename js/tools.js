@@ -672,5 +672,5 @@ async function getSetting() {
 
 // تأكد من تنفيذ الدالة بشكل متزامن عند بدء التطبيق
 (async () => {
-    await getSetting();
+    await getSetting();44
 })();
