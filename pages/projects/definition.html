@@ -15,6 +15,7 @@
         await restoreAllInputsFromIndexDB( "mainDefinationPage", dbNoUpgradeDefination, 'definition' );
         await watchingAllInputs2IndexDB( "mainDefinationPage", dbNoUpgradeDefination, 'definition' );
         await dbNoUpgradeDefination.keySet( 'definition', 'id', proId );
+        //عرض معرف الجدول الخاص بتعريف المشروع
         document.getElementById( "proId" ).innerText = proId;
         await initMap();
         await setupDataWithOutEvent();
@@ -171,9 +172,10 @@
     inputElement.addEventListener( 'input', async function ( event )
     {
         const currentValue = event.target.value;
-        let dbNoUpgrade_ = await new noUpgrade( 'allProjectes' );
+        let dbNoUpgrade_ = await new noUpgrade( 'allPro' );
         await dbNoUpgrade_.keySet( proId, 'projectName', currentValue );
     } );
+    
     //#endregion
 
     //#region اختيار نوع المناقصة
