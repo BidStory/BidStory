@@ -66,10 +66,10 @@ function CID(pattern = IDPattern.MIXED2_NUMS2, fixed = "")
 //#endregion
 
 //#region دوال حفظ واسترجاع البيانات
-async function watchingAllInputs2IndexDB(target, dbNoUpgrade, tableName)
-{
-   q('eeeeeee watching ->'+tableName);
-  // أنواع حقول الإدخال التي نريد مراقبتها (بدون الأزرار)
+async function watchingAllInputs2IndexDB(target, dbNoUpgrade, tableName) {
+  q('🟡 watchingAllInputs2IndexDB -> ' + tableName);
+
+  // أنواع الحقول التي سيتم مراقبتها
   const inputSelectors = [
     'input[type="text"]',
     'input[type="date"]',
@@ -85,83 +85,97 @@ async function watchingAllInputs2IndexDB(target, dbNoUpgrade, tableName)
   ];
 
   const containerElement = document.getElementById(target);
-  // التحقق من وجود العنصر، إذا لم يكن موجود نخرج من الدالة
-  if (!containerElement)
-  {
-    console.error("❌ لم يتم توفير عنصر الحاوية (watchingAllInputs2IndexDB).");
+
+  if (!containerElement) {
+    console.error("❌ لم يتم العثور على العنصر المستهدف (watchingAllInputs2IndexDB).");
     return;
   }
-  // البحث عن جميع حقول الإدخال في الصفحة
-  const inputs = containerElement.querySelectorAll(inputSelectors.join(","));
 
-  // مصفوفة لتخزين المعالجات (لإزالتها لاحقًا إذا لزم الأمر)
+  const inputs = containerElement.querySelectorAll(inputSelectors.join(","));
   const inputListeners = [];
 
-  // مراقبة كل حقل إدخال
-  inputs.forEach((input) =>
-  {
+  // ⛔️ تنظيف أي مستمعين سابقين
+  // @ts-ignore
+  removeInputListenersFromTarget(window.__inputListenersGlobal__?.[target] || []);
+
+  inputs.forEach((input) => {
     // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
-    const inputListener = (event) =>
-    {
+    const inputListener = (event) => {
       let value;
 
-      // تحديد القيمة حسب نوع الحقل
       // @ts-ignore
-      if (input.type === "checkbox")
-      {
+      if (input.type === "checkbox") {
         // @ts-ignore
         value = input.checked;
-      }
       // @ts-ignore
-      else if (input.type === "radio")
-      {
+      } else if (input.type === "radio") {
         // @ts-ignore
         if (!input.checked) return;
         // @ts-ignore
         value = input.value;
-      }
-      else
-      {
+      } else {
         // @ts-ignore
         value = input.value;
       }
 
-      // حفظ القيمة في قاعدة البيانات (إذا كانت الدالة متاحة)
-      // @ts-ignore
-      if (typeof dbNoUpgrade?.keySet === 'function')
-      {
-        // @ts-ignore
+      if (typeof dbNoUpgrade?.keySet === 'function') {
         dbNoUpgrade.keySet(tableName, input.id, value);
         console.log("💾 تم حفظ القيمة:", { id: input.id, value });
       }
     };
 
-    // تحديد نوع الحدث المناسب (change للأزرار ومربعات الاختيار، input لباقي الحقول)
-    const eventType =
+    const eventType = (
+      // @ts-ignore
+      input.type === "checkbox" ||
       // @ts-ignore
       input.type === "radio" ||
-        // @ts-ignore
-        input.type === "checkbox" ||
-        input.tagName.toLowerCase() === "select"
-        ? "change"
-        : "input";
+      input.tagName.toLowerCase() === "select"
+    ) ? "change" : "input";
 
-    // إضافة المعالج للعنصر
     input.addEventListener(eventType, inputListener);
-
-    // تخزين المرجع لإزالة المعالج لاحقًا إذا لزم الأمر
     inputListeners.push({ input, listener: inputListener });
   });
 
-  console.log(`🔍 بدأ مراقبة ${inputs.length} من حقول الإدخال في الصفحة`);
+  // 🔁 حفظ قائمة المستمعين بشكل عام حتى يمكن إزالتهم لاحقًا عند الحاجة
+  // @ts-ignore
+  window.__inputListenersGlobal__ = window.__inputListenersGlobal__ || {};
+  // @ts-ignore
+  window.__inputListenersGlobal__[target] = inputListeners;
 
-  // إرجاع مصفوفة المعالجات لإمكانية إزالتها لاحقًا
+  console.log(`🔍 بدأ مراقبة ${inputs.length} من الحقول داخل العنصر ${target}`);
+
   return inputListeners;
-};
+}
+
+
+function removeInputListenersFromTarget(inputListeners)
+{
+  if (!Array.isArray(inputListeners))
+  {
+    console.warn("⚠️ المعطى ليس مصفوفة من المستمعين.");
+    return;
+  }
+
+  inputListeners.forEach(({ input, listener }) =>
+  {
+    if (!input || !listener)
+    {
+      console.warn("⚠️ عنصر أو مستمع غير صالح:", { input, listener });
+      return;
+    }
+
+    const type = input.type;
+    const eventType =
+      type === 'checkbox' || type === 'radio' || input.tagName.toLowerCase() === 'select'
+        ? 'change'
+        : 'input';
+
+    input.removeEventListener(eventType, listener);
+  });
+
+  console.log(`🧹 تم إزالة ${inputListeners.length} من مستمعي الأحداث.`);
+}
+
 
 async function restoreAllInputsFromIndexDB(target, dbNoUpgrade, tableName)
 {
@@ -232,6 +246,11 @@ async function restoreAllInputsFromIndexDB(target, dbNoUpgrade, tableName)
   console.log(`✅ تم استرجاع القيم لجميع الحقول (${inputs.length}) داخل العنصر ${target}`);
 }
 
+
+
+//#endregion
+
+//#region دوال حفظ واسترجاع البيانات من localStorage
 function watchAndSaveInputs2Local(target)
 {
   // @ts-ignore

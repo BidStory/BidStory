@@ -292,6 +292,27 @@ function getKindFinancialByCIndex(cIndex, key) {
   return item[key];
 }
 
+function getPandTypeByCIndex(cIndex, key) {
+  if (!lists || !Array.isArray(lists.pandType)) {
+    console.warn("⚠️ lists.pandType غير موجود أو ليس مصفوفة.");
+    return null;
+  }
+
+  const item = lists.pandType.find(entry => entry.CIndex == cIndex);
+
+  if (!item) {
+    console.warn(`⚠️ لم يتم العثور على عنصر بـ CIndex = ${cIndex}`);
+    return null;
+  }
+
+  if (!(key in item)) {
+    console.warn(`⚠️ المفتاح '${key}' غير موجود في العنصر.`);
+    return null;
+  }
+
+  return item[key];
+}
+
 function getKindTaxByCIndex(cIndex, key) {
   
   if (!lists || !Array.isArray(lists.Tax_mo)) {
@@ -301,6 +322,28 @@ function getKindTaxByCIndex(cIndex, key) {
 
   const item = lists.Tax_mo.find(entry => entry.CIndex == cIndex);
   
+  if (!item) {
+    console.warn(`⚠️ لم يتم العثور على عنصر بـ CIndex = ${cIndex}`);
+    return null;
+  }
+
+  if (!(key in item)) {
+    console.warn(`⚠️ المفتاح '${key}' غير موجود في العنصر.`);
+    return null;
+  }
+
+  return item[key];
+}
+
+function getKindWorkCIndex(cIndex, key) {
+
+  if (!lists || !Array.isArray(lists.fixKindWork)) {
+    console.warn("⚠️ lists.fixKindWork غير موجود أو ليس مصفوفة.");
+    return null;
+  }
+
+  const item = lists.fixKindWork.find(entry => entry.CIndex == cIndex);
+
   if (!item) {
     console.warn(`⚠️ لم يتم العثور على عنصر بـ CIndex = ${cIndex}`);
     return null;

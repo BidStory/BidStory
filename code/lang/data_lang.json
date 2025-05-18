@@ -5664,6 +5664,16 @@
       "id": 1262,
       "a": "ختيار وحدة قياس البند",
       "e": "select measurement unit"
+    },
+    {
+      "id": 1263,
+      "a": "اختر نوع البند",
+      "e": "Select item type"
+    },
+    {
+      "id": 1264,
+      "a": "اختر نوع الاعمال",
+      "e": "Select type of work"
     }
   ]
 }

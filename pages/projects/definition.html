@@ -173,7 +173,7 @@
     {
         const currentValue = event.target.value;
         let dbNoUpgrade_ = await new noUpgrade( 'allPro' );
-        await dbNoUpgrade_.keySet( proId, 'projectName', currentValue );
+        await dbNoUpgrade_.keySet( proId.replace('def_', ''), 'projectName', currentValue );
     } );
     
     //#endregion
@@ -293,6 +293,7 @@
 
             await dbNoUpgradeDefination.keySet( 'definition', 'taxValuePercentage', '' );
         }
+
     }
 
     //#endregion

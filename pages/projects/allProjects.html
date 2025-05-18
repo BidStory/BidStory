@@ -14,11 +14,11 @@
     async function initAllProjectPage()
     {
         await tt.getAllRowsDataOnly();
-        const input = document.getElementById("projectName");
-        if (input)
-        {
-            input.placeholder = getLang(269); // ✅ غيّر النص حسب رغبتك
-        }
+        const inputs = document.querySelectorAll( '[id="projectName"]' );
+            inputs.forEach( input =>
+            {
+                input.placeholder = getLang( 269 );
+            } );
     }
     
 
