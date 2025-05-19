@@ -509,48 +509,7 @@ async function delay(ms)
 }
 
 //#region الانتقال بين الصفحات
-/**
- * ينتقل إلى الصفحة الرئيسية (section#home)
- */
-// @ts-ignore
-window.navigateToHome = function ()
-{
-  try
-  {
-    // ابقِ loadedPages['home'] كما هو إذا كنت لا تريد إعادة تحميله من الصفر
-    // @ts-ignore
-    showSection('home');
-  } catch (e)
-  {
-    console.error("navigateToHome error:", e);
-  }
-};
 
-/**
- * يعيد تحميل القسم الحالي (select) من جديد،
- * ويفرض على showSection بإعادة جلب HTML طالما ننزع علامة loadedPages
- */
-// @ts-ignore
-window.reloadCurrentSection = function ()
-{
-  try
-  {
-    // @ts-ignore
-    if (!select)
-    {
-      console.warn("لا يوجد قسم مختار حاليًا لإعادة تحميله.");
-      return;
-    }
-    // أزل العلم حتى يُعاد تحميل HTML من الصفحات الفرعية
-    // @ts-ignore
-    loadedPages[select] = false;
-    // @ts-ignore
-    showSection(select);
-  } catch (e)
-  {
-    console.error("reloadCurrentSection error:", e);
-  }
-};
 
 /**
 * دالة تنقل المستخدم إلى قسم معين داخل index.html

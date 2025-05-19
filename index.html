@@ -1,6 +1,4 @@
-﻿<!---this is index.html file---->
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
   <head>
@@ -8,22 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BidStory</title>
 
-    <!-- أيقونة التبويب (favicon) التي تظهر بجانب عنوان الصفحة في المتصفح -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
-    <!-- ملفات JavaScript المطلوبة مسبقًا -->
-    <script src="/BidStory/js/tools.js"></script> <!-- أدوات مساعدة عامة -->
-    <script src="/BidStory/code/lang/imageAndLang.js"></script> <!-- إدارة النصوص والصور حسب اللغة -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- مكتبة SweetAlert2 للتنبيهات -->
-    <script src="/BidStory/js/dataBase/dbManager.js"></script> <!-- إدارة قاعدة البيانات -->
-    <script src="/BidStory/js/table/table.js"></script> <!-- إدارة الجداول -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" /> <!-- مكتبة الخرائط  -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><!-- مكتبة الخرائط  -->
-
+    <script src="/BidStory/js/tools.js"></script>
+    <script src="/BidStory/code/lang/imageAndLang.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/BidStory/js/dataBase/dbManager.js"></script>
+    <script src="/BidStory/js/table/table.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <!-- تنسيق مخصص للصفحة -->
     <link rel="stylesheet" href="/BidStory/css/table.css">
+
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -65,6 +59,13 @@
       .active {
         display: block;
       }
+
+      .loader {
+        padding: 20px;
+        text-align: center;
+        font-weight: bold;
+        color: #555;
+      }
     </style>
   </head>
 
@@ -72,13 +73,11 @@
 
     <!-- ✅ شريط التنقل بين الأقسام الرئيسية -->
     <nav>
-      <button onclick="showSection('home')">
-        <!-- أيقونة الصفحة الرئيسية -->
-        <img id="i_allmo" alt="Home" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+      <button onclick="showSection('allProjects')">
+        <img id="i_allmo" alt="allProjects" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
         <span id="t_159"></span>
       </button>
       <button onclick="showSection('setting')">
-        <!-- أيقونة الإعدادات -->
         <img id="i_setting" alt="setting" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
         <span id="t_62"></span>
       </button>
@@ -86,12 +85,10 @@
 
     <!-- ✅ شريط تنقل فرعي يظهر بعد اختيار مشروع -->
     <nav id="nav2" style="display: none;">
-      <!-- تعريف المشروع -->
       <button onclick="showSection('definition')">
         <img id="i_id" alt="definition" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
         <span id="t_253"></span>
       </button>
-      <!-- بنود المشروع -->
       <button onclick="showSection('pands')">
         <img id="i_items" alt="pands" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
         <span id="t_633"></span>
@@ -99,172 +96,149 @@
     </nav>
 
     <!-- ✅ الأقسام (تظهر حسب القسم المختار) -->
-    <div id="home" class="section active"></div> <!-- الصفحة الرئيسية -->
-    <div id="setting" class="section"></div> <!-- الإعدادات -->
-    <div id="definition" class="section"></div> <!-- تعريف المشروع -->
-    <div id="pands" class="section"></div> <!-- بنود المشروع -->
-    <div id="selectedPand" class="section"></div> <!-- بند المشروع -->
+    <div id="allProjects" class="section active"></div>
+    <div id="setting" class="section"></div>
+    <div id="definition" class="section"></div>
+    <div id="pands" class="section"></div>
+    <div id="selectedPand" class="section"></div>
 
-    <!-- ✅ JavaScript الخاص بالتهيئة -->
+    <!-- ✅ JavaScript الخاص بالتهيئة والتحميل -->
     <script>
-      // ✅ تحديد الأقسام التي تم تحميلها مسبقاً لتجنب التكرار
       const loadedPages = {
         setting: false,
         definition: false,
         pands: false,
         selectedPand: false,
-        home: false
+        allProjects: false
       };
-      // تعيين مسارات ملفات HTML الخاصة بكل قسم
+
       const pageMap = {
         setting: "pages/setting.html",
         definition: "pages/projects/definition.html",
         pands: "pages/projects/pands.html",
         selectedPand: "pages/projects/selectedPand.html",
-        home: "pages/projects/allProjects.html"
+        allProjects: "pages/projects/allProjects.html"
       };
-      let selectedPage = null;
+
+      let selectedPage = null;//تستخدم في دوال اخري خارج هذة الصفحة لذا يجب عدم تغير الاسم
       let targetSection = null;
+
       document.addEventListener( "DOMContentLoaded", async () =>
       {
-        // ❗ انتظر حتى يتم تعيين قيمة Load = true
-        while ( typeof Load !== "undefined" && Load === false )
+        while ( await getLoadLangImageLists() == false )
         {
           await new Promise( resolve => setTimeout( resolve, 100 ) );
         }
 
-        // ✅ إعداد اللغة والاتجاه (RTL أو LTR)
         const html = document.documentElement;
-        if (useArabic == true) {
-            
-            html.lang = "ar";
-            html.dir = "rtl";
-        } else {
-         
-            html.lang = "en";
-            html.dir = "ltr";
+        if ( useArabic == true )
+        {
+          html.lang = "ar";
+          html.dir = "rtl";
+        } else
+        {
+          html.lang = "en";
+          html.dir = "ltr";
         }
 
-        // ✅ عند جاهزية قاعدة البيانات، حمّل النصوص والصور حسب اللغة
-        document.addEventListener( 'BidStoryDBReady', async () =>
-        {
-          await delay( 50 );
-          setTextAndImage();
-        } );
-
-
-        // ✅ دالة لإظهار قسم معين وتحميله عند الحاجة
-        window.showSection = function ( selectedPage_ )
-        {
-          try
-          {
-            selectedPage = selectedPage_;
-            // إخفاء جميع الأقسام
-            document.querySelectorAll( ".section" ).forEach( section => section.classList.remove( "active" ) );
-
-            // إظهار القسم المطلوب
-            targetSection = document.getElementById( selectedPage_ );
-            targetSection.classList.add( "active" );
-
-
-
-            // تحميل الصفحة إذا لم تكن محمّلة من قبل
-            if ( pageMap[ selectedPage_ ] && !loadedPages[ selectedPage_ ] )
-            {
-              targetSection.innerHTML = "<p>جاري التحميل...</p>";
-              load_R();
-
-            }
-
-
-            // تنفيذ مهام خاصة بالصفحة المختارة 
-            ( async () =>
-            {
-              await delay( 100 );
-              if ( selectedPage_ == 'home' )
-              {
-                await initAllProjectPage();
-                const nav_ = document.getElementById( "nav2" );
-                nav_.style.display = "none";
-                localStorage.setItem( 'selectedProject', '' );
-                   localStorage.setItem( 'selectedPand', '' );
-              }
-              if ( selectedPage_ == 'definition' )
-              {
-                await initDefinitionPage();
-              }
-              if ( selectedPage_ == 'pands' )
-              {
-                await initItemsPage();
-              }
-              if ( selectedPage_ == 'selectedPand' )
-              {
-                await initSelectedPandPage();
-              }
-              //لترقية النصوص والصور الخاصة بالصفحة التي تم تحميلها
-              await setTextAndImage();
-            } )();
-
-          } catch ( error )
-          {
-            console.error( "حدث خطأ:", error );
-            alert( "حدث خطأ تقني، يرجى المحاولة لاحقًا." );
-          }
-        };
-
-        // ✅ إظهار القسم الافتراضي (الصفحة الرئيسية)
-        showSection( "home" );
+        // يمكن تعيين القسم الافتراضي هنا إذا أردت
+        await showSection( 'allProjects' );
       } );
-      async function load_R ()
+      //يجب الحفاظ علي اسم الداله كما هو لانها تستخدم من خارج الصفحة
+      async function showSection ( sectionId )
+      {
+        await loadSection( sectionId );
+      }
+
+      async function loadSection ( sectionId )
       {
         try
         {
+          if ( selectedPage === sectionId && loadedPages[ sectionId ] ) return;
 
-          console.log( typeof q );
-          q( 'سوف يتم الانتقال الي -> 00000      ' + selectedPage );
-          fetch( pageMap[ selectedPage ] )
-            .then( response =>
-            {
-              if ( !response.ok ) throw new Error( "الملف غير موجود" );
-              return response.text();
-            } )
-            .then( html =>
-            {
-              const temp = document.createElement( "div" );
-              temp.innerHTML = html;
+          selectedPage = sectionId;
+          targetSection = document.getElementById( sectionId );
 
-              // إزالة السكريبتات مؤقتاً من الصفحة المحمّلة
-              const scripts = temp.querySelectorAll( "script" );
-              scripts.forEach( s => s.remove() );
+          document.querySelectorAll( ".section" ).forEach( section =>
+            section.classList.remove( "active" )
+          );
+          targetSection.classList.add( "active" );
 
-              // إدراج المحتوى بعد إزالة السكريبتات
-              targetSection.innerHTML = temp.innerHTML;
+          if ( !loadedPages[ sectionId ] && pageMap[ sectionId ] )
+          {
+            targetSection.innerHTML = '<div class="loader">جاري التحميل...</div>';
+            await loadPageContent( sectionId, targetSection );
+            loadedPages[ sectionId ] = true;
+          }
 
-              // إعادة تفعيل السكريبتات المحذوفة يدويًا
-              scripts.forEach( script =>
-              {
-                const newScript = document.createElement( "script" );
-                if ( script.src )
-                {
-                  newScript.src = script.src;
-                } else
-                {
-                  newScript.textContent = script.textContent;
-                }
-                document.body.appendChild( newScript );
-              } );
-              definition;
-              // وسم الصفحة كـ "تم تحميلها"
-              loadedPages[ selectedPage ] = true;
+          await handleSectionInit( sectionId );
+          await setTextAndImage();
 
-            } )
-            .catch( error =>
-            {
-              targetSection.innerHTML = "<p>فشل تحميل الصفحة.</p>";
-              console.error( "خطأ:", error );
-            } );
-        } catch ( er ) { console.error( er ); }
+        } catch ( error )
+        {
+          console.error( "خطأ أثناء تحميل القسم:", error );
+          targetSection.innerHTML = "<p>⚠️ فشل تحميل الصفحة.</p>";
+        }
       }
+
+      async function loadPageContent ( sectionId, container )
+      {
+        const url = pageMap[ sectionId ];
+        const response = await fetch( url );
+        if ( !response.ok ) throw new Error( "الملف غير موجود" );
+
+        const html = await response.text();
+        const temp = document.createElement( "div" );
+        temp.innerHTML = html;
+
+        const scripts = temp.querySelectorAll( "script" );
+        scripts.forEach( script => script.remove() );
+
+        container.innerHTML = temp.innerHTML;
+
+        // تحميل السكربتات واحداً تلو الآخر
+        for ( const script of scripts )
+        {
+          await new Promise( ( resolve, reject ) =>
+          {
+            const newScript = document.createElement( "script" );
+            if ( script.src )
+            {
+              newScript.src = script.src;
+              newScript.onload = resolve;
+              newScript.onerror = reject;
+            } else
+            {
+              newScript.textContent = script.textContent;
+              resolve();
+            }
+            document.body.appendChild( newScript );
+          } );
+        }
+      }
+
+      async function handleSectionInit ( sectionId )
+      {
+        switch ( sectionId )
+        {
+          case 'allProjects':
+            await initAllProjectPage();
+            document.getElementById( "nav2" ).style.display = "none";
+            localStorage.setItem( 'selectedProject', '' );
+            localStorage.setItem( 'selectedPand', '' );
+            break;
+          case 'definition':
+            await initDefinitionPage();
+            break;
+          case 'pands':
+            await initItemsPage();
+            break;
+          case 'selectedPand':
+            await initSelectedPandPage();
+            break;
+        }
+      }
+
     </script>
 
   </body>

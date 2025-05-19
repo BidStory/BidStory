@@ -1,7 +1,7 @@
 <script>
 
     // تهيئة الجدول
-    let tt = new setTableParameter(
+    let allProjectsTable = new setTableParameter(
         'table2',        // ID of the container element
         'allPro',         // Table ID and database name
         'RawTable',      // ID of the row template to copy
@@ -13,7 +13,7 @@
 
     async function initAllProjectPage()
     {
-        await tt.getAllRowsDataOnly();
+        await allProjectsTable.getAllRowsDataOnly();
         const inputs = document.querySelectorAll( '[id="projectName"]' );
             inputs.forEach( input =>
             {

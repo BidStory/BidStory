@@ -1,3 +1,16 @@
+<style>
+    .section0 {
+        display: none;
+        padding: 20px;
+        background-color: white;
+        margin: 10px;
+        border-radius: 10px;
+    }
+
+    .active0 {
+        display: block;
+    }
+</style>
 <script>
     let dataBaseIdForSelectedPand = null;
     let dbNoUpgradSelectedPand = null;
@@ -24,43 +37,84 @@
 
     <textarea id="pandText"></textarea>
     <br>
-    <!---- الكمية --->
-    <input type="number" id="kmia">
+    <table>
+        <tr>
+            <td>
+                <!--   الوحدات -->
+                <button onclick="showPart('unit')">
+                    <img id="i_units" alt="unit"
+                        style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                    <br> <span id="t_48"></span>
+                </button>
+            </td>
+            <td>
+                <!-- الاشتراطات -->
+                <button onclick="showPart('condations')">
+                    <img id="i_condation_mo" alt="unit"
+                        style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                    <br> <span id="t_279"></span>
+                </button>
+            </td>
+        </tr>
+    </table>
+
+
     <br>
-    <!---- سعر الوحدة --->
-    <input type="number" id="sear">
     <br>
-    <!---- المجموع --->
-    <input type="number" id="tot">
-    <br>
-    <!---- نوع البند المالي --->
-    <h3 id="t_137"></h3>
-    <select id="kindFinancialSelectPand">
-        <option disabled selected id="t_1259"></option>
-    </select>
-    <!----وحدة البند-->
-    <h3 id="t_66"></h3>
-    <select id="UnitPand">
-        <option disabled selected id="t_1262"></option>
-    </select>
-    <!----نوع البند-->
-    <h3 id="t_204"></h3>
-    <select id="PandType">
-        <option disabled selected id="t_1263"></option>
-    </select>
-     <!----نوع الاعمل-->
-    <h3 id="t_63"></h3>
-    <select id="KindWork">
-        <option disabled selected id="t_1264"></option>
-    </select>
+    <!-- الاشتراطات -->
+    <div id="condations" class="section0">
+        hesham
+    </div>
+    <!--  الوحدات-->
+    <div id="unit" class="section0">
+
+        <!---- الكمية --->
+        <input type="number" id="kmia">
+        <br>
+        <!---- سعر الوحدة --->
+        <input type="number" id="sear">
+        <br>
+        <!---- المجموع --->
+        <input type="number" id="tot">
+        <br>
+        <!---- نوع البند المالي --->
+        <h3 id="t_137"></h3>
+        <select id="kindFinancialSelectPand">
+            <option disabled selected id="t_1259"></option>
+        </select>
+        <!----وحدة البند-->
+        <h3 id="t_66"></h3>
+        <select id="UnitPand">
+            <option disabled selected id="t_1262"></option>
+        </select>
+        <!----نوع البند-->
+        <h3 id="t_204"></h3>
+        <select id="PandType">
+            <option disabled selected id="t_1263"></option>
+        </select>
+        <!----نوع الاعمل-->
+        <h3 id="t_63"></h3>
+        <select id="KindWork">
+            <option disabled selected id="t_1264"></option>
+        </select>
+    </div>
     <!-- الكود التعريفي -->
-    <br><br>
+    <br>
     <h3 id="t_615"></h3>
     <label id="selectedPandId"></label>
 
 </div>
 
 <script>
+    async function showPart ( part )
+    {
+        document.querySelectorAll( ".section0" ).forEach( section => section.classList.remove( "active0" ) );
+
+        // إظهار القسم المطلوب
+        targetSection = document.getElementById( part );
+        targetSection.classList.add( "active0" );
+    }
+
     async function calTot ()
     {
         const kmia_ = document.getElementById( "kmia" );
@@ -75,7 +129,6 @@
         await dbNoUpgradSelectedPand.keySet( selectedPandId, 'tot', tot_.value );
         isTableWatcherEnabled = true;
     }
-
 
     //#region اختيار نوع وحدة القياس
     function pandUnitSelect ()
@@ -138,7 +191,7 @@
     pandKindSelect();
     //#endregion
 
-     //#region اختيار نوع الاعمال 
+    //#region اختيار نوع الاعمال 
     function pandKindWorkSelect ()
     {
         const select = document.getElementById( "KindWork" );

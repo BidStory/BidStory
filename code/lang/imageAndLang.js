@@ -154,11 +154,11 @@ function exportIndexedDBToJSON(dbName = "BidStoryDB") {
 let images = null;
 let lang = null;
 let lists = null;
-let Load = false;
+let LoadLangImageLists = false;
 
 async function loadData() {
   try {
-    Load = false;
+    LoadLangImageLists = false;
     const imageFilePath = "/BidStory/code/lang/data_image.json";
     const langFilePath = "/BidStory/code/lang/data_lang.json";
     const listsFilePath = "/BidStory/code/lang/data_lists.json";
@@ -189,10 +189,9 @@ async function loadData() {
       lists = JSON.parse(textLists);
 
       console.log("✅ تم تحويل الملفات الثلاثة إلى كائنات JSON بنجاح.");
-      Load = true;
+     
       setTextAndImage();
-      document.dispatchEvent(new Event("BidStoryDBReady"));
-
+ LoadLangImageLists = true;
     } catch (parseError) {
       console.error("❌ فشل في تحليل أحد الملفات إلى JSON:", parseError);
       throw parseError;
@@ -202,10 +201,10 @@ async function loadData() {
     console.error("💥 حدث خطأ أثناء تحميل أو تحليل الملفات:", err);
   }
 }
-
+async function getLoadLangImageLists(){return LoadLangImageLists;}
 async function loadDataFromWeb() {
   try {
-    Load = false;
+    LoadLangImageLists = false;
     const imageFilePath = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_image.json";
     const langFilePath = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_lang.json";
     const listsFilePath = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_lists.json";
@@ -236,10 +235,9 @@ async function loadDataFromWeb() {
       lists = JSON.parse(textLists);
 
       console.log("✅ تم تحويل الملفات الثلاثة إلى كائنات JSON بنجاح.");
-      Load = true;
+    
       setTextAndImage();
-      document.dispatchEvent(new Event("BidStoryDBReady"));
-
+  LoadLangImageLists = true;
     } catch (parseError) {
       console.error("❌ فشل في تحليل أحد الملفات إلى JSON:", parseError);
       throw parseError;
