@@ -1,5 +1,5 @@
 <style>
-    .section0 {
+    .section_selectedPand {
         display: none;
         padding: 20px;
         background-color: white;
@@ -7,27 +7,31 @@
         border-radius: 10px;
     }
 
-    .active0 {
+    .active_selectedPand {
         display: block;
     }
 </style>
+
+
+
 <script>
+
     let dataBaseIdForSelectedPand = null;
     let dbNoUpgradSelectedPand = null;
     let dbUpgradSelectedPand = null;
     let selectedPandId = null;
-    async function initSelectedPandPage ()
+    async function initSelectedPandPage()
     {
 
-        dataBaseIdForSelectedPand = 'ite_' + localStorage.getItem( 'selectedProject' );
-        dbNoUpgradSelectedPand = await new noUpgrade( dataBaseIdForSelectedPand );
-        dbUpgradSelectedPand = await new upgrade( dataBaseIdForSelectedPand );
-        selectedPandId = localStorage.getItem( 'selectedPand' );
-        q( 'selectedPandId eeeeeee -> ' + selectedPandId );
+        dataBaseIdForSelectedPand = 'ite_' + localStorage.getItem('selectedProject');
+        dbNoUpgradSelectedPand = await new noUpgrade(dataBaseIdForSelectedPand);
+        dbUpgradSelectedPand = await new upgrade(dataBaseIdForSelectedPand);
+        selectedPandId = localStorage.getItem('selectedPand');
+        q('selectedPandId eeeeeee -> ' + selectedPandId);
         //عرض معرف البند
-        document.getElementById( "selectedPandId" ).innerText = selectedPandId;
-        await restoreAllInputsFromIndexDB( "mainSelectedPandPage", dbNoUpgradSelectedPand, selectedPandId );
-        await watchingAllInputs2IndexDB( "mainSelectedPandPage", dbNoUpgradSelectedPand, selectedPandId );
+        document.getElementById("selectedPandId").innerText = selectedPandId;
+        await restoreAllInputsFromIndexDB("mainSelectedPandPage", dbNoUpgradSelectedPand, selectedPandId);
+        await watchingAllInputs2IndexDB("mainSelectedPandPage", dbNoUpgradSelectedPand, selectedPandId);
 
     }
 
@@ -36,21 +40,22 @@
 <div id="mainSelectedPandPage">
 
     <textarea id="pandText"></textarea>
+
     <br>
     <table>
         <tr>
             <td>
                 <!--   الوحدات -->
-                <button onclick="showPart('unit')">
-                    <img id="i_units" alt="unit"
+                <button onclick="showSection_selectedPand('units')">
+                    <img id="i_units" alt="units"
                         style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
                     <br> <span id="t_48"></span>
                 </button>
             </td>
             <td>
                 <!-- الاشتراطات -->
-                <button onclick="showPart('condations')">
-                    <img id="i_condation_mo" alt="unit"
+                <button onclick="showSection_selectedPand('condations')">
+                    <img id="i_condation_mo" alt="condations"
                         style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
                     <br> <span id="t_279"></span>
                 </button>
@@ -61,43 +66,10 @@
 
     <br>
     <br>
-    <!-- الاشتراطات -->
-    <div id="condations" class="section0">
-        hesham
-    </div>
-    <!--  الوحدات-->
-    <div id="unit" class="section0">
+    <!-- ✅ الأقسام (تظهر حسب القسم المختار) -->
+    <div id="units" class="section_selectedPand"></div>
+    <div id="condations" class="section_selectedPand"></div>
 
-        <!---- الكمية --->
-        <input type="number" id="kmia">
-        <br>
-        <!---- سعر الوحدة --->
-        <input type="number" id="sear">
-        <br>
-        <!---- المجموع --->
-        <input type="number" id="tot">
-        <br>
-        <!---- نوع البند المالي --->
-        <h3 id="t_137"></h3>
-        <select id="kindFinancialSelectPand">
-            <option disabled selected id="t_1259"></option>
-        </select>
-        <!----وحدة البند-->
-        <h3 id="t_66"></h3>
-        <select id="UnitPand">
-            <option disabled selected id="t_1262"></option>
-        </select>
-        <!----نوع البند-->
-        <h3 id="t_204"></h3>
-        <select id="PandType">
-            <option disabled selected id="t_1263"></option>
-        </select>
-        <!----نوع الاعمل-->
-        <h3 id="t_63"></h3>
-        <select id="KindWork">
-            <option disabled selected id="t_1264"></option>
-        </select>
-    </div>
     <!-- الكود التعريفي -->
     <br>
     <h3 id="t_615"></h3>
@@ -105,109 +77,106 @@
 
 </div>
 
+<!-- ✅ JavaScript الخاص بالتهيئة والتحميل -->
 <script>
-    async function showPart ( part )
-    {
-        document.querySelectorAll( ".section0" ).forEach( section => section.classList.remove( "active0" ) );
+    const loadedPages_selectedPand = {
+        units: false,
+        condations: false
+    };
 
-        // إظهار القسم المطلوب
-        targetSection = document.getElementById( part );
-        targetSection.classList.add( "active0" );
+    const pageMap_selectedPand = {
+        units: "pages/projects/units.html",
+        condations: "pages/projects/condations.html"
+    };
+
+    let selectedPage_selectedPand = null;//تستخدم في دوال اخري خارج هذة الصفحة لذا يجب عدم تغير الاسم
+    let targetSection_selectedPand = null;
+
+    //يجب الحفاظ علي اسم الداله كما هو لانها تستخدم من خارج الصفحة
+    async function showSection_selectedPand(sectionId)
+    {
+        await loadSection_selectedPand(sectionId);
     }
 
-    async function calTot ()
+    async function loadSection_selectedPand(sectionId)
     {
-        const kmia_ = document.getElementById( "kmia" );
-        const sear_ = document.getElementById( "sear" );
-        const tot_ = document.getElementById( "tot" );
-
-        let k = parseFloat( kmia_.value ) || 0;
-        let s = parseFloat( sear_.value ) || 0;
-
-        tot_.value = ( k * s ).toFixed( DecimalPoint ); // التقريب لرقمين عشريين (اختياري)
-        isTableWatcherEnabled = false;
-        await dbNoUpgradSelectedPand.keySet( selectedPandId, 'tot', tot_.value );
-        isTableWatcherEnabled = true;
-    }
-
-    //#region اختيار نوع وحدة القياس
-    function pandUnitSelect ()
-    {
-        const select = document.getElementById( "UnitPand" );
-
-        for ( let cIndex = 0; cIndex <= 10; cIndex++ )
+        try
         {
-            const name = getUnitByCIndex( cIndex, langSelectList0 );
-            if ( name )
+            if (selectedPage_selectedPand === sectionId && loadedPages_selectedPand[sectionId]) return;
+
+            selectedPage_selectedPand = sectionId;
+            targetSection_selectedPand = document.getElementById(sectionId);
+
+            document.querySelectorAll(".section_selectedPand").forEach(section =>
+                section.classList.remove("active_selectedPand")
+            );
+            targetSection_selectedPand.classList.add("active_selectedPand");
+
+            if (!loadedPages_selectedPand[sectionId] && pageMap_selectedPand[sectionId])
             {
-                const option = document.createElement( "option" );
-                option.value = cIndex;
-                option.textContent = name;
-                select.appendChild( option );
+                targetSection_selectedPand.innerHTML = '<div class="loader">جاري التحميل...</div>';
+                await loadPageContent_selectedPand(sectionId, targetSection_selectedPand);
+                loadedPages_selectedPand[sectionId] = true;
             }
+
+            await handleSectionInit_selectedPand(sectionId);
+await setTextAndImage();
+
+        } catch (error)
+        {
+            console.error("خطأ أثناء تحميل القسم:", error);
+            targetSection_selectedPand.innerHTML = "<p>⚠️ فشل تحميل الصفحة.</p>";
         }
     }
-    pandUnitSelect();
-    //#endregion
 
-
-    //#region اختيار نوع البند المالي
-    function pandKindFinancialSelect ()
+    async function loadPageContent_selectedPand(sectionId, container)
     {
-        const select = document.getElementById( "kindFinancialSelectPand" );
+        const url = pageMap_selectedPand[sectionId];
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("الملف غير موجود");
 
-        for ( let cIndex = 0; cIndex <= 10; cIndex++ )
+        const html = await response.text();
+        const temp = document.createElement("div");
+        temp.innerHTML = html;
+
+        const scripts = temp.querySelectorAll("script");
+        scripts.forEach(script => script.remove());
+
+        container.innerHTML = temp.innerHTML;
+
+        // تحميل السكربتات واحداً تلو الآخر
+        for (const script of scripts)
         {
-            const name = getKindFinancialByCIndex( cIndex, langSelectList0 );
-            if ( name )
+            await new Promise((resolve, reject) =>
             {
-                const option = document.createElement( "option" );
-                option.value = cIndex;
-                option.textContent = name;
-                select.appendChild( option );
-            }
+                const newScript = document.createElement("script");
+                if (script.src)
+                {
+                    newScript.src = script.src;
+                    newScript.onload = resolve;
+                    newScript.onerror = reject;
+                } else
+                {
+                    newScript.textContent = script.textContent;
+                    resolve();
+                }
+                document.body.appendChild(newScript);
+            });
         }
     }
-    pandKindFinancialSelect();
-    //#endregion
 
-    //#region اختيار نوع البند 
-    function pandKindSelect ()
+    async function handleSectionInit_selectedPand(sectionId)
     {
-        const select = document.getElementById( "PandType" );
-
-        for ( let cIndex = 0; cIndex <= 10; cIndex++ )
+        switch (sectionId)
         {
-            const name = getPandTypeByCIndex( cIndex, langSelectList0 );
-            if ( name )
-            {
-                const option = document.createElement( "option" );
-                option.value = cIndex;
-                option.textContent = name;
-                select.appendChild( option );
-            }
+            case 'condations':
+                await initCondationsPage();
+                break;
+            case 'units':
+               // await initUnitsPage();
+                break;
+
         }
     }
-    pandKindSelect();
-    //#endregion
 
-    //#region اختيار نوع الاعمال 
-    function pandKindWorkSelect ()
-    {
-        const select = document.getElementById( "KindWork" );
-
-        for ( let cIndex = 0; cIndex <= 10; cIndex++ )
-        {
-            const name = getKindWorkCIndex( cIndex, langSelectList0 );
-            if ( name )
-            {
-                const option = document.createElement( "option" );
-                option.value = cIndex;
-                option.textContent = name;
-                select.appendChild( option );
-            }
-        }
-    }
-    pandKindWorkSelect();
-    //#endregion
 </script>
