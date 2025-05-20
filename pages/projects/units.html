@@ -1,0 +1,128 @@
+<!---- الكمية --->
+<input type="number" id="kmia">
+<br>
+<!---- سعر الوحدة --->
+<input type="number" id="sear">
+<br>
+<!---- المجموع --->
+<input type="number" id="tot">
+<br>
+<!---- نوع البند المالي --->
+<h3 id="t_137"></h3>
+<select id="kindFinancialSelectPand">
+    <option disabled selected id="t_1259"></option>
+</select>
+<!----وحدة البند-->
+<h3 id="t_66"></h3>
+<select id="UnitPand">
+    <option disabled selected id="t_1262"></option>
+</select>
+<!----نوع البند-->
+<h3 id="t_204"></h3>
+<select id="PandType">
+    <option disabled selected id="t_1263"></option>
+</select>
+<!----نوع الاعمل-->
+<h3 id="t_63"></h3>
+<select id="KindWork">
+    <option disabled selected id="t_1264"></option>
+</select>
+
+<script>
+
+    async function calTot()
+    {
+        const kmia_ = document.getElementById("kmia");
+        const sear_ = document.getElementById("sear");
+        const tot_ = document.getElementById("tot");
+
+        let k = parseFloat(kmia_.value) || 0;
+        let s = parseFloat(sear_.value) || 0;
+
+        tot_.value = (k * s).toFixed(DecimalPoint); // التقريب لرقمين عشريين (اختياري)
+        isTableWatcherEnabled = false;
+        await dbNoUpgradSelectedPand.keySet(selectedPandId, 'tot', tot_.value);
+        isTableWatcherEnabled = true;
+    }
+
+    //#region اختيار نوع وحدة القياس
+    function pandUnitSelect()
+    {
+        const select = document.getElementById("UnitPand");
+
+        for (let cIndex = 0; cIndex <= 10; cIndex++)
+        {
+            const name = getUnitByCIndex(cIndex, langSelectList0);
+            if (name)
+            {
+                const option = document.createElement("option");
+                option.value = cIndex;
+                option.textContent = name;
+                select.appendChild(option);
+            }
+        }
+    }
+    pandUnitSelect();
+    //#endregion
+
+    //#region اختيار نوع البند المالي
+    function pandKindFinancialSelect()
+    {
+        const select = document.getElementById("kindFinancialSelectPand");
+
+        for (let cIndex = 0; cIndex <= 10; cIndex++)
+        {
+            const name = getKindFinancialByCIndex(cIndex, langSelectList0);
+            if (name)
+            {
+                const option = document.createElement("option");
+                option.value = cIndex;
+                option.textContent = name;
+                select.appendChild(option);
+            }
+        }
+    }
+    pandKindFinancialSelect();
+    //#endregion
+
+    //#region اختيار نوع البند 
+    function pandKindSelect()
+    {
+        const select = document.getElementById("PandType");
+
+        for (let cIndex = 0; cIndex <= 10; cIndex++)
+        {
+            const name = getPandTypeByCIndex(cIndex, langSelectList0);
+            if (name)
+            {
+                const option = document.createElement("option");
+                option.value = cIndex;
+                option.textContent = name;
+                select.appendChild(option);
+            }
+        }
+    }
+    pandKindSelect();
+    //#endregion
+
+    //#region اختيار نوع الاعمال 
+    function pandKindWorkSelect()
+    {
+        const select = document.getElementById("KindWork");
+
+        for (let cIndex = 0; cIndex <= 10; cIndex++)
+        {
+            const name = getKindWorkCIndex(cIndex, langSelectList0);
+            if (name)
+            {
+                const option = document.createElement("option");
+                option.value = cIndex;
+                option.textContent = name;
+                select.appendChild(option);
+            }
+        }
+    }
+    pandKindWorkSelect();
+    //#endregion
+
+</script>
