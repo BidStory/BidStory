@@ -1,3 +1,16 @@
+<script>
+    async function initUnitPandPage()
+    {
+
+        dataBaseIdForSelectedPand = 'ite_' + localStorage.getItem('selectedProject');
+        await restoreAllInputsFromIndexDB("unitPandPage", dbNoUpgradSelectedPand, selectedPandId);
+        await watchingAllInputs2IndexDB("unitPandPage", dbNoUpgradSelectedPand, selectedPandId);
+
+    }
+
+</script>
+
+<div id="unitPandPage">
 <!---- الكمية --->
 <input type="number" id="kmia">
 <br>
@@ -126,3 +139,5 @@
     //#endregion
 
 </script>
+
+</div>

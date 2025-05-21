@@ -179,7 +179,6 @@ function removeInputListenersFromTarget(inputListeners)
 
 async function restoreAllInputsFromIndexDB(target, dbNoUpgrade, tableName)
 {
-  q('eeeeeee restore ->'+tableName);
   // أنواع الحقول التي نسترجع لها القيم
   const inputSelectors = [
     'input[type="text"]',

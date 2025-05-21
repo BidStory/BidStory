@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DataBaseWatcher")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+74585bde70b91e6ff2a8984203686e1a4c5183b9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1ff073244676461070cce13cf9592bea6ed82e18")]
 [assembly: System.Reflection.AssemblyProductAttribute("DataBaseWatcher")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DataBaseWatcher")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

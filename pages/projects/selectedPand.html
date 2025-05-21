@@ -20,18 +20,17 @@
     let dbNoUpgradSelectedPand = null;
     let dbUpgradSelectedPand = null;
     let selectedPandId = null;
-    async function initSelectedPandPage()
+    async function initSelectedPandPage ()
     {
 
-        dataBaseIdForSelectedPand = 'ite_' + localStorage.getItem('selectedProject');
-        dbNoUpgradSelectedPand = await new noUpgrade(dataBaseIdForSelectedPand);
-        dbUpgradSelectedPand = await new upgrade(dataBaseIdForSelectedPand);
-        selectedPandId = localStorage.getItem('selectedPand');
-        q('selectedPandId eeeeeee -> ' + selectedPandId);
+        dataBaseIdForSelectedPand = 'ite_' + localStorage.getItem( 'selectedProject' );
+        dbNoUpgradSelectedPand = await new noUpgrade( dataBaseIdForSelectedPand );
+        dbUpgradSelectedPand = await new upgrade( dataBaseIdForSelectedPand );
+        selectedPandId = localStorage.getItem( 'selectedPand' );
         //عرض معرف البند
-        document.getElementById("selectedPandId").innerText = selectedPandId;
-        await restoreAllInputsFromIndexDB("mainSelectedPandPage", dbNoUpgradSelectedPand, selectedPandId);
-        await watchingAllInputs2IndexDB("mainSelectedPandPage", dbNoUpgradSelectedPand, selectedPandId);
+        document.getElementById( "selectedPandId" ).innerText = selectedPandId;
+        await restoreAllInputsFromIndexDB( "mainSelectedPandPage", dbNoUpgradSelectedPand, selectedPandId );
+        await watchingAllInputs2IndexDB( "mainSelectedPandPage", dbNoUpgradSelectedPand, selectedPandId );
 
     }
 
@@ -93,90 +92,106 @@
     let targetSection_selectedPand = null;
 
     //يجب الحفاظ علي اسم الداله كما هو لانها تستخدم من خارج الصفحة
-    async function showSection_selectedPand(sectionId)
+    async function showSection_selectedPand ( sectionId )
     {
-        await loadSection_selectedPand(sectionId);
+        await loadSection_selectedPand( sectionId );
     }
 
-    async function loadSection_selectedPand(sectionId)
+    async function loadSection_selectedPand ( sectionId )
     {
         try
         {
-            if (selectedPage_selectedPand === sectionId && loadedPages_selectedPand[sectionId]) return;
+            if ( selectedPage_selectedPand === sectionId && loadedPages_selectedPand[ sectionId ] ) return;
 
             selectedPage_selectedPand = sectionId;
-            targetSection_selectedPand = document.getElementById(sectionId);
+            targetSection_selectedPand = document.getElementById( sectionId );
 
-            document.querySelectorAll(".section_selectedPand").forEach(section =>
-                section.classList.remove("active_selectedPand")
+            document.querySelectorAll( ".section_selectedPand" ).forEach( section =>
+                section.classList.remove( "active_selectedPand" )
             );
-            targetSection_selectedPand.classList.add("active_selectedPand");
+            targetSection_selectedPand.classList.add( "active_selectedPand" );
 
-            if (!loadedPages_selectedPand[sectionId] && pageMap_selectedPand[sectionId])
+            if ( !loadedPages_selectedPand[ sectionId ] && pageMap_selectedPand[ sectionId ] )
             {
                 targetSection_selectedPand.innerHTML = '<div class="loader">جاري التحميل...</div>';
-                await loadPageContent_selectedPand(sectionId, targetSection_selectedPand);
-                loadedPages_selectedPand[sectionId] = true;
+                await loadPageContent_selectedPand( sectionId, targetSection_selectedPand );
+                loadedPages_selectedPand[ sectionId ] = true;
             }
 
-            await handleSectionInit_selectedPand(sectionId);
-await setTextAndImage();
+            await handleSectionInit_selectedPand( sectionId );
+            await setTextAndImage();
 
-        } catch (error)
+        } catch ( error )
         {
-            console.error("خطأ أثناء تحميل القسم:", error);
+            console.error( "خطأ أثناء تحميل القسم:", error );
             targetSection_selectedPand.innerHTML = "<p>⚠️ فشل تحميل الصفحة.</p>";
         }
     }
 
-    async function loadPageContent_selectedPand(sectionId, container)
+    async function loadPageContent_selectedPand ( sectionId, container )
     {
-        const url = pageMap_selectedPand[sectionId];
-        const response = await fetch(url);
-        if (!response.ok) throw new Error("الملف غير موجود");
-
-        const html = await response.text();
-        const temp = document.createElement("div");
-        temp.innerHTML = html;
-
-        const scripts = temp.querySelectorAll("script");
-        scripts.forEach(script => script.remove());
-
-        container.innerHTML = temp.innerHTML;
-
-        // تحميل السكربتات واحداً تلو الآخر
-        for (const script of scripts)
+        try
         {
-            await new Promise((resolve, reject) =>
+            const url = pageMap_selectedPand[ sectionId ];
+            const response = await fetch( url );
+            if ( !response.ok ) throw new Error( "الملف غير موجود" );
+
+            const html = await response.text();
+            const temp = document.createElement( "div" );
+            temp.innerHTML = html;
+
+            const scripts = temp.querySelectorAll( "script" );
+            scripts.forEach( script => script.remove() );
+
+            container.innerHTML = temp.innerHTML;
+
+            // تحميل السكربتات واحداً تلو الآخر
+            for ( const script of scripts )
             {
-                const newScript = document.createElement("script");
-                if (script.src)
+                await new Promise( ( resolve, reject ) =>
                 {
-                    newScript.src = script.src;
-                    newScript.onload = resolve;
-                    newScript.onerror = reject;
-                } else
-                {
-                    newScript.textContent = script.textContent;
-                    resolve();
-                }
-                document.body.appendChild(newScript);
-            });
+                    const newScript = document.createElement( "script" );
+                    if ( script.src )
+                    {
+                        newScript.src = script.src;
+                        newScript.onload = resolve;
+                        newScript.onerror = reject;
+                    } else
+                    {
+                        newScript.textContent = script.textContent;
+                        resolve();
+                    }
+                    document.body.appendChild( newScript );
+                } );
+            }
+
+        } catch ( error )
+        {
+            console.error( "خطأ أثناء تحميل محتوى الصفحة:", error );
         }
     }
 
-    async function handleSectionInit_selectedPand(sectionId)
+    async function handleSectionInit_selectedPand ( sectionId )
     {
-        switch (sectionId)
+        try
         {
-            case 'condations':
-                await initCondationsPage();
-                break;
-            case 'units':
-               // await initUnitsPage();
-                break;
 
+            switch ( sectionId )
+            {
+                case 'condations':
+                    // await initCondationsPage();
+                    break;
+                case 'units':
+                    await initUnitPandPage();
+                    break;
+
+            }
         }
+        catch ( error )
+        {
+            console.error( "خطأ أثناء تهيئة القسم:", error );
+        }
+
     }
 
 </script>
