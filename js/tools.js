@@ -1,6 +1,6 @@
 //this is tools.js file
 
-
+123
 //#region دوال توليد المعرفات الفريدة 
 // أنماط التوليد
 const IDPattern = {
