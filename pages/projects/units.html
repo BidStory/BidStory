@@ -2,7 +2,6 @@
     async function initUnitPandPage()
     {
 
-        dataBaseIdForSelectedPand = 'ite_' + localStorage.getItem('selectedProject');
         await restoreAllInputsFromIndexDB("unitPandPage", dbNoUpgradSelectedPand, selectedPandId);
         await watchingAllInputs2IndexDB("unitPandPage", dbNoUpgradSelectedPand, selectedPandId);
 

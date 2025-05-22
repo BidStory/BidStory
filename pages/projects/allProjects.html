@@ -1,14 +1,14 @@
-<script>
+<script>123
 
     // تهيئة الجدول
     let allProjectsTable = new setTableParameter(
-        'table2',        // ID of the container element
+        'allProContaner', // ID of the container element
         'allPro',         // Table ID and database name
-        'RawTable',      // ID of the row template to copy
-        'RawAltTable',   // ID of alternate row to show on click
+        'RawTable',       // ID of the row template to copy
+        'RawAltTable',    // ID of alternate row to show on click
         false,            // Show table header?
         false,            // Add alternate div when row is clicked?
-        true             // Start with new row?
+        true              // Start with new row?
     );
 
     async function initAllProjectPage()
@@ -24,7 +24,7 @@
 
 </script>
 
-<div id="table2"></div> <!-- مكان إضافة الجدول -->
+<div id="allProContaner"></div> <!-- مكان إضافة الجدول -->
 
 <div DivId id="RawTable" style="display: none;" class="">
     <table>
@@ -58,6 +58,3 @@
 
 </div>
 
-<script>
-
-</script>
