@@ -1,37 +1,69 @@
-123<script>
-  let dataBaseIdForPandCondation =
-    "cond_" + localStorage.getItem("selectedPand");
-  // تهيئة الجدول
-  let PandCondation = new setTableParameter(
-    "condationContaner", // ID of the container element
-    dataBaseIdForPandCondation, // Table ID and database name
-    "PandCondationRaw", // ID of the row template to copy
-    "", // ID of alternate row to show on click
-    true, // Show table header?
-    false, // Add alternate div when row is clicked?
-    true // Start with new row?
-  );
+<!--- condations file  --->
+<script>
 
-  async function initPandCondationPage() {
+  
+    let dbNoUp_PandCondation = null;
+
+
+    let dataBaseIdForPandCondation =
+      "cond_" + localStorage.getItem( "selectedPand" );
+
+    // تهيئة الجدول
+    let PandCondation = new setTableParameter(
+      "condationContaner", // ID of the container element
+      dataBaseIdForPandCondation, // Table ID and database name
+      "PandCondationRaw", // ID of the row template to copy
+      "", // ID of alternate row to show on click
+      true, // Show table header?
+      false, // Add alternate div when row is clicked?
+      true // Start with new row?
+    );
+
+  
+
+  async function initPandCondationPage ()
+  {
+    dataBaseIdForPandCondation =
+      "cond_" + localStorage.getItem( "selectedPand" );
+  
+      await PandCondation.destroyTable();
+
+      PandCondation = new setTableParameter(
+        "condationContaner", // ID of the container element
+        dataBaseIdForPandCondation, // Table ID and database name
+        "PandCondationRaw", // ID of the row template to copy
+        "", // ID of alternate row to show on click
+        true, // Show table header?
+        false, // Add alternate div when row is clicked?
+        true // Start with new row?
+      );
+
+    dbNoUp_PandCondation = await new noUpgrade( dataBaseIdForPandCondation );
+
     await renumberPandCondation_();
+
   }
 
-  async function renumberPandCondation_() {
+  async function renumberPandCondation_ ()
+  {
     isTableWatcherEnabled = false; // تعطيل الكود مؤقتًا
-    try {
+    try
+    {
 
-      while ((await pandsTable.checkProcessRun()) == true) {
-        await delay(50);
+      while ( ( await PandCondation.checkProcessRun() ) == true )
+      {
+        await delay( 50 );
       }
 
       // تأخير قليل قبل بدء العملية
       let numbeList = [];
       let parentId = [];
-      let outPuts = document.querySelectorAll('[id="pandCondationNumber"]');
-
+      let outPuts = document.querySelectorAll( '[id="pandCondationNumber"]' );
+      q( 'run 22222' );
       // جمع القيم الحالية
-      outPuts.forEach((el) => {
-        numbeList.push(el.value);
+      outPuts.forEach( ( el ) =>
+      {
+        numbeList.push( el.value );
 
         parentId.push(
           el.parentElement.parentElement.parentElement.parentElement.parentElement.id.replace(
@@ -39,21 +71,25 @@
             ""
           )
         );
-      });
+      } );
 
       // إعادة الترقيم
-      let noAfterRenumber = reNumber(numbeList); // تأكد أن reNumber تعيد مصفوفة مرقمة حسب ترتيب re
+      let noAfterRenumber = reNumber( numbeList ); // تأكد أن reNumber تعيد مصفوفة مرقمة حسب ترتيب re
       let index_ = null;
 
       // تعيين القيم الجديدة
-      outPuts.forEach((el, index) => {
-        index_ = noAfterRenumber[index];
-        if (parentId[index]) {
-          if (/^[a-zA-Z]{4}\d+/.test(parentId[index])) {
-            // قم بتسجيل القيم لتوضيح التغييرات
+      outPuts.forEach( ( el, index ) =>
+      {
+        q( parentId[ index ] + ' 22222-> ' + noAfterRenumber[ index ] );
+        index_ = noAfterRenumber[ index ];
+        if ( parentId[ index ] )
+        {
+          if ( /^[a-zA-Z]{4}\d+/.test( parentId[ index ] ) )
+          {
+            q( parentId[ index ].replace( "_", "" ) + ' -> ' + index_ );
             // تحديث البيانات في قاعدة البيانات
-            dbNoUp_item.keySet(
-              parentId[index].replace("_", ""),
+            dbNoUp_PandCondation.keySet(
+              parentId[ index ].replace( "_", "" ),
               "pandCondationNumber",
               index_
             );
@@ -61,21 +97,26 @@
             el.value = index_;
           }
         }
-      });
+      } );
 
-      await delay(200); // تأخير قليل بعد التعيين
-    } catch (error) {
-      console.error("حدث خطأ أثناء إعادة الترقيم:", error);
-    } finally {
+      await delay( 200 ); // تأخير قليل بعد التعيين
+
+    } catch ( error )
+    {
+      console.error( "حدث خطأ أثناء إعادة الترقيم:", error );
+    } finally
+    {
       isTableWatcherEnabled = true; // إعادة تمكين الكود بعد الانتهاء من العملية
     }
   }
+
 </script>
 
 <div id="condationContaner"></div>
 <!-- مكان إضافة الجدول -->
 
 <div DivId id="PandCondationRaw" style="display: none" class="">
+
   <table>
     <thead class="hide-text">
       <tr>
@@ -86,23 +127,15 @@
     <tbody>
       <tr>
         <td>
-          <input
-            id="pandCondationNumber"
-            type="text"
-            placeholder=""
-            style="border: none; background-color: transparent; color: black"
-          />
+          <input id="pandCondationNumber" type="text" placeholder=""
+            style="border: none; background-color: transparent; color: black" />
         </td>
         <td>
-          <input
-            id="pandCondationText"
-            type="text"
-            placeholder=""
-            readonly
-            style="border: none; background-color: transparent; color: black"
-          />
+          <textarea id="pandCondationText" placeholder=""
+            style="border: none; background-color: transparent; color: black"></textarea>
         </td>
       </tr>
     </tbody>
   </table>
+
 </div>

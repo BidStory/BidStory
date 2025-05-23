@@ -1,4 +1,4 @@
-<!---this is pands.html file---->123
+<!---this is pands.html file---->
 <script>
 
     let proId_ = null;
@@ -15,11 +15,14 @@
 
             //ادخال نص التعريف لكل البنود
             const inputs = document.querySelectorAll( '[id="pandText"]' );
+
             inputs.forEach( input =>
             {
                 input.placeholder = getLang( 1260 );
             } );
+
             await renumber_();
+
         } catch ( er )
         {
             console.error(er);
@@ -69,12 +72,11 @@
             // تعيين القيم الجديدة
             outPuts.forEach( ( el, index ) =>
             {
+             //   q(parentId[ index ] + ' 22222-> ' + index );
                 index_ = noAfterRenumber[ index ];
                 if(parentId[ index ] ){
                 if ( /^[a-zA-Z]{4}\d+/.test( parentId[ index ] ) )
                 {
-                  
-                    // قم بتسجيل القيم لتوضيح التغييرات
                     // تحديث البيانات في قاعدة البيانات
                     dbNoUp_item.keySet( parentId[ index ].replace( '_', '' ), 'pandNumber', index_ );
                     // تعيين القيمة الجديدة للعناصر
@@ -127,6 +129,7 @@
     <button type="button" id="t_138_open" class="buttonT"></button>
     <button type="button" id="t_1261_controlNum" class="buttonT"></button>
 </div>
+
 <script>
 
 </script>

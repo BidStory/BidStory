@@ -1,4 +1,4 @@
-123<style>
+<style>
     .section_selectedPand {
         display: none;
         padding: 20px;
@@ -7,12 +7,10 @@
         border-radius: 10px;
     }
 
-    .active_selectedPand {
+    .active_SectionSelectedPand {
         display: block;
     }
 </style>
-
-
 
 <script>
 
@@ -39,7 +37,6 @@
 <div id="mainSelectedPandPage">
 
     <textarea id="pandText"></textarea>
-
     <br>
     <table>
         <tr>
@@ -61,7 +58,6 @@
             </td>
         </tr>
     </table>
-
 
     <br>
     <br>
@@ -107,9 +103,10 @@
             targetSection_selectedPand = document.getElementById( sectionId );
 
             document.querySelectorAll( ".section_selectedPand" ).forEach( section =>
-                section.classList.remove( "active_selectedPand" )
+                section.classList.remove( "active_SectionSelectedPand" )
             );
-            targetSection_selectedPand.classList.add( "active_selectedPand" );
+
+            targetSection_selectedPand.classList.add( "active_SectionSelectedPand" );
 
             if ( !loadedPages_selectedPand[ sectionId ] && pageMap_selectedPand[ sectionId ] )
             {
@@ -161,6 +158,8 @@
                         newScript.textContent = script.textContent;
                         resolve();
                     }
+                    newScript.setAttribute( "data-section", sectionId );
+
                     document.body.appendChild( newScript );
                 } );
             }
@@ -179,7 +178,7 @@
             switch ( sectionId )
             {
                 case 'condations':
-                    // await initCondationsPage();
+                    await initPandCondationPage();
                     break;
                 case 'units':
                     await initUnitPandPage();
@@ -193,5 +192,62 @@
         }
 
     }
+
+    function unloadSection_selectedPand ( sectionId )
+    {
+        try
+        {
+            // 1. إزالة محتوى القسم
+            const section = document.getElementById( sectionId );
+            if ( section )
+            {
+                section.innerHTML = '';
+                section.classList.remove( 'active_SectionSelectedPand' );
+            }
+
+            // 2. إزالة السكربتات الخاصة بهذا القسم
+            // نفترض أن السكربتات التي تم تحميلها ديناميكياً تحتوي على خاصية data-section لتحديد مصدرها
+            const scripts = document.querySelectorAll( `script[data-section="${ sectionId }"]` );
+            scripts.forEach( script => script.remove() );
+
+            // 3. تحديث حالة التحميل
+            loadedPages_selectedPand[ sectionId ] = false;
+
+            console.log( `🧹 تم مسح القسم "${ sectionId }" والسكربتات الخاصة به بنجاح` );
+
+        } catch ( error )
+        {
+            console.error( `⚠️ حدث خطأ أثناء مسح القسم "${ sectionId }":`, error );
+        }
+    }
+
+    function unloadAllSections_selectedPand() {
+    try {
+        // 1. مسح كل الأقسام من الصفحة
+        document.querySelectorAll('.section_selectedPand').forEach(section => {
+            section.innerHTML = '';
+            section.className = 'section_selectedPand'; // إزالة كل الكلاسات الأخرى مثل active
+        });
+
+        // 2. إزالة كل السكربتات التي أُضيفت ديناميكياً ولها خاصية data-section
+        document.querySelectorAll('script[data-section]').forEach(script => script.remove());
+
+        // 3. إعادة تعيين حالة التحميل
+        for (const key in loadedPages_selectedPand) {
+            loadedPages_selectedPand[key] = false;
+        }
+
+        console.log('🧹 تم تفريغ جميع الأقسام ومسح السكربتات بنجاح');
+
+    } catch (error) {
+        console.error('⚠️ حدث خطأ أثناء تفريغ الأقسام:', error);
+    }
+}
+
+
+
+
+
+
 
 </script>
