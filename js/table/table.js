@@ -428,6 +428,10 @@ function setTableParameter (
         console.log( 'لا يوجد صفوف سوف يتم انشاء صف جديد ' );
         let row_ = await createNewRow();
         hideTableHeadInsideElement( row_?.id, showHead );
+         if ( haveNumbringColumn )
+    {
+      await  await inputNumbering();
+    }
       }
     } else
     {
@@ -436,7 +440,10 @@ function setTableParameter (
         console.log( 'لا يوجد صفوف سوف يتم انشاء صف جديد ' );
         let row_ = await createNewRow();
         hideTableHeadInsideElement( row_?.id, showHead );
-
+ if ( haveNumbringColumn )
+    {
+      await  await inputNumbering();
+    }
       }
     }
   };
@@ -1151,6 +1158,10 @@ function setTableParameter (
             {
               let row_ = await createNewRow();
               hideTableHeadInsideElement( row_?.id, showHead );
+               if ( haveNumbringColumn )
+    {
+      await  await inputNumbering();
+    }
             }
           }
         } else
@@ -1159,6 +1170,10 @@ function setTableParameter (
           {
             let row_ = await createNewRow();
             hideTableHeadInsideElement( row_?.id, showHead );
+             if ( haveNumbringColumn )
+    {
+      await  await inputNumbering();
+    }
           }
         }
       } else
@@ -1167,6 +1182,10 @@ function setTableParameter (
         {
           let row_ = await createNewRow();
           hideTableHeadInsideElement( row_?.id, showHead );
+           if ( haveNumbringColumn )
+    {
+      await  await inputNumbering();
+    }
         }
       }
     } catch ( error )
