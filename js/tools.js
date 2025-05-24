@@ -589,8 +589,7 @@ document.addEventListener( 'tableDataChanged', async ( event ) =>
         // @ts-ignore
         if ( selectedPage == 'pands' )
         {
-          // @ts-ignore
-          await renumber_();
+         
         }
         // @ts-ignore
         if ( selectedPage == 'selectedPand' )
@@ -604,7 +603,7 @@ document.addEventListener( 'tableDataChanged', async ( event ) =>
         if ( selectedPage_selectedPand == 'condations' )
         {
           // @ts-ignore
-          await renumberPandCondation_();
+     
         }
       
       if ( storeName == 'definition' )

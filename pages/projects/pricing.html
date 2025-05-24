@@ -1,0 +1,136 @@
+<style>
+    .section_pricing {
+        display: none;
+    }
+
+    .active-section_pricing {
+        background-color: #cce5ff;
+        border: 2px solid #007bff;
+        border-radius: 5px;
+    }
+</style>
+
+<table>
+    <tr>
+        <td>
+            <!--   المواد الخام  -->
+            <button onclick="pricing_section('raw')">
+                <img id="i_raw" alt="raw" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <br> <span id="t_703"></span>
+            </button>
+        </td>
+        <td>
+            <!-- المعدات -->
+            <button onclick="pricing_section('equipments')">
+                <img id="i_equipment" alt="equipments"
+                    style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <br> <span id="t_55"></span>
+            </button>
+        </td>
+        <td>
+            <!-- العمالة -->
+            <button onclick="pricing_section('labor')">
+                <img id="i_hand" alt="labor" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <br> <span id="t_53"></span>
+            </button>
+        </td>
+        <td>
+            <!-- النقل -->
+            <button onclick="pricing_section('transport')">
+                <img id="i_transport" alt="transport"
+                    style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <br> <span id="t_51"></span>
+            </button>
+        </td>
+        <td>
+            <!-- مصاريف اخري -->
+            <button onclick="pricing_section('other')">
+                <img id="i_other" alt="other" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <br> <span id="t_54"></span>
+            </button>
+        </td>
+        <td>
+            <!--  الاجمالي -->
+            <br> <span id="t_221"></span>
+
+        </td>
+
+    </tr>
+</table>
+
+<!-- الأقسام -->
+<div id="raw" class="section_pricing">
+    <div id="raw_item"></div>
+</div>
+<div id="equipments" class="section_pricing">
+    <div id="equipments_item"></div>
+</div>
+<div id="labor" class="section_pricing">
+    <div id="labor_item"></div>
+</div>
+<div id="transport" class="section_pricing">
+    <div id="transport_item"></div>
+</div>
+<div id="other" class="section_pricing">
+    <div id="other_item"></div>
+</div>
+
+<div DivId id="pricing_class" style="display: none" class="">
+    <table>
+        <thead class="hide-text">
+            <tr>
+                <th id="t_37"></th>
+                <th id="t_413"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <input id="numbering" type="text" placeholder=""
+                        style="border: none; background-color: transparent; color: black" />
+                </td>
+                <td>
+                    <input id="pandText" type="text" placeholder=""
+                        style="border: none; background-color: transparent; color: black" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+    let pricing_item = null;
+    let dbNoUp_pricing_item = null;
+    let pricing_Table = null;
+   async function pricing_section(sectionName) {
+    const sections = ['raw', 'equipments', 'labor', 'transport', 'other'];
+
+    for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el) {
+            if (id === sectionName) {
+                el.style.display = 'block';
+                pricing_item = sectionName + '_' + localStorage.getItem("selectedPand");
+                if (pricing_Table !== null) {
+                    await pricing_Table.destroyTable();
+                }
+                pricing_Table = new setTableParameter(
+                    sectionName + "_item", // ID of the container element
+                    pricing_item, // Table ID and database name
+                    "pricing_class", // ID of the row template to copy
+                    "", // ID of alternate row to show on click
+                    true, // Show table header?
+                    false, // Add alternate div when row is clicked?
+                    true, // Start with new row?
+                    true // have numbering column?
+                );
+            } else {
+                el.style.display = 'none';
+            }
+        }
+    }
+}
+
+
+</script>

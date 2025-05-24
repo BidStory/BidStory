@@ -7,7 +7,10 @@
  * @param {boolean} isShowHead - تحديد ما إذا كان سيتم عرض رأس الجدول أم لا.
  * @param {boolean} isAddAltDiv - تحديد ما إذا كان سيتم تضمين العنصر عند الضغط علي صف.
  * @param {boolean} isStartWithNew - هل تبدء بصف جديد دائما
+ *   @param {boolean} isStartWithNew - هل تبدء بصف جديد دائما
+ * @param {boolean} haveNumbringColumn - هل يحتوي الجدول على عمود ترقيم
  */
+
 function setTableParameter (
   tableContaner,
   tableIdAndDataBaseName,
@@ -15,7 +18,8 @@ function setTableParameter (
   altDivId2copy,
   isShowHead,
   isAddAltDiv,
-  isStartWithNew
+  isStartWithNew,
+  haveNumbringColumn
 )
 {
 
@@ -83,6 +87,12 @@ function setTableParameter (
 
     rows.forEach( ( row ) =>
     {
+      if ( row.hasAttribute( 'data-listeners-added' ) )
+      {
+        // إذا تم إضافة المستمعات مسبقًا، تجاهل هذا الصف
+        return;
+      }
+
       row.addEventListener( "click", async () =>
       {
         await handleRowSelection( row );
@@ -92,7 +102,6 @@ function setTableParameter (
 
       row.addEventListener( "pointerdown", async ( e ) =>
       {
-        // ✅ تجاهل الأحداث العارضة
         if (
           ( e.pointerType === "touch" && !e.isPrimary ) ||
           ( e.pointerType === "mouse" && e.button !== 0 )
@@ -109,18 +118,20 @@ function setTableParameter (
           showCustomButtonsDialog();
         }, 500 );
 
-        // ✅ إضافة مراقبة للحركة لإلغاء المؤقت عند السحب
         row.addEventListener( "pointermove", cancelPressTimer );
       } );
+
       const cancelPressTimer = () =>
       {
         clearTimeout( pressTimer );
         row.removeEventListener( "pointermove", cancelPressTimer );
       };
+
       row.addEventListener( "pointerup", cancelPressTimer );
       row.addEventListener( "pointerleave", cancelPressTimer );
 
-
+      // ضع العلم لتجنب إضافة مستمعات مرة أخرى على نفس الصف
+      row.setAttribute( 'data-listeners-added', 'true' );
     } );
 
     console.log( "🚨 بدأ الاستماع لنقرات الصفوف داخل الجدول." );
@@ -143,7 +154,181 @@ function setTableParameter (
 
     await stopWatchingAllInputsAndButtons();
     await startWatchingAllInputsAndButtons( row.id );
+    if ( haveNumbringColumn )
+    {
+      await doublClickNumbring( row.id );
+    }
+  };
 
+  const doublClickNumbring = async ( rowId ) =>
+  {
+    const numberingElements = document.querySelectorAll( '[id="numbering"]' );
+
+    numberingElements.forEach( element =>
+    {
+      element.addEventListener( 'dblclick', async ( event ) =>
+      {
+        await numberingDialog();
+        console.log( 'تم دوبل كليك على:', event.target, 'معرف الصف:', rowId );
+      } );
+    } );
+  };
+
+
+  const numberingDialog = async () =>
+  {
+    if ( selectedRaw )
+    {
+      if ( stop_ === 0 )
+      {
+        stop_ = 1;
+        // إرجاع التكبير إلى الحجم الطبيعي بطريقة متوافقة مع جميع المتصفحات
+        resetPageZoom();
+        // @ts-ignore
+        Swal.fire( {
+          html: `
+<div class="container">
+
+  <div class="group">
+    <button id="t_1218" class="buttonT"></button>
+    <button id="t_1219" class="buttonT"></button>
+  </div>
+
+  <div class="group">
+    <button id="t_301" class="buttonT"></button>
+    <button id="t_302" class="buttonT"></button>
+  </div>
+
+</div>
+      `,
+          customClass: {
+            popup: "swal2-centered-popup",
+          },
+          showCancelButton: false,
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          backdrop: true, // خلفية سوداء خفيفة
+          position: "center", // وسط الشاشة بالضبط
+          didOpen: async () =>
+          {
+
+            isTableRun = true;
+            // @ts-ignore
+            document
+              //تابع
+              .getElementById( "t_1218" )
+              ?.addEventListener( "click", async () =>
+              {
+                isTableRun = true;
+                const domRow = document.getElementById( selectedRaw.replace( "_", "" ) );
+                if ( domRow )
+                {
+                  const inputNumbering = domRow.querySelector( '[id="numbering"]' );
+                  if ( inputNumbering )
+                  {
+                    // @ts-ignore
+                    if ( inputNumbering.value == '*' || inputNumbering.value == '-' )
+                    {
+                      // @ts-ignore
+                      inputNumbering.value = '';
+                    }
+                    // @ts-ignore
+                    inputNumbering.value = inputNumbering.value + '.';
+                  }
+                }
+                await inputNumbering();
+                // @ts-ignore
+                Swal.close();
+                isTableRun = false;
+                stop_ = 0;
+              } );
+            // @ts-ignore
+            document
+              //غير تابع
+              .getElementById( "t_1219" )
+              ?.addEventListener( "click", async () =>
+              {
+                isTableRun = true;
+
+                const domRow = document.getElementById( selectedRaw.replace( "_", "" ) );
+                if ( domRow )
+                {
+                  const inputNumbering = domRow.querySelector( '[id="numbering"]' );
+                  if ( inputNumbering )
+                  {
+                    // @ts-ignore
+                    let value = inputNumbering.value;
+                    if ( value == '*' || value == '-' )
+                    {
+                      value = '';
+                    }
+
+                    // نحذف أول نقطة فقط من النص
+                    // @ts-ignore
+                    inputNumbering.value = value.replace( '.', '' );
+
+                  }
+                }
+                await inputNumbering();
+                // @ts-ignore
+                Swal.close();
+                isTableRun = false;
+                stop_ = 0;
+              } );
+            // @ts-ignore
+            document
+              //عنوان
+              .getElementById( "t_301" )
+              ?.addEventListener( "click", async () =>
+              {
+                isTableRun = true;
+                const domRow = document.getElementById( selectedRaw.replace( "_", "" ) );
+                if ( domRow )
+                {
+                  const inputNumbering = domRow.querySelector( '[id="numbering"]' );
+                  if ( inputNumbering )
+                  {
+                    // @ts-ignore
+                    inputNumbering.value = '*';
+                  }
+                }
+                await inputNumbering();
+                // @ts-ignore
+                Swal.close();
+                isTableRun = false;
+                stop_ = 0;
+              } );
+            // @ts-ignore
+            document
+              //اجمالي
+              .getElementById( "t_302" )
+              ?.addEventListener( "click", async () =>
+              {
+                isTableRun = true;
+                const domRow = document.getElementById( selectedRaw.replace( "_", "" ) );
+                if ( domRow )
+                {
+                  const inputNumbering = domRow.querySelector( '[id="numbering"]' );
+                  if ( inputNumbering )
+                  {
+                    // @ts-ignore
+                    inputNumbering.value = '-';
+                  }
+                }
+                await inputNumbering();
+
+                // @ts-ignore
+                Swal.close();
+                isTableRun = false;
+                stop_ = 0;
+              } );
+            // @ts-ignore
+            await setTextAndImage();
+          },
+        } );
+      }
+    }
   };
 
   const insertAltDivBelowSelected = async ( row ) =>
@@ -453,6 +638,7 @@ function setTableParameter (
   // @ts-ignore
   // @ts-ignore
   // @ts-ignore
+  // @ts-ignore
   const newRawListener = async ( params ) =>
   {
     await tableRawListener();
@@ -491,28 +677,33 @@ function setTableParameter (
     }
   };
 
-  const hideTableHeadOnlyIfVisible = async (elementId) => {
-  const container = document.getElementById(elementId);
-  if (!container) {
-    console.warn(`❗️العنصر بالمعرف "${elementId}" غير موجود.`);
-    return;
-  }
+  const hideTableHeadOnlyIfVisible = async ( elementId ) =>
+  {
+    const container = document.getElementById( elementId );
+    if ( !container )
+    {
+      console.warn( `❗️العنصر بالمعرف "${ elementId }" غير موجود.` );
+      return;
+    }
 
-  const table = container.querySelector("table");
-  if (!table) {
-    console.warn(`❗️لم يتم العثور على جدول داخل العنصر "${elementId}".`);
-    return;
-  }
+    const table = container.querySelector( "table" );
+    if ( !table )
+    {
+      console.warn( `❗️لم يتم العثور على جدول داخل العنصر "${ elementId }".` );
+      return;
+    }
 
-  const thead = table.querySelector("thead");
-  if (thead) {
-    const isHidden = thead.classList.contains("hide-text");
+    const thead = table.querySelector( "thead" );
+    if ( thead )
+    {
+      const isHidden = thead.classList.contains( "hide-text" );
 
-    if (!isHidden) {
-      thead.className = "hide-text";
-    } 
-  } 
-};
+      if ( !isHidden )
+      {
+        thead.className = "hide-text";
+      }
+    }
+  };
 
   //#endregion
 
@@ -593,6 +784,7 @@ function setTableParameter (
       }
 
       // باقي الحقول: نراقب قيمها ونحدثها في القاعدة
+      // @ts-ignore
       // @ts-ignore
       // @ts-ignore
       const inputListener = ( event ) =>
@@ -841,6 +1033,78 @@ function setTableParameter (
     }
   };
 
+  const inputNumbering = async () =>
+  {
+    try
+    {
+      if ( haveNumbringColumn == true )
+      {
+        const data = await dbNoUpgrade.getAllDataFromTable( rowsTable );
+
+        // 🟢 إذا كانت هناك بيانات موجودة في الجدول
+        if ( data )
+        {
+          // ترتيب البيانات حسب القيمة (value)
+          const sortedRows = data.sort( ( a, b ) => a.value - b.value );
+          if ( sortedRows )
+          {
+            let numbeList = [];
+            let parentId = [];
+            for ( const row of sortedRows )
+            {
+              const domRow = document.getElementById( row.key );
+              if ( domRow )
+              {
+                let outPuts = domRow.querySelector( '[id="numbering"]' );
+                if ( outPuts )
+                {
+                  // @ts-ignore
+                  numbeList.push( outPuts.value );
+                  //row.key its equal to element id
+                  parentId.push( row.key );
+                }
+              }
+            }
+            // إعادة الترقيم
+            if ( numbeList.length > 0 )
+            {
+              let noAfterRenumber = reNumber( numbeList ); // تأكد أن reNumber تعيد مصفوفة مرقمة حسب ترتيب re
+              // @ts-ignore
+              let index_ = null;
+              // تعيين القيم الجديدة
+              parentId.forEach( ( elId, index ) =>
+              {
+                const index_ = noAfterRenumber[ index ];
+
+                // تحديث البيانات في قاعدة البيانات
+                dbNoUpgrade.keySet( elId, 'numbering', index_ );
+
+                // تعيين القيمة الجديدة للعناصر في DOM
+                const domRow = document.getElementById( elId );
+                if ( domRow )
+                {
+                  const inputNumbering = domRow.querySelector( '[id="numbering"]' );
+                  if ( inputNumbering )
+                  {
+                    // @ts-ignore
+                    inputNumbering.value = index_;
+                  }
+                }
+              } );
+
+            }
+          }
+        }
+      }
+    }
+
+    catch ( error )
+    {
+      console.error( "❌ خطأ أثناء إعادة ترتيب عمود الترقيم:", error );
+
+    }
+  };
+
   const reorderRowsTable = async ( rowsTable ) =>
   {
     try
@@ -855,8 +1119,6 @@ function setTableParameter (
         const sortedRows = data.sort( ( a, b ) => a.value - b.value );
         if ( sortedRows )
         {
-          console.log( "الصفوف المحفوظة بالقاعدة مرتبة" );
-
           // 🔵 إعادة الترقيم للقيم في الصفوف
           let newIndex = 0;
           for ( const row of sortedRows )
@@ -867,25 +1129,26 @@ function setTableParameter (
             if ( row.value !== newIndex )
             {
               await dbNoUpgrade.keySet( rowsTable, key, newIndex );
-              console.log( `🔄 إعادة ترقيم: ${ key } => ${ newIndex }` );
             }
             if ( showHead == true && newIndex == 0 )
             {
               hideTableHeadInsideElement( row?.key, showHead );
             }
-             if ( showHead == true && newIndex != 0 )
+            if ( showHead == true && newIndex != 0 )
             {
               hideTableHeadOnlyIfVisible( row?.key );
             }
             newIndex++;
           }
 
-          console.log( "✅ تم إعادة ترتيب rowsTable بنجاح" );
+
+          await inputNumbering();
+
+
           if ( newIndex == 0 )
           {
             if ( isStartWithNew_ === true )
             {
-              console.log( 'لا يوجد صفوف سوف يتم انشاء صف جديد ' );
               let row_ = await createNewRow();
               hideTableHeadInsideElement( row_?.id, showHead );
             }
@@ -894,17 +1157,14 @@ function setTableParameter (
         {
           if ( isStartWithNew_ === true )
           {
-            console.log( 'لا يوجد صفوف سوف يتم انشاء صف جديد ' );
             let row_ = await createNewRow();
             hideTableHeadInsideElement( row_?.id, showHead );
           }
         }
       } else
       {
-        console.log( "⚠️ لا توجد بيانات لإعادة ترتيبها" );
         if ( isStartWithNew_ === true )
         {
-          console.log( 'لا يوجد صفوف سوف يتم انشاء صف جديد ' );
           let row_ = await createNewRow();
           hideTableHeadInsideElement( row_?.id, showHead );
         }
@@ -1207,6 +1467,7 @@ function setTableParameter (
   // @ts-ignore
   // @ts-ignore
   // @ts-ignore
+  // @ts-ignore
   const Delay = async ( ms ) =>
   {
     return new Promise( ( resolve ) => setTimeout( resolve, ms ) );
@@ -1311,7 +1572,8 @@ function setTableParameter (
     inserNewRow,
     copyRow,
     pastRow,
-
+    inputNumbering,
+    reorderRowsTable,
     // إدارة البيانات
     getInput,
     getAllRowsData,

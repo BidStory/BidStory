@@ -35,79 +35,14 @@
         "", // ID of alternate row to show on click
         true, // Show table header?
         false, // Add alternate div when row is clicked?
-        true // Start with new row?
+        true, // Start with new row?
+        true // have numbering column?
       );
 
     dbNoUp_PandCondation = await new noUpgrade( dataBaseIdForPandCondation );
 
-    await renumberPandCondation_();
 
-  }
 
-  async function renumberPandCondation_ ()
-  {
-    isTableWatcherEnabled = false; // تعطيل الكود مؤقتًا
-    try
-    {
-
-      while ( ( await PandCondation.checkProcessRun() ) == true )
-      {
-        await delay( 50 );
-      }
-
-      // تأخير قليل قبل بدء العملية
-      let numbeList = [];
-      let parentId = [];
-      let outPuts = document.querySelectorAll( '[id="pandCondationNumber"]' );
-      q( 'run 22222' );
-      // جمع القيم الحالية
-      outPuts.forEach( ( el ) =>
-      {
-        numbeList.push( el.value );
-
-        parentId.push(
-          el.parentElement.parentElement.parentElement.parentElement.parentElement.id.replace(
-            "_",
-            ""
-          )
-        );
-      } );
-
-      // إعادة الترقيم
-      let noAfterRenumber = reNumber( numbeList ); // تأكد أن reNumber تعيد مصفوفة مرقمة حسب ترتيب re
-      let index_ = null;
-
-      // تعيين القيم الجديدة
-      outPuts.forEach( ( el, index ) =>
-      {
-        q( parentId[ index ] + ' 22222-> ' + noAfterRenumber[ index ] );
-        index_ = noAfterRenumber[ index ];
-        if ( parentId[ index ] )
-        {
-          if ( /^[a-zA-Z]{4}\d+/.test( parentId[ index ] ) )
-          {
-            q( parentId[ index ].replace( "_", "" ) + ' -> ' + index_ );
-            // تحديث البيانات في قاعدة البيانات
-            dbNoUp_PandCondation.keySet(
-              parentId[ index ].replace( "_", "" ),
-              "pandCondationNumber",
-              index_
-            );
-            // تعيين القيمة الجديدة للعناصر
-            el.value = index_;
-          }
-        }
-      } );
-
-      await delay( 200 ); // تأخير قليل بعد التعيين
-
-    } catch ( error )
-    {
-      console.error( "حدث خطأ أثناء إعادة الترقيم:", error );
-    } finally
-    {
-      isTableWatcherEnabled = true; // إعادة تمكين الكود بعد الانتهاء من العملية
-    }
   }
 
 </script>
@@ -127,7 +62,7 @@
     <tbody>
       <tr>
         <td>
-          <input id="pandCondationNumber" type="text" placeholder=""
+          <input id="numbering" type="text" placeholder=""
             style="border: none; background-color: transparent; color: black" />
         </td>
         <td>

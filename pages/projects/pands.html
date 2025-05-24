@@ -21,7 +21,7 @@
                 input.placeholder = getLang( 1260 );
             } );
 
-            await renumber_();
+         
 
         } catch ( er )
         {
@@ -38,68 +38,17 @@
         "itemsTable_Altraw", // ID of alternate row to show on click
         true, // Show table header?
         true, // Add alternate div when row is clicked?
-        true // Start with new row?
+        true, // Start with new row?
+        true // have numbering column?
     );
 
  
-    async function renumber_ ()
-    {
-        isTableWatcherEnabled = false; // تعطيل الكود مؤقتًا
-        try
-        {
-            while ( await pandsTable.checkProcessRun() == true ) { await delay( 50 ); }
-            // تأخير قليل قبل بدء العملية
-            let numbeList = [];
-            let parentId = [];
-            let outPuts = document.querySelectorAll( '[id="pandNumber"]' );
-
-            // جمع القيم الحالية
-            outPuts.forEach( ( el ) =>
-            {
-                numbeList.push( el.value );
-
-
-                parentId.push( el.parentElement.parentElement.parentElement.parentElement.parentElement.id.replace( '_', '' ) );
-
-
-
-            } );
-
-            // إعادة الترقيم
-            let noAfterRenumber = reNumber( numbeList ); // تأكد أن reNumber تعيد مصفوفة مرقمة حسب ترتيب re
-            let index_ = null;
-
-            // تعيين القيم الجديدة
-            outPuts.forEach( ( el, index ) =>
-            {
-             //   q(parentId[ index ] + ' 22222-> ' + index );
-                index_ = noAfterRenumber[ index ];
-                if(parentId[ index ] ){
-                if ( /^[a-zA-Z]{4}\d+/.test( parentId[ index ] ) )
-                {
-                    // تحديث البيانات في قاعدة البيانات
-                    dbNoUp_item.keySet( parentId[ index ].replace( '_', '' ), 'pandNumber', index_ );
-                    // تعيين القيمة الجديدة للعناصر
-                    el.value = index_;
-                }
-            }
-            } );
-
-            await delay( 200 ); // تأخير قليل بعد التعيين
-        } catch ( error )
-        {
-            console.error( "حدث خطأ أثناء إعادة الترقيم:", error );
-        } finally
-        {
-            isTableWatcherEnabled = true; // إعادة تمكين الكود بعد الانتهاء من العملية
-        }
-    }
-
+   
 
 </script>
-
-<div id="itemsTable"></div>
 <!-- مكان إضافة الجدول -->
+<div id="itemsTable"></div>
+
 
 <div DivId id="itemsTable_raw" style="display: none" class="">
     <table>
@@ -112,7 +61,7 @@
         <tbody>
             <tr>
                 <td>
-                    <input id="pandNumber" type="text" placeholder=""
+                    <input id="numbering" type="text" placeholder=""
                         style="border: none; background-color: transparent; color: black" />
                 </td>
                 <td>

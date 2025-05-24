@@ -48,6 +48,14 @@
                     <br> <span id="t_48"></span>
                 </button>
             </td>
+             <td>
+                <!-- التسعير -->
+                <button onclick="showSection_selectedPand('pricing')">
+                    <img id="i_pricing" alt="pricing"
+                        style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                    <br> <span id="t_42"></span>
+                </button>
+            </td>
             <td>
                 <!-- الاشتراطات -->
                 <button onclick="showSection_selectedPand('condations')">
@@ -64,6 +72,7 @@
     <!-- ✅ الأقسام (تظهر حسب القسم المختار) -->
     <div id="units" class="section_selectedPand"></div>
     <div id="condations" class="section_selectedPand"></div>
+<div id="pricing" class="section_selectedPand"></div>
 
     <!-- الكود التعريفي -->
     <br>
@@ -81,7 +90,8 @@
 
     const pageMap_selectedPand = {
         units: "pages/projects/units.html",
-        condations: "pages/projects/condations.html"
+        condations: "pages/projects/condations.html",
+          pricing: "pages/projects/pricing.html"
     };
 
     let selectedPage_selectedPand = null;//تستخدم في دوال اخري خارج هذة الصفحة لذا يجب عدم تغير الاسم
