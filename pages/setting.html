@@ -17,7 +17,11 @@ watchAndSaveInputs2Local("settingPage");
 <input type="number" id="DecimalPoint" min="0" max="5">
 
 </div>
+<br><br>
 
+<button onclick="clearEverything()" style="padding: 10px 20px; font-size: 16px; background-color: crimson; color: white; border: none; border-radius: 5px; cursor: pointer;">
+  🧹 مسح كل بيانات الموقع
+</button>
 
 <script>
     document.getElementById("languageSelect").addEventListener("change",async function () {
@@ -31,4 +35,43 @@ watchAndSaveInputs2Local("settingPage");
     if (value > 5) decimalInput.value = 5;
     await getSetting();
   });
+
+ async function clearEverything() {
+    // 🧹 1. حذف LocalStorage
+    localStorage.clear();
+
+    // 🧹 2. حذف SessionStorage
+    sessionStorage.clear();
+
+    // 🧹 3. حذف جميع قواعد IndexedDB
+    if (window.indexedDB && indexedDB.databases) {
+      const databases = await indexedDB.databases();
+      for (const db of databases) {
+        if (db.name) {
+          indexedDB.deleteDatabase(db.name);
+        }
+      }
+    }
+
+    // 🧹 4. حذف جميع الكوكيز (من نفس النطاق)
+    document.cookie.split(";").forEach(cookie => {
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    });
+
+    // 🧹 5. حذف Cache API
+    if ('caches' in window) {
+      const keys = await caches.keys();
+      for (const key of keys) {
+        await caches.delete(key);
+      }
+    }
+
+    console.log("🧼 تم مسح كل بيانات الموقع من المتصفح 🔥");
+
+    // 🔁 إعادة تحميل الصفحة لتأكيد المسح
+    location.reload();
+  }
+
   </script>
