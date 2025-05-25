@@ -1,12 +1,9 @@
 ﻿<!DOCTYPE html>
 <html>
-  
+
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0 maximum-scale=1.0, user-scalable=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0, user-scalable=no" />
     <title>BidStory</title>
 
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
@@ -16,15 +13,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/BidStory/js/dataBase/dbManager.js"></script>
     <script src="/BidStory/js/table/table.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/BidStory/css/table.css" />
 
     <style>
@@ -82,29 +73,21 @@
     <!-- ✅ شريط التنقل بين الأقسام الرئيسية -->
     <nav>
       <button onclick="showSection('allProjects')">
-        <img
-          id="i_allmo"
-          alt="allProjects"
-          style="
+        <img id="i_allmo" alt="allProjects" style="
             width: 20px;
             height: 20px;
             vertical-align: middle;
             margin-left: 5px;
-          "
-        />
+          " />
         <span id="t_159"></span>
       </button>
       <button onclick="showSection('setting')">
-        <img
-          id="i_setting"
-          alt="setting"
-          style="
+        <img id="i_setting" alt="setting" style="
             width: 20px;
             height: 20px;
             vertical-align: middle;
             margin-left: 5px;
-          "
-        />
+          " />
         <span id="t_62"></span>
       </button>
     </nav>
@@ -112,29 +95,21 @@
     <!-- ✅ شريط تنقل فرعي يظهر بعد اختيار مشروع -->
     <nav id="nav2" style="display: none">
       <button onclick="showSection('definition')">
-        <img
-          id="i_id"
-          alt="definition"
-          style="
+        <img id="i_id" alt="definition" style="
             width: 20px;
             height: 20px;
             vertical-align: middle;
             margin-left: 5px;
-          "
-        />
+          " />
         <span id="t_253"></span>
       </button>
       <button onclick="showSection('pands')">
-        <img
-          id="i_items"
-          alt="pands"
-          style="
+        <img id="i_items" alt="pands" style="
             width: 20px;
             height: 20px;
             vertical-align: middle;
             margin-left: 5px;
-          "
-        />
+          " />
         <span id="t_633"></span>
       </button>
     </nav>
@@ -167,93 +142,109 @@
       let selectedPage = null; //تستخدم في دوال اخري خارج هذة الصفحة لذا يجب عدم تغير الاسم
       let targetSection = null;
 
-      document.addEventListener("DOMContentLoaded", async () => {
-        while ((await getLoadLangImageLists()) == false) {
-          await new Promise((resolve) => setTimeout(resolve, 100));
+      document.addEventListener( "DOMContentLoaded", async () =>
+      {
+        while ( ( await getLoadLangImageLists() ) == false )
+        {
+          await new Promise( ( resolve ) => setTimeout( resolve, 100 ) );
         }
 
         const html = document.documentElement;
-        if (useArabic == true) {
+        if ( useArabic == true )
+        {
           html.lang = "ar";
           html.dir = "rtl";
-        } else {
+        } else
+        {
           html.lang = "en";
           html.dir = "ltr";
         }
 
         // يمكن تعيين القسم الافتراضي هنا إذا أردت
-        await showSection("allProjects");
-      });
+        await showSection( "allProjects" );
+      } );
       //يجب الحفاظ علي اسم الداله كما هو لانها تستخدم من خارج الصفحة
-      async function showSection(sectionId) {
-        await loadSection(sectionId);
+      async function showSection ( sectionId )
+      {
+        await loadSection( sectionId );
       }
 
-      async function loadSection(sectionId) {
-        try {
-          if (selectedPage === sectionId && loadedPages[sectionId]) return;
+      async function loadSection ( sectionId )
+      {
+        try
+        {
+          if ( selectedPage === sectionId && loadedPages[ sectionId ] ) return;
 
           selectedPage = sectionId;
-          targetSection = document.getElementById(sectionId);
+          targetSection = document.getElementById( sectionId );
 
           document
-            .querySelectorAll(".section")
-            .forEach((section) => section.classList.remove("active"));
-          targetSection.classList.add("active");
+            .querySelectorAll( ".section" )
+            .forEach( ( section ) => section.classList.remove( "active" ) );
+          targetSection.classList.add( "active" );
 
-          if (!loadedPages[sectionId] && pageMap[sectionId]) {
+          if ( !loadedPages[ sectionId ] && pageMap[ sectionId ] )
+          {
             targetSection.innerHTML =
               '<div class="loader">جاري التحميل...</div>';
-            await loadPageContent(sectionId, targetSection);
-            loadedPages[sectionId] = true;
+            await loadPageContent( sectionId, targetSection );
+            loadedPages[ sectionId ] = true;
           }
 
-          await handleSectionInit(sectionId);
+          await handleSectionInit( sectionId );
           await setTextAndImage();
-        } catch (error) {
-          console.error("خطأ أثناء تحميل القسم:", error);
+        } catch ( error )
+        {
+          console.error( "خطأ أثناء تحميل القسم:", error );
           targetSection.innerHTML = "<p>⚠️ فشل تحميل الصفحة.</p>";
         }
       }
 
-      async function loadPageContent(sectionId, container) {
-        const url = pageMap[sectionId];
-        const response = await fetch(url);
-        if (!response.ok) throw new Error("الملف غير موجود");
+      async function loadPageContent ( sectionId, container )
+      {
+        const url = pageMap[ sectionId ];
+        const response = await fetch( url );
+        if ( !response.ok ) throw new Error( "الملف غير موجود" );
 
         const html = await response.text();
-        const temp = document.createElement("div");
+        const temp = document.createElement( "div" );
         temp.innerHTML = html;
 
-        const scripts = temp.querySelectorAll("script");
-        scripts.forEach((script) => script.remove());
+        const scripts = temp.querySelectorAll( "script" );
+        scripts.forEach( ( script ) => script.remove() );
 
         container.innerHTML = temp.innerHTML;
 
         // تحميل السكربتات واحداً تلو الآخر
-        for (const script of scripts) {
-          await new Promise((resolve, reject) => {
-            const newScript = document.createElement("script");
-            if (script.src) {
+        for ( const script of scripts )
+        {
+          await new Promise( ( resolve, reject ) =>
+          {
+            const newScript = document.createElement( "script" );
+            if ( script.src )
+            {
               newScript.src = script.src;
               newScript.onload = resolve;
               newScript.onerror = reject;
-            } else {
+            } else
+            {
               newScript.textContent = script.textContent;
               resolve();
             }
-            document.body.appendChild(newScript);
-          });
+            document.body.appendChild( newScript );
+          } );
         }
       }
 
-      async function handleSectionInit(sectionId) {
-        switch (sectionId) {
+      async function handleSectionInit ( sectionId )
+      {
+        switch ( sectionId )
+        {
           case "allProjects":
             await initAllProjectPage();
-            document.getElementById("nav2").style.display = "none";
-            localStorage.setItem("selectedProject", "");
-            localStorage.setItem("selectedPand", "");
+            document.getElementById( "nav2" ).style.display = "none";
+            localStorage.setItem( "selectedProject", "" );
+            localStorage.setItem( "selectedPand", "" );
             break;
           case "definition":
             await initDefinitionPage();
@@ -268,4 +259,5 @@
       }
     </script>
   </body>
+
 </html>

@@ -44,6 +44,7 @@
 
     async function calTot()
     {
+        try{
         const kmia_ = document.getElementById("kmia");
         const sear_ = document.getElementById("sear");
         const tot_ = document.getElementById("tot");
@@ -55,6 +56,11 @@
         isTableWatcherEnabled = false;
         await dbNoUpgradSelectedPand.keySet(selectedPandId, 'tot', tot_.value);
         isTableWatcherEnabled = true;
+        } catch (error) {
+            console.error("Error calculating total:", error);
+        }finally {
+         isTableWatcherEnabled = true;
+        }
     }
 
     //#region اختيار نوع وحدة القياس

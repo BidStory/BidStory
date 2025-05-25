@@ -1,5 +1,13 @@
 //this is tools.js file
 
+//#region  متغيرات عامة
+
+//#region متغيرات تكلفة البند
+let pricing_Table = null;
+let selectedSections = null;
+//#endregion
+
+//#endregion
 
 
 function isDefined ( variableName )
@@ -225,7 +233,7 @@ async function restoreAllInputsFromIndexDB ( target, dbNoUpgrade, tableName )
   const containerElement = document.getElementById( target );
   if ( !containerElement )
   {
-    console.error( "❌ لم يتم توفير عنصر الحاوية (Restoring) restoreAllInputsFromIndexDB." );
+    console.warn( "❌ لم يتم توفير عنصر الحاوية (Restoring) restoreAllInputsFromIndexDB." );
     return;
   }
 
@@ -298,7 +306,7 @@ function watchAndSaveInputs2Local ( target )
     // التحقق من وجود العنصر، إذا لم يكن موجود نخرج من الدالة
     if ( !containerElement )
     {
-      console.error( "❌ لم يتم توفير عنصر الحاوية (watchAndSaveInputs2Local) ." );
+      console.warn( "❌ لم يتم توفير عنصر الحاوية (watchAndSaveInputs2Local) ." );
       return;
     }
     const inputs = containerElement.querySelectorAll( inputSelectors.join( ',' ) );
@@ -579,17 +587,18 @@ document.addEventListener( 'tableDataChanged', async ( event ) =>
       storeName = event.detail.storeName;
       // @ts-ignore
       dataName = event.detail.dataName;
-      console.log( "isTableWatcherEnabled state -> ", isTableWatcherEnabled );
+      console.log( "isTableWatcherEnabled state -> ", isTableWatcherEnabled, ' ' );
       // @ts-ignore
       if ( !isTableWatcherEnabled ) return; // إذا كان الكود مغلقًا، سيتم تخطي الكود هنا.
       console.log( 'chang in table -> ', storeName, ' at dataBase -> ', dataName );
+
       //تم اختيار قاعدة البيانات الخاصة ببنود مشروع 
       if ( dataName.includes( "ite_" ) )
       {
         // @ts-ignore
         if ( selectedPage == 'pands' )
         {
-         
+
         }
         // @ts-ignore
         if ( selectedPage == 'selectedPand' )
@@ -598,14 +607,22 @@ document.addEventListener( 'tableDataChanged', async ( event ) =>
           await calTot();
         }
       }
-   
+
+      if ( dataName.includes( "raw_" ) || dataName.includes( "equipments_" ) || dataName.includes( "labor_" ) || dataName.includes( "transport_" ) || dataName.includes( "other_" ) )
+      {
+
         // @ts-ignore
-        if ( selectedPage_selectedPand == 'condations' )
-        {
-          // @ts-ignore
-     
-        }
-      
+        await calTotSection( dataName, storeName );
+
+      }
+
+
+      // @ts-ignore
+      if ( selectedPage_selectedPand == 'condations' )
+      {
+
+      }
+
       if ( storeName == 'definition' )
       {
         // @ts-ignore
@@ -637,7 +654,7 @@ document.addEventListener( 'clickButtonInRow', async ( event ) =>
   // @ts-ignore
   dataBaseClickedId = event.detail.kind[ 2 ];
   // @ts-ignore
-  console.log( buttomClickedId, '   ', rowClickedId, '  ', dataBaseClickedId, '99999999' );
+  console.log( buttomClickedId, '   ', rowClickedId, '  ', dataBaseClickedId, '' );
   if ( buttomClickedId == 't_138_open' )
   {
     console.log( `📢 فتح احد البنود` );

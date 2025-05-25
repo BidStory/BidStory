@@ -51,8 +51,9 @@
         </td>
         <td>
             <!--  الاجمالي -->
-            <br> <span id="t_221"></span>
-
+            <span id="t_221"></span>
+            <br>
+            <label id="total_price"></label>
         </td>
 
     </tr>
@@ -61,18 +62,28 @@
 <!-- الأقسام -->
 <div id="raw" class="section_pricing">
     <div id="raw_item"></div>
+    <br>
+    <label id="raw_total"></label>
 </div>
 <div id="equipments" class="section_pricing">
     <div id="equipments_item"></div>
+    <br>
+    <label id="equipments_total"></label>
 </div>
 <div id="labor" class="section_pricing">
     <div id="labor_item"></div>
+    <br>
+    <label id="labor_total"></label>
 </div>
 <div id="transport" class="section_pricing">
     <div id="transport_item"></div>
+    <br>
+    <label id="transport_total"></label>
 </div>
 <div id="other" class="section_pricing">
     <div id="other_item"></div>
+    <br>
+    <label id="other_total"></label>
 </div>
 
 <div DivId id="pricing_class" style="display: none" class="">
@@ -81,17 +92,32 @@
             <tr>
                 <th id="t_37"></th>
                 <th id="t_413"></th>
+                <th id="t_38"></th>
+                <th id="t_39"></th>
+                <th id="t_40"></th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>
-                    <input id="numbering" type="text" placeholder=""
-                        style="border: none; background-color: transparent; color: black" />
+                    <input id="numbering" readonly type="text" placeholder=""
+                        style="outline: none; border: none; background-color: transparent; color: black;" />
                 </td>
                 <td>
-                    <input id="pandText" type="text" placeholder=""
-                        style="border: none; background-color: transparent; color: black" />
+                    <textarea id="priceText" type="text" placeholder=""
+                        style="border: none; background-color: transparent; color: black;"></textarea>
+                </td>
+                <td>
+                    <input id="priceKmia" type="number" placeholder=""
+                        style=" border: none; background-color: transparent; color: black;" />
+                </td>
+                <td>
+                    <input id="priceSear" type="number" placeholder=""
+                        style=" border: none; background-color: transparent; color: black;" />
+                </td>
+                <td>
+                    <input id="priceTot" type="text" placeholder=""
+                        style=" border: none; background-color: transparent; color: black;" />
                 </td>
             </tr>
         </tbody>
@@ -100,37 +126,183 @@
 
 <script>
 
-    let pricing_item = null;
-    let dbNoUp_pricing_item = null;
-    let pricing_Table = null;
-   async function pricing_section(sectionName) {
-    const sections = ['raw', 'equipments', 'labor', 'transport', 'other'];
 
-    for (const id of sections) {
-        const el = document.getElementById(id);
-        if (el) {
-            if (id === sectionName) {
-                el.style.display = 'block';
-                pricing_item = sectionName + '_' + localStorage.getItem("selectedPand");
-                if (pricing_Table !== null) {
-                    await pricing_Table.destroyTable();
+
+
+
+    async function pricing_section ( sectionName )
+    {
+        try
+        {
+            const sections = [ 'raw', 'equipments', 'labor', 'transport', 'other' ];
+
+            for ( const id of sections )
+            {
+                const el = document.getElementById( id );
+                if ( el )
+                {
+                    if ( id === sectionName )
+                    {
+                        await initipricing( sectionName );
+                        sectionName = id;
+selectedSections= sectionName;
+                        el.style.display = 'block';
+                        let pricing_item = sectionName + '_' + localStorage.getItem( "selectedPand" );
+                        try
+                        {
+                            await pricing_Table.destroyTable();
+                        } catch ( error )
+                        {
+                            console.error( "Error destroying table:", error );
+                        }
+                        // @ts-ignore
+                        pricing_Table = new setTableParameter(
+                            sectionName + "_item", // ID of the container element
+                            pricing_item, // Table ID and database name
+                            "pricing_class", // ID of the row template to copy
+                            "", // ID of alternate row to show on click
+                            true, // Show table header?
+                            false, // Add alternate div when row is clicked?
+                            true, // Start with new row?
+                            true // have numbering column?
+                        );
+
+                    } else
+                    {
+                        el.style.display = 'none';
+                    }
                 }
-                pricing_Table = new setTableParameter(
-                    sectionName + "_item", // ID of the container element
-                    pricing_item, // Table ID and database name
-                    "pricing_class", // ID of the row template to copy
-                    "", // ID of alternate row to show on click
-                    true, // Show table header?
-                    false, // Add alternate div when row is clicked?
-                    true, // Start with new row?
-                    true // have numbering column?
-                );
-            } else {
-                el.style.display = 'none';
             }
         }
+
+        catch ( error )
+        {
+            console.error( "Error in pricing_section:", error );
+        }
     }
-}
 
+    async function calTotSection ( dataName, tableId )
+    {
+        try
+        {
+            if(selectedSections==null){return;}
+            isTableWatcherEnabled = false;
+            let dbNoUpgrade_pricing = await new noUpgrade( dataName );
+            const kmia_ = await dbNoUpgrade_pricing.keyGet( tableId, 'priceKmia' );
+            const sear_ = await dbNoUpgrade_pricing.keyGet( tableId, 'priceSear' );
+            if ( kmia_ === null || sear_ === null )
+            {
+                await dbNoUpgrade_pricing.keySet( tableId, 'priceTot', '' );
+                console.warn( "kmia_ or sear_ is null, cannot calculate total." );
+                return;
+            }
 
+            const raw_ = document.getElementById( tableId + '_' );
+
+            const tot_ = raw_.querySelector( '#priceTot' );
+
+            let k = parseFloat( kmia_ ) || 0;
+            let s = parseFloat( sear_ ) || 0;
+
+            tot_.value = ( k * s ).toFixed( DecimalPoint );
+
+            await dbNoUpgrade_pricing.keySet( tableId, 'priceTot', tot_.value );
+            await totalPricingItem();
+            isTableWatcherEnabled = true;
+        } catch ( error )
+        {
+            console.error( "Error calculating total:", error );
+        } finally
+        {
+            isTableWatcherEnabled = true;
+        }
+    }
+
+    async function totalPricingItem ()
+    {
+        try
+        {
+                isTableWatcherEnabled = false;
+            const sections = [ 'raw', 'equipments', 'labor', 'transport', 'other' ];
+            let totPrice = 0;
+            for ( const section of sections )
+            {
+                const dbName = section + '_' + selectedPandId;
+                let dbNoUpgrade_pricing = await new noUpgrade( dbName );
+                let allRows = await dbNoUpgrade_pricing.getAllDataFromTable( 'rows' );
+                let totSection = 0;
+
+                if ( !Array.isArray( allRows ) )
+                {
+                    continue;
+                }
+
+                for ( const rawId of allRows )
+                {
+                    totSection += parseFloat( await dbNoUpgrade_pricing.keyGet( rawId.key, 'priceTot' ) ) || 0;
+                }
+
+                totPrice += totSection;
+
+                const rawTotal = document.getElementById( section + '_total' );
+                rawTotal.innerText = ( totSection ).toFixed( DecimalPoint );
+                if ( !await dbNoUpgrade_pricing.isTableExist( 'total' ) )
+                {
+                    let dbUpgrade_pricing = await new upgrade( dbName );
+                    await dbUpgrade_pricing.createKeyTable( 'total' );
+                }
+                await dbNoUpgrade_pricing.keySet( 'total', section + '_total', totSection );
+
+            }
+
+            const totalPrice = document.getElementById( 'total_price' );
+            totalPrice.innerText = ( totPrice ).toFixed( DecimalPoint );
+            const dbName_t = 'labor' + '_' + selectedPandId;
+            let dbNoUpgrade_pricing_t = await new noUpgrade( dbName_t );
+            if ( !await dbNoUpgrade_pricing_t.isTableExist( 'total' ) )
+            {
+                let dbUpgrade_pricing_t = await new upgrade( dbName_t );
+                await dbUpgrade_pricing_t.createKeyTable( 'total' );
+            }
+            await dbNoUpgrade_pricing_t.keySet( 'total', 'total_price', totPrice );
+               isTableWatcherEnabled = true;
+        }
+        catch ( error )
+        {
+            console.error( "Error calculating total pricing item:", error );
+        } finally
+        {
+            isTableWatcherEnabled = true;
+        }
+    }
+
+    async function initipricing ( section )
+    {
+        try
+        {
+            const dbName = section + '_' + selectedPandId;
+            let dbNoUpgrade_pricing = await new noUpgrade( dbName );
+            const rawTotal = document.getElementById( section + '_total' );
+            rawTotal.innerText = await dbNoUpgrade_pricing.keyGet( 'total', section + '_total' ) || '0.00';
+        }
+        catch ( error )
+        {
+            console.error( "Error initializing pricing section:", error );
+        }
+    }
+    async function initipricing_t ()
+    {
+        try
+        {
+            selectedSections = null;
+            const totalPrice = document.getElementById( 'total_price' );
+            const dbName_t = 'labor' + '_' + selectedPandId;
+            let dbNoUpgrade_pricing_t = await new noUpgrade( dbName_t );
+            totalPrice.innerText = await dbNoUpgrade_pricing_t.keyGet( 'total', 'total_price' ) || '0.00';
+        } catch ( error )
+        {
+            console.error( "Error initializing total pricing:", error );
+        }
+    }
+    initipricing_t();
 </script>

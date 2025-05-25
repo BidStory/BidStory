@@ -428,10 +428,10 @@ function setTableParameter (
         console.log( 'لا يوجد صفوف سوف يتم انشاء صف جديد ' );
         let row_ = await createNewRow();
         hideTableHeadInsideElement( row_?.id, showHead );
-         if ( haveNumbringColumn )
-    {
-      await  await inputNumbering();
-    }
+        if ( haveNumbringColumn )
+        {
+          await await inputNumbering();
+        }
       }
     } else
     {
@@ -440,10 +440,10 @@ function setTableParameter (
         console.log( 'لا يوجد صفوف سوف يتم انشاء صف جديد ' );
         let row_ = await createNewRow();
         hideTableHeadInsideElement( row_?.id, showHead );
- if ( haveNumbringColumn )
-    {
-      await  await inputNumbering();
-    }
+        if ( haveNumbringColumn )
+        {
+          await await inputNumbering();
+        }
       }
     }
   };
@@ -486,7 +486,7 @@ function setTableParameter (
     // التحقق من وجود العنصر
     if ( !containerElement )
     {
-      console.error( "❌ لم يتم توفير عنصر الحاوية (getInput)." );
+      console.warn( "❌ لم يتم توفير عنصر الحاوية (getInput)." );
       return;
     }
 
@@ -749,7 +749,7 @@ function setTableParameter (
     // التحقق من وجود العنصر، إذا لم يكن موجود نخرج من الدالة
     if ( !containerElement )
     {
-      console.error( "❌ لم يتم توفير عنصر الحاوية (Watching)." );
+      console.warn( "❌ لم يتم توفير عنصر الحاوية (Watching)." );
       return;
     }
 
@@ -1158,10 +1158,10 @@ function setTableParameter (
             {
               let row_ = await createNewRow();
               hideTableHeadInsideElement( row_?.id, showHead );
-               if ( haveNumbringColumn )
-    {
-      await  await inputNumbering();
-    }
+              if ( haveNumbringColumn )
+              {
+                await inputNumbering();
+              }
             }
           }
         } else
@@ -1170,10 +1170,10 @@ function setTableParameter (
           {
             let row_ = await createNewRow();
             hideTableHeadInsideElement( row_?.id, showHead );
-             if ( haveNumbringColumn )
-    {
-      await  await inputNumbering();
-    }
+            if ( haveNumbringColumn )
+            {
+              await await inputNumbering();
+            }
           }
         }
       } else
@@ -1182,10 +1182,10 @@ function setTableParameter (
         {
           let row_ = await createNewRow();
           hideTableHeadInsideElement( row_?.id, showHead );
-           if ( haveNumbringColumn )
-    {
-      await  await inputNumbering();
-    }
+          if ( haveNumbringColumn )
+          {
+            await await inputNumbering();
+          }
         }
       }
     } catch ( error )
@@ -1610,7 +1610,8 @@ function setTableParameter (
     tableId,
     selectedRaw,
     isTableRun,
-
+    dbNoUpgrade,
+    rowsTable,
   };
 
 }

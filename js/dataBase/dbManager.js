@@ -304,7 +304,6 @@ function noUpgrade ( dbName )
     }
   };
 
-
   /*
   await getRow("users", 1); // البحث عن صف بالـ id
   await getRow("users", "email", "test@example.com"); // البحث عن صف بالبريد
@@ -528,8 +527,6 @@ function noUpgrade ( dbName )
       }
     }
   };
-
-
 
 
   return {
@@ -1025,15 +1022,7 @@ async function exportEntireDatabase ( dbName )
   } );
 }
 // @ts-ignore
-// @ts-ignore
-// @ts-ignore
-// @ts-ignore
-// @ts-ignore
-// @ts-ignore
-// @ts-ignore
-// @ts-ignore
-// @ts-ignore
-// @ts-ignore
+
 async function importEntireDatabase ( json )
 {
    console.log("📥 بدء استيراد قاعدة بيانات ...");
