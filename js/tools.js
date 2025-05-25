@@ -10,6 +10,13 @@ let selectedSections = null;
 //#endregion
 
 
+// دالة التحقق من صحه المعرف اول اربع حروف ثم ارقام
+function isValidIdFormat(x) {
+  return /^[a-zA-Z]{4}\d+$/.test(x);
+}
+
+
+
 function isDefined ( variableName )
 {
   try
