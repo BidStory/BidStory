@@ -13,8 +13,9 @@
 <table>
 
     <tr>
+          <!--   المواد الخام  -->
         <td>
-            <!--   المواد الخام  -->
+          
             <button onclick="pricing_section('raw')">
                 <img id="i_raw" alt="raw" style="
             width: 20px;
@@ -26,8 +27,9 @@
                 <span id="t_703"></span>
             </button>
         </td>
+         <!-- المعدات -->
         <td>
-            <!-- المعدات -->
+           
             <button onclick="pricing_section('equipments')">
                 <img id="i_equipment" alt="equipments" style="
             width: 20px;
@@ -39,8 +41,9 @@
                 <span id="t_55"></span>
             </button>
         </td>
+         <!-- العمالة -->
         <td>
-            <!-- العمالة -->
+           
             <button onclick="pricing_section('labor')">
                 <img id="i_hand" alt="labor" style="
             width: 20px;
@@ -52,8 +55,9 @@
                 <span id="t_53"></span>
             </button>
         </td>
+        <!-- النقل -->
         <td>
-            <!-- النقل -->
+            
             <button onclick="pricing_section('transport')">
                 <img id="i_transport" alt="transport" style="
             width: 20px;
@@ -65,8 +69,9 @@
                 <span id="t_51"></span>
             </button>
         </td>
+         <!-- مصاريف اخري -->
         <td>
-            <!-- مصاريف اخري -->
+           
             <button onclick="pricing_section('other')">
                 <img id="i_other" alt="other" style="
             width: 20px;
@@ -78,12 +83,24 @@
                 <span id="t_54"></span>
             </button>
         </td>
+         <!--  الاجمالي -->
         <td>
-            <!--  الاجمالي -->
+           
             <span id="t_221"></span>
             <br />
             <label id="total_price"></label>
         </td>
+ <!--  هامش الربح -->
+        <td>
+           
+            <span id="t_49"></span>
+            <br />
+           <input id="profit_margin" type="number" placeholder=""
+                        style="border: none; background-color: transparent; color: black" />
+      
+        </td>
+
+
     </tr>
 
 </table>
@@ -117,7 +134,16 @@
 </div>
 <br />
 <!-- زر إظهار/إخفاء الرسم -->
-<button onclick="togglePieChart()">إظهار/إخفاء الرسم الدائري</button>
+<button onclick="togglePieChart()">  
+ <img id="i_PieChart" alt="raw" style="
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-left: 5px;
+          " />
+                <br />
+                <span id="t_555"></span>
+</button>
 <br />
 <!-- عنصر الرسم الدائري -->
 <canvas id="myPieChart" width="400" height="400" style="display: none;"></canvas>
