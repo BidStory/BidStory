@@ -64,7 +64,13 @@
                     <br> <span id="t_279"></span>
                 </button>
             </td>
-            //chartDuration
+            <td>
+                <!-- مدة التنفيذ -->
+                <button onclick="showSection_selectedPand('chartDuration')">
+                    <img id="i_chartDuration" alt="chartDuration"
+                        style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                    <br> <span id="t_141"></span>
+                </button>
         </tr>
     </table>
 
@@ -73,6 +79,7 @@
     <!-- ✅ الأقسام (تظهر حسب القسم المختار) -->
     <div id="units" class="section_selectedPand"></div>
     <div id="condations" class="section_selectedPand"></div>
+    <div id="chartDuration" class="section_selectedPand"></div>
 <div id="pricing" class="section_selectedPand"></div>
 
     <!-- الكود التعريفي -->
@@ -92,7 +99,8 @@
     const pageMap_selectedPand = {
         units: "pages/projects/units.html",
         condations: "pages/projects/condations.html",
-          pricing: "pages/projects/pricing.html"
+        pricing: "pages/projects/pricing.html",
+        chartDuration: "pages/projects/chartDuration.html"
     };
 
     let selectedPage_selectedPand = null;//تستخدم في دوال اخري خارج هذة الصفحة لذا يجب عدم تغير الاسم
