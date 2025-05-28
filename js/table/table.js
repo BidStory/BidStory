@@ -466,81 +466,66 @@ function setTableParameter (
 
   //#region 📝 getInput: جلب القيم المحفوظة من قاعدة البيانات وتحديث الحقول المناسبة
 
-  /**
-  * تقوم هذه الدالة بجلب القيم المخزنة لكل الحقول داخل العنصر المحدد باستخدام rowId.
-  * 🔹 يتم جلب القيم من قاعدة البيانات (dbNoUpgrade).
-  * 🔹 تدعم أنواع الحقول المختلفة:
-  *    - النصوص (input[type="text"])
-  *    - التاريخ (input[type="date"])
-  *    - الوقت (input[type="time"])
-  *    - أزرار الراديو (input[type="radio"])
-  *    - مربعات التحقق (input[type="checkbox"])
-  *    - القوائم المنسدلة (select)
-  *    - مربعات النص (textarea)
-  * 🔹 يتم تحديث القيمة المناسبة في الحقل (مربعات التحقق تتعامل مع `checked`، وأزرار الراديو مع `value`، إلخ).
-  */
-  const getInput = async ( rowId ) =>
-  {
-    const containerElement = document.getElementById( rowId );
+/**
+ * تقوم هذه الدالة بجلب القيم المخزنة لكل الحقول داخل العنصر المحدد باستخدام rowId.
+ * 🔹 يتم جلب القيم من قاعدة البيانات (dbNoUpgrade).
+ * 🔹 تدعم أنواع الحقول المختلفة:
+ *    - النصوص (input[type="text"])
+ *    - التاريخ (input[type="date"])
+ *    - الوقت (input[type="time"])
+ *    - التاريخ والوقت (input[type="datetime-local"])
+ *    - أزرار الراديو (input[type="radio"])
+ *    - مربعات التحقق (input[type="checkbox"])
+ *    - القوائم المنسدلة (select)
+ *    - مربعات النص (textarea)
+ */
+const getInput = async (rowId) => {
+  const containerElement = document.getElementById(rowId);
 
-    // التحقق من وجود العنصر
-    if ( !containerElement )
-    {
-      console.warn( "❌ لم يتم توفير عنصر الحاوية (getInput)." );
-      return;
-    }
+  if (!containerElement) {
+    console.warn("❌ لم يتم توفير عنصر الحاوية (getInput).");
+    return;
+  }
 
-    // البحث عن الحقول التي نريد مراقبتها (تمت إضافة textarea)
-    const inputs = containerElement.querySelectorAll(
-      'input[type="text"],input[type="number"],input[type="url"], input[type="date"], input[type="time"], input[type="radio"], input[type="checkbox"], select, textarea'
-    );
+  const inputs = containerElement.querySelectorAll(
+    'input[type="text"], input[type="number"], input[type="url"], input[type="date"], input[type="time"], input[type="datetime-local"], input[type="radio"], input[type="checkbox"], select, textarea'
+  );
 
-    // تكرار على الحقول وجلب قيمها من قاعدة البيانات
-    for ( const input of inputs )
-    {
-      try
-      {
-        const value = await dbNoUpgrade.keyGet( rowId, input.id );
+  for (const input of inputs) {
+    try {
+      const value = await dbNoUpgrade.keyGet(rowId, input.id);
 
-        // التعامل مع مختلف أنواع الحقول
+      // @ts-ignore
+      if (input.type === "checkbox") {
         // @ts-ignore
-        if ( input.type === "checkbox" )
-        {
+        input.checked = value ?? false;
+      // @ts-ignore
+      } else if (input.type === "radio") {
+        // @ts-ignore
+        if (input.value === value) {
           // @ts-ignore
-          input.checked = value ?? false;
-          // @ts-ignore
-        } else if ( input.type === "radio" )
-        {
-          // @ts-ignore
-          if ( input.value === value )
-          {
-            // @ts-ignore
-            input.checked = true;
-          }
-        } else if ( input.tagName.toLowerCase() === "select" )
-        {
-          // @ts-ignore
-          const option = Array.from( input.options ).find(
-            ( option ) => option.value === value
-          );
-          if ( option )
-          {
-            option.selected = true;
-          }
-        } else
-        {
-          // @ts-ignore
-          input.value = value ?? ""; // النصوص، التاريخ، الوقت، textarea
+          input.checked = true;
         }
-      } catch ( error )
-      {
-        console.error( `⚠️ خطأ أثناء جلب قيمة الحقل: ${ input.id }`, error );
+      } else if (input.tagName.toLowerCase() === "select") {
+        // @ts-ignore
+        const option = Array.from(input.options).find(
+          (option) => option.value === value
+        );
+        if (option) {
+          option.selected = true;
+        }
+      } else {
+        // @ts-ignore
+        input.value = value ?? ""; // يشمل text, date, time, datetime-local, textarea
       }
+    } catch (error) {
+      console.error(`⚠️ خطأ أثناء جلب قيمة الحقل: ${input.id}`, error);
     }
+  }
 
-    // طباعة إشعار عند اكتمال تحميل القيم
-    console.log( `✅ تم تحميل القيم إلى الحقول داخل: ${ rowId }` );
-  };
+  console.log(`✅ تم تحميل القيم إلى الحقول داخل: ${rowId}`);
+};
+
 
 
   //#endregion
@@ -635,6 +620,7 @@ function setTableParameter (
       return null;
     }
   };
+  // @ts-ignore
   // @ts-ignore
   // @ts-ignore
   // @ts-ignore
@@ -763,7 +749,9 @@ function setTableParameter (
       'input[type="checkbox"]', // مربعات التحقق
       "select", // القوائم المنسدلة
       "button", // أزرار الضغط (جديدة)
-      "textarea" // ✅  إضافة مراقبة عنصر textarea
+      "textarea", // textarea
+      'input[type="datetime-local"]' // datetime-local
+
     ];
 
     // البحث عن كل الحقول داخل الحاوية باستخدام CSS Selectors
@@ -791,6 +779,7 @@ function setTableParameter (
       }
 
       // باقي الحقول: نراقب قيمها ونحدثها في القاعدة
+      // @ts-ignore
       // @ts-ignore
       // @ts-ignore
       // @ts-ignore
@@ -1076,6 +1065,7 @@ function setTableParameter (
             if ( numbeList.length > 0 )
             {
               let noAfterRenumber = reNumber( numbeList ); // تأكد أن reNumber تعيد مصفوفة مرقمة حسب ترتيب re
+              // @ts-ignore
               // @ts-ignore
               let index_ = null;
               // تعيين القيم الجديدة
@@ -1481,6 +1471,7 @@ function setTableParameter (
 
 
   // تستخدم لتأخير التنفيذ عند الحاجة (مثلاً أثناء التحميل التدريجي)
+  // @ts-ignore
   // @ts-ignore
   // @ts-ignore
   // @ts-ignore

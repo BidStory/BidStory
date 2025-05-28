@@ -1,0 +1,136 @@
+<!--- chartDuratiin file  --->
+<script>
+
+
+    let dbNoUp_PandTimeline = null;
+
+
+    let dataBaseIdForPandTimeline =
+        "Timeline_" + localStorage.getItem("selectedPand");
+
+    // تهيئة الجدول
+    let PandTimeline = new setTableParameter(
+        "timeLineContaner", // ID of the container element
+        dataBaseIdForPandTimeline, // Table ID and database name
+        "PandTimelineRaw", // ID of the row template to copy
+        "", // ID of alternate row to show on click
+        true, // Show table header?
+        false, // Add alternate div when row is clicked?
+        true // Start with new row?
+    );
+
+
+    async function initPandTimelinePage()
+    {
+        dataBaseIdForPandTimeline =
+            "Timeline_" + localStorage.getItem("selectedPand");
+
+        await PandTimeline.destroyTable();
+
+        PandTimeline = new setTableParameter(
+            "timeLineContaner", // ID of the container element
+            dataBaseIdForPandTimeline, // Table ID and database name
+            "PandTimelineRaw", // ID of the row template to copy
+            "", // ID of alternate row to show on click
+            true, // Show table header?
+            false, // Add alternate div when row is clicked?
+            true, // Start with new row?
+            true // have numbering column?
+        );
+
+        dbNoUp_PandTimeline = await new noUpgrade(dataBaseIdForPandTimeline);
+
+
+    }
+
+
+    async function calDuration(dataName, tableId)
+    {
+        try
+        {
+
+
+            isTableWatcherEnabled = false;
+            let dbNoUpgrade_pricing = await new noUpgrade(dataName);
+            const start_ = await dbNoUpgrade_pricing.keyGet(tableId, "PandTimelineStart");
+            const end_ = await dbNoUpgrade_pricing.keyGet(tableId, "PandTimelineEnd");
+            if (start_ === null || end_ === null)
+            {
+                if (isValidIdFormat(tableId))
+                {
+
+                    await dbNoUpgrade_pricing.keySet(tableId, "PandTimelineDuration", "");
+                    console.warn("start_ or end_ is null, cannot calculate duration.");
+                    return;
+                }
+            }
+
+            const raw_ = document.getElementById(tableId + "_");
+
+            const tot_ = raw_.querySelector("#PandTimelineDuration");
+
+            let s = parseDateTime(start_) || 0;
+            let e = parseDateTime(end_) || 0;
+
+            tot_.value = formatDuration(s - e);
+            if (isValidIdFormat(tableId))
+            {
+                await dbNoUpgrade_pricing.keySet(tableId, "PandTimelineDuration", tot_.value);
+            }
+            isTableWatcherEnabled = true;
+        } catch (error)
+        {
+            console.error("Error calculating duration:", error);
+        } finally
+        {
+            isTableWatcherEnabled = true;
+        }
+    }
+
+  
+
+
+</script>
+
+<div id="timeLineContaner"></div>
+<!-- مكان إضافة الجدول -->
+
+<div DivId id="PandTimelineRaw" style="display: none" class="">
+
+    <table>
+        <thead class="hide-text">
+            <tr>
+                <th id="t_37"></th>
+                <th id="t_413"></th>
+                <th id="t_91"></th>
+                <th id="t_92"></th>
+                <th id="t_1010"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <input id="numbering" readonly type="text" placeholder=""
+                        style="outline: none; border: none; background-color: transparent; color: black;" />
+                </td>
+                <td>
+                    <input id="PandTimelineText" type="text" placeholder=""
+                        style="border: none; background-color: transparent; color: black;" />
+                </td>
+                <td>
+                    <input id="PandTimelineStart" type="datetime-local" placeholder=""
+                        style="border: none; background-color: transparent; color: black;" />
+                </td>
+                <td>
+                    <input id="PandTimelineEnd" type="datetime-local" placeholder=""
+                        style="border: none; background-color: transparent; color: black;" />
+                </td>
+                <td>
+                    <input id="PandTimelineDuration" readonly type="text" placeholder=""
+                        style="border: none; background-color: transparent; color: black;" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
