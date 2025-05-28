@@ -87,7 +87,143 @@
         }
     }
 
-  
+    function drawTimelineChart(periods)
+    {
+        const ctx = document.getElementById("timelineChart").getContext("2d");
+        if (!ctx)
+        {
+            console.error("❌ لم يتم العثور على عنصر الرسم البياني.");
+            return;
+        }
+
+        // استخراج المعلومات الأساسية من الفترات
+        const labels = periods.map((p) => p.label);
+        const startTimes = periods.map((p) => new Date(p.start).getTime());
+        const endTimes = periods.map((p) => new Date(p.end).getTime());
+        const durations = endTimes.map((end, i) => end - startTimes[i]);
+
+        // تحديد أقل وقت كبداية للمحور
+        const minTime = Math.min(...startTimes);
+
+        // إعداد بيانات الرسم باستخدام أشرطة مكدسة
+        const data = {
+            labels,
+            datasets: [
+                // جزء فارغ ليدفع الشريط إلى الموقع الصحيح (بداية الفترة)
+                {
+                    label: "Start Offset",
+                    data: startTimes.map((start) => start - minTime),
+                    backgroundColor: "rgba(0,0,0,0)", // شفاف
+                    stack: "timeline",
+                },
+                // الشريط الحقيقي يمثل المدة
+                {
+                    label: "Duration",
+                    data: durations,
+                    backgroundColor: "rgba(54, 162, 235, 0.7)",
+                    borderRadius: 6,
+                    stack: "timeline",
+                    barThickness: 20,
+                },
+            ],
+        };
+
+        // خيارات المخطط
+        const options = {
+            indexAxis: "y", // لجعل الأشرطة أفقية
+            responsive: true,
+            scales: {
+                x: {
+                    stacked: true,
+                    type: "linear",
+                    position: "top",
+                    ticks: {
+                        callback: function (value)
+                        {
+                            const date = new Date(minTime + value);
+                            return date.toLocaleString();
+                        },
+                    },
+                    title: {
+                        display: true,
+                        text: "الزمن",
+                    },
+                },
+                y: {
+                    stacked: true,
+                    title: {
+                        display: true,
+                        text: "الفترات",
+                    },
+                },
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (context)
+                        {
+                            const start = new Date(minTime + startTimes[context.dataIndex] - minTime);
+                            const end = new Date(start.getTime() + durations[context.dataIndex]);
+                            const durationDays = (durations[context.dataIndex] / (1000 * 60 * 60 * 24)).toFixed(1);
+                            return `من: ${start.toLocaleString()} إلى: ${end.toLocaleString()} (المدة: ${durationDays} يومًا)`;
+                        },
+                    },
+                },
+                legend: {
+                    display: false,
+                },
+            },
+        };
+
+        // حذف الرسم السابق
+        if (window.timelineChart && typeof window.timelineChart.destroy === "function")
+        {
+            window.timelineChart.destroy();
+        }
+
+        // رسم المخطط الجديد
+        window.timelineChart = new Chart(ctx, {
+            type: "bar",
+            data,
+            options,
+        });
+    }
+
+
+    const periods = [
+        {
+            label: "مرحلة التحليل",
+            start: "2025-05-01T09:00",
+            end: "2025-05-03T17:00",
+        },
+        {
+            label: "مرحلة التصميم",
+            start: "2025-05-04T09:00",
+            end: "2025-05-07T16:00",
+        },
+        {
+            label: "مرحلة التطوير",
+            start: "2025-05-08T08:00",
+            end: "2025-05-15T18:00",
+        },
+    ];
+
+    async function toggleDurationChart()
+    {
+        const canvas = document.getElementById('timelineChart');
+
+        if (canvas.style.display === 'none')
+        {
+            canvas.style.display = 'block';
+
+            drawTimelineChart(periods);
+
+        } else
+        {
+            canvas.style.display = 'none';
+        }
+    }
+
 
 
 </script>
@@ -134,3 +270,18 @@
     </table>
 
 </div>
+<br />
+<!-- زر إظهار/إخفاء الرسم -->
+<button onclick="toggleDurationChart()">
+    <img id="i_chartDuration" alt="raw" style="
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-left: 5px;
+          " />
+    <br />
+    <span id="t_141"></span>
+</button>
+
+<br />
+<canvas id="timelineChart" style="display: none; width: 100%; max-height: 500px;"></canvas>

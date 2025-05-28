@@ -14,10 +14,10 @@ function isValidIdFormat(x)
 {
   return /^[a-zA-Z]{4}\d+$/.test(x);
 }
-
 function parseDateTime(str)
 {
   const t = new Date(str);
+  // @ts-ignore
   if (isNaN(t))
   {
     console.warn("⚠️ التاريخ غير صالح:", str);
@@ -25,7 +25,6 @@ function parseDateTime(str)
   }
   return t.getTime(); // عدد الميلي ثانية
 }
-
 function formatDuration(ms)
 {
   if (typeof ms !== "number" || isNaN(ms)) return "مدة غير صالحة";
@@ -46,8 +45,6 @@ function formatDuration(ms)
 
   return parts.join(" ");
 }
-
-
 function isDefined(variableName)
 {
   try
