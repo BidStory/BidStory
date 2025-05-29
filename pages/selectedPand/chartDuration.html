@@ -6,7 +6,7 @@
 
 
     let dataBaseIdForPandTimeline =
-        "Timeline_" + localStorage.getItem("selectedPand");
+        "Timeline_" + localStorage.getItem( "selectedPand" );
 
     // تهيئة الجدول
     let PandTimeline = new setTableParameter(
@@ -20,10 +20,10 @@
     );
 
 
-    async function initPandTimelinePage()
+    async function initPandTimelinePage ()
     {
         dataBaseIdForPandTimeline =
-            "Timeline_" + localStorage.getItem("selectedPand");
+            "Timeline_" + localStorage.getItem( "selectedPand" );
 
         await PandTimeline.destroyTable();
 
@@ -38,72 +38,84 @@
             true // have numbering column?
         );
 
-        dbNoUp_PandTimeline = await new noUpgrade(dataBaseIdForPandTimeline);
+        dbNoUp_PandTimeline = await new noUpgrade( dataBaseIdForPandTimeline );
 
 
     }
 
 
-    async function calDuration(dataName, tableId)
+    async function calDuration ( dataName, tableId )
     {
         try
         {
 
 
             isTableWatcherEnabled = false;
-            let dbNoUpgrade_pricing = await new noUpgrade(dataName);
-            const start_ = await dbNoUpgrade_pricing.keyGet(tableId, "PandTimelineStart");
-            const end_ = await dbNoUpgrade_pricing.keyGet(tableId, "PandTimelineEnd");
-            if (start_ === null || end_ === null)
+            let dbNoUpgrade_pricing = await new noUpgrade( dataName );
+            const start_ = await dbNoUpgrade_pricing.keyGet( tableId, "PandTimelineStart" );
+            const end_ = await dbNoUpgrade_pricing.keyGet( tableId, "PandTimelineEnd" );
+            if ( start_ === null || end_ === null )
             {
-                if (isValidIdFormat(tableId))
+                if ( isValidIdFormat( tableId ) )
                 {
 
-                    await dbNoUpgrade_pricing.keySet(tableId, "PandTimelineDuration", "");
-                    console.warn("start_ or end_ is null, cannot calculate duration.");
+                    await dbNoUpgrade_pricing.keySet( tableId, "PandTimelineDuration", "" );
+                    console.warn( "start_ or end_ is null, cannot calculate duration." );
                     return;
                 }
             }
 
-            const raw_ = document.getElementById(tableId + "_");
+            const raw_ = document.getElementById( tableId + "_" );
 
-            const tot_ = raw_.querySelector("#PandTimelineDuration");
+            const tot_ = raw_.querySelector( "#PandTimelineDuration" );
 
-            let s = parseDateTime(start_) || 0;
-            let e = parseDateTime(end_) || 0;
+            let s = parseDateTime( start_ ) || 0;
+            let e = parseDateTime( end_ ) || 0;
 
-            tot_.value = formatDuration(s - e);
-            if (isValidIdFormat(tableId))
+            tot_.value = formatDuration( s - e );
+            if ( isValidIdFormat( tableId ) )
             {
-                await dbNoUpgrade_pricing.keySet(tableId, "PandTimelineDuration", tot_.value);
+                await dbNoUpgrade_pricing.keySet( tableId, "PandTimelineDuration", tot_.value );
             }
             isTableWatcherEnabled = true;
-        } catch (error)
+        } catch ( error )
         {
-            console.error("Error calculating duration:", error);
+            console.error( "Error calculating duration:", error );
         } finally
         {
             isTableWatcherEnabled = true;
         }
     }
 
-    function drawTimelineChart(periods)
+    let myDurationChartInstance = null;
+
+    function drawTimelineChart ( periods )
     {
-        const ctx = document.getElementById("timelineChart").getContext("2d");
-        if (!ctx)
+        // حذف الرسم السابق
+        if ( myDurationChartInstance )
         {
-            console.error("❌ لم يتم العثور على عنصر الرسم البياني.");
+            myDurationChartInstance.destroy();
+        }
+        let duration_text=getLang(1010);
+         let from_text=getLang(170);
+          let to_text=getLang(1);
+        const ctx = document.getElementById( "timelineChart" ).getContext( "2d" );
+        if ( !ctx )
+        {
+            console.error( "❌ لم يتم العثور على عنصر الرسم البياني." );
             return;
         }
 
         // استخراج المعلومات الأساسية من الفترات
-        const labels = periods.map((p) => p.label);
-        const startTimes = periods.map((p) => new Date(p.start).getTime());
-        const endTimes = periods.map((p) => new Date(p.end).getTime());
-        const durations = endTimes.map((end, i) => end - startTimes[i]);
+        const labels = periods.map( ( p ) => p.label );
+        const startTimes = periods.map( ( p ) => new Date( p.start ).getTime() );
+        const endTimes = periods.map( ( p ) => new Date( p.end ).getTime() );
+        const durations = endTimes.map( ( end, i ) => end - startTimes[ i ] );
+        const backColor = periods.map( p => p.color || "rgba(0,0, 0, 1)" );
+        const durationsText = periods.map( ( p ) => p.durationText || "" );
 
         // تحديد أقل وقت كبداية للمحور
-        const minTime = Math.min(...startTimes);
+        const minTime = Math.min( ...startTimes );
 
         // إعداد بيانات الرسم باستخدام أشرطة مكدسة
         const data = {
@@ -112,7 +124,7 @@
                 // جزء فارغ ليدفع الشريط إلى الموقع الصحيح (بداية الفترة)
                 {
                     label: "Start Offset",
-                    data: startTimes.map((start) => start - minTime),
+                    data: startTimes.map( ( start ) => start - minTime ),
                     backgroundColor: "rgba(0,0,0,0)", // شفاف
                     stack: "timeline",
                 },
@@ -120,7 +132,7 @@
                 {
                     label: "Duration",
                     data: durations,
-                    backgroundColor: "rgba(54, 162, 235, 0.7)",
+                    backgroundColor: backColor,
                     borderRadius: 6,
                     stack: "timeline",
                     barThickness: 20,
@@ -138,34 +150,35 @@
                     type: "linear",
                     position: "top",
                     ticks: {
-                        callback: function (value)
+                        callback: function ( value )
                         {
-                            const date = new Date(minTime + value);
+                            const date = new Date( minTime + value );
                             return date.toLocaleString();
                         },
                     },
                     title: {
-                        display: true,
-                        text: "الزمن",
+                        display:false,
+                        text: "TIME",
                     },
                 },
                 y: {
                     stacked: true,
                     title: {
-                        display: true,
-                        text: "الفترات",
+                        display: false,
+                        text: "Periods",
                     },
                 },
             },
             plugins: {
                 tooltip: {
                     callbacks: {
-                        label: function (context)
+                        label: function ( context )
                         {
-                            const start = new Date(minTime + startTimes[context.dataIndex] - minTime);
-                            const end = new Date(start.getTime() + durations[context.dataIndex]);
-                            const durationDays = (durations[context.dataIndex] / (1000 * 60 * 60 * 24)).toFixed(1);
-                            return `من: ${start.toLocaleString()} إلى: ${end.toLocaleString()} (المدة: ${durationDays} يومًا)`;
+                            const start = new Date( minTime + startTimes[ context.dataIndex ] - minTime );
+                            const end = new Date( start.getTime() + durations[ context.dataIndex ] );
+                            const durationDays = ( durations[ context.dataIndex ] / ( 1000 * 60 * 60 * 24 ) ).toFixed( 1 );
+
+                            return `${from_text}: ${ start.toLocaleString() } ${to_text}: ${ end.toLocaleString() } (${duration_text} : ${ durationsText[ context.dataIndex ] } )`;
                         },
                     },
                 },
@@ -175,48 +188,56 @@
             },
         };
 
-        // حذف الرسم السابق
-        if (window.timelineChart && typeof window.timelineChart.destroy === "function")
-        {
-            window.timelineChart.destroy();
-        }
+
 
         // رسم المخطط الجديد
-        window.timelineChart = new Chart(ctx, {
+        myDurationChartInstance = new Chart( ctx, {
             type: "bar",
             data,
             options,
-        });
+        } );
     }
 
-
-    const periods = [
-        {
-            label: "مرحلة التحليل",
-            start: "2025-05-01T09:00",
-            end: "2025-05-03T17:00",
-        },
-        {
-            label: "مرحلة التصميم",
-            start: "2025-05-04T09:00",
-            end: "2025-05-07T16:00",
-        },
-        {
-            label: "مرحلة التطوير",
-            start: "2025-05-08T08:00",
-            end: "2025-05-15T18:00",
-        },
-    ];
-
-    async function toggleDurationChart()
+    function addPeriod ( label, start, end, color, durationText )
     {
-        const canvas = document.getElementById('timelineChart');
+        periods.push( { label, start, end, color, durationText } );
+    }
 
-        if (canvas.style.display === 'none')
+    let periods = [];
+
+    async function toggleDurationChart ()
+    {
+        const canvas = document.getElementById( 'timelineChart' );
+
+        if ( canvas.style.display === 'none' )
         {
             canvas.style.display = 'block';
 
-            drawTimelineChart(periods);
+            let dbNoUpgradeDuration = await new noUpgrade( dataBaseIdForPandTimeline );
+            let allRows = await dbNoUpgradeDuration.getAllDataFromTable( "rows" );
+            if ( !Array.isArray( allRows ) )
+            {
+                return;
+            }
+            periods = []; // مسح الفترات السابقة
+            for ( const rawId of allRows )
+            {
+                let txt = await dbNoUpgradeDuration.keyGet( rawId.key, "PandTimelineText" );
+                let start = await dbNoUpgradeDuration.keyGet( rawId.key, "PandTimelineStart" );
+                let end = await dbNoUpgradeDuration.keyGet( rawId.key, "PandTimelineEnd" );
+                let color = await dbNoUpgradeDuration.keyGet( rawId.key, "colorPicker" );
+                let duration = await dbNoUpgradeDuration.keyGet( rawId.key, "PandTimelineDuration" );
+                if ( !txt || !start || !end )
+                {
+                    continue; // تخطي الصفوف التي لا تحتوي على بيانات كاملة
+                }
+
+                // إضافة الفترة إلى المصفوفة
+                addPeriod( txt, start, end, color, duration );
+
+            }
+
+            drawTimelineChart( periods );
 
         } else
         {
@@ -241,6 +262,7 @@
                 <th id="t_91"></th>
                 <th id="t_92"></th>
                 <th id="t_1010"></th>
+                <th id="t_1087"></th>
             </tr>
         </thead>
         <tbody>
@@ -265,6 +287,9 @@
                     <input id="PandTimelineDuration" readonly type="text" placeholder=""
                         style="border: none; background-color: transparent; color: black;" />
                 </td>
+                <td>
+                    <input type="color" id="colorPicker" name="colorPicker" value="#000000">
+                </td>
             </tr>
         </tbody>
     </table>
@@ -280,7 +305,7 @@
             margin-left: 5px;
           " />
     <br />
-    <span id="t_141"></span>
+    <span id="t_1265"></span>
 </button>
 
 <br />

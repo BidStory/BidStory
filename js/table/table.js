@@ -488,7 +488,7 @@ const getInput = async (rowId) => {
   }
 
   const inputs = containerElement.querySelectorAll(
-    'input[type="text"], input[type="number"], input[type="url"], input[type="date"], input[type="time"], input[type="datetime-local"], input[type="radio"], input[type="checkbox"], select, textarea'
+    'input[type="text"], input[type="color"], input[type="number"], input[type="url"], input[type="date"], input[type="time"], input[type="datetime-local"], input[type="radio"], input[type="checkbox"], select, textarea'
   );
 
   for (const input of inputs) {
@@ -750,8 +750,8 @@ const getInput = async (rowId) => {
       "select", // القوائم المنسدلة
       "button", // أزرار الضغط (جديدة)
       "textarea", // textarea
-      'input[type="datetime-local"]' // datetime-local
-
+      'input[type="datetime-local"]', // datetime-local
+'input[type="color"]'
     ];
 
     // البحث عن كل الحقول داخل الحاوية باستخدام CSS Selectors

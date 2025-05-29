@@ -4872,13 +4872,8 @@
     },
     {
       "id": 1087,
-      "a": "تباين الالوان",
-      "e": "Color contrast"
-    },
-    {
-      "id": 1088,
-      "a": "تختلف دقة الشاشة من جهاز إلى آخر، لذا يمكنك تغيير مستوى تباين الألوان حسب الوضع الأنسب لك.",
-      "e": "Screen resolution varies from device to device, so you can change the color contrast level to suit your situation."
+      "a": "اللوان",
+      "e": "Color"
     },
     {
       "id": 1089,
@@ -5674,6 +5669,11 @@
       "id": 1264,
       "a": "اختر نوع الاعمال",
       "e": "Select type of work"
+    },
+    {
+      "id": 1265,
+      "a": "رسم",
+      "e": "Chart"
     }
   ]
 }
