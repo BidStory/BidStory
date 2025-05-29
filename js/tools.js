@@ -39,8 +39,11 @@ function formatDuration(ms)
   // 1011 hour
   // 1040 minute
 
+  // @ts-ignore
   if (days > 0) parts.push(`${days} ` + getLang(211));
+  // @ts-ignore
   if (hours > 0) parts.push(`${hours} ` + getLang(1011));
+  // @ts-ignore
   if (minutes > 0 || parts.length === 0) parts.push(`${minutes} ` + getLang(1040));
 
   return parts.join(" ");
@@ -160,6 +163,7 @@ async function watchingAllInputs2IndexDB(target, dbNoUpgrade, tableName)
 
   inputs.forEach((input) =>
   {
+    // @ts-ignore
     // @ts-ignore
     // @ts-ignore
     const inputListener = (event) =>
@@ -682,7 +686,7 @@ document.addEventListener('clickButtonInRow', async (event) =>
   // @ts-ignore
   dataBaseClickedId = event.detail.kind[2];
   // @ts-ignore
-  console.log(buttomClickedId, '   ', rowClickedId, '  ', dataBaseClickedId, '');
+  console.log('buttomClickedId -> ', buttomClickedId, '   ', 'rowClickedId -> ', rowClickedId, '  ', 'dataBaseClickedId -> ', dataBaseClickedId);
   if (buttomClickedId == 't_138_open')
   {
     console.log(`📢 فتح احد البنود`);
@@ -700,6 +704,14 @@ document.addEventListener('clickButtonInRow', async (event) =>
 
 
   }
+
+  if (buttomClickedId == 't_1266_openLink')
+  {
+
+    // @ts-ignore
+   await openLinkInDiv(rowClickedId);
+  }
+
 });
 
 let rawSelected = null;

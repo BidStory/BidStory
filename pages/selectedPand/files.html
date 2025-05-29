@@ -1,0 +1,108 @@
+<!--- files file  --->
+<script>
+
+
+    let dbNoUp_PandFiles = null;
+
+
+    let dataBaseIdForPandFiles =
+        "files_" + localStorage.getItem("selectedPand");
+
+    // تهيئة الجدول
+    let PandFiles = new setTableParameter(
+        "filesContainer", // ID of the container element
+        dataBaseIdForPandFiles, // Table ID and database name
+        "PandFilesRaw", // ID of the row template to copy
+        "", // ID of alternate row to show on click
+        true, // Show table header?
+        false, // Add alternate div when row is clicked?
+        true // Start with new row?
+    );
+
+
+
+    async function initPandFilesPage()
+    {
+        dataBaseIdForPandFiles =
+            "files_" + localStorage.getItem("selectedPand");
+
+        await PandFiles.destroyTable();
+
+        PandFiles = new setTableParameter(
+            "filesContainer", // ID of the container element
+            dataBaseIdForPandFiles, // Table ID and database name
+            "PandFilesRaw", // ID of the row template to copy
+            "", // ID of alternate row to show on click
+            true, // Show table header?
+            false, // Add alternate div when row is clicked?
+            true, // Start with new row?
+            true // have numbering column?
+        );
+
+        dbNoUp_PandFiles = await new noUpgrade(dataBaseIdForPandFiles);
+
+
+
+    }
+
+    async function openLinkInDiv(table)
+    {
+        try
+        {
+            let link = await dbNoUp_PandFiles.keyGet(table.replace('_', ''), 'PandFilesLink');
+
+            const container = document.getElementById("PandFilesLinksContainer");
+
+            if (link)
+            {
+                window.open(link, "_blank");
+            } else
+            {
+                container.innerHTML = "<p style='color: red;'>الرجاء إدخال رابط صالح.</p>";
+            }
+        } catch (error)
+        {
+            console.error("خطأ في فتح الرابط:", error);
+        }
+    }
+</script>
+
+<div id="filesContainer"></div>
+<!-- مكان إضافة الجدول -->
+
+<div DivId id="PandFilesRaw" style="display: none" class="">
+
+    <table>
+        <thead class="hide-text">
+            <tr>
+                <th id="t_37"></th>
+                <th id="t_1267"></th>
+                <th id="t_439"></th>
+                <th id=""></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <input id="numbering" readonly type="text" placeholder=""
+                        style="outline: none; border: none; background-color: transparent; color: black;" />
+                </td>
+                 <td>
+                    <input id="pandFilesDescr" type="text" placeholder=""
+                        style="border: none; background-color: transparent; color: black" />
+                </td>
+                <td>
+                    <input id="PandFilesLink" type="url" placeholder=""
+                        style="border: none; background-color: transparent; color: black" />
+                </td>
+                <td>
+                    <button type="button" id="t_1266_openLink" class="buttonT"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<br>
+<br>
+<div id="PandFilesLinksContainer"></div>

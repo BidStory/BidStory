@@ -20,75 +20,91 @@
     let selectedPandId = null;
     async function initSelectedPandPage()
     {
-
-        dataBaseIdForSelectedPand = 'ite_' + localStorage.getItem('selectedProject');
-        dbNoUpgradSelectedPand = await new noUpgrade(dataBaseIdForSelectedPand);
-        dbUpgradSelectedPand = await new upgrade(dataBaseIdForSelectedPand);
-        selectedPandId = localStorage.getItem('selectedPand');
-        //عرض معرف البند
-        document.getElementById("selectedPandId").innerText = selectedPandId;
-        await restoreAllInputsFromIndexDB("mainSelectedPandPage", dbNoUpgradSelectedPand, selectedPandId);
-        await watchingAllInputs2IndexDB("mainSelectedPandPage", dbNoUpgradSelectedPand, selectedPandId);
-
+        try
+        {
+            dataBaseIdForSelectedPand = 'ite_' + localStorage.getItem('selectedProject');
+            dbNoUpgradSelectedPand = await new noUpgrade(dataBaseIdForSelectedPand);
+            dbUpgradSelectedPand = await new upgrade(dataBaseIdForSelectedPand);
+            selectedPandId = localStorage.getItem('selectedPand');
+            await delay(100); // تأخير بسيط للتأكد من تحميل الصفحة بشكل كامل
+            //عرض معرف البند
+            let lab = document.getElementById("selectedPandIdLabel");
+            if (lab)
+            {
+                lab.innerText = selectedPandId;
+            }
+            await restoreAllInputsFromIndexDB("mainSelectedPandPage", dbNoUpgradSelectedPand, selectedPandId);
+            await watchingAllInputs2IndexDB("mainSelectedPandPage", dbNoUpgradSelectedPand, selectedPandId);
+        } catch (error)
+        {
+            console.error("Error initializing selectedPandPage:", error);
+        }
     }
 
 </script>
 
-<div id="mainSelectedPandPage">
+<div id="mainSelectedPandPage"></div>
 
-    <textarea id="pandText"></textarea>
-    <br>
-    <table>
-        <tr>
-            <td>
-                <!--   الوحدات -->
-                <button onclick="showSection_selectedPand('units')">
-                    <img id="i_units" alt="units"
-                        style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
-                    <br> <span id="t_48"></span>
-                </button>
-            </td>
-            <td>
-                <!-- التسعير -->
-                <button onclick="showSection_selectedPand('pricing')">
-                    <img id="i_pricing" alt="pricing"
-                        style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
-                    <br> <span id="t_42"></span>
-                </button>
-            </td>
-            <td>
-                <!-- الاشتراطات -->
-                <button onclick="showSection_selectedPand('condations')">
-                    <img id="i_condation_mo" alt="condations"
-                        style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
-                    <br> <span id="t_279"></span>
-                </button>
-            </td>
-            <td>
-                <!-- مدة التنفيذ -->
-                <button onclick="showSection_selectedPand('chartDuration')">
-                    <img id="i_chartDuration" alt="chartDuration"
-                        style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
-                    <br> <span id="t_141"></span>
-                </button>
-                 </td>
-        </tr>
-    </table>
+<textarea id="pandText"></textarea>
+<br>
+<table>
+    <tr>
+        <td>
+            <!--   الوحدات -->
+            <button onclick="showSection_selectedPand('units')">
+                <img id="i_units" alt="units" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <br> <span id="t_48"></span>
+            </button>
+        </td>
+        <td>
+            <!-- التسعير -->
+            <button onclick="showSection_selectedPand('pricing')">
+                <img id="i_pricing" alt="pricing"
+                    style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <br> <span id="t_42"></span>
+            </button>
+        </td>
+        <td>
+            <!-- الاشتراطات -->
+            <button onclick="showSection_selectedPand('condations')">
+                <img id="i_condation_mo" alt="condations"
+                    style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <br> <span id="t_279"></span>
+            </button>
+        </td>
+        <td>
+            <!-- مدة التنفيذ -->
+            <button onclick="showSection_selectedPand('chartDuration')">
+                <img id="i_chartDuration" alt="chartDuration"
+                    style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <br> <span id="t_141"></span>
+            </button>
+        </td>
+        <td>
+            <!-- الملفات  -->
+            <button onclick="showSection_selectedPand('files')">
+                <img id="i_files" alt="files" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <br> <span id="t_230"></span>
+            </button>
+        </td>
+    </tr>
+</table>
 
-    <br>
-    <br>
-    <!-- ✅ الأقسام (تظهر حسب القسم المختار) -->
-    <div id="units" class="section_selectedPand"></div>
-    <div id="condations" class="section_selectedPand"></div>
-    <div id="chartDuration" class="section_selectedPand"></div>
-    <div id="pricing" class="section_selectedPand"></div>
+<br>
+<br>
+<!-- ✅ الأقسام (تظهر حسب القسم المختار) -->
+<div id="units" class="section_selectedPand"></div>
+<div id="condations" class="section_selectedPand"></div>
+<div id="chartDuration" class="section_selectedPand"></div>
+<div id="pricing" class="section_selectedPand"></div>
+<div id="files" class="section_selectedPand"></div>
 
-    <!-- الكود التعريفي -->
-    <br>
-    <h3 id="t_615"></h3>
-    <label id="selectedPandId"></label>
+<!-- الكود التعريفي -->
+<br>
+<h3 id="t_615"></h3>
+<label id="selectedPandIdLabel">لم يتم التحديد</label>
 
-</div>
+
 
 <!-- ✅ JavaScript الخاص بالتهيئة والتحميل -->
 <script>
@@ -103,7 +119,8 @@
         units: "pages/selectedPand/units.html",
         condations: "pages/selectedPand/condations.html",
         pricing: "pages/selectedPand/pricing.html",
-        chartDuration: "pages/selectedPand/chartDuration.html"
+        chartDuration: "pages/selectedPand/chartDuration.html",
+        files: "pages/selectedPand/files.html"
     };
 
     let selectedPage_selectedPand = null;//تستخدم في دوال اخري خارج هذة الصفحة لذا يجب عدم تغير الاسم
@@ -208,6 +225,11 @@
                 case 'chartDuration':
                     await initPandTimelinePage();
                     break;
+                case 'files':
+
+                    await initPandFilesPage();
+                    break;
+
             }
         }
         catch (error)
