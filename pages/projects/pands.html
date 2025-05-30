@@ -20,8 +20,18 @@
             {
                 input.placeholder = getLang( 1260 );
             } );
+ await pandsTable.destroyTable();
+         pandsTable = new setTableParameter(
+        "itemsTable", // ID of the container element
+        proId_, // Table ID and database name
+        "itemsTable_raw", // ID of the row template to copy
+        "itemsTable_Altraw", // ID of alternate row to show on click
+        true, // Show table header?
+        true, // Add alternate div when row is clicked?
+        true, // Start with new row?
+        true // have numbering column?
+    );
 
-         
 
         } catch ( er )
         {
@@ -42,13 +52,9 @@
         true // have numbering column?
     );
 
- 
-   
-
 </script>
 <!-- مكان إضافة الجدول -->
 <div id="itemsTable"></div>
-
 
 <div DivId id="itemsTable_raw" style="display: none" class="">
     <table>
@@ -80,6 +86,3 @@
     <button type="button" id="t_1261_controlNum" class="buttonT"></button>
 </div>
 
-<script>
-
-</script>

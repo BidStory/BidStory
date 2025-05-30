@@ -630,7 +630,7 @@ document.addEventListener('tableDataChanged', async (event) =>
 
         }
         // @ts-ignore
-        if (selectedPage == 'selectedPand')
+        if (selectedPage == 'selectedPand'&& selectedPage_selectedPand == 'units')
         {
           // @ts-ignore
           await calTot();

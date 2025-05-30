@@ -35,6 +35,14 @@
             }
             await restoreAllInputsFromIndexDB("mainSelectedPandPage", dbNoUpgradSelectedPand, selectedPandId);
             await watchingAllInputs2IndexDB("mainSelectedPandPage", dbNoUpgradSelectedPand, selectedPandId);
+               //ادخال نص التعريف لكل البنود
+            const inputs = document.querySelectorAll( '[id="pandText"]' );
+
+            inputs.forEach( input =>
+            {
+                input.placeholder = getLang( 1260 );
+            } );
+
         } catch (error)
         {
             console.error("Error initializing selectedPandPage:", error);
@@ -43,9 +51,9 @@
 
 </script>
 
-<div id="mainSelectedPandPage"></div>
-
+<div id="mainSelectedPandPage">
 <textarea id="pandText"></textarea>
+</div>
 <br>
 <table>
     <tr>
@@ -85,6 +93,14 @@
             <button onclick="showSection_selectedPand('files')">
                 <img id="i_files" alt="files" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
                 <br> <span id="t_230"></span>
+            </button>
+        </td>
+        
+         <td>
+            <!-- الحصر  -->
+            <button onclick="showSection_selectedPand('hasser')">
+                <img id="i_hasser" alt="hasser" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+                <br> <span id="t_1065"></span>
             </button>
         </td>
     </tr>
@@ -294,11 +310,5 @@
             console.error('⚠️ حدث خطأ أثناء تفريغ الأقسام:', error);
         }
     }
-
-
-
-
-
-
 
 </script>
