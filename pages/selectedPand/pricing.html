@@ -464,10 +464,10 @@
         await dbNoUpgrade_pricing_t.keySet("total", "profitMargin_value", profitMargin_value);
 
         // حساب التكلفه الكليه
-        const totalCost = totalPrice_value + profitMargin_value + taxRate_value;
+        const totalCost = (totalPrice_value + profitMargin_value + taxRate_value).toFixed(DecimalPoint);
         // عرض التكلفه الكليه وحفظ قيمتها
         const totalCostLabel = document.getElementById("total_cost_label");
-        totalCostLabel.innerText = totalCost.toFixed(DecimalPoint);
+        totalCostLabel.innerText = totalCost;
         await dbNoUpgrade_pricing_t.keySet("total", "total_cost", totalCost);
     }
 
@@ -499,9 +499,9 @@
             dbNoUpgrade_pricing = await new noUpgrade(dbName);
 
             values.push(parseFloat(await dbNoUpgrade_pricing.keyGet("total", "taxRate_value")) || 0);
-            labels.push(getLang(50)); // "نسبة الضرائب"
+            labels.push(getLang(50).replace('%','')); // "نسبة الضرائب"
             values.push(parseFloat(await dbNoUpgrade_pricing.keyGet("total", "profitMargin_value")) || 0);
-            labels.push(getLang(49));
+            labels.push(getLang(49).replace('%',''));
 
             await drawPieChart(values, labels);
         } else
