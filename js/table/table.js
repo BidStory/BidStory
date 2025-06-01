@@ -342,6 +342,7 @@ function setTableParameter(
       const copy = original.cloneNode(true);
       // @ts-ignore
       copy.style.display = "";
+
       // @ts-ignore
       copy.classList.add("alt-copy");
 
@@ -537,8 +538,6 @@ function setTableParameter(
     console.log(`✅ تم تحميل القيم إلى الحقول داخل: ${rowId}`);
   };
 
-
-
   //#endregion
 
   //#region ➕ إنشاء صف جديد في الجدول
@@ -563,7 +562,7 @@ function setTableParameter(
       const copy = original.cloneNode(true);
       // @ts-ignore
       copy.style.display = "";
-
+ 
       if (divId == null)
       {
         // @ts-ignore
@@ -572,7 +571,6 @@ function setTableParameter(
         row.id = copy.id + "_";
         if (index == null)
         {
-
           // @ts-ignore
           if (!(await dbNoUpgrade.isTableExist(rowsTable)))
           {
@@ -736,6 +734,14 @@ function setTableParameter(
     const event = new CustomEvent("clickButtonInRow", { detail: { kind: data } });
     document.dispatchEvent(event);
 
+  };
+
+
+  const addNewRowEvent = async (row) =>
+  {
+    selectedRaw = row.id;
+    const event = new CustomEvent("addNewRowEvent", { detail: { RowId: selectedRaw, dataBase: tableId } });
+    document.dispatchEvent(event);
   };
 
   const startWatchingAllInputsAndButtons = async (target) =>
@@ -1000,8 +1006,6 @@ function setTableParameter(
         newRaw = await createNewRow(null, thisRawIndex + 0.5);
       }
 
-
-
       // @ts-ignore
       const tbody = existingRow.parentNode;
 
@@ -1025,12 +1029,14 @@ function setTableParameter(
         }
       }
 
-
       // إعادة ترتيب الصفوف في قاعدة البيانات
       // @ts-ignore
       await reorderRowsTable(rowsTable);
 
       await newRawListener();
+
+      await addNewRowEvent(newRaw);
+
       selectedRaw = null;
     } else
     {
