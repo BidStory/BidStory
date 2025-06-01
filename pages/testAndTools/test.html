@@ -1,65 +1,43 @@
 <script>
   /**
- * دالة لحساب مجموع القيم الجزئية والنسبة الكلية
- * @param {Array} values - مصفوفة من الكائنات، كل كائن يحتوي على:
- *                         value: قيمة رقمية (مثل 3 أو 5 أو 20)
- *                         percent: النسبة المئوية المعطاة بشكل عشري (مثل 0.5 تعني 50%)
- * @returns {Object} يحتوي على:
- *                   totalW: مجموع القيم الجزئية (sum of value * percent)
- *                   totalValue: مجموع القيم الكاملة (sum of all values)
- *                   overallPercent: النسبة الكلية (totalW مقسومًا على totalValue)
+ * دالة لحساب مجموع القيم الجزئية والنسبة الكلية من مصفوفتين
+ * @param {Array} value - مصفوفة القيم الرقمية (مثل [3, 5, 20])
+ * @param {Array} percent - مصفوفة النسب المئوية (مثل [0.5, 0.2, 0.15])
+ * @returns {Object} كائن يحتوي على:
+ *                   totalW: مجموع (value[i] * percent[i])
+ *                   totalValue: مجموع كل القيم
+ *                   overallPercent: totalW ÷ totalValue
  */
-function calculateTotal(values) {
-  // تهيئة متغير لتجميع مجموع القيم الجزئية
+function calculateTotal(value, percent) {
   let totalW = 0;
-
-  // تهيئة متغير لتجميع مجموع القيم الكاملة
   let totalValue = 0;
 
-  // نمر على كل عنصر (كائن) في المصفوفة
-  values.forEach(item => {
-    // نستخرج القيمة (value) والنسبة المئوية (percent) من الكائن الحالي
-    const { value, percent } = item;
+  for (let i = 0; i < value.length; i++) {
+    const val = Number(value[i]);
+    const pct = Number(percent[i]);
 
-    // نحسب القيمة الجزئية بضرب القيمة في النسبة (مثلاً 3 * 0.5 = 1.5)
-    const w = value * percent;
+    totalW += val * pct;
+    totalValue += val;
+  }
 
-    // نضيف القيمة الجزئية للمجموع الكلي
-    totalW += w;
+  const overallPercent = totalValue !== 0 ? totalW / totalValue : 0;
 
-    // نضيف القيمة الكاملة للمجموع الكلي للقيم
-    totalValue += value;
-  });
-
-  // بعد الانتهاء من جميع العناصر، نحسب النسبة الكلية
-  // وهي نسبة المجموع الجزئي إلى مجموع القيم الكاملة
-  // مثال: إذا كان totalW = 5.5 و totalValue = 28 فإن overallPercent = 5.5 / 28
-  const overallPercent = totalW / totalValue;
-
-  // نعيد كائن يحتوي على النتائج الثلاثة
   return {
-    totalW: totalW,               // مجموع القيم الجزئية
-    totalValue: totalValue,       // مجموع القيم الكاملة
-    overallPercent: overallPercent // النسبة الكلية (عدد عشري)
+    totalW,
+    totalValue,
+    overallPercent
   };
 }
 
-// --- مثال عملي على استخدام الدالة ---
+// --- مثال عملي ---
 
-// مصفوفة بيانات تتضمن قيم ونسبها العشرية
-const data = [
-  { value: 3, percent: .9 },   // 3 * 50% = 1.5
-  { value: -5, percent: 0.9 },   // 5 * 20% = 1
-  { value: 20, percent: 0.9 }  // 20 * 15% = 3
-];
+let value = [3, -5, 20];
+let percent = [0.9, 0.9, 0.9];
 
-// نستدعي الدالة مع المصفوفة التي تحتوي على القيم والنسب
-const result = calculateTotal(data);
+const result = calculateTotal(value, percent);
 
-// نطبع النتائج في الكونسول مع بعض الرموز التعبيرية والتنسيق
-console.log("✅ مجموع القيم الجزئية (totalW):", result.totalW);           // 5.5
-console.log("📦 مجموع القيم الكاملة (totalValue):", result.totalValue);   // 28
-console.log("📊 النسبة الكلية (overallPercent):", (result.overallPercent * 100).toFixed(2) + "%");  // 19.64%
-console.log("📊  للتاكد (check):",result.overallPercent  *result.totalValue);  // 19.64%
+console.log("✅ مجموع القيم الجزئية (totalW):", result.totalW);
+console.log("📦 مجموع القيم الكاملة (totalValue):", result.totalValue);
+console.log("📊 النسبة الكلية (overallPercent):", (result.overallPercent * 100).toFixed(2) + "%");
 
 </script>
