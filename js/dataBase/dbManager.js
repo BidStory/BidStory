@@ -1143,3 +1143,38 @@ function tableChangedEvent(tableName,dbName) {
   const event = new CustomEvent('tableDataChanged', { detail: { storeName: tableName ,dataName:dbName} });
   document.dispatchEvent(event);
 }
+
+async  function checkDatabaseExists(dbName) {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(dbName);
+
+    let existed = true;
+
+    request.onupgradeneeded = function () {
+      // إذا استُدعيت، فالقاعدة لم تكن موجودة
+      existed = false;
+    };
+
+    request.onsuccess = function (event) {
+      // @ts-ignore
+      const db = event.target.result;
+
+      db.close();
+
+      // إذا لم تكن موجودة، نحذفها بعد إنشائها
+      if (!existed) {
+        indexedDB.deleteDatabase(dbName).onsuccess = () => {
+          resolve(false); // غير موجودة سابقًا
+        };
+      } else {
+        resolve(true); // موجودة
+      }
+    };
+
+    request.onerror = function (event) {
+      // @ts-ignore
+      reject(event.target.error);
+    };
+  });
+}
+

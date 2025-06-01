@@ -17,7 +17,7 @@
     let dataBaseIdForSelectedPand = null;
     let dbNoUpgradSelectedPand = null;
     let dbUpgradSelectedPand = null;
-    let selectedPandId = null;
+    
     async function initSelectedPandPage()
     {
         try
@@ -98,7 +98,7 @@
         
          <td>
             <!-- الحصر  -->
-            <button onclick="showSection_selectedPand('hasser')">
+            <button onclick="showSection_selectedPand('haser')">
                 <img id="i_hasser" alt="hasser" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
                 <br> <span id="t_1065"></span>
             </button>
@@ -114,7 +114,7 @@
 <div id="chartDuration" class="section_selectedPand"></div>
 <div id="pricing" class="section_selectedPand"></div>
 <div id="files" class="section_selectedPand"></div>
-
+<div id="haser" class="section_selectedPand"></div>
 <!-- الكود التعريفي -->
 <br>
 <h3 id="t_615"></h3>
@@ -136,7 +136,8 @@
         condations: "pages/selectedPand/condations.html",
         pricing: "pages/selectedPand/pricing.html",
         chartDuration: "pages/selectedPand/chartDuration.html",
-        files: "pages/selectedPand/files.html"
+        files: "pages/selectedPand/files.html",
+        haser:"pages/selectedPand/haser.html"
     };
 
     let selectedPage_selectedPand = null;//تستخدم في دوال اخري خارج هذة الصفحة لذا يجب عدم تغير الاسم
@@ -244,6 +245,10 @@
                 case 'files':
 
                     await initPandFilesPage();
+                    break;
+                     case 'haser':
+clearAllButtons();
+                    await initPandBillPage();
                     break;
 
             }

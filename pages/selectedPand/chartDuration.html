@@ -1,7 +1,7 @@
 <!--- chartDuration file --->
 <script>
     let dbNoUp_PandTimeline = null;
-    let dataBaseIdForPandTimeline = "Timeline_" + localStorage.getItem("selectedPand");
+    let dataBaseIdForPandTimeline = "Timeline_" + selectedPandId;
 
     let PandTimeline = new setTableParameter(
         "timeLineContaner",
@@ -14,7 +14,7 @@
     );
 
     async function initPandTimelinePage() {
-        dataBaseIdForPandTimeline = "Timeline_" + localStorage.getItem("selectedPand");
+        dataBaseIdForPandTimeline = "Timeline_" + selectedPandId;
 
         await PandTimeline.destroyTable();
 

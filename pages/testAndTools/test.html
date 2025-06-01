@@ -1,136 +1,65 @@
+<script>
+  /**
+ * دالة لحساب مجموع القيم الجزئية والنسبة الكلية
+ * @param {Array} values - مصفوفة من الكائنات، كل كائن يحتوي على:
+ *                         value: قيمة رقمية (مثل 3 أو 5 أو 20)
+ *                         percent: النسبة المئوية المعطاة بشكل عشري (مثل 0.5 تعني 50%)
+ * @returns {Object} يحتوي على:
+ *                   totalW: مجموع القيم الجزئية (sum of value * percent)
+ *                   totalValue: مجموع القيم الكاملة (sum of all values)
+ *                   overallPercent: النسبة الكلية (totalW مقسومًا على totalValue)
+ */
+function calculateTotal(values) {
+  // تهيئة متغير لتجميع مجموع القيم الجزئية
+  let totalW = 0;
 
+  // تهيئة متغير لتجميع مجموع القيم الكاملة
+  let totalValue = 0;
 
-  <style>
- 
+  // نمر على كل عنصر (كائن) في المصفوفة
+  values.forEach(item => {
+    // نستخرج القيمة (value) والنسبة المئوية (percent) من الكائن الحالي
+    const { value, percent } = item;
 
-    .section00 {
-      display: none;
-      padding: 20px;
-      background-color: white;
-      margin: 10px;
-      border-radius: 10px;
-    }
+    // نحسب القيمة الجزئية بضرب القيمة في النسبة (مثلاً 3 * 0.5 = 1.5)
+    const w = value * percent;
 
-    .active00 {
-      display: block;
-    }
+    // نضيف القيمة الجزئية للمجموع الكلي
+    totalW += w;
 
-  
-  </style>
+    // نضيف القيمة الكاملة للمجموع الكلي للقيم
+    totalValue += value;
+  });
 
+  // بعد الانتهاء من جميع العناصر، نحسب النسبة الكلية
+  // وهي نسبة المجموع الجزئي إلى مجموع القيم الكاملة
+  // مثال: إذا كان totalW = 5.5 و totalValue = 28 فإن overallPercent = 5.5 / 28
+  const overallPercent = totalW / totalValue;
 
-
-
-
-    <button onclick="showSection00('allProjects')">
-      <img id="i_allmo" alt="allProjects" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
-      <span id="t_159"></span>
-    </button>
-    <button onclick="showSection00('setting')">
-      <img id="i_setting" alt="setting" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
-      <span id="t_62"></span>
-    </button>
-
-
- 
-
-  <!-- ✅ الأقسام (تظهر حسب القسم المختار) -->
-  <div id="allProjects" class="section00"></div>
-  <div id="setting" class="section00"></div>
-
-
-  <!-- ✅ JavaScript الخاص بالتهيئة والتحميل -->
-  <script>
-    const loadedPages00 = {
-      setting: false,
-      allProjects: false
-    };
-
-    const pageMap00 = {
-      setting: "pages/setting.html",
-      allProjects: "pages/selectedPand/condations.html"
-    };
-
-    let selectedPage00 = null;//تستخدم في دوال اخري خارج هذة الصفحة لذا يجب عدم تغير الاسم
-    let targetSection00 = null;
-
-    //يجب الحفاظ علي اسم الداله كما هو لانها تستخدم من خارج الصفحة
-    async function showSection00(sectionId) {
-      await loadSection00(sectionId);
-    }
-
-    async function loadSection00(sectionId) {
-      try {
-        if (selectedPage00 === sectionId && loadedPages00[sectionId]) return;
-
-        selectedPage00 = sectionId;
-        targetSection00 = document.getElementById(sectionId);
-
-        document.querySelectorAll(".section00").forEach(section =>
-          section.classList.remove("active00")
-        );
-        targetSection00.classList.add("active00");
-
-        if (!loadedPages00[sectionId] && pageMap00[sectionId]) {
-          targetSection00.innerHTML = '<div class="loader">جاري التحميل...</div>';
-          await loadPageContent00(sectionId, targetSection00);
-          loadedPages00[sectionId] = true;
-        }
-
-        await handleSectionInit00(sectionId);
-   
-
-      } catch (error) {
-        console.error("خطأ أثناء تحميل القسم:", error);
-        targetSection00.innerHTML = "<p>⚠️ فشل تحميل الصفحة.</p>";
-      }
-    }
-
-   async function loadPageContent00(sectionId, container) {
-  const url = pageMap00[sectionId];
-  const response = await fetch(url);
-  if (!response.ok) throw new Error("الملف غير موجود");
-
-  const html = await response.text();
-  const temp = document.createElement("div");
-  temp.innerHTML = html;
-
-  const scripts = temp.querySelectorAll("script");
-  scripts.forEach(script => script.remove());
-
-  container.innerHTML = temp.innerHTML;
-
-  // تحميل السكربتات واحداً تلو الآخر
-  for (const script of scripts) {
-    await new Promise((resolve, reject) => {
-      const newScript = document.createElement("script");
-      if (script.src) {
-        newScript.src = script.src;
-        newScript.onload = resolve;
-        newScript.onerror = reject;
-      } else {
-        newScript.textContent = script.textContent;
-        resolve();
-      }
-      document.body.appendChild(newScript);
-    });
-  }
+  // نعيد كائن يحتوي على النتائج الثلاثة
+  return {
+    totalW: totalW,               // مجموع القيم الجزئية
+    totalValue: totalValue,       // مجموع القيم الكاملة
+    overallPercent: overallPercent // النسبة الكلية (عدد عشري)
+  };
 }
 
-    async function handleSectionInit00(sectionId) {
-      switch (sectionId) {
-        case 'allProjects':
-          await initAllProjectPage();
-          break;
-        case 'setting':
-          await initSettingPage();
-          break;
-       
-      }
-    }
+// --- مثال عملي على استخدام الدالة ---
 
-  </script>
+// مصفوفة بيانات تتضمن قيم ونسبها العشرية
+const data = [
+  { value: 3, percent: .9 },   // 3 * 50% = 1.5
+  { value: -5, percent: 0.9 },   // 5 * 20% = 1
+  { value: 20, percent: 0.9 }  // 20 * 15% = 3
+];
 
+// نستدعي الدالة مع المصفوفة التي تحتوي على القيم والنسب
+const result = calculateTotal(data);
 
+// نطبع النتائج في الكونسول مع بعض الرموز التعبيرية والتنسيق
+console.log("✅ مجموع القيم الجزئية (totalW):", result.totalW);           // 5.5
+console.log("📦 مجموع القيم الكاملة (totalValue):", result.totalValue);   // 28
+console.log("📊 النسبة الكلية (overallPercent):", (result.overallPercent * 100).toFixed(2) + "%");  // 19.64%
+console.log("📊  للتاكد (check):",result.overallPercent  *result.totalValue);  // 19.64%
 
-
+</script>

@@ -227,7 +227,7 @@
                         selectedSections = sectionName;
                         el.style.display = "block";
                         let pricing_item =
-                            sectionName + "_" + localStorage.getItem("selectedPand");
+                            sectionName + "_" + selectedPandId;
                         try
                         {
                             await pricing_Table.destroyTable();

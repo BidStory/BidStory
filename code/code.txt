@@ -12,7 +12,19 @@ localStorage.setItem(input.id, JSON.stringify(value));
     console.log("📝 قيمة المدخل الحالية:", currentValue);
   });
   
+ let states = document.querySelectorAll( '[id="PandBillStat"]' );
+      states.forEach(state => {
+
 console.log(typeof myFunc);
+
+let allRows = await dbNoUpgrade_pricing.getAllDataFromTable("rows");
+ if (!Array.isArray(allRows))
+                {
+                    continue;
+                }
+  for (const rawId of allRows)
+                {  await dbNoUpgrade_pricing.keyGet(rawId.key, "priceTot")
+
 
 JSON.parse(
   JSON.stringify(
@@ -20,3 +32,18 @@ JSON.parse(
 
 
 
+PandBillText
+
+PandBillNo
+PandBillLength
+PandBillWidth
+PandBillHight
+PandBillKg
+PandBillKindSum
+PandBillSum
+PandBillStat
+PandBillKindWork
+PandBillPrice
+PandBillPercent
+
+PandBillNote

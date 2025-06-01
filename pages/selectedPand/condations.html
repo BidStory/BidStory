@@ -6,7 +6,7 @@
 
 
     let dataBaseIdForPandCondation =
-      "cond_" + localStorage.getItem( "selectedPand" );
+      "cond_" + selectedPandId;
 
     // تهيئة الجدول
     let PandCondation = new setTableParameter(
@@ -24,7 +24,7 @@
   async function initPandCondationPage ()
   {
     dataBaseIdForPandCondation =
-      "cond_" + localStorage.getItem( "selectedPand" );
+      "cond_" + selectedPandId;
   
       await PandCondation.destroyTable();
 

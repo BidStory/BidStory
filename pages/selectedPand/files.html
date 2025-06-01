@@ -6,7 +6,7 @@
 
 
     let dataBaseIdForPandFiles =
-        "files_" + localStorage.getItem("selectedPand");
+        "files_" + selectedPandId;
 
     // تهيئة الجدول
     let PandFiles = new setTableParameter(
@@ -24,7 +24,7 @@
     async function initPandFilesPage()
     {
         dataBaseIdForPandFiles =
-            "files_" + localStorage.getItem("selectedPand");
+            "files_" + selectedPandId;
 
         await PandFiles.destroyTable();
 
