@@ -12,10 +12,13 @@ let selectedPandId = null;
 //#endregion
 
 //#region متغيرات  الدفعات
-let dbNoUp_PandHaser = null;
-let dataBaseIdForPandHaser = null;
-let PandHaserTable = null;
 
+let dbNoUp_PandBill = null;
+let dbNoUp_PandBillPrevious=null;
+let dataBaseIdForPandBill = null;
+let dataBaseIdForPandBillPrevious=null;
+let PandBillTable = null;
+let pandPrice = "37";
 let lastBill = 0;
 let buttonShowIndexSet = new Set(); // لتفادي التكرار
 
@@ -74,6 +77,16 @@ function isDefined(variableName)
     console.warn(`⚠️ isDefined: خطأ أثناء فحص ${variableName}`, error);
     return false;
   }
+}
+
+function isNumeric(value) {
+  if (value === null || value === undefined) return false;
+
+  const str = String(value).trim();
+  if (str === '') return false;
+
+  // @ts-ignore
+  return !isNaN(str) && !isNaN(parseFloat(str));
 }
 
 //#region دوال توليد المعرفات الفريدة 
@@ -567,7 +580,7 @@ function reNumber(inlet)
 //#region لتبسيط استدعاء الكتابة في الكونسول
 function q(output)
 {
- 
+
   console.log(output);
 }
 function Q(output)
@@ -653,10 +666,10 @@ document.addEventListener('tableDataChanged', async (event) =>
       }
       if (dataName.includes("bill_"))
       {
-       
-          // @ts-ignore
-          await calSumBillSection(dataName, storeName);
-        
+
+        // @ts-ignore
+        await calSumBillSection(dataName, storeName);
+
       }
       if (dataName.includes("raw_") || dataName.includes("equipments_") || dataName.includes("labor_") || dataName.includes("transport_") || dataName.includes("other_"))
       {
@@ -760,16 +773,21 @@ let newRawSelected = null;
 let newDataBaseSelected = null;
 document.addEventListener("addNewRowEvent", async (event) =>
 {
-  
+
   // @ts-ignore
   newRawSelected = event.detail.RowId;
   // @ts-ignore
   newDataBaseSelected = event.detail.dataBase;
   // @ts-ignore
- if (newDataBaseSelected.includes("bill_")){
-   // @ts-ignore
-await initialValues();
- }
+  if (newDataBaseSelected.includes("bill_"))
+  {
+    // @ts-ignore
+    while(await PandBillTable.checkProcessRun()==true){
+      await delay(50);
+    }
+    // @ts-ignore
+    await initialValues();
+  }
 
 });
 

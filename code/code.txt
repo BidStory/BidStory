@@ -41,9 +41,35 @@ PandBillHight
 PandBillKg
 PandBillKindSum
 PandBillSum
-PandBillStat
+PandBillStat  new getLang(685)  --- previous getLang(292)
 PandBillKindWork
 PandBillPrice
 PandBillPercent
 
 PandBillNote
+
+
+               <!---احمالي الاضافة للاعمال-->
+        <!--TotalWorksAddition-->
+               <!---احمالي الخصم للاعمال-->
+        <!--TotalWorksDiscount--->
+                <!---احمالي للاعمال-->
+        <!--TotalWorks--->
+                <!---احمالي الاضافة للتشوينات-->
+        <!---TotalSuppliesAddition-->
+                <!---احمالي الخصم للتشوينات-->
+        <!--TotalSuppliesDiscount--->
+                <!---احمالي للتشوينات-->
+        <!---TotalSupplies-->
+                <!--اجمالي الكمية المنفذة السابقة-->
+        <!--PreviousWorks--->PreviousWorksValue PreviousWorksPercent
+                <!--اجمالي الكمية المنفذة الحاليه-->
+         <!--CurrentWorks--->CurrentWorksValue CurrentWorksPercent CurrentWorksTotalCost
+                 <!--اجمالي الكمية المنفذة-->
+         <!--TotalExecutedWorks--->
+                 <!--اجمالي التشوينات المنفذة السابقة-->
+         <!---PreviousSupplies-->
+                 <!--اجمالي التشوينات المنفذة الحاليه-->
+         <!--CurrentSupplies--->
+                 <!--اجمالي التشوينات المنفذة-->
+         <!---TotalExecutedSupplies-->
