@@ -357,7 +357,7 @@
     },
     {
       "id": 103,
-      "a": "الاعمال السابقة",
+      "a": "الأعمال السابقة",
       "e": "Previous Works"
     },
     {
@@ -467,7 +467,7 @@
     },
     {
       "id": 125,
-      "a": "قيمة خصم للاعمال",
+      "a": "قيمة الخصم للأعمال",
       "e": "Works Discount Value"
     },
     {
@@ -967,8 +967,8 @@
     },
     {
       "id": 229,
-      "a": "اذا كان نوع الحصر تشوينات يفضل ان تكون نسبة التنفيذ اقل من 100",
-      "e": "If the extract type is Supplies, the execution ratio is better to be less than 100"
+      "a": "إذا كان نوع الحصر \"تشوينات\" نسبة التنفيذ أقل من 100%",
+      "e": "If extract type is \"Supplies\", execution ratio should be less than 100%"
     },
     {
       "id": 230,
@@ -1208,7 +1208,7 @@
     {
       "id": 281,
       "a": "نسبة %",
-      "e": " Percentage %"
+      "e": "Percentage %"
     },
     {
       "id": 282,
@@ -1292,12 +1292,12 @@
     },
     {
       "id": 299,
-      "a": "اعادة الترقيم طبقا لنوع الاعمال",
-      "e": "Re-number According To Works"
+      "a": "إعادة ترقيم حسب نوع الأعمال",
+      "e": "Re-number According to Work Types"
     },
     {
       "id": 300,
-      "a": "اظهار عنوان للاعمال",
+      "a": "عرض عنوان الأعمال",
       "e": "Show Works Title"
     },
     {
@@ -1362,13 +1362,13 @@
     },
     {
       "id": 313,
-      "a": "جملة الاعمال التي تمت حتي الان",
-      "e": "total of works that have been done"
+      "a": "إجمالي الأعمال المنجزة حتى الآن",
+      "e": "Total Works Completed to Date"
     },
     {
       "id": 314,
-      "a": "قيمة الاعمال التي تمت حتي الان",
-      "e": "value of works that have been done"
+      "a": "قيمة الأعمال المنجزة حتى الآن",
+      "e": "Value of Works Completed to Date"
     },
     {
       "id": 315,
@@ -1392,13 +1392,13 @@
     },
     {
       "id": 320,
-      "a": "إجمالي الكمية المنفذة الحالية",
-      "e": "Total current executed quantity"
+      "a": "الأعمال الحالية",
+      "e": "Current Works"
     },
     {
       "id": 321,
-      "a": "اجمالي الكمية المنفذة السابقة",
-      "e": "Total previous executed quantity"
+      "a": "الأعمال السابقة",
+      "e": "Previous Works"
     },
     {
       "id": 322,
@@ -1407,8 +1407,8 @@
     },
     {
       "id": 323,
-      "a": "الكمية الإجمالية المنفذة",
-      "e": "Total Quantity Executed"
+      "a": "إجمالي الأعمال",
+      "e": "Total Executed Works"
     },
     {
       "id": 324,
@@ -1442,8 +1442,8 @@
     },
     {
       "id": 330,
-      "a": "كل انواع الاعمال",
-      "e": "All Type Of Works"
+      "a": "جميع أنواع الأعمال",
+      "e": "All Types of Works"
     },
     {
       "id": 332,
@@ -1707,8 +1707,8 @@
     },
     {
       "id": 401,
-      "a": " اضافة ",
-      "e": " Add "
+      "a": "اضافة ",
+      "e": "Add "
     },
     {
       "id": 402,
@@ -2167,8 +2167,8 @@
     },
     {
       "id": 506,
-      "a": "اليكم بالأمر المباشر وطبقا لعرض الاسعار المقدم منكم وحسب بيان الاعمال والمواصفات الاتية",
-      "e": "to you by direct order and in accordance with the quotation given by you and in accordance with the following Statement of Works and Specifications"
+      "a": "إليكم بالأمر المباشر ووفق عرض الأسعار المقدم منكم وبيان الأعمال والمواصفات التالية",
+      "e": "By direct order and according to the quotation submitted by you, and the following Statement of Works and Specifications"
     },
     {
       "id": 507,
@@ -2452,8 +2452,8 @@
     },
     {
       "id": 564,
-      "a": "لا يمكن حذف  او تغير نوع عنصر تم في دفعة سابقة مازال يمكنك تعديل الكميات والتوصيف  \n(ملحوظة : عند وضع قيمة صفر في اي من كميات البند لن يظهر في طباعه الحصر والمستخلص يبقي كاعمال سابقة فقط)",
-      "e": "It is not possible to delete or change the type of an item that was made in a previous Payment Certificate. You can still modify the quantities and specifications\n(Note: When a value of zero is placed in any of the item quantities, it will not appear in the inventory print and the extract will remain as previous works only)"
+      "a": "لا يمكن حذف أو تغيير نوع بند موجود في دفعة سابقة، مع إمكانية تعديل الكميات والوصف",
+      "e": "It is not possible to delete or change the type of an item from a previous Payment Certificate, but you can modify quantities and descriptions."
     },
     {
       "id": 565,
@@ -3387,8 +3387,8 @@
     },
     {
       "id": 764,
-      "a": "يجب ان يكون سعر المقاول في اعمال التشوينات اقل من سعرة المقدم في العطاء",
-      "e": "The contractor's price for the Supplies works must be less than the price submitted in the bid"
+      "a": "يجب أن يكون سعر المقاول في التشوينات أقل من السعر المقدم في العطاء",
+      "e": "Contractor’s price for Supplies must be less than the bid price"
     },
     {
       "id": 765,
@@ -3442,13 +3442,13 @@
     },
     {
       "id": 776,
-      "a": "النسبة الكلية لالتشوينات بالبند",
-      "e": "total percentage of Supplies"
+      "a": "النسبة الكلية للتشوينات بالبند",
+      "e": "Total percentage of Supplies"
     },
     {
       "id": 777,
       "a": "السعر الكلي للتشوينات",
-      "e": "total price of the Supplies"
+      "e": "Total price of Supplies"
     },
     {
       "id": 778,
@@ -4137,18 +4137,18 @@
     },
     {
       "id": 919,
-      "a": "إجمالي التشوينات الحالية",
-      "e": "Total current Supplies quantity"
+      "a": "التشوينات الحالية",
+      "e": "Current Supplies"
     },
     {
       "id": 920,
-      "a": "اجمالي التشوينات السابقة",
-      "e": "Total previous Supplies quantity"
+      "a": "التشوينات السابقة",
+      "e": "Previous Supplies"
     },
     {
       "id": 921,
-      "a": "اجمالي التشوينات",
-      "e": "Total Supplies"
+      "a": "إجمالي التشوينات",
+      "e": "Total Executed Supplies"
     },
     {
       "id": 922,
@@ -4163,36 +4163,36 @@
     {
       "id": 924,
       "a": "قيمة التشوينات",
-      "e": "Value Supplies"
+      "e": "Supplies Value"
     },
     {
       "id": 925,
-      "a": "اجمالي الاضافة للاعمال",
-      "e": "Total addition to the works"
+      "a": "إجمالي الإضافة للأعمال",
+      "e": "Total Works Addition"
     },
     {
       "id": 926,
-      "a": "اجمالي الخصم للاعمال",
+      "a": "إجمالي الخصم للأعمال",
       "e": "Total Works Discount"
     },
     {
       "id": 927,
-      "a": "اجمالي الاضافة للتشوينات",
-      "e": "Total addition to Supplies"
+      "a": "إجمالي الإضافة للتشوينات",
+      "e": "Total Supplies Addition"
     },
     {
       "id": 928,
-      "a": "اجمالي الخصم للتشوينات",
-      "e": "Total discount for Supplies"
+      "a": "إجمالي الخصم للتشوينات",
+      "e": "Total Supplies Discount"
     },
     {
       "id": 929,
-      "a": "اجمالي الاعمال",
+      "a": "إجمالي الأعمال",
       "e": "Total Works"
     },
     {
       "id": 930,
-      "a": "اجمالي التشوينات",
+      "a": "إجمالي التشوينات",
       "e": "Total Supplies"
     },
     {
@@ -4207,13 +4207,13 @@
     },
     {
       "id": 934,
-      "a": "قيمة الدفعة اعمال",
-      "e": "Value Of Works Payment"
+      "a": "قيمة دفعة الأعمال",
+      "e": "Value of Works Payment"
     },
     {
       "id": 935,
-      "a": "قيمة الدفعه تشوينات",
-      "e": "Value Of Supplies Payment"
+      "a": "قيمة الدفعة تشوينات",
+      "e": "Supplies Payment Value"
     },
     {
       "id": 936,
@@ -5689,6 +5689,11 @@
       "id": 1268,
       "a": "اضافة فاتورة",
       "e": "add BOQ"
+    },
+    {
+      "id": 1269,
+      "a": "التكلفه",
+      "e": "cost"
     }
   ]
 }

@@ -178,8 +178,6 @@ async function watchingAllInputs2IndexDB(target, dbNoUpgrade, tableName)
   inputs.forEach((input) =>
   {
     // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
     const inputListener = (event) =>
     {
       let value;
