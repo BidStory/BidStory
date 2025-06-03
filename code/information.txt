@@ -8,15 +8,22 @@ https://bidstory.github.io/BidStory/pages/PrivacyPolicy.html
 قايمة بالامتدادات التي قمت بتنصيبها   code --list-extensions
 
 alefragnani.bookmarks
-alexcvzz.vscode-sqlite
+chenwen.emmet-wxml-copy
 christian-kohler.path-intellisense
-dzhavat.bracket-pair-toggler
+codium.codium
+dbaeumer.vscode-eslint
+dzhavat.bracket-pair-toggler      
 ecmel.vscode-html-css
 esbenp.prettier-vscode
 formulahendry.auto-rename-tag
+github.copilot
+github.copilot-chat
+idoran.visual-studio-code-plugin-for-alm-octane
+ms-vscode-remote.remote-wsl
 naumovs.color-highlight
 ritwickdey.liveserver
 xabikos.javascriptsnippets
+
 
 
 لمسح بيانات المتصفح  chrome://settings/privacy
