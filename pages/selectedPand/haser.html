@@ -598,7 +598,7 @@
             stopAddPandBillDatabase = true;
             isTableWatcherEnabled = false;
             dataBaseIdForPandBill = "bill_" + dataBaseIndex + "_" + selectedPandId; // اسم قاعدة البيانات
-           
+
             // محاولة حذف الجدول السابق (إن وُجد)
             try
             {
@@ -608,7 +608,7 @@
                 // تجاهل الخطأ إذا لم يكن هناك جدول موجود مسبقاً
             }
 
- if (Number(dataBaseIndex) > 1)
+            if (Number(dataBaseIndex) > 1)
             {
                 dataBaseIdForPandBillPrevious = "bill_" + (Number(dataBaseIndex) - 1) + "_" + selectedPandId; // اسم قاعدة البيانات
             }
@@ -981,13 +981,15 @@
 
                 if (PandBillKindWork == null || PandBillKindWork === "")
                 {
+                    await isPriceEdit(rawId.key, 0);
                     await dbNoUp_PandBill.keySet(
                         rawId.key,
                         "PandBillKindWork",
                         "0"
                     );
-                    await isPriceEdit(rawId.key, 0);
-                } else
+
+                }
+                else
                 {
                     if (PandBillKindWork == "0")
                     {
@@ -1088,24 +1090,33 @@
     }
     async function isPriceEdit(tableId, state)
     {
-        //await dbNoUpgrade_bill.keySet(tableId, "PandBillSum", product);
-          q('raw_99999999999 '+tableId);
-        const raw_ = document.getElementById(tableId + "_");
-      
-        const priceElement = raw_.querySelector("#PandBillPrice");
-        // const isReadOnly = priceElement.hasAttribute("readonly");
+        q('raw_99999999999 ' + tableId + ' -<>- ' + state);
 
-        if (state == 1)
+        let rawElement = document.getElementById(tableId + "_");
+
+        if (rawElement)
         {
-            priceElement.removeAttribute("readonly");
-            priceElement.style.border = "1px solid #234890"; // لإظهار أن الحقل قابل للتعديل
-            priceElement.style.backgroundColor = "#234890";
-        } else
-        {
-            priceElement.setAttribute("readonly", true);
-            priceElement.style.border = "none"; // إعادة الشكل السابق
-            priceElement.style.backgroundColor = "transparent";
+
+            let priceElement = rawElement.querySelector("#PandBillPrice");
+
+            if (priceElement)
+            {
+                if (state == 1 || state == "1")
+                {
+                    priceElement.removeAttribute("readonly");
+                    priceElement.style.border = "1px solid #234890"; // لإظهار أن الحقل قابل للتعديل
+                    priceElement.style.backgroundColor = "#234890";
+                }
+                else
+                {
+                    priceElement.setAttribute("readonly", true);
+                    priceElement.style.border = "none"; // إعادة الشكل السابق
+                    priceElement.style.backgroundColor = "transparent";
+                }
+            }
+            
         }
+
     }
 
 </script>
