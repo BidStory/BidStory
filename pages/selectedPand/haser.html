@@ -1,10 +1,12 @@
 <!--- زر إضافة دفعة جديدة --->
+<!-- زر لإضافة دفعة جديدة، عند الضغط عليه يتم استدعاء دالة addBill -->
 <button onclick="addBill()">
     <img id="i_addBill" alt="addBill" style="width: 20px; height: 20px; vertical-align: middle; margin-left: 5px" />
     <br />
     <span id="t_1268"></span>
     <!-- سيتم تعبئته بنص معرّب -->
 </button>
+<!-- زر لحذف الدفعة الحالية، عند الضغط عليه يتم استدعاء دالة deletBill -->
 <button onclick="deletBill()">
     <img id="i_delet" alt="addBill" style="width: 20px; height: 20px; vertical-align: middle; margin-left: 5px" />
     <br />
@@ -18,6 +20,7 @@
 <br /><br />
 
 <style>
+    /* تخصيص شريط التمرير لحاوية الجدول */
     #billContaner::-webkit-scrollbar {
         height: 5px;
     }
@@ -44,8 +47,8 @@
     <table>
         <thead class="hide-text">
             <tr>
+                <!-- عناوين الأعمدة (سيتم تعبئتها ديناميكياً) -->
                 <th id="t_37"></th>
-                <!-- عنوان العمود الأول -->
                 <th id="t_413"></th>
                 <th id="t_112"></th>
                 <th id="t_113"></th>
@@ -53,415 +56,168 @@
                 <th id="t_115"></th>
                 <th id="t_116"></th>
                 <th id="t_907"></th>
-                <!--sum1-->
                 <th id="t_93"></th>
-                <!--state-->
                 <th id="t_293"></th>
-                <!--type-->
                 <th id="t_861"></th>
-                <!----percentage-->
                 <th id="t_281"></th>
-                <!---price-->
                 <th id="t_39"></th>
-                <!---notes-->
                 <th id="t_104"></th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <!-- number  -->
+                <!-- كل عمود يحتوي على input أو select حسب نوع البيانات -->
                 <td>
-                    <input id="numbering" readonly type="text" placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-            " />
+                    <input id="numbering" readonly type="text" placeholder="" style="outline: none; border: none; background-color: transparent; color: black;" />
                 </td>
-                <!-- bill text  -->
                 <td>
-                    <input id="PandBillText" type="text" placeholder=""
-                        style="border: none; background-color: transparent; color: black" />
+                    <input id="PandBillText" type="text" placeholder="" style="border: none; background-color: transparent; color: black" />
                 </td>
-                <!-- number of  -->
                 <td>
-                    <input id="PandBillNo" type="number" placeholder=""
-                        style="border: none; background-color: transparent; color: black" />
+                    <input id="PandBillNo" type="number" placeholder="" style="border: none; background-color: transparent; color: black" />
                 </td>
-                <!-- length -->
                 <td>
-                    <input id="PandBillLength" type="number" placeholder=""
-                        style="border: none; background-color: transparent; color: black" />
+                    <input id="PandBillLength" type="number" placeholder="" style="border: none; background-color: transparent; color: black" />
                 </td>
-                <!-- width -->
                 <td>
-                    <input id="PandBillWidth" type="number" placeholder=""
-                        style="border: none; background-color: transparent; color: black" />
+                    <input id="PandBillWidth" type="number" placeholder="" style="border: none; background-color: transparent; color: black" />
                 </td>
-                <!-- hight -->
                 <td>
-                    <input id="PandBillHight" type="number" placeholder=""
-                        style="border: none; background-color: transparent; color: black" />
+                    <input id="PandBillHight" type="number" placeholder="" style="border: none; background-color: transparent; color: black" />
                 </td>
-                <!-- kg -->
                 <td>
-                    <input id="PandBillKg" type="number" placeholder=""
-                        style="border: none; background-color: transparent; color: black" />
+                    <input id="PandBillKg" type="number" placeholder="" style="border: none; background-color: transparent; color: black" />
                 </td>
-                <!-- kind of sum  -->
                 <td>
                     <select id="PandBillKindSum">
                         <option id="t_401" value="0"></option>
                         <option id="t_118" value="1"></option>
                     </select>
                 </td>
-                <!-- sum  -->
                 <td>
-                    <input id="PandBillSum" readonly type="number" placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-            " />
+                    <input id="PandBillSum" readonly type="number" placeholder="" style="outline: none; border: none; background-color: transparent; color: black;" />
                 </td>
-                <!-- state  -->
                 <td>
-                    <input id="PandBillStat" type="text" placeholder=""
-                        style="border: none; background-color: transparent; color: black" />
+                    <input id="PandBillStat" readonly type="text" placeholder="" style="border: none; background-color: transparent; color: black" />
                 </td>
-                <!-- kind of work   -->
                 <td>
                     <select id="PandBillKindWork">
                         <option id="t_226" value="0"></option>
                         <option id="t_227" value="1"></option>
                     </select>
                 </td>
-                <!-- percentage  -->
                 <td>
-                    <input id="PandBillPercent" type="number" min="0" max="100" placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-            " />
+                    <input id="PandBillPercent" type="number" min="0" max="100" placeholder="" style="outline: none; border: none; background-color: transparent; color: black;" />
                 </td>
-                <!-- price  -->
                 <td>
-                    <input id="PandBillPrice" type="number" placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-            " />
+                    <input id="PandBillPrice" readonly type="number" placeholder="" style="outline: none; border: none; background-color: transparent; color: black;" />
                 </td>
-
-                <!-- note  -->
                 <td>
-                    <input id="PandBillNote" type="text" placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-            " />
+                    <input id="PandBillNote" type="text" placeholder="" style="outline: none; border: none; background-color: transparent; color: black;" />
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
 
+<!-- جدول النتائج النهائية -->
 <div id="results">
     <br><br>
     <table>
-        <!---احمالي الاضافة للاعمال-->
-        <!--Total Works Addition-->
+        <!-- صفوف النتائج الإجمالية للأعمال والتشوينات -->
         <tr>
-            <td>
-                <label id="t_925"></label>
-
-            </td>
-            <td>
-                <input id="TotalWorksAddition" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-            " />
-            </td>
+            <td><label id="t_925"></label></td>
+            <td><input id="TotalWorksAddition" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black;" /></td>
         </tr>
-        <!---احمالي الخصم للاعمال-->
-        <!--Total Works Discount--->
         <tr>
-            <td>
-                <label id="t_926"></label>
-
-            </td>
-            <td>
-                <input id="TotalWorksDiscount" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-            " />
-            </td>
+            <td><label id="t_926"></label></td>
+            <td><input id="TotalWorksDiscount" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black;" /></td>
         </tr>
-        <!---احمالي للاعمال-->
-        <!--Total Works--->
         <tr>
-            <td>
-                <label id="t_929"></label>
-
-            </td>
-            <td>
-                <input id="TotalWorks" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-            " />
-            </td>
+            <td><label id="t_929"></label></td>
+            <td><input id="TotalWorks" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black;" /></td>
         </tr>
-        <!---احمالي الاضافة للتشوينات-->
-        <!---Total Supplies Addition-->
         <tr>
-            <td>
-                <label id="t_927"></label>
-
-            </td>
-            <td>
-                <input id="TotalSuppliesAddition" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-            " />
-            </td>
+            <td><label id="t_927"></label></td>
+            <td><input id="TotalSuppliesAddition" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black;" /></td>
         </tr>
-        <!---احمالي الخصم للتشوينات-->
-        <!--Total Supplies Discount--->
         <tr>
-            <td>
-                <label id="t_928"></label>
-
-            </td>
-            <td>
-                <input id="TotalSuppliesDiscount" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-            " />
-            </td>
+            <td><label id="t_928"></label></td>
+            <td><input id="TotalSuppliesDiscount" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black;" /></td>
         </tr>
-        <!---احمالي للتشوينات-->
-        <!---Total Supplies-->
         <tr>
-            <td>
-                <label id="t_930"></label>
-
-            </td>
-            <td>
-                <input id="TotalSupplies" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-            " />
-            </td>
+            <td><label id="t_930"></label></td>
+            <td><input id="TotalSupplies" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black;" /></td>
         </tr>
     </table>
     <br><br>
     <table>
         <thead>
             <tr style="text-align: center; vertical-align: middle;">
-                <!--الحاله-->
+                <!-- عناوين الأعمدة للجدول التفصيلي -->
                 <th id="t_293"></th>
-                <!--النسب-->
                 <th id="t_922"></th>
-                <!--السعر-->
                 <th id="t_39"></th>
-                <!--الاجمالي-->
                 <th id="t_40"></th>
             </tr>
         </thead>
-        <!--اجمالي الكمية المنفذة السابقة-->
-        <!--Previous Works--->
+        <!-- صفوف النتائج التفصيلية للأعمال والتشوينات السابقة والحالية -->
         <tr style="text-align: center; vertical-align: middle;">
+            <td><label id="t_321"></label></td>
             <td>
-                <label id="t_321"></label>
+                <input id="PreviousWorksValue" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black; max-width: 50px; min-width:  50px;" />
+                <input id="PreviousWorksPercent" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black; max-width: 50px; min-width:  50px;" />
             </td>
+            <td><label id="priceWork"></label></td>
             <td>
-                <input id="PreviousWorksValue" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-              max-width: 50px;
-              min-width:  50px;
-            " />
-                <input id="PreviousWorksPercent" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-                 max-width: 50px;
-              min-width:  50px;
-            " />
-            </td>
-            <td>
-                <label id="priceWork"></label>
-            </td>
-            <td>
-                <input id="PreviousWorksTotalCost" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-                 max-width: 50px;
-              min-width:  50px;
-            " />
+                <input id="PreviousWorksTotalCost" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black; max-width: 50px; min-width:  50px;" />
             </td>
         </tr>
-        <!--اجمالي الكمية المنفذة الحاليه-->
-        <!--Current Works--->
         <tr style="text-align: center; vertical-align: middle;">
+            <td><label id="t_320"></label></td>
             <td>
-                <label id="t_320"></label>
+                <input id="CurrentWorksValue" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black; max-width: 50px; min-width:  50px;" />
+                <input id="CurrentWorksPercent" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black; max-width: 50px; min-width:  50px;" />
             </td>
+            <td><label id="priceWork"></label></td>
             <td>
-                <input id="CurrentWorksValue" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-              max-width: 50px;
-              min-width:  50px;
-            " />
-                <input id="CurrentWorksPercent" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-                 max-width: 50px;
-              min-width:  50px;
-            " />
-            </td>
-            <td>
-                <label id="priceWork"></label>
-            </td>
-            <td>
-                <input id="CurrentWorksTotalCost" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-                 max-width: 50px;
-              min-width:  50px;
-            " />
+                <input id="CurrentWorksTotalCost" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black; max-width: 50px; min-width:  50px;" />
             </td>
         </tr>
-        <!--اجمالي الكمية المنفذة-->
-        <!--Total Executed Works--->
         <tr style="text-align: center; vertical-align: middle;">
+            <td><label id="t_323"></label></td>
             <td>
-                <label id="t_323"></label>
+                <input id="TotalExecutedWorks" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black;" />
             </td>
+            <td><label id="priceWork"></label></td>
+            <td></td>
+        </tr>
+        <tr style="text-align: center; vertical-align: middle;">
+            <td><label id="t_920"></label></td>
             <td>
-                <input id="TotalExecutedWorks" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-            " />
-
+                <input id="PreviousSupplies" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black;" />
             </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr style="text-align: center; vertical-align: middle;">
+            <td><label id="t_919"></label></td>
             <td>
-                <label id="priceWork"></label>
+                <input id="CurrentSuppliesValue" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black; max-width: 50px; min-width:  50px;" />
+                <input id="CurrentSuppliesPercent" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black; max-width: 50px; min-width:  50px;" />
             </td>
+            <td></td>
             <td>
-
+                <input id="CurrentSuppliesTotalCost" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black; max-width: 50px; min-width:  50px;" />
             </td>
         </tr>
-        <!--اجمالي التشوينات المنفذة السابقة-->
-        <!---Previous Supplies-->
         <tr style="text-align: center; vertical-align: middle;">
+            <td><label id="t_921"></label></td>
             <td>
-                <label id="t_920"></label>
+                <input id="TotalExecutedSupplies" type="text" readonly placeholder="" style="outline: none; border: none; background-color: transparent; color: black;" />
             </td>
-            <td>
-                <input id="PreviousSupplies" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-            " />
-
-            </td>
-            <td>
-
-            </td>
-            <td>
-
-            </td>
-        </tr>
-        <!--اجمالي التشوينات المنفذة الحاليه-->
-        <!--Current Supplies--->
-        <tr style="text-align: center; vertical-align: middle;">
-            <td>
-                <label id="t_919"></label>
-            </td>
-            <td>
-                <input id="CurrentSuppliesValue" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-              max-width: 50px;
-              min-width:  50px;
-            " />
-                <input id="CurrentSuppliesPercent" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-                 max-width: 50px;
-              min-width:  50px;
-            " />
-            </td>
-            <td>
-
-            </td>
-            <td>
-                <input id="CurrentSuppliesTotalCost" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-                 max-width: 50px;
-              min-width:  50px;
-            " />
-            </td>
-        </tr>
-        <!--اجمالي التشوينات المنفذة-->
-        <!---Total Executed Supplies-->
-        <tr style="text-align: center; vertical-align: middle;">
-            <td>
-                <label id="t_921"></label>
-            </td>
-            <td>
-                <input id="TotalExecutedSupplies" type="text" readonly placeholder="" style="
-              outline: none;
-              border: none;
-              background-color: transparent;
-              color: black;
-            " />
-
-            </td>
-            <td>
-
-            </td>
-            <td>
-
-            </td>
+            <td></td>
+            <td></td>
         </tr>
     </table>
 </div>
@@ -469,93 +225,128 @@
 <script>
     // 🟡 تعريف المتغيرات العامة - تم نقلها إلى ملف الأدوات
 
-    // ✅ وظيفة مسح جميع أزرار الدفعات
-    function clearAllButtons()
+    /**
+     * دالة لمسح جميع أزرار الدفعات من الواجهة وإعادة تعيين مجموعة المؤشرات
+     */
+    function clearAllButtons ()
     {
-        document.getElementById("buttonsContainer").innerHTML = ""; // تفريغ الحاوية
-        buttonShowIndexSet.clear(); // إعادة تعيين مجموعة المؤشرات
+        // تفريغ الحاوية من الأزرار
+        document.getElementById( "buttonsContainer" ).innerHTML = "";
+        // إعادة تعيين مجموعة المؤشرات (لمنع تكرار الأزرار)
+        buttonShowIndexSet.clear();
     }
 
-    // ✅ عند الضغط على زر "إضافة حصر"
-    async function addBill()
+    /**
+     * دالة إضافة دفعة جديدة عند الضغط على زر "إضافة حصر"
+     * تقوم بتهيئة الصفحة ثم إضافة زر جديد للدفعة التالية
+     */
+    async function addBill ()
     {
         try
         {
+            // تهيئة صفحة الحصر (تحميل البيانات السابقة)
             await initPandBillPage();
-            lastBill += 1; // تهيئة صفحة الحصر
-            await addButton(lastBill); // إضافة زر جديد للدفعة التالية
-        } catch (error)
+            // زيادة رقم آخر دفعة
+            lastBill += 1;
+            // إضافة زر جديد للدفعة التالية
+            await addButton( lastBill );
+        } catch ( error )
         {
-            console.error("❌ خطأ في addBill:", error);
+            // طباعة الخطأ في وحدة التحكم
+            console.error( "❌ خطأ في addBill:", error );
         }
     }
 
-    async function deletBill()
+    /**
+     * دالة حذف الدفعة الحالية عند الضغط على زر الحذف
+     * تقوم بحذف قاعدة البيانات الخاصة بالدفعة الأخيرة وتفريغ الحاوية
+     */
+    async function deletBill ()
     {
         try
         {
-            await deleteDatabase("bill_" + lastBill + "_" + selectedPandId);
+            // حذف قاعدة بيانات الدفعة الأخيرة
+            await deleteDatabase( "bill_" + lastBill + "_" + selectedPandId );
+            // مسح جميع الأزرار
             clearAllButtons();
+            // إعادة تهيئة الصفحة
             await initPandBillPage();
-            document.getElementById("billContaner").innerHTML = ""; // تفريغ الحاوية
-        } catch (error)
+            // تفريغ حاوية الجدول
+            document.getElementById( "billContaner" ).innerHTML = "";
+        } catch ( error )
         {
-            console.error("❌ خطأ في addBill:", error);
+            // طباعة الخطأ في وحدة التحكم
+            console.error( "❌ خطأ في deletBill:", error );
         }
     }
-    // ✅ تحميل قواعد البيانات السابقة وإظهار أزرارها
-    async function initPandBillPage()
+
+    /**
+     * دالة تحميل قواعد البيانات السابقة وإظهار أزرارها
+     * تقوم بالبحث عن قواعد البيانات حتى 100 دفعة وتضيف الأزرار المقابلة لها
+     */
+    async function initPandBillPage ()
     {
         try
         {
             lastBill = 0;
             let i = 1;
-            while (i <= 100)
+            // حلقة للبحث عن قواعد البيانات حتى 100 دفعة كحد أقصى
+            while ( i <= 100 )
             {
-                // حد أقصى لتجنب اللوب اللامتناهي
-                const dbName = "bill_" + i + "_" + selectedPandId; // اسم قاعدة البيانات
-                const exists = await checkDatabaseExists(dbName); // التحقق من وجودها
-                if (exists)
+                // اسم قاعدة البيانات
+                const dbName = "bill_" + i + "_" + selectedPandId;
+                // التحقق من وجود قاعدة البيانات
+                const exists = await checkDatabaseExists( dbName );
+                if ( exists )
                 {
-                    await addButton(i); // إضافة الزر
-                    lastBill = i; // تحديث آخر رقم دفعة
+                    // إضافة زر للدفعة
+                    await addButton( i );
+                    // تحديث رقم آخر دفعة
+                    lastBill = i;
                     i++;
                 } else
                 {
-                    break; // التوقف إذا لم تكن موجودة
+                    // التوقف إذا لم تكن قاعدة البيانات موجودة
+                    break;
                 }
             }
-
-
-        } catch (error)
+        } catch ( error )
         {
-            console.error("❌ خطأ في initPandBillPage:", error);
+            // طباعة الخطأ في وحدة التحكم
+            console.error( "❌ خطأ في initPandBillPage:", error );
         }
     }
 
-    // ✅ إنشاء زر جديد يمثل دفعة معينة
-    async function addButton(billIndex)
+    /**
+     * دالة إنشاء زر جديد يمثل دفعة معينة
+     * @param {number} billIndex رقم الدفعة
+     */
+    async function addButton ( billIndex )
     {
         try
         {
-
-            if (buttonShowIndexSet.has(billIndex))
+            // التحقق من عدم تكرار الزر
+            if ( buttonShowIndexSet.has( billIndex ) )
             {
-                return; // لا تكرار للأزرار
+                return;
             } else
             {
-                buttonShowIndexSet.add(billIndex); // تسجيل المؤشر
+                // تسجيل المؤشر في المجموعة
+                buttonShowIndexSet.add( billIndex );
             }
 
-            const button = document.createElement("button");
+            // إنشاء عنصر الزر
+            const button = document.createElement( "button" );
             button.id = "BillB_" + billIndex;
+            // عند الضغط على الزر يتم تحميل بيانات الدفعة
             button.onclick = async function ()
             {
-                await addPandBillDatabase(billIndex); // عند الضغط، يتم تحميل بيانات الدفعة
+                await addPandBillDatabase( billIndex );
             };
-            button.style.margin = "5px"; // تنسيق الزر
+            button.style.margin = "5px";
 
-            const img = document.createElement("img"); // صورة داخل الزر
+            // إضافة صورة للزر
+            const img = document.createElement( "img" );
             img.alt = "Bill";
             img.id = "i_bill";
             img.style.width = "20px";
@@ -563,73 +354,87 @@
             img.style.verticalAlign = "middle";
             img.style.marginLeft = "5px";
 
-            button.appendChild(img);
-            button.appendChild(document.createElement("br"));
+            button.appendChild( img );
+            button.appendChild( document.createElement( "br" ) );
 
-            const span = document.createElement("span"); // نص معرف الزر
+            // إضافة نص معرف الزر
+            const span = document.createElement( "span" );
             span.id = "t_1065_" + billIndex;
-            button.appendChild(span);
+            button.appendChild( span );
 
-            document.getElementById("buttonsContainer").appendChild(button); // إضافة الزر للواجهة
+            // إضافة الزر إلى الحاوية
+            document.getElementById( "buttonsContainer" ).appendChild( button );
 
-            await setTextAndImage(); // تحديث الترجمة والصور
+            // تحديث الترجمة والصور
+            await setTextAndImage();
 
-            const spanNum = document.createElement("span"); // رقم الدفعة
+            // إضافة رقم الدفعة بجانب الزر
+            const spanNum = document.createElement( "span" );
             spanNum.innerText = " " + billIndex;
-            button.appendChild(spanNum);
+            button.appendChild( spanNum );
 
-        } catch (error)
+        } catch ( error )
         {
-            console.error("❌ خطأ في addButton:", error);
+            // طباعة الخطأ في وحدة التحكم
+            console.error( "❌ خطأ في addButton:", error );
         }
     }
+
+    // متغير لمنع تكرار تنفيذ دالة addPandBillDatabase في نفس الوقت
     let stopAddPandBillDatabase = false;
 
-    /*
-     ✅ إنشاء قاعدة بيانات وجدول لدفعة معينة
-    يتم التنفيذ عن الضغط علي احدي الازرر الخاصه بدفعه معينه
-    */
-    async function addPandBillDatabase(dataBaseIndex)
+    /**
+     * دالة إنشاء قاعدة بيانات وجدول لدفعة معينة
+     * يتم التنفيذ عند الضغط على أحد الأزرار الخاصة بدفعة معينة
+     * @param {number} dataBaseIndex رقم الدفعة
+     */
+    async function addPandBillDatabase ( dataBaseIndex )
     {
         try
         {
+            // إعادة تعيين معرف قاعدة البيانات السابقة
             dataBaseIdForPandBillPrevious = null;
-            if (stopAddPandBillDatabase == true) { return; }
+            // منع تكرار التنفيذ
+            if ( stopAddPandBillDatabase == true ) { return; }
             stopAddPandBillDatabase = true;
+            // تعطيل مراقبة الجدول مؤقتاً
             isTableWatcherEnabled = false;
-            dataBaseIdForPandBill = "bill_" + dataBaseIndex + "_" + selectedPandId; // اسم قاعدة البيانات
+            // تعيين اسم قاعدة البيانات الحالية
+            dataBaseIdForPandBill = "bill_" + dataBaseIndex + "_" + selectedPandId;
 
             // محاولة حذف الجدول السابق (إن وُجد)
             try
             {
-                await PandBillTable.destroyTable(); // حذف الجدول الحالي
-            } catch (error)
+                await PandBillTable.destroyTable();
+            } catch ( error )
             {
                 // تجاهل الخطأ إذا لم يكن هناك جدول موجود مسبقاً
             }
 
-            if (Number(dataBaseIndex) > 1)
+            // إذا كان رقم الدفعة أكبر من 1، تعيين قاعدة البيانات السابقة
+            if ( Number( dataBaseIndex ) > 1 )
             {
-                dataBaseIdForPandBillPrevious = "bill_" + (Number(dataBaseIndex) - 1) + "_" + selectedPandId; // اسم قاعدة البيانات
+                dataBaseIdForPandBillPrevious = "bill_" + ( Number( dataBaseIndex ) - 1 ) + "_" + selectedPandId;
             }
-            dbNoUp_PandBill = await new noUpgrade(dataBaseIdForPandBill);
-            if (Number(dataBaseIndex) > 1)
+            // إنشاء كائن قاعدة بيانات بدون ترقية
+            dbNoUp_PandBill = await new noUpgrade( dataBaseIdForPandBill );
+            if ( Number( dataBaseIndex ) > 1 )
             {
-                dbNoUp_PandBillPrevious = await new noUpgrade(dataBaseIdForPandBillPrevious);
+                dbNoUp_PandBillPrevious = await new noUpgrade( dataBaseIdForPandBillPrevious );
             }
-            if (await dbNoUp_PandBill.isTableExist("resultsTable") == false)
+            // إذا لم يكن جدول النتائج موجوداً، يتم إنشاؤه
+            if ( await dbNoUp_PandBill.isTableExist( "resultsTable" ) == false )
             {
-                let dbUp_PandBill = await new upgrade(dataBaseIdForPandBill);
-                await dbUp_PandBill.createKeyTable("resultsTable");
-                dbNoUp_PandBill = await new noUpgrade(dataBaseIdForPandBill);
-                if (Number(dataBaseIndex) > 1)
+                let dbUp_PandBill = await new upgrade( dataBaseIdForPandBill );
+                await dbUp_PandBill.createKeyTable( "resultsTable" );
+                dbNoUp_PandBill = await new noUpgrade( dataBaseIdForPandBill );
+                if ( Number( dataBaseIndex ) > 1 )
                 {
-                    dbNoUp_PandBillPrevious = await new noUpgrade(dataBaseIdForPandBillPrevious);
+                    dbNoUp_PandBillPrevious = await new noUpgrade( dataBaseIdForPandBillPrevious );
                 }
             }
 
-
-            // إنشاء كائن جديد للجدول مع المعاملات
+            // إنشاء كائن جديد للجدول مع المعاملات المطلوبة
             PandBillTable = new setTableParameter(
                 "billContaner", // حاوية الجدول
                 dataBaseIdForPandBill, // اسم قاعدة البيانات
@@ -641,24 +446,32 @@
                 true // ترقيم الصفوف
             );
 
+            // تعيين القيم الافتراضية وتحميل القيم المخزنة
             await initialValues();
 
-        } catch (error)
+        } catch ( error )
         {
-            console.error("❌ خطأ في addPandBillDatabase:", error);
+            // طباعة الخطأ في وحدة التحكم
+            console.error( "❌ خطأ في addPandBillDatabase:", error );
         } finally
         {
+            // إعادة تفعيل التنفيذ ومراقبة الجدول
             stopAddPandBillDatabase = false;
             isTableWatcherEnabled = true;
         }
     }
 
-    function hasNumericValue(array)
+    /**
+     * دالة للتحقق إذا كان هناك قيمة رقمية في مصفوفة
+     * @param {Array} array مصفوفة القيم
+     * @returns {boolean} هل يوجد قيمة رقمية أم لا
+     */
+    function hasNumericValue ( array )
     {
-        return array.some(isNumeric);
+        return array.some( isNumeric );
     }
 
-
+    // قائمة الحقول التي تدخل في حساب حاصل الضرب
     let sumList = [
         "PandBillNo",
         "PandBillLength",
@@ -666,110 +479,125 @@
         "PandBillHight",
         "PandBillKg"
     ];
+    // متغير لمنع تكرار تنفيذ دالة calSumBillSection
     let isCalSumBillSectionRunning = false;
-    async function calSumBillSection(dataName, tableId)
+
+    /**
+     * دالة لحساب حاصل ضرب القيم في صف معين وتحديث حقل المجموع
+     * @param {string} dataName اسم الحقل (غير مستخدم هنا)
+     * @param {string} tableId معرف الصف
+     */
+    async function calSumBillSection ( dataName, tableId )
     {
         try
         {
-
-            if (isCalSumBillSectionRunning)
+            // منع تكرار التنفيذ
+            if ( isCalSumBillSectionRunning )
             {
                 return;
             }
 
             isCalSumBillSectionRunning = true;
             isTableWatcherEnabled = false;
-            let dbNoUpgrade_bill = await new noUpgrade(dataName);
 
-            if (isValidIdFormat(tableId))
+            // التحقق من صحة معرف الصف
+            if ( isValidIdFormat( tableId ) )
             {
                 let value = [];
                 let valueCheck = [];
                 let key = null;
-                for (let i = 0; i < sumList.length; i++)
+                // جلب القيم من قاعدة البيانات
+                for ( let i = 0; i < sumList.length; i++ )
                 {
-                    key = sumList[i];
-                    const valueــ = await dbNoUpgrade_bill.keyGet(tableId, key);
-                    valueCheck.push(valueــ);
+                    key = sumList[ i ];
+                    const valueــ = await dbNoUp_PandBill.keyGet( tableId, key );
+                    valueCheck.push( valueــ );
                 }
                 let product = 1;
-                if (!hasNumericValue(valueCheck))
+                // إذا لم توجد أي قيمة رقمية، الناتج صفر
+                if ( !hasNumericValue( valueCheck ) )
                 {
                     product = 0;
-
-                } else
+                }
+                else
                 {
-
-                    for (let i = 0; i < sumList.length; i++)
+                    // تعويض القيم الفارغة بـ 1
+                    for ( let i = 0; i < sumList.length; i++ )
                     {
-                        let val = valueCheck[i];
-                        if (val == null || val === "")
+                        let val = valueCheck[ i ];
+                        if ( val == null || val === "" )
                         {
                             val = 1;
                         }
-                        value[i] = val;
+                        value[ i ] = val;
                     }
-
-                    for (let i = 0; i < value.length; i++)
+                    // حساب حاصل الضرب
+                    for ( let i = 0; i < value.length; i++ )
                     {
-                        product *= Number(value[i]);
+                        product *= Number( value[ i ] );
                     }
-
-                    if (await dbNoUpgrade_bill.keyGet(tableId, 'PandBillKindSum') == '1')
+                    // إذا كان نوع التجميع خصم، اضرب في -1
+                    if ( await dbNoUp_PandBill.keyGet( tableId, 'PandBillKindSum' ) == '1' )
                     {
                         product *= -1;
                     }
-
                 }
-                //لتحديد حاله عنصر السعر ان كان قابل للادخال ام لا
-                if (await dbNoUpgrade_bill.keyGet(tableId, 'PandBillKindWork') == '0')
+                // تحديد حالة عنصر السعر إذا كان قابل للإدخال أم لا
+                if ( await dbNoUp_PandBill.keyGet( tableId, 'PandBillKindWork' ) == '0' )
                 {
-                    await isPriceEdit(tableId, 0);
-                } else
-                {
-                    await isPriceEdit(tableId, 1);
+                    await isPriceEdit( tableId, 0 );
                 }
-                await dbNoUpgrade_bill.keySet(tableId, "PandBillSum", product);
-                const raw_ = document.getElementById(tableId + "_");
-                const tot_ = raw_.querySelector("#PandBillSum");
-                tot_.value = (product).toFixed(DecimalPoint);
-                await calSumBill0(dbNoUpgrade_bill);
-
+                else
+                {
+                    await isPriceEdit( tableId, 1 );
+                }
+                // تحديث قيمة المجموع في قاعدة البيانات والعنصر
+                await dbNoUp_PandBill.keySet( tableId, "PandBillSum", product );
+                const raw_ = document.getElementById( tableId + "_" );
+                const tot_ = raw_.querySelector( "#PandBillSum" );
+                tot_.value = ( product ).toFixed( DecimalPoint );
+                // تحديث المجاميع الكلية
+                await calSumBill0( dbNoUp_PandBill );
             }
 
             isTableWatcherEnabled = true;
-        } catch (error)
+        } catch ( error )
         {
-            console.error("Error calculating calSumBillSection:", error);
+            // طباعة الخطأ في وحدة التحكم
+            console.error( "Error calculating calSumBillSection:", error );
         } finally
         {
             isCalSumBillSectionRunning = false;
             isTableWatcherEnabled = true;
-
         }
     }
 
+    // متغير لمنع تكرار تنفيذ دالة calSumBill0
     let isCalScalSumBill0Running = false;
-    async function calSumBill0(dbNoUpgrade_bill)
+
+    /**
+     * دالة لحساب المجاميع الكلية للأعمال والتشوينات وتحديث النتائج في الصفحة
+     * @param {object} dbNoUp_PandBill كائن قاعدة البيانات
+     */
+    async function calSumBill0 ( dbNoUp_PandBill )
     {
         try
         {
-
-            if (isCalScalSumBill0Running)
+            // منع تكرار التنفيذ
+            if ( isCalScalSumBill0Running )
             {
                 return;
             }
             isCalScalSumBill0Running = true;
 
-            let allRows = await dbNoUpgrade_bill.getAllDataFromTable("rows");
-            if (!Array.isArray(allRows))
+            // جلب جميع الصفوف من قاعدة البيانات
+            let allRows = await dbNoUp_PandBill.getAllDataFromTable( "rows" );
+            if ( !Array.isArray( allRows ) )
             {
                 return;
             }
 
-            //#region جلب التجميعات طبقا للانواع
-
-
+            // تعريف مصفوفات لتجميع القيم حسب النوع
             let sumCurrentWorksValue = [];
             let sumCurrentWorksPercent = [];
             let sumTotalWorksAddition = [];
@@ -780,129 +608,123 @@
             let sumTotalSuppliesAddition = [];
             let sumTotalSuppliesDiscount = [];
 
-
-            for (const rawId of allRows)
+            // المرور على كل صف وتجميع القيم حسب النوع والحالة
+            for ( const rawId of allRows )
             {
-                //اذا كان نوع العمل تنفيذي
-                if (await dbNoUpgrade_bill.keyGet(rawId.key, "PandBillKindWork") == "0")
+                // إذا كان نوع العمل "تنفيذي"
+                if ( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillKindWork" ) == "0" )
                 {
-                    //اذا كان نوع العمل جديد
-                    if (await dbNoUpgrade_bill.keyGet(rawId.key, "PandBillStat") == getLang(685))
+                    // إذا كان نوع العمل "جديد"
+                    if ( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillStat" ) == getLang( 685 ) )
                     {
-                        sumCurrentWorksValue.push(await dbNoUpgrade_bill.keyGet(rawId.key, "PandBillSum"));
-                        sumCurrentWorksPercent.push(await dbNoUpgrade_bill.keyGet(rawId.key, "PandBillPercent"));
-                        //اذا كان نوع التجميع اضافه
-                        if (await dbNoUpgrade_bill.keyGet(rawId.key, "PandBillKindSum") == "0")
+                        sumCurrentWorksValue.push( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillSum" ) );
+                        sumCurrentWorksPercent.push( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillPercent" ) );
+                        // إذا كان نوع التجميع "إضافة"
+                        if ( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillKindSum" ) == "0" )
                         {
-                            sumTotalWorksAddition.push(await dbNoUpgrade_bill.keyGet(rawId.key, "PandBillSum"));
+                            sumTotalWorksAddition.push( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillSum" ) );
                         }
                         else
                         {
-                            sumTotalWorksDiscount.push(await dbNoUpgrade_bill.keyGet(rawId.key, "PandBillSum"));
+                            sumTotalWorksDiscount.push( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillSum" ) );
                         }
                     }
-                    //اذا كان نوع العمل سابق
-                    else
-                    {
-
-                    }
-
                 }
-
-                //اذا كان نوع العمل تشوينات
+                // إذا كان نوع العمل "تشوينات"
                 else
                 {
-                    //اذا كان نوع العمل جديد
-                    if (await dbNoUpgrade_bill.keyGet(rawId.key, "PandBillStat") == getLang(685))
+                    // إذا كان نوع العمل "جديد"
+                    if ( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillStat" ) == getLang( 685 ) )
                     {
-                        sumCurrentSuppliesValue.push(await dbNoUpgrade_bill.keyGet(rawId.key, "PandBillSum"));
-                        sumCurrentSuppliesPercent.push(await dbNoUpgrade_bill.keyGet(rawId.key, "PandBillPercent"));
-                        //اذا كان نوع التجميع اضافه
-                        if (await dbNoUpgrade_bill.keyGet(rawId.key, "PandBillKindSum") == "0")
+                        sumCurrentSuppliesValue.push( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillSum" ) );
+                        sumCurrentSuppliesPercent.push( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillPercent" ) );
+                        // إذا كان نوع التجميع "إضافة"
+                        if ( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillKindSum" ) == "0" )
                         {
-                            sumTotalSuppliesAddition.push(await dbNoUpgrade_bill.keyGet(rawId.key, "PandBillSum"));
+                            sumTotalSuppliesAddition.push( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillSum" ) );
                         }
                         else
                         {
-                            sumTotalSuppliesDiscount.push(await dbNoUpgrade_bill.keyGet(rawId.key, "PandBillSum"));
+                            sumTotalSuppliesDiscount.push( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillSum" ) );
                         }
                     }
                 }
-
-
             }
-            //#endregion
 
-            //جلب القيمه الكليه والنسبه الكليه
-            const resultWorks = calculateTotalValuPercent(sumCurrentWorksValue, sumCurrentWorksPercent);
-            const resultSuplies = calculateTotalValuPercent(sumCurrentSuppliesValue, sumCurrentSuppliesPercent);
+            // حساب القيم الكلية والنسب الكلية للأعمال والتشوينات
+            const resultWorks = calculateTotalValuPercent( sumCurrentWorksValue, sumCurrentWorksPercent );
+            const resultSuplies = calculateTotalValuPercent( sumCurrentSuppliesValue, sumCurrentSuppliesPercent );
 
-            //جلب العناصر التي سوف يحفظ بها النتائج
-            const CurrentWorksValue = document.getElementById('CurrentWorksValue');
-            const CurrentWorksPercent = document.getElementById('CurrentWorksPercent');
-            const CurrentWorksTotalCost = document.getElementById('CurrentWorksTotalCost');
-            const TotalWorks = document.getElementById('TotalWorks');
-            const TotalWorksAddition = document.getElementById('TotalWorksAddition');
-            const TotalWorksDiscount = document.getElementById('TotalWorksDiscount');
+            // جلب عناصر الصفحة التي سيتم وضع النتائج فيها
+            const CurrentWorksValue = document.getElementById( 'CurrentWorksValue' );
+            const CurrentWorksPercent = document.getElementById( 'CurrentWorksPercent' );
+            const CurrentWorksTotalCost = document.getElementById( 'CurrentWorksTotalCost' );
+            const TotalWorks = document.getElementById( 'TotalWorks' );
+            const TotalWorksAddition = document.getElementById( 'TotalWorksAddition' );
+            const TotalWorksDiscount = document.getElementById( 'TotalWorksDiscount' );
 
-            const CurrentSuppliesValue = document.getElementById('CurrentSuppliesValue');
-            const CurrentSuppliesPercent = document.getElementById('CurrentSuppliesPercent');
-            const CurrentSuppliesTotalCost = document.getElementById('CurrentSuppliesTotalCost');
-            const TotalSupplies = document.getElementById('TotalSupplies');
-            const TotalSuppliesAddition = document.getElementById("TotalSuppliesAddition");
-            const TotalSuppliesDiscount = document.getElementById('TotalSuppliesDiscount');
+            const CurrentSuppliesValue = document.getElementById( 'CurrentSuppliesValue' );
+            const CurrentSuppliesPercent = document.getElementById( 'CurrentSuppliesPercent' );
+            const CurrentSuppliesTotalCost = document.getElementById( 'CurrentSuppliesTotalCost' );
+            const TotalSupplies = document.getElementById( 'TotalSupplies' );
+            const TotalSuppliesAddition = document.getElementById( "TotalSuppliesAddition" );
+            const TotalSuppliesDiscount = document.getElementById( 'TotalSuppliesDiscount' );
 
-            //وضع القيم في العناصر
+            // وضع القيم في العناصر
             TotalWorks.value = resultWorks.totalValue;
             CurrentWorksValue.value = resultWorks.totalValue;
-            CurrentWorksPercent.value = (resultWorks.overallPercent).toFixed(DecimalPoint);
-            CurrentWorksTotalCost.value = ((resultWorks.overallPercent / 100) * resultWorks.totalValue * Number(pandPrice)).toFixed(DecimalPoint);
-            TotalWorksAddition.value = sumTotalWorksAddition.reduce((acc, val) => acc + val, 0);
-            TotalWorksDiscount.value = sumTotalWorksDiscount.reduce((acc, val) => acc + val, 0);
+            CurrentWorksPercent.value = ( resultWorks.overallPercent ).toFixed( DecimalPoint );
+            CurrentWorksTotalCost.value = ( ( resultWorks.overallPercent / 100 ) * resultWorks.totalValue * Number( pandPrice ) ).toFixed( DecimalPoint );
+            TotalWorksAddition.value = sumTotalWorksAddition.reduce( ( acc, val ) => acc + val, 0 );
+            TotalWorksDiscount.value = sumTotalWorksDiscount.reduce( ( acc, val ) => acc + val, 0 );
 
             TotalSupplies.value = resultSuplies.totalValue;
             CurrentSuppliesValue.value = resultSuplies.totalValue;
-            CurrentSuppliesPercent.value = (resultSuplies.overallPercent).toFixed(DecimalPoint);
-            CurrentSuppliesTotalCost.value = ((resultSuplies.overallPercent / 100) * resultSuplies.totalValue * Number(pandPrice)).toFixed(DecimalPoint);
-            TotalSuppliesAddition.value = sumTotalSuppliesAddition.reduce((acc, val) => acc + val, 0);
-            TotalSuppliesDiscount.value = sumTotalSuppliesDiscount.reduce((acc, val) => acc + val, 0);
+            CurrentSuppliesPercent.value = ( resultSuplies.overallPercent ).toFixed( DecimalPoint );
+            CurrentSuppliesTotalCost.value = ( ( resultSuplies.overallPercent / 100 ) * resultSuplies.totalValue * Number( pandPrice ) ).toFixed( DecimalPoint );
+            TotalSuppliesAddition.value = sumTotalSuppliesAddition.reduce( ( acc, val ) => acc + val, 0 );
+            TotalSuppliesDiscount.value = sumTotalSuppliesDiscount.reduce( ( acc, val ) => acc + val, 0 );
 
-            //إطلاق حدث التغيير يدويًا لكي يتم الحفظ
-            const inputEvent = new Event('input', { bubbles: true });
-            //اطلاق
-            CurrentWorksValue.dispatchEvent(inputEvent);
-            CurrentWorksPercent.dispatchEvent(inputEvent);
-            CurrentWorksTotalCost.dispatchEvent(inputEvent);
-            TotalWorks.dispatchEvent(inputEvent);
-            TotalWorksAddition.dispatchEvent(inputEvent);
-            TotalWorksDiscount.dispatchEvent(inputEvent);
+            // إطلاق حدث التغيير يدويًا لكي يتم الحفظ
+            const inputEvent = new Event( 'input', { bubbles: true } );
+            CurrentWorksValue.dispatchEvent( inputEvent );
+            CurrentWorksPercent.dispatchEvent( inputEvent );
+            CurrentWorksTotalCost.dispatchEvent( inputEvent );
+            TotalWorks.dispatchEvent( inputEvent );
+            TotalWorksAddition.dispatchEvent( inputEvent );
+            TotalWorksDiscount.dispatchEvent( inputEvent );
 
-            TotalSupplies.dispatchEvent(inputEvent);
-            CurrentSuppliesValue.dispatchEvent(inputEvent);
-            CurrentSuppliesPercent.dispatchEvent(inputEvent);
-            CurrentSuppliesTotalCost.dispatchEvent(inputEvent);
-            TotalSuppliesAddition.dispatchEvent(inputEvent);
-            TotalSuppliesDiscount.dispatchEvent(inputEvent);
-        } catch (error)
+            TotalSupplies.dispatchEvent( inputEvent );
+            CurrentSuppliesValue.dispatchEvent( inputEvent );
+            CurrentSuppliesPercent.dispatchEvent( inputEvent );
+            CurrentSuppliesTotalCost.dispatchEvent( inputEvent );
+            TotalSuppliesAddition.dispatchEvent( inputEvent );
+            TotalSuppliesDiscount.dispatchEvent( inputEvent );
+        } catch ( error )
         {
-            console.error("Error calculating calSumBill0: ", error);
+            // طباعة الخطأ في وحدة التحكم
+            console.error( "Error calculating calSumBill0: ", error );
         } finally
         {
             isCalScalSumBill0Running = false;
-
-
         }
     }
 
-    function calculateTotalValuPercent(value, percent)
+    /**
+     * دالة لحساب القيمة الكلية والنسبة الكلية من مصفوفتين
+     * @param {Array} value مصفوفة القيم
+     * @param {Array} percent مصفوفة النسب
+     * @returns {object} كائن يحتوي على القيمة الكلية والنسبة الكلية
+     */
+    function calculateTotalValuPercent ( value, percent )
     {
         let totalW = 0;
         let totalValue = 0;
 
-        for (let i = 0; i < value.length; i++)
+        for ( let i = 0; i < value.length; i++ )
         {
-            const val = Number(value[i]);
-            const pct = Number(percent[i]);
+            const val = Number( value[ i ] );
+            const pct = Number( percent[ i ] );
 
             totalW += val * pct;
             totalValue += val;
@@ -916,61 +738,62 @@
         };
     }
 
-    //لوضع القيم الافتراضيه وجلب القيم المخزنه 
-    async function initialValues()
+    /**
+     * دالة لوضع القيم الافتراضية وجلب القيم المخزنة من قاعدة البيانات
+     * تقوم بتحديث جميع الحقول في الجدول حسب القيم المخزنة أو تعيين القيم الافتراضية
+     */
+    async function initialValues ()
     {
         try
         {
-            // #region 🛑 تعطيل مراقبة الجدول مؤقتاً
+            // تعطيل مراقبة الجدول مؤقتاً
             isTableWatcherEnabled = false;
-            // #endregion
 
-            // #region 🔤 تعيين القيم الأساسية
-            const statPrevText = getLang(292);
+            // تعيين القيم الأساسية
+            const statPrevText = getLang( 292 );
             const maxAttempts = 20;
             let allRows;
             let attempt = 0;
-            // #endregion
 
-            // #region 🔁 محاولة تحميل البيانات من الجدول (بحد أقصى 20 محاولة)
-            while (attempt < maxAttempts)
+            // محاولة تحميل البيانات من الجدول (بحد أقصى 20 محاولة)
+            while ( attempt < maxAttempts )
             {
-                allRows = await dbNoUp_PandBill.getAllDataFromTable("rows");
-                if (Array.isArray(allRows)) break;
-                await delay(100);
+                allRows = await dbNoUp_PandBill.getAllDataFromTable( "rows" );
+                if ( Array.isArray( allRows ) ) break;
+                await delay( 100 );
                 attempt++;
             }
 
-            if (!Array.isArray(allRows))
+            if ( !Array.isArray( allRows ) )
             {
                 isTableWatcherEnabled = true;
                 return;
             }
-            // #endregion
-
-            // #region 🧠 معالجة كل صف من قاعدة البيانات
-            for (const rawId of allRows)
+            
+            // معالجة كل صف من قاعدة البيانات
+            for ( const rawId of allRows )
             {
-                const state = await dbNoUp_PandBill.keyGet(rawId.key, "PandBillStat");
-                const percent = await dbNoUp_PandBill.keyGet(rawId.key, "PandBillPercent");
-                const price = await dbNoUp_PandBill.keyGet(rawId.key, "PandBillPrice");
-                const PandBillKindWork = await dbNoUp_PandBill.keyGet(rawId.key, "PandBillKindWork");
-                const PandBillKindSum = await dbNoUp_PandBill.keyGet(rawId.key, "PandBillKindSum");
+                await waitForElement(`#${rawId.key}_`);
+                const state = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillStat" );
+                const percent = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillPercent" );
+                const price = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillPrice" );
+                const PandBillKindWork = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillKindWork" );
+                const PandBillKindSum = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillKindSum" );
 
                 // تحديث الحالة إذا كانت غير مطابقة للنص المتوقع
-                if (state == null || state === "" || state !== statPrevText)
+                if ( state == null || state === "" || state !== statPrevText )
                 {
-                    await dbNoUp_PandBill.keySet(rawId.key, "PandBillStat", getLang(685));
+                    await dbNoUp_PandBill.keySet( rawId.key, "PandBillStat", getLang( 685 ) );
                 }
 
                 // تعيين نسبة افتراضية إذا كانت غير موجودة
-                if (percent == null || percent === "")
+                if ( percent == null || percent === "" )
                 {
-                    await dbNoUp_PandBill.keySet(rawId.key, "PandBillPercent", "100");
+                    await dbNoUp_PandBill.keySet( rawId.key, "PandBillPercent", "100" );
                 }
 
-                // تعيين نسبة افتراضية إذا كانت غير موجودة
-                if (price == null || price === "")
+                // تعيين سعر افتراضي إذا كان غير موجود
+                if ( price == null || price === "" )
                 {
                     await dbNoUp_PandBill.keySet(
                         rawId.key,
@@ -979,28 +802,29 @@
                     );
                 }
 
-                if (PandBillKindWork == null || PandBillKindWork === "")
+                // تعيين نوع العمل الافتراضي إذا كان غير موجود
+                if ( PandBillKindWork == null || PandBillKindWork === "" )
                 {
-                    await isPriceEdit(rawId.key, 0);
                     await dbNoUp_PandBill.keySet(
                         rawId.key,
                         "PandBillKindWork",
                         "0"
                     );
-
+                    await isPriceEdit( rawId.key, 0 );
                 }
                 else
                 {
-                    if (PandBillKindWork == "0")
+                    if ( PandBillKindWork == "0" )
                     {
-                        await isPriceEdit(rawId.key, 0);
+                        await isPriceEdit( rawId.key, 0 );
                     } else
                     {
-                        await isPriceEdit(rawId.key, 1);
+                        await isPriceEdit( rawId.key, 1 );
                     }
                 }
 
-                if (PandBillKindSum == null || PandBillKindSum === "")
+                // تعيين نوع التجميع الافتراضي إذا كان غير موجود
+                if ( PandBillKindSum == null || PandBillKindSum === "" )
                 {
                     await dbNoUp_PandBill.keySet(
                         rawId.key,
@@ -1008,25 +832,22 @@
                         "0"
                     );
                 }
-
             }
-            // #endregion
 
-            // #region 🖼️ تحديث القيم داخل عناصر الصفحة
+            // تحديث القيم داخل عناصر الصفحة
+            const priceWorks = document.querySelectorAll( '[id="priceWork"]' );
+            const states = document.querySelectorAll( '[id="PandBillStat"]' );
+            const percents = document.querySelectorAll( '[id="PandBillPercent"]' );
+            const prices = document.querySelectorAll( '[id="PandBillPrice"]' );
+            const PandBillKindWorks = document.querySelectorAll( '[id="PandBillKindWork"]' );
+            const PandBillKindSums = document.querySelectorAll( '[id="PandBillKindSum"]' );
 
-            const priceWorks = document.querySelectorAll('[id="priceWork"]');
-            const states = document.querySelectorAll('[id="PandBillStat"]');
-            const percents = document.querySelectorAll('[id="PandBillPercent"]');
-            const prices = document.querySelectorAll('[id="PandBillPrice"]');
-            const PandBillKindWorks = document.querySelectorAll('[id="PandBillKindWork"]');
-            const PandBillKindSums = document.querySelectorAll('[id="PandBillKindSum"]');
-
-            priceWorks.forEach((priceWork) =>
+            priceWorks.forEach( ( priceWork ) =>
             {
                 priceWork.innerText = pandPrice;
-            });
+            } );
 
-            states.forEach((state) =>
+            states.forEach( ( state ) =>
             {
                 if (
                     state.value == null ||
@@ -1034,89 +855,97 @@
                     state.value !== statPrevText
                 )
                 {
-                    state.value = getLang(685);
+                    state.value = getLang( 685 );
                 }
-            });
+            } );
 
-            percents.forEach((percent) =>
+            percents.forEach( ( percent ) =>
             {
-                if (percent.value == null || percent.value === "")
+                if ( percent.value == null || percent.value === "" )
                 {
                     percent.value = "100";
                 }
-            });
+            } );
 
-            prices.forEach((price) =>
+            prices.forEach( ( price ) =>
             {
-                if (price.value == null || price.value === "")
+                if ( price.value == null || price.value === "" )
                 {
                     price.value = pandPrice;
                 }
-            });
+            } );
 
-            PandBillKindWorks.forEach((PandBillKindWork) =>
+            PandBillKindWorks.forEach( ( PandBillKindWork ) =>
             {
-                if (PandBillKindWork.value == null || PandBillKindWork.value === "")
+                if ( PandBillKindWork.value == null || PandBillKindWork.value === "" )
                 {
                     PandBillKindWork.value = "0";
                 }
-            });
+            } );
 
-            PandBillKindSums.forEach((PandBillKindSum) =>
+            PandBillKindSums.forEach( ( PandBillKindSum ) =>
             {
-                if (PandBillKindSum.value == null || PandBillKindSum.value === "")
+                if ( PandBillKindSum.value == null || PandBillKindSum.value === "" )
                 {
                     PandBillKindSum.value = "0";
                 }
-            });
+            } );
 
-            await restoreAllInputsFromIndexDB("results", dbNoUp_PandBill, 'resultsTable');
-            await watchingAllInputs2IndexDB("results", dbNoUp_PandBill, 'resultsTable');
+            // استعادة جميع القيم من قاعدة البيانات إلى الصفحة
+            await restoreAllInputsFromIndexDB( "results", dbNoUp_PandBill, 'resultsTable' );
+            // مراقبة جميع الحقول وتحديث قاعدة البيانات عند التغيير
+            await watchingAllInputs2IndexDB( "results", dbNoUp_PandBill, 'resultsTable' );
 
-            // #endregion
-
-        } catch (error)
+        } catch ( error )
         {
-            // #region ❌ معالجة الأخطاء
-            console.error("🚨 Error in initialValues:", error);
-            // #endregion
+            // طباعة الخطأ في وحدة التحكم
+            console.error( "🚨 Error in initialValues:", error );
         } finally
         {
-            // #region ✅ إعادة تفعيل مراقبة الجدول
+            // إعادة تفعيل مراقبة الجدول
             isTableWatcherEnabled = true;
-            // #endregion
         }
-
     }
-    async function isPriceEdit(tableId, state)
-    {
-        q('raw_99999999999 ' + tableId + ' -<>- ' + state);
+    
+    /**
+     * دالة تمكين أو تعطيل إمكانية تعديل حقل السعر في صف الجدول
+     * @param {string} tableId معرف الصف الأساسي في الجدول
+     * @param {number} state إذا كانت القيمة 1 يجعل الحقل قابل للتعديل، غير ذلك يجعله للقراءة فقط
+     */
+    async function isPriceEdit(tableId, state) {
+        try {
+            // التحقق من صحة معرف الصف
+            if (!isValidIdFormat(tableId)) { return; }
+            
+            // الحصول على عنصر الصف من الصفحة باستخدام المعرف
+            let rawElement = document.getElementById(tableId + "_");
 
-        let rawElement = document.getElementById(tableId + "_");
+            // إذا لم يتم العثور على العنصر، الخروج من الدالة
+            if (!rawElement) return;
 
-        if (rawElement)
-        {
-
+            // البحث عن عنصر حقل السعر داخل الصف
             let priceElement = rawElement.querySelector("#PandBillPrice");
 
-            if (priceElement)
-            {
-                if (state == 1 || state == "1")
-                {
-                    priceElement.removeAttribute("readonly");
-                    priceElement.style.border = "1px solid #234890"; // لإظهار أن الحقل قابل للتعديل
-                    priceElement.style.backgroundColor = "#234890";
-                }
-                else
-                {
-                    priceElement.setAttribute("readonly", true);
-                    priceElement.style.border = "none"; // إعادة الشكل السابق
-                    priceElement.style.backgroundColor = "transparent";
-                }
-            }
-            
-        }
+            // إذا لم يتم العثور على حقل السعر، الخروج من الدالة
+            if (!priceElement) return;
 
+            // إذا كانت الحالة 1، اجعل الحقل قابل للتعديل
+            if (state === 1) {
+                priceElement.removeAttribute("readonly"); // إزالة خاصية القراءة فقط
+                priceElement.style.border = "1px solid #234890"; // إضافة إطار أزرق
+                priceElement.style.backgroundColor = "#234890"; // تغيير لون الخلفية للأزرق
+                priceElement.style.color = "#fff"; // تغيير لون الخط للأبيض ليتناسب مع الخلفية
+            } else {
+                // إذا كانت الحالة غير 1، اجعل الحقل للقراءة فقط
+                priceElement.setAttribute("readonly", true); // تفعيل خاصية القراءة فقط
+                priceElement.style.border = "none"; // إزالة الإطار
+                priceElement.style.backgroundColor = "transparent"; // إعادة الخلفية للوضع الافتراضي
+                priceElement.style.color = ""; // إعادة لون الخط للوضع الافتراضي
+            }
+        } catch (error) {
+            // في حال حدوث خطأ أثناء التنفيذ، طباعته في وحدة التحكم
+            console.error("Error in isPriceEdit:", error);
+        }
     }
 
 </script>

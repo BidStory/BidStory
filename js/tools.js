@@ -26,6 +26,35 @@ let buttonShowIndexSet = new Set(); // لتفادي التكرار
 
 //#endregion
 
+// دالة غير متزامنة تنتظر ظهور عنصر معين في الصفحة بناءً على محدد (Selector)
+async function waitForElement(selector) {
+  return new Promise((resolve) => { // تُعيد الدالة Promise لكي تتمكن من انتظار ظهور العنصر
+    // التحقق مما إذا كان العنصر موجودًا بالفعل في الصفحة
+    if (document.querySelector(selector)) {
+      // إذا كان موجودًا، نعيده مباشرة وننهي الـ Promise
+      return resolve(document.querySelector(selector));
+    }
+
+    // إذا لم يكن العنصر موجودًا، نستخدم MutationObserver لمراقبة تغييرات DOM
+    const observer = new MutationObserver(() => {
+      // في كل مرة يحدث فيها تغيير في DOM، نتحقق مجددًا من وجود العنصر
+      if (document.querySelector(selector)) {
+        observer.disconnect(); // نوقف المراقبة بمجرد العثور على العنصر
+        resolve(document.querySelector(selector)); // نُرجع العنصر وننهي الـ Promise
+      }
+    });
+
+    // نبدأ مراقبة تغييرات DOM في body، ونراقب كل العناصر الفرعية (subtree)
+    observer.observe(document.body, {
+      childList: true, // نراقب التغييرات في الأطفال (إضافة/إزالة عناصر)
+      subtree: true    // نراقب أيضًا التغييرات داخل العناصر الفرعية
+    });
+  });
+}
+
+
+
+
 // دالة التحقق من صحه المعرف اول اربع حروف ثم ارقام
 function isValidIdFormat(x)
 {
