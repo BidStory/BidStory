@@ -810,7 +810,7 @@ console.log( "🛑📤 تم إغلاق قاعدة البيانات بنجاح" +
   } );
 }
 
-//#region   ///importOrUpdateFromJSON
+//#region   importOrUpdateFromJSON
 
 /**
  * @typedef {Object} IndexDefinition

@@ -1,43 +1,54 @@
 <script>
-  /**
- * دالة لحساب مجموع القيم الجزئية والنسبة الكلية من مصفوفتين
- * @param {Array} value - مصفوفة القيم الرقمية (مثل [3, 5, 20])
- * @param {Array} percent - مصفوفة النسب المئوية (مثل [0.5, 0.2, 0.15])
- * @returns {Object} كائن يحتوي على:
- *                   totalW: مجموع (value[i] * percent[i])
- *                   totalValue: مجموع كل القيم
- *                   overallPercent: totalW ÷ totalValue
- */
-function calculateTotal(value, percent) {
-  let totalW = 0;
-  let totalValue = 0;
-
-  for (let i = 0; i < value.length; i++) {
-    const val = Number(value[i]);
-    const pct = Number(percent[i]);
-
-    totalW += val * pct;
-    totalValue += val;
+  
+function calculateUnifiedPercentAndPriceFromArrays(values, percents, prices) {
+  if (values.length !== percents.length || values.length !== prices.length) {
+    throw new Error("جميع المصفوفات يجب أن تكون بطول متساوٍ.");
   }
 
-  const overallPercent = totalValue !== 0 ? totalW / totalValue : 0;
+  let totalSum = 0;
+  let valueSum = 0;
+  let weightedPriceSum = 0;
+
+  for (let i = 0; i < values.length; i++) {
+    totalSum += values[i] * (percents[i] / 100) * prices[i];
+    valueSum += values[i];
+    weightedPriceSum += prices[i] * values[i];
+  }
+
+  // حساب السعر الموحد كمتوسط مرجح للأسعار
+  let foundPrice = weightedPriceSum / valueSum;
+
+  // حساب النسبة الموحدة بناءً على المعادلة
+  let foundPercent = (totalSum / (foundPrice * valueSum)) * 100;
+
+  // ضبط النسبة ضمن المجال [1, 100]
+  if (foundPercent > 100) foundPercent = 100;
+  if (foundPercent < 1) foundPercent = 1;
+
+  // حساب السعر الموحد النهائي بناءً على النسبة المصححة
+  foundPrice = totalSum / ((foundPercent / 100) * valueSum);
 
   return {
-    totalW,
-    totalValue,
-    overallPercent
+    totalSum: totalSum.toFixed(2),
+    valueSum: valueSum,
+    foundPercent: foundPercent.toFixed(2),
+    foundPrice: foundPrice.toFixed(3),
+    checkTotal: (foundPrice * (foundPercent / 100) * valueSum).toFixed(2)
   };
 }
 
-// --- مثال عملي ---
+// مثال استخدام:
+const values = [-5, 3, 6];
+const percents = [100, 100, 100];
+const prices = [30, 40, 50];
 
-let value = [3, -5, 20];
-let percent = [0.9, 0.9, 0.9];
+const result = calculateUnifiedPercentAndPriceFromArrays(values, percents, prices);
 
-const result = calculateTotal(value, percent);
+console.log("📊 المجموع النهائي:", result.totalSum);
+console.log("🔢 مجموع القيم:", result.valueSum);
+console.log("📈 النسبة الموحدة:", result.foundPercent + "%");
+console.log("💰 السعر الموحد:", result.foundPrice);
+console.log("✅ التحقق من الناتج:", result.checkTotal);
 
-console.log("✅ مجموع القيم الجزئية (totalW):", result.totalW);
-console.log("📦 مجموع القيم الكاملة (totalValue):", result.totalValue);
-console.log("📊 النسبة الكلية (overallPercent):", (result.overallPercent * 100).toFixed(2) + "%");
 
 </script>

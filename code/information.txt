@@ -7,22 +7,29 @@ https://bidstory.github.io/BidStory/pages/PrivacyPolicy.html
 هذا الملف لما لا تريد رفعة .gitignore
 قايمة بالامتدادات التي قمت بتنصيبها   code --list-extensions
 
-code --install-extension alefragnani.bookmarks
-code --install-extension chenwen.emmet-wxml-copy
-code --install-extension christian-kohler.path-intellisense
-code --install-extension codium.codium
-code --install-extension dbaeumer.vscode-eslint
-code --install-extension dzhavat.bracket-pair-toggler
-code --install-extension ecmel.vscode-html-css
-code --install-extension esbenp.prettier-vscode
-code --install-extension formulahendry.auto-rename-tag
-code --install-extension github.copilot
-code --install-extension github.copilot-chat
-code --install-extension idoran.visual-studio-code-plugin-for-alm-octane
-code --install-extension ms-vscode-remote.remote-wsl
-code --install-extension naumovs.color-highlight
-code --install-extension ritwickdey.liveserver
+
+code --install-extension alefragnani.bookmarks && \
+code --install-extension alexcvzz.vscode-sqlite && \
+code --install-extension chenwen.emmet-wxml-copy && \
+code --install-extension christian-kohler.path-intellisense && \
+code --install-extension codium.codium && \
+code --install-extension dbaeumer.vscode-eslint && \
+code --install-extension dzhavat.bracket-pair-toggler && \
+code --install-extension ecmel.vscode-html-css && \
+code --install-extension esbenp.prettier-vscode && \
+code --install-extension formulahendry.auto-rename-tag && \
+code --install-extension github.copilot && \
+code --install-extension github.copilot-chat && \
+code --install-extension ms-dotnettools.csdevkit && \
+code --install-extension ms-dotnettools.csharp && \
+code --install-extension ms-dotnettools.dotnet-maui && \
+code --install-extension ms-dotnettools.vscode-dotnet-runtime && \
+code --install-extension ms-vscode-remote.remote-wsl && \
+code --install-extension naumovs.color-highlight && \
+code --install-extension ritwickdey.liveserver && \
+code --install-extension tabnine.tabnine-vscode && \
 code --install-extension xabikos.javascriptsnippets
+
 
 
 
