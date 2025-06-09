@@ -1,54 +1,57 @@
 <script>
-  
-function calculateUnifiedPercentAndPriceFromArrays(values, percents, prices) {
-  if (values.length !== percents.length || values.length !== prices.length) {
-    throw new Error("جميع المصفوفات يجب أن تكون بطول متساوٍ.");
-  }
 
-  let totalSum = 0;
-  let valueSum = 0;
-  let weightedPriceSum = 0;
+function calculateSuppliesPercentprice(values, percents, prices) {
+    if (values.length !== percents.length || values.length !== prices.length) {
+        throw new Error("❌ جميع المصفوفات يجب أن تكون بطول متساوٍ.");
+    }
 
-  for (let i = 0; i < values.length; i++) {
-    totalSum += values[i] * (percents[i] / 100) * prices[i];
-    valueSum += values[i];
-    weightedPriceSum += prices[i] * values[i];
-  }
+    let totalSum = 0;
+    let approvedValueSum = 0;
+    let weightedPriceSum = 0;
+    let approvedWeights = 0;
 
-  // حساب السعر الموحد كمتوسط مرجح للأسعار
-  let foundPrice = weightedPriceSum / valueSum;
+    for (let i = 0; i < values.length; i++) {
+        const value = values[i];
+        const percent = percents[i];
+        const price = prices[i];
 
-  // حساب النسبة الموحدة بناءً على المعادلة
-  let foundPercent = (totalSum / (foundPrice * valueSum)) * 100;
+        const approvedValue = value * (percent / 100);
+        totalSum += approvedValue * price;
+        approvedValueSum += approvedValue;
 
-  // ضبط النسبة ضمن المجال [1, 100]
-  if (foundPercent > 100) foundPercent = 100;
-  if (foundPercent < 1) foundPercent = 1;
+        // نستخدم approvedValue بدلاً من value لحساب السعر المرجح
+        weightedPriceSum += price * approvedValue;
+        approvedWeights += approvedValue;
+    }
 
-  // حساب السعر الموحد النهائي بناءً على النسبة المصححة
-  foundPrice = totalSum / ((foundPercent / 100) * valueSum);
+    if (approvedValueSum === 0) {
+        throw new Error("⚠️ مجموع الكميات المعتمدة (بعد ضربها بالنسب) يساوي صفر، لا يمكن إتمام الحسابات.");
+    }
 
-  return {
-    totalSum: totalSum.toFixed(2),
-    valueSum: valueSum,
-    foundPercent: foundPercent.toFixed(2),
-    foundPrice: foundPrice.toFixed(3),
-    checkTotal: (foundPrice * (foundPercent / 100) * valueSum).toFixed(2)
-  };
+    const foundPrice = weightedPriceSum / approvedWeights;
+    const foundPercent = 100; // لأننا نستخدم السعر المرجح بناءً على الكميات المعتمدة مباشرة
+    const checkTotal = foundPrice * approvedValueSum;
+
+    return {
+        totalSum: totalSum.toFixed(2),
+        valueSum: approvedValueSum.toFixed(2),
+        foundPercent: foundPercent.toFixed(2),
+        foundPrice: foundPrice.toFixed(3),
+        checkTotal: checkTotal.toFixed(2)
+    };
 }
 
-// مثال استخدام:
-const values = [-5, 3, 6];
-const percents = [100, 100, 100];
-const prices = [30, 40, 50];
+// 🧪 التجربة
+const result = calculateSuppliesPercentprice(
+  [2, ''],    // الكميات
+  [100, null],    // النسب
+  [37, null]      // الأسعار
+);
 
-const result = calculateUnifiedPercentAndPriceFromArrays(values, percents, prices);
-
-console.log("📊 المجموع النهائي:", result.totalSum);
-console.log("🔢 مجموع القيم:", result.valueSum);
+// ✅ عرض النتائج
+console.log("📦 إجمالي القيمة المعتمدة:", result.totalSum);
+console.log("🧮 مجموع الكميات المعتمدة:", result.valueSum);
 console.log("📈 النسبة الموحدة:", result.foundPercent + "%");
 console.log("💰 السعر الموحد:", result.foundPrice);
-console.log("✅ التحقق من الناتج:", result.checkTotal);
-
-
+console.log("🔁 تحقق من الإجمالي:", result.checkTotal);
 </script>

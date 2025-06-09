@@ -52,7 +52,8 @@
         let k = parseFloat(kmia_.value) || 0;
         let s = parseFloat(sear_.value) || 0;
 
-        tot_.value = (k * s).toFixed(DecimalPoint); // التقريب لرقمين عشريين (اختياري)
+        tot_.value = (k * s); // التقريب لرقمين عشريين (اختياري)
+        
         isTableWatcherEnabled = false;
         await dbNoUpgradSelectedPand.keySet(selectedPandId, 'tot', tot_.value);
         isTableWatcherEnabled = true;

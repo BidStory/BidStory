@@ -208,21 +208,21 @@
 <script>
 
     //لعرض قسم معين
-    async function pricing_section(sectionName)
+    async function pricing_section ( sectionName )
     {
         try
         {
 
-            const sections = ["raw", "equipments", "labor", "transport", "other"];
+            const sections = [ "raw", "equipments", "labor", "transport", "other" ];
 
-            for (const id of sections)
+            for ( const id of sections )
             {
-                const el = document.getElementById(id);
-                if (el)
+                const el = document.getElementById( id );
+                if ( el )
                 {
-                    if (id === sectionName)
+                    if ( id === sectionName )
                     {
-                        await initipricing(sectionName);
+                        await initipricing( sectionName );
                         sectionName = id;
                         selectedSections = sectionName;
                         el.style.display = "block";
@@ -231,9 +231,9 @@
                         try
                         {
                             await pricing_Table.destroyTable();
-                        } catch (error)
+                        } catch ( error )
                         {
-                            console.error("Error destroying table:", error);
+                            console.error( "Error destroying table:", error );
                         }
                         // @ts-ignore
                         pricing_Table = new setTableParameter(
@@ -253,96 +253,96 @@
                 }
             }
 
-        } catch (error)
+        } catch ( error )
         {
-            console.error("Error in pricing_section:", error);
+            console.error( "Error in pricing_section:", error );
         }
     }
 
-    async function calTotSection(dataName, tableId)
+    async function calTotSection ( dataName, tableId )
     {
         try
         {
 
-            if (selectedSections == null)
+            if ( selectedSections == null )
             {
                 return;
             }
 
             isTableWatcherEnabled = false;
-            let dbNoUpgrade_pricing = await new noUpgrade(dataName);
-            const kmia_ = await dbNoUpgrade_pricing.keyGet(tableId, "priceKmia");
-            const sear_ = await dbNoUpgrade_pricing.keyGet(tableId, "priceSear");
-            if (kmia_ === null || sear_ === null)
+            let dbNoUpgrade_pricing = await new noUpgrade( dataName );
+            const kmia_ = await dbNoUpgrade_pricing.keyGet( tableId, "priceKmia" );
+            const sear_ = await dbNoUpgrade_pricing.keyGet( tableId, "priceSear" );
+            if ( kmia_ === null || sear_ === null )
             {
-                if (isValidIdFormat(tableId))
+                if ( isValidIdFormat( tableId ) )
                 {
 
-                    await dbNoUpgrade_pricing.keySet(tableId, "priceTot", "");
-                    console.warn("kmia_ or sear_ is null, cannot calculate total.");
+                    await dbNoUpgrade_pricing.keySet( tableId, "priceTot", "" );
+                    console.warn( "kmia_ or sear_ is null, cannot calculate total." );
                     return;
                 }
             }
 
-            const raw_ = document.getElementById(tableId + "_");
+            const raw_ = document.getElementById( tableId + "_" );
 
-            const tot_ = raw_.querySelector("#priceTot");
+            const tot_ = raw_.querySelector( "#priceTot" );
 
-            let k = parseFloat(kmia_) || 0;
-            let s = parseFloat(sear_) || 0;
+            let k = parseFloat( kmia_ ) || 0;
+            let s = parseFloat( sear_ ) || 0;
 
-            tot_.value = (k * s).toFixed(DecimalPoint);
-            if (isValidIdFormat(tableId))
+            tot_.value = ( k * s );
+            if ( isValidIdFormat( tableId ) )
             {
-                await dbNoUpgrade_pricing.keySet(tableId, "priceTot", tot_.value);
+                await dbNoUpgrade_pricing.keySet( tableId, "priceTot", tot_.value );
             }
             await totalPricingItem();
             isTableWatcherEnabled = true;
-        } catch (error)
+        } catch ( error )
         {
-            console.error("Error calculating total:", error);
+            console.error( "Error calculating total:", error );
         } finally
         {
             isTableWatcherEnabled = true;
         }
     }
 
-    async function totalPricingItem()
+    async function totalPricingItem ()
     {
         try
         {
             isTableWatcherEnabled = false;
-            const sections = ["raw", "equipments", "labor", "transport", "other"];
+            const sections = [ "raw", "equipments", "labor", "transport", "other" ];
             let totPrice = 0;
 
-            for (const section of sections)
+            for ( const section of sections )
             {
                 const dbName = section + "_" + selectedPandId;
-                let dbNoUpgrade_pricing = await new noUpgrade(dbName);
-                let allRows = await dbNoUpgrade_pricing.getAllDataFromTable("rows");
+                let dbNoUpgrade_pricing = await new noUpgrade( dbName );
+                let allRows = await dbNoUpgrade_pricing.getAllDataFromTable( "rows" );
                 let totSection = 0;
 
-                if (!Array.isArray(allRows))
+                if ( !Array.isArray( allRows ) )
                 {
                     continue;
                 }
 
-                for (const rawId of allRows)
+                for ( const rawId of allRows )
                 {
                     totSection +=
                         parseFloat(
-                            await dbNoUpgrade_pricing.keyGet(rawId.key, "priceTot")
+                            await dbNoUpgrade_pricing.keyGet( rawId.key, "priceTot" )
                         ) || 0;
                 }
 
                 totPrice += totSection;
 
-                const rawTotal = document.getElementById(section + "_total");
-                rawTotal.innerText = totSection.toFixed(DecimalPoint);
-                if (!(await dbNoUpgrade_pricing.isTableExist("total")))
+                const rawTotal = document.getElementById( section + "_total" );
+                rawTotal.innerText = totSection;
+                if ( !( await dbNoUpgrade_pricing.isTableExist( "total" ) ) )
                 {
-                    let dbUpgrade_pricing = await new upgrade(dbName);
-                    await dbUpgrade_pricing.createKeyTable("total");
+                    let dbUpgrade_pricing = await new upgrade( dbName );
+                    await dbUpgrade_pricing.createKeyTable( "total" );
                 }
                 await dbNoUpgrade_pricing.keySet(
                     "total",
@@ -353,157 +353,157 @@
 
             //جلب قاعده البيانات الخاصه باليد العامله
             const dbName_t = "labor" + "_" + selectedPandId;
-            let dbNoUpgrade_pricing_t = await new noUpgrade(dbName_t);
+            let dbNoUpgrade_pricing_t = await new noUpgrade( dbName_t );
             //انشاء جدول الاجمالي في قاعده بيانات اليد العامله
-            if (!(await dbNoUpgrade_pricing_t.isTableExist("total")))
+            if ( !( await dbNoUpgrade_pricing_t.isTableExist( "total" ) ) )
             {
-                let dbUpgrade_pricing_t = await new upgrade(dbName_t);
-                await dbUpgrade_pricing_t.createKeyTable("total");
+                let dbUpgrade_pricing_t = await new upgrade( dbName_t );
+                await dbUpgrade_pricing_t.createKeyTable( "total" );
             }
             //عرض التكلفه الاجماليه
-            const totalPrice = document.getElementById("total_price");
-            totalPrice.innerText = totPrice.toFixed(DecimalPoint);
+            const totalPrice = document.getElementById( "total_price" );
+            totalPrice.innerText = totPrice;
             // حفظ التكلفه الإجماليه في قاعدة البيانات الخاصه باليد العامله
-            await dbNoUpgrade_pricing_t.keySet("total", "total_price", totPrice);
+            await dbNoUpgrade_pricing_t.keySet( "total", "total_price", totPrice );
             isTableWatcherEnabled = true;
-        } catch (error)
+        } catch ( error )
         {
-            console.error("Error calculating total pricing item:", error);
+            console.error( "Error calculating total pricing item:", error );
         } finally
         {
             isTableWatcherEnabled = true;
         }
     }
 
-    async function initipricing(section)
+    async function initipricing ( section )
     {
         try
         {
             const dbName = section + "_" + selectedPandId;
-            let dbNoUpgrade_pricing = await new noUpgrade(dbName);
-            const rawTotal = document.getElementById(section + "_total");
+            let dbNoUpgrade_pricing = await new noUpgrade( dbName );
+            const rawTotal = document.getElementById( section + "_total" );
             rawTotal.innerText =
-                (await dbNoUpgrade_pricing.keyGet("total", section + "_total")) ||
+                ( await dbNoUpgrade_pricing.keyGet( "total", section + "_total" ) ) ||
                 "0.00";
-        } catch (error)
+        } catch ( error )
         {
-            console.error("Error initializing pricing section:", error);
+            console.error( "Error initializing pricing section:", error );
         }
     }
 
-    async function initipricing_t()
+    async function initipricing_t ()
     {
         try
         {
 
             selectedSections = null;
-            const totalPrice = document.getElementById("total_price");
-            const profitMargin = document.getElementById("profit_margin");
-            const taxRate = document.getElementById("tax_rate");
-            const profitMarginLabel = document.getElementById("profit_margin_label");
-            const taxRateLabel = document.getElementById("tax_rate_label");
+            const totalPrice = document.getElementById( "total_price" );
+            const profitMargin = document.getElementById( "profit_margin" );
+            const taxRate = document.getElementById( "tax_rate" );
+            const profitMarginLabel = document.getElementById( "profit_margin_label" );
+            const taxRateLabel = document.getElementById( "tax_rate_label" );
 
             const dbName_t = "labor" + "_" + selectedPandId;
-            let dbNoUpgrade_pricing_t = await new noUpgrade(dbName_t);
+            let dbNoUpgrade_pricing_t = await new noUpgrade( dbName_t );
 
             totalPrice.innerText =
-                (await dbNoUpgrade_pricing_t.keyGet("total", "total_price")) || "0.00";
+                ( await dbNoUpgrade_pricing_t.keyGet( "total", "total_price" ) ) || "0.00";
             profitMargin.value =
-                (await dbNoUpgrade_pricing_t.keyGet("total", "profit_margin")) || "0.00";
+                ( await dbNoUpgrade_pricing_t.keyGet( "total", "profit_margin" ) ) || "0.00";
             taxRate.value =
-                (await dbNoUpgrade_pricing_t.keyGet("total", "tax_rate")) || "0.00";
+                ( await dbNoUpgrade_pricing_t.keyGet( "total", "tax_rate" ) ) || "0.00";
             profitMarginLabel.innerText =
-                (await dbNoUpgrade_pricing_t.keyGet("total", "profitMargin_value")) || "0.00";
+                ( await dbNoUpgrade_pricing_t.keyGet( "total", "profitMargin_value" ) ) || "0.00";
             taxRateLabel.innerText =
-                (await dbNoUpgrade_pricing_t.keyGet("total", "taxRate_value")) || "0.00";
-            const totalCostLabel = document.getElementById("total_cost_label");
+                ( await dbNoUpgrade_pricing_t.keyGet( "total", "taxRate_value" ) ) || "0.00";
+            const totalCostLabel = document.getElementById( "total_cost_label" );
             totalCostLabel.innerText =
-                (await dbNoUpgrade_pricing_t.keyGet("total", "total_cost")) || "0.00";
+                ( await dbNoUpgrade_pricing_t.keyGet( "total", "total_cost" ) ) || "0.00";
             // إضافة مستمعات الأحداث للمدخلات
 
-            document.getElementById("profit_margin").addEventListener("input", handleInputChange);
+            document.getElementById( "profit_margin" ).addEventListener( "input", handleInputChange );
 
-            document.getElementById("tax_rate").addEventListener("input", handleInputChange);
+            document.getElementById( "tax_rate" ).addEventListener( "input", handleInputChange );
 
 
 
-        } catch (error)
+        } catch ( error )
         {
-            console.error("Error initializing total pricing:", error);
+            console.error( "Error initializing total pricing:", error );
         }
     }
 
     initipricing_t();
 
-    async function handleInputChange()
+    async function handleInputChange ()
     {
 
         const dbName_t = "labor" + "_" + selectedPandId;
-        let dbNoUpgrade_pricing_t = await new noUpgrade(dbName_t);
+        let dbNoUpgrade_pricing_t = await new noUpgrade( dbName_t );
         //جلب هامش الربح ونسبه الضرائب من المدخلات
-        const profitMargin = parseFloat(document.getElementById("profit_margin").value) || 0;
-        const taxRate = parseFloat(document.getElementById("tax_rate").value) || 0;
+        const profitMargin = parseFloat( document.getElementById( "profit_margin" ).value ) || 0;
+        const taxRate = parseFloat( document.getElementById( "tax_rate" ).value ) || 0;
         // حفظ هامش الربح ونسبه الضرائب في قاعدة البيانات
-        await dbNoUpgrade_pricing_t.keySet("total", "profit_margin", profitMargin);
-        await dbNoUpgrade_pricing_t.keySet("total", "tax_rate", taxRate);
+        await dbNoUpgrade_pricing_t.keySet( "total", "profit_margin", profitMargin );
+        await dbNoUpgrade_pricing_t.keySet( "total", "tax_rate", taxRate );
         //جلب التكلفه الكليه
-        const totalPrice = document.getElementById("total_price");
+        const totalPrice = document.getElementById( "total_price" );
 
-        let totalPrice_value = parseFloat(totalPrice.innerText) || 0;
+        let totalPrice_value = parseFloat( totalPrice.innerText ) || 0;
         // حساب هامش الربح من التكلفه الكليه
         let profitMargin_value = totalPrice_value * profitMargin / 100;
         // حساب نسبه الضرائب من التكلفه الكليه
         let taxRate_value = totalPrice_value * taxRate / 100;
         // عرض نسبه الضرائب وحفظ قيمتها
-        const taxRateLabel = document.getElementById("tax_rate_label");
-        taxRateLabel.innerText = taxRate_value.toFixed(DecimalPoint);
-        await dbNoUpgrade_pricing_t.keySet("total", "taxRate_value", taxRate_value);
+        const taxRateLabel = document.getElementById( "tax_rate_label" );
+        taxRateLabel.innerText = taxRate_value;
+        await dbNoUpgrade_pricing_t.keySet( "total", "taxRate_value", taxRate_value );
         // عرض هامش الربح وحفظ قيمتها
-        const profitMarginLabel = document.getElementById("profit_margin_label");
-        profitMarginLabel.innerText = profitMargin_value.toFixed(DecimalPoint);
-        await dbNoUpgrade_pricing_t.keySet("total", "profitMargin_value", profitMargin_value);
+        const profitMarginLabel = document.getElementById( "profit_margin_label" );
+        profitMarginLabel.innerText = profitMargin_value;
+        await dbNoUpgrade_pricing_t.keySet( "total", "profitMargin_value", profitMargin_value );
 
         // حساب التكلفه الكليه
-        const totalCost = (totalPrice_value + profitMargin_value + taxRate_value).toFixed(DecimalPoint);
+        const totalCost = ( totalPrice_value + profitMargin_value + taxRate_value );
         // عرض التكلفه الكليه وحفظ قيمتها
-        const totalCostLabel = document.getElementById("total_cost_label");
+        const totalCostLabel = document.getElementById( "total_cost_label" );
         totalCostLabel.innerText = totalCost;
-        await dbNoUpgrade_pricing_t.keySet("total", "total_cost", totalCost);
+        await dbNoUpgrade_pricing_t.keySet( "total", "total_cost", totalCost );
     }
 
 </script>
 
 <script>
 
-    async function togglePieChart()
+    async function togglePieChart ()
     {
-        const canvas = document.getElementById('myPieChart');
-        if (canvas.style.display === 'none')
+        const canvas = document.getElementById( 'myPieChart' );
+        if ( canvas.style.display === 'none' )
         {
             canvas.style.display = 'block';
 
-            const sections = ["raw", "equipments", "labor", "transport", "other"];
+            const sections = [ "raw", "equipments", "labor", "transport", "other" ];
             let values = [];
             let labels = [];
             let dbNoUpgrade_pricing = null;
             let dbName = null;
-            for (const section of sections)
+            for ( const section of sections )
             {
                 dbName = section + "_" + selectedPandId;
-                dbNoUpgrade_pricing = await new noUpgrade(dbName);
-                values.push(parseFloat(await dbNoUpgrade_pricing.keyGet("total", section + "_total")) || 0);
-                labels.push(section);
+                dbNoUpgrade_pricing = await new noUpgrade( dbName );
+                values.push( parseFloat( await dbNoUpgrade_pricing.keyGet( "total", section + "_total" ) ) || 0 );
+                labels.push( section );
             }
 
             dbName = 'labor' + "_" + selectedPandId;
-            dbNoUpgrade_pricing = await new noUpgrade(dbName);
+            dbNoUpgrade_pricing = await new noUpgrade( dbName );
 
-            values.push(parseFloat(await dbNoUpgrade_pricing.keyGet("total", "taxRate_value")) || 0);
-            labels.push(getLang(50).replace('%','')); // "نسبة الضرائب"
-            values.push(parseFloat(await dbNoUpgrade_pricing.keyGet("total", "profitMargin_value")) || 0);
-            labels.push(getLang(49).replace('%',''));
+            values.push( parseFloat( await dbNoUpgrade_pricing.keyGet( "total", "taxRate_value" ) ) || 0 );
+            labels.push( getLang( 50 ).replace( '%', '' ) ); // "نسبة الضرائب"
+            values.push( parseFloat( await dbNoUpgrade_pricing.keyGet( "total", "profitMargin_value" ) ) || 0 );
+            labels.push( getLang( 49 ).replace( '%', '' ) );
 
-            await drawPieChart(values, labels);
+            await drawPieChart( values, labels );
         } else
         {
             canvas.style.display = 'none';
@@ -513,26 +513,26 @@
 
     let myPieChartInstance = null;
 
-    async function drawPieChart(values, labels)
+    async function drawPieChart ( values, labels )
     {
-        if (values.length !== 7 || labels.length !== 7)
+        if ( values.length !== 7 || labels.length !== 7 )
         {
-            console.error("❌ يجب تمرير 7 قيم و7 تسميات.");
+            console.error( "❌ يجب تمرير 7 قيم و7 تسميات." );
             // return;
         }
 
-        const ctx = document.getElementById('myPieChart').getContext('2d');
+        const ctx = document.getElementById( 'myPieChart' ).getContext( '2d' );
 
-        if (myPieChartInstance)
+        if ( myPieChartInstance )
         {
             myPieChartInstance.destroy();
         }
 
-        myPieChartInstance = new Chart(ctx, {
+        myPieChartInstance = new Chart( ctx, {
             type: 'pie',
             data: {
                 labels: labels,
-                datasets: [{
+                datasets: [ {
                     label: 'نسبة التوزيع',
                     data: values,
                     backgroundColor: [
@@ -540,7 +540,7 @@
                         '#4BC0C0', '#9966FF', '#FF9F40', '#00C49F'
                     ],
                     hoverOffset: 10
-                }]
+                } ]
             },
             options: {
                 responsive: true,
@@ -557,15 +557,15 @@
                             weight: 'bold',
                             size: 14
                         },
-                        formatter: function (value, context)
+                        formatter: function ( value, context )
                         {
-                            return context.chart.data.labels[context.dataIndex];
+                            return context.chart.data.labels[ context.dataIndex ];
                         }
                     }
                 }
             },
-            plugins: [ChartDataLabels] // تفعيل الإضافة
-        });
+            plugins: [ ChartDataLabels ] // تفعيل الإضافة
+        } );
     }
 
 </script>

@@ -30,7 +30,8 @@ JSON.parse(
   JSON.stringify(
 
 
-
+getLang( 292 )  -> previous
+getLang( 685 )  -> new
 
 PandBillText
 
@@ -61,15 +62,17 @@ PandBillNote
         <!--TotalSuppliesDiscount--->
                 <!---احمالي للتشوينات-->
         <!---TotalSupplies-->
+
+
                 <!--اجمالي الكمية المنفذة السابقة-->
-        <!--PreviousWorks--->PreviousWorksValue PreviousWorksPercent
+        <!--PreviousWorks--->PreviousWorksValue PreviousWorksPercent PreviousWorksTotalCost
                 <!--اجمالي الكمية المنفذة الحاليه-->
          <!--CurrentWorks--->CurrentWorksValue CurrentWorksPercent CurrentWorksTotalCost
                  <!--اجمالي الكمية المنفذة-->
-         <!--TotalExecutedWorks--->
+         <!--TotalExecutedWorks--->TotalExecutedWorksValue TotalExecutedWorksPercent TotalExecutedWorksTotalCost
                  <!--اجمالي التشوينات المنفذة السابقة-->
-         <!---PreviousSupplies-->
+         <!---PreviousSupplies--> PreviousSuppliesValue PreviousSuppliesPercent PreviousSuppliesPrice PreviousSuppliesTotalCost
                  <!--اجمالي التشوينات المنفذة الحاليه-->
-         <!--CurrentSupplies--->
+         <!--CurrentSupplies---> CurrentSuppliesValue CurrentSuppliesPercent CurrentSuppliesPrice CurrentSuppliesTotalCost
                  <!--اجمالي التشوينات المنفذة-->
-         <!---TotalExecutedSupplies-->
+         <!---TotalExecutedSupplies-->TotalExecutedSuppliesValue TotalExecutedSuppliesPercent TotalExecutedSuppliesPrice TotalExecutedSuppliesTotalCost

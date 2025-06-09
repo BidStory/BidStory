@@ -1,266 +1,267 @@
 ﻿<!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0, user-scalable=no" />
-  <title>BidStory</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0, user-scalable=no" />
+    <title>BidStory</title>
 
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
-  <script src="/BidStory/js/tools.js"></script>
-  <script src="/BidStory/code/lang/imageAndLang.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="/BidStory/js/dataBase/dbManager.js"></script>
-  <script src="/BidStory/js/table/table.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <link rel="stylesheet" href="/BidStory/css/table.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
-  
+    <script src="/BidStory/js/tools.js"></script>
+    <script src="/BidStory/code/lang/imageAndLang.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/BidStory/js/dataBase/dbManager.js"></script>
+    <script src="/BidStory/js/table/table.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="/BidStory/css/table.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f5f5f5;
-    }
 
-    nav {
-      background-color: #004080;
-      color: white;
-      padding: 10px;
-      text-align: center;
-    }
-
-    nav button {
-      background-color: #0073e6;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin: 5px;
-      cursor: pointer;
-      border-radius: 5px;
-      font-size: 16px;
-      transition: background-color 0.3s;
-    }
-
-    nav button:hover {
-      background-color: #005bb5;
-    }
-
-    .section {
-      display: none;
-      padding: 20px;
-      background-color: white;
-      margin: 10px;
-      border-radius: 10px;
-    }
-
-    .active {
-      display: block;
-    }
-
-    .loader {
-      padding: 20px;
-      text-align: center;
-      font-weight: bold;
-      color: #555;
-    }
-  </style>
-</head>
-
-<body>
-  <!-- ✅ شريط التنقل بين الأقسام الرئيسية -->
-  <nav>
-    <button onclick="showSection('allProjects')">
-      <img id="i_allmo" alt="allProjects" style="
-            width: 20px;
-            height: 20px;
-            vertical-align: middle;
-            margin-left: 5px;
-          " />
-      <span id="t_159"></span>
-    </button>
-    <button onclick="showSection('setting')">
-      <img id="i_setting" alt="setting" style="
-            width: 20px;
-            height: 20px;
-            vertical-align: middle;
-            margin-left: 5px;
-          " />
-      <span id="t_62"></span>
-    </button>
-  </nav>
-
-  <!-- ✅ شريط تنقل فرعي يظهر بعد اختيار مشروع -->
-  <nav id="nav2" style="display: none">
-    <button onclick="showSection('definition')">
-      <img id="i_id" alt="definition" style="
-            width: 20px;
-            height: 20px;
-            vertical-align: middle;
-            margin-left: 5px;
-          " />
-      <span id="t_253"></span>
-    </button>
-    <button onclick="showSection('pands')">
-      <img id="i_items" alt="pands" style="
-            width: 20px;
-            height: 20px;
-            vertical-align: middle;
-            margin-left: 5px;
-          " />
-      <span id="t_633"></span>
-    </button>
-  </nav>
-
-  <!-- ✅ الأقسام (تظهر حسب القسم المختار) -->
-  <div id="allProjects" class="section active"></div>
-  <div id="setting" class="section"></div>
-  <div id="definition" class="section"></div>
-  <div id="pands" class="section"></div>
-  <div id="selectedPand" class="section"></div>
-
-  <!-- ✅ JavaScript الخاص بالتهيئة والتحميل -->
-  <script>
-    const loadedPages = {
-      setting: false,
-      definition: false,
-      pands: false,
-      selectedPand: false,
-      allProjects: false,
-    };
-
-    const pageMap = {
-      setting: "pages/setting.html",
-      definition: "pages/projects/definition.html",
-      pands: "pages/projects/pands.html",
-      selectedPand: "pages/selectedPand/selectedPand.html",
-      allProjects: "pages/projects/allProjects.html",
-    };
-
-    let selectedPage = null; //تستخدم في دوال اخري خارج هذة الصفحة لذا يجب عدم تغير الاسم
-    let targetSection = null;
-
-    document.addEventListener("DOMContentLoaded", async () =>
-    {
-      while ((await getLoadLangImageLists()) == false)
-      {
-        await new Promise((resolve) => setTimeout(resolve, 100));
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background-color: #f5f5f5;
       }
 
-      const html = document.documentElement;
-      if (useArabic == true)
-      {
-        html.lang = "ar";
-        html.dir = "rtl";
-      } else
-      {
-        html.lang = "en";
-        html.dir = "ltr";
+      nav {
+        background-color: #004080;
+        color: white;
+        padding: 10px;
+        text-align: center;
       }
 
-      // يمكن تعيين القسم الافتراضي هنا إذا أردت
-      await showSection("allProjects");
-    });
-    //يجب الحفاظ علي اسم الداله كما هو لانها تستخدم من خارج الصفحة
-    async function showSection(sectionId)
-    {
-      await loadSection(sectionId);
-    }
+      nav button {
+        background-color: #0073e6;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s;
+      }
 
-    async function loadSection(sectionId)
-    {
-      try
+      nav button:hover {
+        background-color: #005bb5;
+      }
+
+      .section {
+        display: none;
+        padding: 20px;
+        background-color: white;
+        margin: 10px;
+        border-radius: 10px;
+      }
+
+      .active {
+        display: block;
+      }
+
+      .loader {
+        padding: 20px;
+        text-align: center;
+        font-weight: bold;
+        color: #555;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ✅ شريط التنقل بين الأقسام الرئيسية -->
+    <nav>
+      <button onclick="showSection('allProjects')">
+        <img id="i_allmo" alt="allProjects" style="
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-left: 5px;
+          " />
+        <span id="t_159"></span>
+      </button>
+      <button onclick="showSection('setting')">
+        <img id="i_setting" alt="setting" style="
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-left: 5px;
+          " />
+        <span id="t_62"></span>
+      </button>
+    </nav>
+
+    <!-- ✅ شريط تنقل فرعي يظهر بعد اختيار مشروع -->
+    <nav id="nav2" style="display: none">
+      <button onclick="showSection('definition')">
+        <img id="i_id" alt="definition" style="
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-left: 5px;
+          " />
+        <span id="t_253"></span>
+      </button>
+      <button onclick="showSection('pands')">
+        <img id="i_items" alt="pands" style="
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-left: 5px;
+          " />
+        <span id="t_633"></span>
+      </button>
+    </nav>
+
+    <!-- ✅ الأقسام (تظهر حسب القسم المختار) -->
+    <div id="allProjects" class="section active"></div>
+    <div id="setting" class="section"></div>
+    <div id="definition" class="section"></div>
+    <div id="pands" class="section"></div>
+    <div id="selectedPand" class="section"></div>
+
+    <!-- ✅ JavaScript الخاص بالتهيئة والتحميل -->
+    <script>
+      const loadedPages = {
+        setting: false,
+        definition: false,
+        pands: false,
+        selectedPand: false,
+        allProjects: false,
+      };
+
+      const pageMap = {
+        setting: "pages/setting.html",
+        definition: "pages/projects/definition.html",
+        pands: "pages/projects/pands.html",
+        selectedPand: "pages/selectedPand/selectedPand.html",
+        allProjects: "pages/projects/allProjects.html",
+      };
+
+      let selectedPage = null; //تستخدم في دوال اخري خارج هذة الصفحة لذا يجب عدم تغير الاسم
+      let targetSection = null;
+
+      document.addEventListener( "DOMContentLoaded", async () =>
       {
-        if (selectedPage === sectionId && loadedPages[sectionId]) return;
-
-        selectedPage = sectionId;
-        targetSection = document.getElementById(sectionId);
-
-        document
-          .querySelectorAll(".section")
-          .forEach((section) => section.classList.remove("active"));
-        targetSection.classList.add("active");
-
-        if (!loadedPages[sectionId] && pageMap[sectionId])
+        while ( ( await getLoadLangImageLists() ) == false )
         {
-          targetSection.innerHTML =
-            '<div class="loader">جاري التحميل...</div>';
-          await loadPageContent(sectionId, targetSection);
-          loadedPages[sectionId] = true;
+          await new Promise( ( resolve ) => setTimeout( resolve, 100 ) );
         }
 
-        await handleSectionInit(sectionId);
-        await setTextAndImage();
-      } catch (error)
-      {
-        console.error("خطأ أثناء تحميل القسم:", error);
-        targetSection.innerHTML = "<p>⚠️index فشل تحميل الصفحة.</p>";
-      }
-    }
-
-    async function loadPageContent(sectionId, container)
-    {
-      const url = pageMap[sectionId];
-      const response = await fetch(url);
-      if (!response.ok) throw new Error("الملف غير موجود");
-
-      const html = await response.text();
-      const temp = document.createElement("div");
-      temp.innerHTML = html;
-
-      const scripts = temp.querySelectorAll("script");
-      scripts.forEach((script) => script.remove());
-
-      container.innerHTML = temp.innerHTML;
-
-      // تحميل السكربتات واحداً تلو الآخر
-      for (const script of scripts)
-      {
-        await new Promise((resolve, reject) =>
+        const html = document.documentElement;
+        if ( useArabic == true )
         {
-          const newScript = document.createElement("script");
-          if (script.src)
-          {
-            newScript.src = script.src;
-            newScript.onload = resolve;
-            newScript.onerror = reject;
-          } else
-          {
-            newScript.textContent = script.textContent;
-            resolve();
-          }
-          document.body.appendChild(newScript);
-        });
-      }
-    }
+          html.lang = "ar";
+          html.dir = "rtl";
+        } else
+        {
+          html.lang = "en";
+          html.dir = "ltr";
+        }
 
-    async function handleSectionInit(sectionId)
-    {
-      switch (sectionId)
+        // يمكن تعيين القسم الافتراضي هنا إذا أردت
+        await showSection( "allProjects" );
+      } );
+      //يجب الحفاظ علي اسم الداله كما هو لانها تستخدم من خارج الصفحة
+      async function showSection ( sectionId )
       {
-        case "allProjects":
-          await initAllProjectPage();
-          document.getElementById("nav2").style.display = "none";
-          localStorage.setItem("selectedProject", "");
-          localStorage.setItem("selectedPand", "");
-          break;
-        case "definition":
-          await initDefinitionPage();
-          break;
-        case "pands":
-          await initItemsPage();
-          break;
-        case "selectedPand":
-          await initSelectedPandPage();
-          break;
+        await loadSection( sectionId );
       }
-    }
-  </script>
-</body>
+
+      async function loadSection ( sectionId )
+      {
+        try
+        {
+          if ( selectedPage === sectionId && loadedPages[ sectionId ] ) return;
+
+          selectedPage = sectionId;
+          targetSection = document.getElementById( sectionId );
+
+          document
+            .querySelectorAll( ".section" )
+            .forEach( ( section ) => section.classList.remove( "active" ) );
+          targetSection.classList.add( "active" );
+
+          if ( !loadedPages[ sectionId ] && pageMap[ sectionId ] )
+          {
+            targetSection.innerHTML =
+              '<div class="loader">جاري التحميل...</div>';
+            await loadPageContent( sectionId, targetSection );
+            loadedPages[ sectionId ] = true;
+          }
+
+          await handleSectionInit( sectionId );
+          await setTextAndImage();
+        } catch ( error )
+        {
+          console.error( "خطأ أثناء تحميل القسم:", error );
+          targetSection.innerHTML = "<p>⚠️index فشل تحميل الصفحة.</p>";
+        }
+      }
+
+      async function loadPageContent ( sectionId, container )
+      {
+        const url = pageMap[ sectionId ];
+        const response = await fetch( url );
+        if ( !response.ok ) throw new Error( "الملف غير موجود" );
+
+        const html = await response.text();
+        const temp = document.createElement( "div" );
+        temp.innerHTML = html;
+
+        const scripts = temp.querySelectorAll( "script" );
+        scripts.forEach( ( script ) => script.remove() );
+
+        container.innerHTML = temp.innerHTML;
+
+        // تحميل السكربتات واحداً تلو الآخر
+        for ( const script of scripts )
+        {
+          await new Promise( ( resolve, reject ) =>
+          {
+            const newScript = document.createElement( "script" );
+            if ( script.src )
+            {
+              newScript.src = script.src;
+              newScript.onload = resolve;
+              newScript.onerror = reject;
+            } else
+            {
+              newScript.textContent = script.textContent;
+              resolve();
+            }
+            document.body.appendChild( newScript );
+          } );
+        }
+      }
+
+      async function handleSectionInit ( sectionId )
+      {
+        switch ( sectionId )
+        {
+          case "allProjects":
+            await initAllProjectPage();
+            document.getElementById( "nav2" ).style.display = "none";
+            localStorage.setItem( "selectedProject", "" );
+            localStorage.setItem( "selectedPand", "" );
+            break;
+          case "definition":
+            await initDefinitionPage();
+            break;
+          case "pands":
+            await initItemsPage();
+            break;
+          case "selectedPand":
+            await initSelectedPandPage();
+            break;
+        }
+      }
+    </script>
+  </body>
 
 </html>
