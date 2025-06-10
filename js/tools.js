@@ -849,6 +849,7 @@ let langSelectList1 = '';
 let langSelectList2 = '';
 async function getSetting ()
 {
+  try{ }catch(err){console.log("error -> ",err);}
   const storedLang = localStorage.getItem( "languageSelect" );
   // التحقق من صحة قيمة اللغة
   savedLang = ( storedLang === "ar" || storedLang === "en" ) ? storedLang : "en";
