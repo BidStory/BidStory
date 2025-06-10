@@ -362,11 +362,11 @@ async function restoreAllInputsFromIndexDB ( target, dbNoUpgrade, tableName )
       } else
       {
         // @ts-ignore
-       if ( input.type === 'number' )
+        if ( input.type === 'number' )
         {
           // @ts-ignore
           value = Number( value ).toFixed( DecimalPoint );
-        } 
+        }
         // @ts-ignore
         input.value = value;
       }
@@ -710,8 +710,12 @@ document.addEventListener( 'tableDataChanged', async ( event ) =>
       {
 
         // @ts-ignore
-        await calSumBillSection( dataName, storeName );
+        await calSumBillSection( storeName );
 
+      }
+      if ( dataName.includes( "_n_" ) )
+      {
+        await PandBillTable.calSumNumericSection(  storeName );
       }
       if ( dataName.includes( "raw_" ) || dataName.includes( "equipments_" ) || dataName.includes( "labor_" ) || dataName.includes( "transport_" ) || dataName.includes( "other_" ) )
       {

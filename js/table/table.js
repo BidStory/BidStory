@@ -7,9 +7,11 @@
  * @param {boolean} isShowHead - تحديد ما إذا كان سيتم عرض رأس الجدول أم لا.
  * @param {boolean} isAddAltDiv - تحديد ما إذا كان سيتم تضمين العنصر عند الضغط علي صف.
  * @param {boolean} isStartWithNew - هل تبدء بصف جديد دائما
- *   @param {boolean} isStartWithNew - هل تبدء بصف جديد دائما
+ * @param {boolean} isStartWithNew - هل تبدء بصف جديد دائما
  * @param {boolean} haveNumbringColumn - هل يحتوي الجدول على عمود ترقيم
+ * @param {boolean} haveTableForNumericElements - هل يحتوي علي جدول لكل حقل ادخال خاص بالارقام
  */
+
 
 function setTableParameter (
   tableContaner,
@@ -19,7 +21,8 @@ function setTableParameter (
   isShowHead,
   isAddAltDiv,
   isStartWithNew,
-  haveNumbringColumn
+  haveNumbringColumn,
+  haveTableForNumericElements = false
 )
 {
 
@@ -154,12 +157,64 @@ function setTableParameter (
 
     await stopWatchingAllInputsAndButtons();
     await startWatchingAllInputsAndButtons( row.id );
+
+    /**
+  * عند الضغط المزدوج على أي عنصر داخل خلية الصف، يتم عرض:
+  * - ID الخاص بالصف
+  * - ID الخاص بالعنصر الذي تم النقر عليه
+  */
+    const handleDoubleClickOnCell = async ( rowId ) =>
+    {
+      const container = document.getElementById( rowId );
+      if ( !container ) return;
+
+      // البحث عن جميع العناصر داخل الخلية
+      const allElements = container.querySelectorAll( "*" );
+
+      allElements.forEach( ( element ) =>
+      {
+        // تجاهل العناصر التي لا تحتوي على ID أو ليست من نوع 'number'
+        if ( !element.id ) return;
+
+        // التحقق من نوع العنصر من خلال tagName و type
+        if (
+          element.tagName === "INPUT" &&
+          // @ts-ignore
+          element.type &&
+          // @ts-ignore
+          element.type.toLowerCase() === "number"
+        )
+        {
+          // تأكد من إزالة المستمع القديم لتجنب التكرار
+          // @ts-ignore
+          element.removeEventListener( "dblclick", element._dblclickHandler );
+
+          // إنشاء مستمع جديد وتخزينه مؤقتًا في الخاصية المخصصة
+          // @ts-ignore
+          element._dblclickHandler = ( event ) =>
+          {
+            if ( haveTableForNumericElements )
+            {
+              sheetDialog( tableId, element, rowId );
+              event.stopPropagation(); // لتجنب تكرار الحدث
+            }
+          };
+
+          // @ts-ignore
+          element.addEventListener( "dblclick", element._dblclickHandler );
+        }
+      } );
+    };
+
+
+    await handleDoubleClickOnCell( row.id );
+
     if ( haveNumbringColumn )
     {
       await doublClickNumbring( row.id );
     }
   };
-
+  let elementNumericSelected = null;
   const doublClickNumbring = async ( rowId ) =>
   {
     const numberingElements = document.querySelectorAll( '[id="numbering"]' );
@@ -173,7 +228,293 @@ function setTableParameter (
       } );
     } );
   };
+  let stopSheetDialog = false;
 
+  // @ts-ignore
+  // @ts-ignore
+  // @ts-ignore
+  const sheetDialog = async ( dataBase, element_, row_Id ) =>
+  {
+    if ( stopSheetDialog ) return;
+
+    stopSheetDialog = true;
+
+    try
+    {
+      elementNumericSelected = element_;
+      element_.style.backgroundColor = "red";//جعل الخلفية بالون الاحمر
+      await delay( 600 );
+      // إرجاع التكبير إلى الحجم الطبيعي بطريقة متوافقة مع جميع المتصفحات
+      resetPageZoom();
+      // @ts-ignore
+      Swal.fire( {
+        html: `
+       
+<!--- حاوية الجدول --->
+<div id="numberContaner" style="max-width:100%;overflow-x: scroll;"></div>
+
+<!-- قالب الصفوف المخفية المستخدمة لنسخ صفوف الجدول -->
+<div id="numberRaw" style="display: none;">
+    <table>
+        <thead class="hide-text">
+            <tr>
+                <!-- عناوين الأعمدة (سيتم تعبئتها ديناميكياً) -->
+               
+                <th id="t_413"></th>
+                <th id="t_112"></th>
+                <th id="t_113"></th>
+                <th id="t_114"></th>
+                <th id="t_115"></th>
+                <th id="t_116"></th>
+                <th id="t_907"></th>
+                <th id="t_93"></th>
+                <th id="t_104"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <!-- كل عمود يحتوي على input أو select حسب نوع البيانات -->
+               
+                <td>
+                    <input id="PandBillText" type="text" placeholder=""
+                        style="border: none; background-color: transparent; color: black" />
+                </td>
+                <td>
+                    <input id="PandBillNo" type="number" placeholder=""
+                        style="border: none; background-color: transparent; color: black" />
+                </td>
+                <td>
+                    <input id="PandBillLength" type="number" placeholder=""
+                        style="border: none; background-color: transparent; color: black" />
+                </td>
+                <td>
+                    <input id="PandBillWidth" type="number" placeholder=""
+                        style="border: none; background-color: transparent; color: black" />
+                </td>
+                <td>
+                    <input id="PandBillHight" type="number" placeholder=""
+                        style="border: none; background-color: transparent; color: black" />
+                </td>
+                <td>
+                    <input id="PandBillKg" type="number" placeholder=""
+                        style="border: none; background-color: transparent; color: black" />
+                </td>
+                <td>
+                    <select id="PandBillKindSum">
+                        <option id="t_401" value="0"></option>
+                        <option id="t_118" value="1"></option>
+                    </select>
+                </td>
+                <td>
+                    <input id="PandBillSum" readonly type="number" placeholder=""
+                        style="outline: none; border: none; background-color: transparent; color: black;" />
+                </td>
+                <td>
+                    <input id="PandBillNote" type="text" placeholder=""
+                        style="outline: none; border: none; background-color: transparent; color: black;" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+</div>
+<br><br>
+<label id="t_302" style="color: red;"></label>
+<br>
+<label id="TotalNumersWorks" style="color: red;"></label> 
+      `,
+        customClass: {
+          popup: "swal2-centered-popup",
+        },
+        showConfirmButton: true,
+        // @ts-ignore
+        confirmButtonText: getLang( '34' ),
+
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        backdrop: true, // خلفية سوداء خفيفة
+        position: "center", // وسط الشاشة بالضبط
+        didOpen: async () =>
+        {
+          // إنشاء كائن جديد للجدول مع المعاملات المطلوبة
+          // @ts-ignore
+          // @ts-ignore
+          // @ts-ignore
+          let numericBillTable = new setTableParameter(
+            "numberContaner", // حاوية الجدول
+            row_Id + '_n_' + element_.id, // اسم قاعدة البيانات
+            "numberRaw", // قالب الصفوف
+            "", // صف بديل (غير مستخدم حالياً)
+            true, // إظهار العنوان
+            false, // عدم إضافة صف بالنقر
+            true, // بدء بصف جديد
+            true // ترقيم الصفوف
+          );
+          // @ts-ignore
+          dbNoUp_Numeric = await new noUpgrade( row_Id + '_n_' + element_.id );
+
+
+
+
+          // @ts-ignore
+          await setTextAndImage();
+        },
+      } ).then( ( result ) =>
+      {
+        if ( result.isConfirmed )
+        {
+          console.log( "✅ وافق المستخدم" );
+          element_.style.backgroundColor = "transparent";//جعل الخلفية بالون الاحمر
+          elementNumericSelected = null;
+        }
+      } );
+
+
+    } catch ( error )
+    {
+      console.log( '🛑 خطأ في sheetDialog:', error );
+    } finally
+    {
+      stopSheetDialog = false;
+    }
+  };
+
+  //#region خاص بجسابات الجداول الفرعية الخاصة بعناصر الارقام
+  let dbNoUp_Numeric = null;
+  const sumList = [
+    "PandBillNo",
+    "PandBillLength",
+    "PandBillWidth",
+    "PandBillHight",
+    "PandBillKg"
+  ];
+  const calSumNumericSection = async ( tableId ) =>
+  {
+    try
+    {
+      isTableWatcherEnabled = false;
+      // التحقق من صحة معرف الصف
+      if ( isValidIdFormat( tableId ) )
+      {
+        let value = [];
+        let valueCheck = [];
+        let key = null;
+        // جلب القيم من قاعدة البيانات
+        // @ts-ignore
+        for ( let i = 0; i < sumList.length; i++ )
+        {
+          // @ts-ignore
+          key = sumList[ i ];
+          // @ts-ignore
+          const valueــ = await dbNoUp_Numeric.keyGet( tableId, key );
+          valueCheck.push( valueــ );
+        }
+        let product = 1;
+        // إذا لم توجد أي قيمة رقمية، الناتج صفر
+        // @ts-ignore
+        if ( !hasNumericValue( valueCheck ) )
+        {
+          product = 0;
+        }
+        else
+        {
+          // تعويض القيم الفارغة بـ 1
+          // @ts-ignore
+          for ( let i = 0; i < sumList.length; i++ )
+          {
+            let val = valueCheck[ i ];
+            if ( val == null || val === "" )
+            {
+              val = 1;
+            }
+            value[ i ] = val;
+          }
+          // حساب حاصل الضرب
+          for ( let i = 0; i < value.length; i++ )
+          {
+            product *= Number( value[ i ] );
+          }
+          // إذا كان نوع التجميع خصم، اضرب في -1
+          // @ts-ignore
+          if ( await dbNoUp_Numeric.keyGet( tableId, 'PandBillKindSum' ) == '1' )
+          {
+            product *= -1;
+          }
+        }
+
+        // تحديث قيمة المجموع في قاعدة البيانات والعنصر
+        // @ts-ignore
+        await dbNoUp_Numeric.keySet( tableId, "PandBillSum", product );
+        const raw_ = document.getElementById( tableId + "_" );
+        // @ts-ignore
+        const tot_ = raw_.querySelector( "#PandBillSum" );
+        // @ts-ignore
+        tot_.value = product;
+        // تحديث المجاميع الكلية
+        // @ts-ignore
+        await calSumNumeric( dbNoUp_Numeric );
+      }
+
+      isTableWatcherEnabled = true;
+    } catch ( error )
+    {
+      // طباعة الخطأ في وحدة التحكم
+      console.error( "Error calculating calSumNumericSection:", error );
+    } finally
+    {
+      isTableWatcherEnabled = true;
+    }
+  };
+  const calSumNumeric = async ( dbNoUp_PandBill ) =>
+  {
+    try
+    {
+      let allRows = await dbNoUp_PandBill.getAllDataFromTable( "rows" );
+      if ( !Array.isArray( allRows ) )
+      {
+        return;
+      }
+
+      let sumCurrentWorksValue = [];
+
+      for ( const rawId of allRows )
+      {
+        const val = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillSum" );
+
+        // تأكد من أن القيمة رقمية
+        const numericVal = parseFloat( val );
+        if ( !isNaN( numericVal ) )
+        {
+          sumCurrentWorksValue.push( numericVal );
+        }
+      }
+
+      // جمع القيم الرقمية
+      let sumTotalWorksAddationAndSubtract = sumCurrentWorksValue.reduce(
+        ( acc, val ) => acc + val,
+        0
+      );
+
+      // عرض الناتج في العنصر
+      const TotalWorks = document.getElementById( "TotalNumersWorks" );
+      if ( TotalWorks )
+      {
+        TotalWorks.innerText = sumTotalWorksAddationAndSubtract.toLocaleString(); // تنسيق الرقم
+        // @ts-ignore
+        elementNumericSelected.value = Number( sumTotalWorksAddationAndSubtract );
+        //#region إطلاق حدث التغيير يدويًا لكي يتم الحفظ
+        const inputEvent = new Event( 'input', { bubbles: true } );
+        //احداث قيم الاعمال
+        elementNumericSelected.dispatchEvent( inputEvent );
+      }
+
+    } catch ( error )
+    {
+      console.error( "❌ خطأ أثناء حساب المجموع:", error );
+    }
+  };
+
+  //#endregion
 
   const numberingDialog = async () =>
   {
@@ -647,6 +988,9 @@ function setTableParameter (
   // @ts-ignore
   // @ts-ignore
   // @ts-ignore
+  // @ts-ignore
+  // @ts-ignore
+  // @ts-ignore
   const newRawListener = async ( params ) =>
   {
     await tableRawListener();
@@ -803,6 +1147,9 @@ function setTableParameter (
       }
 
       // باقي الحقول: نراقب قيمها ونحدثها في القاعدة
+      // @ts-ignore
+      // @ts-ignore
+      // @ts-ignore
       // @ts-ignore
       const inputListener = ( event ) =>
       {
@@ -1088,6 +1435,9 @@ function setTableParameter (
               // @ts-ignore
               let noAfterRenumber = reNumber( numbeList ); // تأكد أن reNumber تعيد مصفوفة مرقمة حسب ترتيب re
               // @ts-ignore
+              // @ts-ignore
+              // @ts-ignore
+              // @ts-ignore
               let index_ = null;
               // تعيين القيم الجديدة
               parentId.forEach( ( elId, index ) =>
@@ -1304,6 +1654,7 @@ function setTableParameter (
   {
     return isTableRun;
   };
+
   // @ts-ignore
   const showCustomButtonsDialog = async () =>
   {
@@ -1499,6 +1850,9 @@ function setTableParameter (
   // @ts-ignore
   // @ts-ignore
   // @ts-ignore
+  // @ts-ignore
+  // @ts-ignore
+  // @ts-ignore
   const Delay = async ( ms ) =>
   {
     return new Promise( ( resolve ) => setTimeout( resolve, ms ) );
@@ -1609,6 +1963,7 @@ function setTableParameter (
     getInput,
     getAllRowsData,
     getAllRowsDataOnly,
+    calSumNumericSection,
     // التحكم في العرض
     hideTableHeadInsideElement,
     destroyTable,
