@@ -392,7 +392,7 @@ function setTableParameter (
   {
     try
     {
-      isTableWatcherEnabled = false;
+      //isTableWatcherEnabled = false;
       // التحقق من صحة معرف الصف
       if ( isValidIdFormat( tableId ) )
       {
@@ -455,14 +455,14 @@ function setTableParameter (
         await calSumNumeric( dbNoUp_Numeric );
       }
 
-      isTableWatcherEnabled = true;
+      //isTableWatcherEnabled = true;
     } catch ( error )
     {
       // طباعة الخطأ في وحدة التحكم
       console.error( "Error calculating calSumNumericSection:", error );
     } finally
     {
-      isTableWatcherEnabled = true;
+      //isTableWatcherEnabled = true;
     }
   };
   const calSumNumeric = async ( dbNoUp_PandBill ) =>

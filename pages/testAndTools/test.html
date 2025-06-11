@@ -10,79 +10,57 @@ function isNumeric(value)
   return !isNaN(str) && !isNaN(parseFloat(str));
 }
 
-function calculateSuppliesPercentprice(values, percents, prices) {
-    if (values.length !== percents.length || values.length !== prices.length) {
-        throw new Error("❌ جميع المصفوفات يجب أن تكون بطول متساوٍ.");
-    }
+/**
+ * دالة لحساب القيمة الكلية والنسبة الكلية من مصفوفتين
+ * @param {Array} values مصفوفة القيم
+ * @param {Array} percentages مصفوفة النسب (0-100)
+ * @param {number} referenceTotalValue (اختياري) قيمة مرجعية لإعادة احتساب النسبة
+ * @returns {object} كائن يحتوي على القيمة الكلية والنسبة الكلية
+ */
+function calculateTotalValueAndPercent(values, percentages, referenceTotalValue = 0) {
+    try {
+        let sumUsedValues = 0;
+        let weightedSum = 0;
 
-    const cleanValues = [];
-    const cleanPercents = [];
-    const cleanPrices = [];
+        for (let i = 0; i < values.length; i++) {
+            const val = Number(values[i]);
+            const pct = Number(percentages[i]) / 100;
 
-    for (let i = 0; i < values.length; i++) {
-        const value = values[i];
-        const percent = percents[i];
-        const price = prices[i];
+            if (isNaN(val) || isNaN(pct)) continue;
 
-        if (isNumeric(value) && isNumeric(percent) && isNumeric(price)) {
-            cleanValues.push(Number(value));
-            cleanPercents.push(Number(percent));
-            cleanPrices.push(Number(price));
+            sumUsedValues += val;
+            weightedSum += val * pct;
         }
+
+        let overallPercent = sumUsedValues !== 0
+            ? (weightedSum / sumUsedValues) * 100
+            : 0;
+
+        if (referenceTotalValue !== 0) {
+            const finalValue = sumUsedValues * (overallPercent / 100);
+            overallPercent = (finalValue / referenceTotalValue) * 100;
+            sumUsedValues = referenceTotalValue;
+        }
+
+        return {
+            totalValue: Number(sumUsedValues.toFixed(2)),
+            overallPercent: Number(overallPercent.toFixed(2))
+        };
+    } catch (error) {
+        console.log('❌ خطأ في calculateTotalValueAndPercent:', error);
+        return {
+            totalValue: 0,
+            overallPercent: 0
+        };
     }
-
-    values = cleanValues;
-    percents = cleanPercents;
-    prices = cleanPrices;
-
-    let totalSum = 0;
-    let approvedValueSum = 0;
-    let weightedPriceSum = 0;
-    let approvedWeights = 0;
-    let originalValueSum = 0;
-
-    for (let i = 0; i < values.length; i++) {
-        const value = values[i];
-        const percent = percents[i];
-        const price = prices[i];
-
-        const approvedValue = value * (percent / 100);
-
-        totalSum += approvedValue * price;
-        approvedValueSum += approvedValue;
-        weightedPriceSum += price * approvedValue;
-        approvedWeights += approvedValue;
-
-        // ✅ نأخذ القيمة المطلقة حتى لا يؤثر الخصم على النسبة الكلية
-        originalValueSum += Math.abs(value);
-    }
-
-    if (approvedValueSum === 0) {
-        console.log("⚠️ مجموع الكميات المعتمدة (بعد ضربها بالنسب) يساوي صفر، لا يمكن إتمام الحسابات.");
-    }
-
-    const foundPrice = weightedPriceSum / approvedWeights;
-
-    const foundPercent = (originalValueSum === 0) ? 0 : (approvedValueSum / originalValueSum) * 100;
-
-    const checkTotal = foundPrice * approvedValueSum;
-
-    return {
-        totalSum: Number(totalSum),
-        valueSum: Number(approvedValueSum),
-        foundPercent: Number(foundPercent),
-        foundPrice: Number(foundPrice),
-        checkTotal: Number(checkTotal)
-    };
 }
 
-const result = calculateSuppliesPercentprice(
-    [1, -1],     // الكميات
-    [100, 50],        // النسب المعتمدة
-    [20, 10]         // الأسعار
-);
+const values = [100, 200, -50];
+const percentages = [50, 25, 10];
 
-console.log(result);
+console.log(calculateTotalValueAndPercent(values, percentages,100));
+
+
 
 
 </script>
