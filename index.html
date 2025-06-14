@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/BidStory/css/table.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@12.4.1/lib/browser/math.js"></script>
 
 
 
@@ -94,6 +95,15 @@
           " />
         <span id="t_62"></span>
       </button>
+      <button onclick="showSection('tools')">
+        <img id="i_tools" alt="tools" style="
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-left: 5px;
+          " />
+        <span id="t_1270"></span>
+      </button>
     </nav>
 
     <!-- ✅ شريط تنقل فرعي يظهر بعد اختيار مشروع -->
@@ -121,6 +131,7 @@
     <!-- ✅ الأقسام (تظهر حسب القسم المختار) -->
     <div id="allProjects" class="section active"></div>
     <div id="setting" class="section"></div>
+    <div id="tools" class="section"></div>
     <div id="definition" class="section"></div>
     <div id="pands" class="section"></div>
     <div id="selectedPand" class="section"></div>
@@ -129,6 +140,7 @@
     <script>
       const loadedPages = {
         setting: false,
+        tools: false,
         definition: false,
         pands: false,
         selectedPand: false,
@@ -137,6 +149,7 @@
 
       const pageMap = {
         setting: "pages/setting.html",
+        tools: "pages/tools.html",
         definition: "pages/projects/definition.html",
         pands: "pages/projects/pands.html",
         selectedPand: "pages/selectedPand/selectedPand.html",

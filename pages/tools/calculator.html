@@ -1,0 +1,97 @@
+<h3>ادخل المعادلة الحسابية:</h3>
+<input type="text" id="inputField" placeholder="مثال: 5 + 3 * 2" style="width: 300px;">
+<button onclick="calculate()">🧮 احسب</button>
+
+<h4>النتيجة:</h4>
+<label id="resultLabel">—</label>
+
+<h4>تاريخ العمليات:</h4>
+<div id="historyContainer"
+    style="border: 1px solid #ccc; padding: 10px; width: 320px; max-height: 200px; overflow-y: auto; background: #f9f9f9;">
+</div>
+<br>
+<button onclick="clearHistory()">🗑️ مسح التاريخ</button>
+
+
+<script>
+    const inputField = document.getElementById( "inputField" );
+    const resultLabel = document.getElementById( "resultLabel" );
+    const historyContainer = document.getElementById( "historyContainer" );
+
+    // تحميل السجل من localStorage عند بدء الصفحة
+
+    async function loadHistory ()
+    {
+        const savedHistory = JSON.parse( localStorage.getItem( "calc_history" ) || "[]" );
+        savedHistory.forEach( addToHistory );
+    }
+
+
+    function calculate ()
+    {
+        const expression = inputField.value.trim();
+
+        // إعادة الحقل للوضع الطبيعي
+        inputField.style.borderColor = "";
+
+        if ( expression === "" )
+        {
+            resultLabel.textContent = "—";
+            return;
+        }
+
+        try
+        {
+            const result = math.evaluate( expression );
+            resultLabel.textContent = result;
+
+            const newLine = `${ expression } = ${ result }`;
+
+            // جلب السجل الحالي
+            let currentHistory = JSON.parse( localStorage.getItem( "calc_history" ) || "[]" );
+
+            // منع التكرار
+            if ( currentHistory[ currentHistory.length - 1 ] !== newLine )
+            {
+                currentHistory.push( newLine );
+                localStorage.setItem( "calc_history", JSON.stringify( currentHistory ) );
+                addToHistory( newLine );
+            }
+        } catch ( err )
+        {
+            resultLabel.textContent = "⚠️ خطأ في المعادلة";
+            inputField.style.borderColor = "red";
+
+            // استرجاع آخر معادلة صحيحة
+            const lines = JSON.parse( localStorage.getItem( "calc_history" ) || "[]" );
+            if ( lines.length > 0 )
+            {
+                const lastExpr = lines[ lines.length - 1 ].split( "=" )[ 0 ].trim();
+                inputField.value = lastExpr;
+            }
+        }
+    }
+
+    function addToHistory ( text )
+    {
+        const item = document.createElement( "div" );
+        item.textContent = text;
+        item.style.cursor = "pointer";
+        item.style.padding = "5px";
+        item.style.borderBottom = "1px solid #ddd";
+        item.addEventListener( "click", () =>
+        {
+            inputField.value = text.split( "=" )[ 0 ].trim();
+            inputField.style.borderColor = ""; // إزالة اللون الأحمر إن وُجد
+        } );
+        historyContainer.appendChild( item );
+        historyContainer.scrollTop = historyContainer.scrollHeight;
+    }
+
+    function clearHistory ()
+    {
+        localStorage.removeItem( "calc_history" );
+        historyContainer.innerHTML = "";
+        resultLabel.textContent = "—";
+    }
+</script>

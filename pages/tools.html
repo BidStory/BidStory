@@ -1,0 +1,137 @@
+<style>
+    .toolsSection {
+        display: none;
+        padding: 20px;
+        background-color: white;
+        margin: 10px;
+        border-radius: 10px;
+    }
+
+    .toolsActive {
+        display: block;
+    }
+</style>
+
+
+<button onclick="showToolsSection('calculator')">
+    <img id="i_calculator" alt="allProjects" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+    <span id="t_1271"></span>
+</button>
+
+<button onclick="showToolsSection('numbring')">
+    <img id="i_setting" alt="setting" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+    <span id="t_62"></span>
+</button>
+
+
+
+
+<!-- ✅ الأقسام (تظهر حسب القسم المختار) -->
+<div id="calculator" class="toolsSection"></div>
+<div id="numbring" class="toolsSection"></div>
+
+
+<!-- ✅ JavaScript الخاص بالتهيئة والتحميل -->
+<script>
+    const loadedPages00 = {
+
+        calculator: false,
+        numbring: false
+    };
+
+    const pageMap00 = {
+        calculator: "pages/tools/calculator.html",
+        numbring: "pages/tools/numbring.html"
+    };
+
+    let selectedPage00 = null;//تستخدم في دوال اخري خارج هذة الصفحة لذا يجب عدم تغير الاسم
+    let targetSection00 = null;
+
+    //يجب الحفاظ علي اسم الداله كما هو لانها تستخدم من خارج الصفحة
+    async function showToolsSection ( sectionId )
+    {
+        await loadToolsSection( sectionId );
+    }
+
+    async function loadToolsSection ( sectionId )
+    {
+        try
+        {
+            if ( selectedPage00 === sectionId && loadedPages00[ sectionId ] ) return;
+
+            selectedPage00 = sectionId;
+            targetSection00 = document.getElementById( sectionId );
+
+            document.querySelectorAll( ".toolsSection" ).forEach( section =>
+                section.classList.remove( "toolsActive" )
+            );
+            targetSection00.classList.add( "toolsActive" );
+
+            if ( !loadedPages00[ sectionId ] && pageMap00[ sectionId ] )
+            {
+                targetSection00.innerHTML = '<div class="loader">جاري التحميل...</div>';
+                await loadToolsContent( sectionId, targetSection00 );
+                loadedPages00[ sectionId ] = true;
+            }
+
+            await handleToolsSectionInit( sectionId );
+
+
+        } catch ( error )
+        {
+            console.error( "خطأ أثناء تحميل القسم:", error );
+            targetSection00.innerHTML = "<p>⚠️ فشل تحميل الصفحة.</p>";
+        }
+    }
+
+    async function loadToolsContent ( sectionId, container )
+    {
+        const url = pageMap00[ sectionId ];
+        const response = await fetch( url );
+        if ( !response.ok ) throw new Error( "الملف غير موجود" );
+
+        const html = await response.text();
+        const temp = document.createElement( "div" );
+        temp.innerHTML = html;
+
+        const scripts = temp.querySelectorAll( "script" );
+        scripts.forEach( script => script.remove() );
+
+        container.innerHTML = temp.innerHTML;
+
+        // تحميل السكربتات واحداً تلو الآخر
+        for ( const script of scripts )
+        {
+            await new Promise( ( resolve, reject ) =>
+            {
+                const newScript = document.createElement( "script" );
+                if ( script.src )
+                {
+                    newScript.src = script.src;
+                    newScript.onload = resolve;
+                    newScript.onerror = reject;
+                } else
+                {
+                    newScript.textContent = script.textContent;
+                    resolve();
+                }
+                document.body.appendChild( newScript );
+            } );
+        }
+    }
+
+    async function handleToolsSectionInit ( sectionId )
+    {
+        switch ( sectionId )
+        {
+            case 'calculator':
+                await loadHistory();
+                break;
+            case 'numbring':
+                await initSettingPage();
+                break;
+
+        }
+    }
+
+</script>
