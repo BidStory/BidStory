@@ -252,12 +252,12 @@
             <td>
                 <input id="CurrentSuppliesValue" type="number" placeholder=""
                     style=" border: 1px solid black; background-color: transparent; color: black; max-width: 50px; min-width:  50px;" />
-                <input id="CurrentSuppliesPercent" type="number" placeholder=""
-                    style=" border: 1px solid black; background-color: transparent; color: black; max-width: 50px; min-width:  50px;" />
+                <input id="CurrentSuppliesPercent" type="number" readonly placeholder=""
+                    style="outline: none; border: none; background-color: transparent; color: black; max-width: 50px; min-width:  50px;" />
             </td>
             <td>
-                <input id="CurrentSuppliesPrice" type="text" readonly placeholder=""
-                    style="outline: none; border: none; background-color: transparent; color: black; max-width: 50px; min-width:  50px;" />
+                <input id="CurrentSuppliesPrice" type="number" placeholder=""
+                    style=" border: 1px solid black; background-color: transparent; color: black; max-width: 50px; min-width:  50px;" />
             </td>
             <td>
                 <input id="CurrentSuppliesTotalCost" type="text" readonly placeholder=""
@@ -286,184 +286,461 @@
         </tr>
     </table>
 </div>
+
 <script>
-    let worksOverPercent = null;
-    let suppliesOverPercent = null;
-    let stop_changes = false;
 
-    // دالة تنفذ عند تغيير أي من الحقول
+    let worksOverPercent = null;
 
-    async function handleSuppliesValueChange()
-    {
-        if (stop_changes == true) { return; }
-        try
-        {
-            //توقف اعمال التغير
-            stop_changes = true;
-            //توقف اعمال المراقبه
-            isTableWatcherEnabled = false;
-            //جلب الاعمال السابقه
-            let PreviousSuppliesValueSaved = Number(await dbNoUp_PandBill.keyGet('resultsTable', "PreviousSuppliesValue"));
-            let PreviousSuppliesPercentSaved = Number(await dbNoUp_PandBill.keyGet('resultsTable', "PreviousSuppliesPercent"));
-            let PreviousSuppliesPriceSaved = Number(await dbNoUp_PandBill.keyGet('resultsTable', "PreviousSuppliesPrice"));
+    let suppliesOverPercent = null;
 
-            //تنفيذ اعمال التجميع لجلب القيمه النسبيه
-            if (worksOverPercent == null) { await calSumBill0(dbNoUp_PandBill); }
-            //جلب القيمه التي تم تغيرها
-            const CurrentSuppliesValue_ = document.getElementById("CurrentSuppliesValue");
-            const CurrentSuppliesValue = CurrentSuppliesValue_.value;
-            //جلب القيمه الاخري من القيمه النسبيه
-            let per = worksOverPercent / CurrentSuppliesValue;
-            const CurrentWorksPercent = document.getElementById("CurrentWorksPercent");
-            CurrentWorksPercent.value = per;
-            //حفظ القيم التي تم ادخالها والقيمه المحسوبه
-            await dbNoUp_PandBill.keySet('resultsTable', "CurrentWorksValue", CurrentWorksValue);
-            await dbNoUp_PandBill.keySet('resultsTable', "CurrentWorksPercent", per);
-            //جلب عناصر القيم الاجماليه
-            const TotalExecutedWorksValue = document.getElementById('TotalExecutedWorksValue');
-            const TotalExecutedWorksPercent = document.getElementById('TotalExecutedWorksPercent');
-            //حساب القيم الاجماليه
-            const totalResultWorks = calculateTotalValuPercent([CurrentWorksValue, previousWorkValueSaved], [per, previousWorkPercentValueSaved], CurrentWorksValue);
-            TotalExecutedWorksValue.value = totalResultWorks.totalValue;
-            TotalExecutedWorksPercent.value = (totalResultWorks.overallPercent);
+    let stop_changes = false;
 
-            //#region إطلاق حدث التغيير يدويًا لكي يتم الحفظ
-            const inputEvent = new Event('input', { bubbles: true });
-            //احداث قيم الاعمال
-            TotalExecutedWorksValue.dispatchEvent(inputEvent);
-            TotalExecutedWorksPercent.dispatchEvent(inputEvent);
-            CurrentWorksValue_.dispatchEvent(inputEvent);
-            CurrentWorksPercent.dispatchEvent(inputEvent);
+    // دالة تنفذ عند تغيير أي من الحقول
 
-            isTableWatcherEnabled = true;
-            stop_changes = false;
-        }
-        catch (error)
-        { console.log('error -> ', error); }
-        finally
-        {
-            isTableWatcherEnabled = true;
-            stop_changes = false;
-        }
+    async function handleSuppliesValueChange ()
 
-    }
+    {
 
-    async function handleSuppliesPercentChange()
-    {
+        if ( stop_changes == true ) { return; }
 
-    }
+        try
 
-    async function handleWorksValueChange()
-    {
+        {
 
-        if (stop_changes == true) { return; }
-        try
-        {
-            //توقف اعمال التغير
-            stop_changes = true;
-            //توقف اعمال المراقبه
-            isTableWatcherEnabled = false;
-            //جلب الاعمال السابقه
-            let previousWorkValueSaved = Number(await dbNoUp_PandBill.keyGet('resultsTable', "PreviousWorksValue"));
-            let previousWorkPercentValueSaved = Number(await dbNoUp_PandBill.keyGet('resultsTable', "PreviousWorksPercent"));
-            //تنفيذ اعمال التجميع لجلب القيمه النسبيه
-            if (worksOverPercent == null) { await calSumBill0(dbNoUp_PandBill); }
-            //جلب القيمه التي تم تغيرها
-            const CurrentWorksValue_ = document.getElementById("CurrentWorksValue");
-            const CurrentWorksValue = CurrentWorksValue_.value;
-            //جلب القيمه الاخري من القيمه النسبيه
-            let per = worksOverPercent / CurrentWorksValue;
-            const CurrentWorksPercent = document.getElementById("CurrentWorksPercent");
-            CurrentWorksPercent.value = per;
-            //حفظ القيم التي تم ادخالها والقيمه المحسوبه
-            await dbNoUp_PandBill.keySet('resultsTable', "CurrentWorksValue", CurrentWorksValue);
-            await dbNoUp_PandBill.keySet('resultsTable', "CurrentWorksPercent", per);
-            //جلب عناصر القيم الاجماليه
-            const TotalExecutedWorksValue = document.getElementById('TotalExecutedWorksValue');
-            const TotalExecutedWorksPercent = document.getElementById('TotalExecutedWorksPercent');
-            //حساب القيم الاجماليه
-            const totalResultWorks = calculateTotalValuPercent([CurrentWorksValue, previousWorkValueSaved], [per, previousWorkPercentValueSaved], CurrentWorksValue);
-            TotalExecutedWorksValue.value = totalResultWorks.totalValue;
-            TotalExecutedWorksPercent.value = (totalResultWorks.overallPercent);
+            //توقف اعمال التغير
 
-            //#region إطلاق حدث التغيير يدويًا لكي يتم الحفظ
-            const inputEvent = new Event('input', { bubbles: true });
-            //احداث قيم الاعمال
-            TotalExecutedWorksValue.dispatchEvent(inputEvent);
-            TotalExecutedWorksPercent.dispatchEvent(inputEvent);
-            CurrentWorksValue_.dispatchEvent(inputEvent);
-            CurrentWorksPercent.dispatchEvent(inputEvent);
+            stop_changes = true;
 
-            isTableWatcherEnabled = true;
-            stop_changes = false;
-        }
-        catch (error)
-        { console.log('error -> ', error); }
-        finally
-        {
-            isTableWatcherEnabled = true;
-            stop_changes = false;
-        }
+            //توقف اعمال المراقبه
 
-    }
+            isTableWatcherEnabled = false;
 
-    async function handleWorksPercentChange()
-    {
-        if (stop_changes == true) { return; }
-        try
-        {
-            //توقف اعمال التغير
-            stop_changes = true;
-            //توقف اعمال المراقبه
-            isTableWatcherEnabled = false;
-            //جلب الاعمال السابقه
-            let previousWorkValueSaved = Number(await dbNoUp_PandBill.keyGet('resultsTable', "PreviousWorksValue"));
-            let previousWorkPercentValueSaved = Number(await dbNoUp_PandBill.keyGet('resultsTable', "PreviousWorksPercent"));
-            //تنفيذ اعمال التجميع لجلب القيمه النسبيه
-            if (worksOverPercent == null) { await calSumBill0(dbNoUp_PandBill); }
-            //جلب القيمه التي تم تغيرها
-            const CurrentWorksPercent_ = document.getElementById("CurrentWorksPercent");
-            const CurrentWorksPercent = CurrentWorksPercent_.value;
-            //جلب القيمه الاخري من القيمه النسبيه
-            let per = worksOverPercent / CurrentWorksPercent;
-            const CurrentWorksValue_ = document.getElementById("CurrentWorksValue");
-            CurrentWorksValue_.value = per;
-            //حفظ القيم التي تم ادخالها والقيمه المحسوبه
-            await dbNoUp_PandBill.keySet('resultsTable', "CurrentWorksValue", per);
-            await dbNoUp_PandBill.keySet('resultsTable', "CurrentWorksPercent", CurrentWorksPercent);
-            //جلب عناصر القيم الاجماليه
-            const TotalExecutedWorksValue = document.getElementById('TotalExecutedWorksValue');
-            const TotalExecutedWorksPercent = document.getElementById('TotalExecutedWorksPercent');
-            //حساب القيم الاجماليه
-            const totalResultWorks = calculateTotalValuPercent([per, previousWorkValueSaved], [CurrentWorksPercent, previousWorkPercentValueSaved], per);
-            TotalExecutedWorksValue.value = totalResultWorks.totalValue;
-            TotalExecutedWorksPercent.value = (totalResultWorks.overallPercent);
+            //تنفيذ اعمال التجميع لجلب القيمه النسبيه
 
-            //#region إطلاق حدث التغيير يدويًا لكي يتم الحفظ
-            const inputEvent = new Event('input', { bubbles: true });
-            //احداث قيم الاعمال
-            TotalExecutedWorksValue.dispatchEvent(inputEvent);
-            TotalExecutedWorksPercent.dispatchEvent(inputEvent);
-            CurrentWorksValue_.dispatchEvent(inputEvent);
-            CurrentWorksPercent.dispatchEvent(inputEvent);
+            if ( suppliesOverPercent == null ) { await calSumBill0( dbNoUp_PandBill ); }
 
-            isTableWatcherEnabled = true;
-            stop_changes = false;
-        }
-        catch (error)
-        { console.log('error -> ', error); }
-        finally
-        {
-            isTableWatcherEnabled = true;
-            stop_changes = false;
-        }
-    }
+            //جلب الاعمال السابقه
 
-    // ربط الحدثين
-    document.getElementById("CurrentSuppliesValue").addEventListener("input", handleSuppliesValueChange);
-    document.getElementById("CurrentSuppliesPercent").addEventListener("input", handleSuppliesPercentChange);
-    document.getElementById("CurrentWorksValue").addEventListener("input", handleWorksValueChange);
-    document.getElementById("CurrentWorksPercent").addEventListener("input", handleWorksPercentChange);
+            let PreviousSuppliesValue = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesValue" ) );
+
+            let PreviousSuppliesPercent = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesPercent" ) );
+
+            let PreviousSuppliesPrice = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesPrice" ) );
+
+
+
+            //جلب القيمه التي تم تغيرها
+
+            const CurrentSuppliesValue_ = document.getElementById( "CurrentSuppliesValue" );
+
+            const CurrentSuppliesValue = CurrentSuppliesValue_.value;
+
+            //جلب القيمه الاخري من القيمه النسبيه
+
+            let per = suppliesOverPercent / CurrentSuppliesValue;
+
+            const CurrentSuppliesPercent = document.getElementById( "CurrentSuppliesPercent" );
+
+            CurrentSuppliesPercent.value = per;
+
+            const CurrentSuppliesPrice = document.getElementById( "CurrentSuppliesPrice" );
+
+
+
+            //حفظ القيم التي تم ادخالها والقيمه المحسوبه
+
+            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentSuppliesValue", CurrentSuppliesValue );
+
+            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentSuppliesPercent", per );
+
+            //جلب عناصر القيم الاجماليه
+
+            const TotalExecutedSuppliesValue = document.getElementById( 'TotalExecutedSuppliesValue' );
+
+            const TotalExecutedSuppliesPercent = document.getElementById( 'TotalExecutedSuppliesPercent' );
+
+            const TotalExecutedSuppliesPrice = document.getElementById( 'TotalExecutedSuppliesPrice' );
+
+
+
+            //حساب القيم الاجماليه
+
+            const totalResultSuplies = calculateSuppliesPercentprice( [ CurrentSuppliesValue, PreviousSuppliesValue ], [ per, PreviousSuppliesPercent ], [ CurrentSuppliesPrice.value, PreviousSuppliesPrice ] );
+
+
+
+            TotalExecutedSuppliesValue.value =  totalResultSuplies.valueSum ;
+
+            TotalExecutedSuppliesPercent.value = totalResultSuplies.foundPercent ;
+
+            TotalExecutedSuppliesPrice.value =  totalResultSuplies.foundPrice ;
+
+
+
+            // إطلاق حدث التغيير يدويًا لكي يتم الحفظ
+
+            const inputEvent = new Event( 'input', { bubbles: true } );
+
+            //احداث قيم الاعمال
+
+            TotalExecutedSuppliesValue.dispatchEvent( inputEvent );
+
+            TotalExecutedSuppliesPercent.dispatchEvent( inputEvent );
+
+            TotalExecutedSuppliesPrice.dispatchEvent( inputEvent );
+
+
+
+            CurrentSuppliesPercent.dispatchEvent( inputEvent );
+
+            CurrentSuppliesValue_.dispatchEvent( inputEvent );
+
+
+
+
+
+            isTableWatcherEnabled = true;
+
+            stop_changes = false;
+
+        }
+
+        catch ( error )
+
+        { console.log( 'error -> ', error ); }
+
+        finally
+
+        {
+
+            isTableWatcherEnabled = true;
+
+            stop_changes = false;
+
+        }
+
+
+
+    }
+
+    async function handleSuppliesPriceChange ()
+
+    {
+
+        if ( stop_changes == true ) { return; }
+
+        try
+
+        {
+
+            //توقف اعمال التغير
+            stop_changes = true;
+            //توقف اعمال المراقبه
+            isTableWatcherEnabled = false;
+            //تنفيذ اعمال التجميع لجلب القيمه النسبيه
+            if ( suppliesOverPercent == null ) { await calSumBill0( dbNoUp_PandBill ); }
+            //جلب الاعمال السابقه
+            let PreviousSuppliesValue = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesValue" ) );
+            let PreviousSuppliesPercent = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesPercent" ) );
+            let PreviousSuppliesPrice = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesPrice" ) );
+            //جلب القيمه الاخري من القيمه النسبيه
+            const CurrentSuppliesPercent = document.getElementById( "CurrentSuppliesPercent" );
+            //جلب القيمه التي تم تغيرها
+            const CurrentSuppliesValue = document.getElementById( "CurrentSuppliesValue" );
+            let newPrice = suppliesOverPercent / CurrentSuppliesValue.value;
+            const CurrentSuppliesPrice = document.getElementById( "CurrentSuppliesPrice" );
+   CurrentSuppliesPrice.value = newPrice;
+
+            //حفظ القيم التي تم ادخالها والقيمه المحسوبه
+
+            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentSuppliesValue", newPrice );
+
+            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentSuppliesPercent", CurrentSuppliesPercent );
+
+
+
+            //جلب عناصر القيم الاجماليه
+
+            const TotalExecutedSuppliesValue = document.getElementById( 'TotalExecutedSuppliesValue' );
+
+            const TotalExecutedSuppliesPercent = document.getElementById( 'TotalExecutedSuppliesPercent' );
+
+            const TotalExecutedSuppliesPrice = document.getElementById( 'TotalExecutedSuppliesPrice' );
+
+
+
+            //حساب القيم الاجماليه
+
+            const totalResultSuplies = calculateSuppliesPercentprice( [ newPrice, PreviousSuppliesValue ], [ CurrentSuppliesPercent, PreviousSuppliesPercent ], [ CurrentSuppliesPrice.value, PreviousSuppliesPrice ] );
+
+
+
+            TotalExecutedSuppliesValue.value =  totalResultSuplies.valueSum ;
+
+            TotalExecutedSuppliesPercent.value = totalResultSuplies.foundPercent ;
+
+            TotalExecutedSuppliesPrice.value = totalResultSuplies.foundPrice ;
+
+
+
+            // إطلاق حدث التغيير يدويًا لكي يتم الحفظ
+
+            const inputEvent = new Event( 'input', { bubbles: true } );
+
+            //احداث قيم الاعمال
+
+            TotalExecutedSuppliesValue.dispatchEvent( inputEvent );
+
+            TotalExecutedSuppliesPercent.dispatchEvent( inputEvent );
+
+            TotalExecutedSuppliesPrice.dispatchEvent( inputEvent );
+
+
+
+            CurrentSuppliesPercent.dispatchEvent( inputEvent );
+
+            CurrentSuppliesValue.dispatchEvent( inputEvent );
+
+
+
+
+
+            isTableWatcherEnabled = true;
+
+            stop_changes = false;
+
+        }
+
+        catch ( error )
+
+        { console.log( 'error -> ', error ); }
+
+        finally
+
+        {
+
+            isTableWatcherEnabled = true;
+
+            stop_changes = false;
+
+        }
+
+
+
+    }
+
+    async function handleWorksValueChange ()
+
+    {
+
+
+
+        if ( stop_changes == true ) { return; }
+
+        try
+
+        {
+
+            //توقف اعمال التغير
+
+            stop_changes = true;
+
+            //توقف اعمال المراقبه
+
+            isTableWatcherEnabled = false;
+
+            //تنفيذ اعمال التجميع لجلب القيمه النسبيه
+
+            if ( worksOverPercent == null ) { await calSumBill0( dbNoUp_PandBill ); }
+
+            //جلب الاعمال السابقه
+
+            let previousWorkValueSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousWorksValue" ) );
+
+            let previousWorkPercentValueSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousWorksPercent" ) );
+
+
+
+            //جلب القيمه التي تم تغيرها
+
+            const CurrentWorksValue_ = document.getElementById( "CurrentWorksValue" );
+
+            const CurrentWorksValue = CurrentWorksValue_.value;
+
+            //جلب القيمه الاخري من القيمه النسبيه
+
+            let per = worksOverPercent / CurrentWorksValue;
+
+            const CurrentWorksPercent = document.getElementById( "CurrentWorksPercent" );
+
+            CurrentWorksPercent.value = per;
+
+            //حفظ القيم التي تم ادخالها والقيمه المحسوبه
+
+            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentWorksValue", CurrentWorksValue );
+
+            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentWorksPercent", per );
+
+            //جلب عناصر القيم الاجماليه
+
+            const TotalExecutedWorksValue = document.getElementById( 'TotalExecutedWorksValue' );
+
+            const TotalExecutedWorksPercent = document.getElementById( 'TotalExecutedWorksPercent' );
+
+            //حساب القيم الاجماليه
+
+            const totalResultWorks = calculateTotalValuPercent( [ CurrentWorksValue, previousWorkValueSaved ], [ per, previousWorkPercentValueSaved ], CurrentWorksValue );
+
+            TotalExecutedWorksValue.value = totalResultWorks.totalValue;
+
+            TotalExecutedWorksPercent.value = ( totalResultWorks.overallPercent );
+
+
+
+            //#region إطلاق حدث التغيير يدويًا لكي يتم الحفظ
+
+            const inputEvent = new Event( 'input', { bubbles: true } );
+
+            //احداث قيم الاعمال
+
+            TotalExecutedWorksValue.dispatchEvent( inputEvent );
+
+            TotalExecutedWorksPercent.dispatchEvent( inputEvent );
+
+            CurrentWorksValue_.dispatchEvent( inputEvent );
+
+            CurrentWorksPercent.dispatchEvent( inputEvent );
+
+
+
+            isTableWatcherEnabled = true;
+
+            stop_changes = false;
+
+        }
+
+        catch ( error )
+
+        { console.log( 'error -> ', error ); }
+
+        finally
+
+        {
+
+            isTableWatcherEnabled = true;
+
+            stop_changes = false;
+
+        }
+
+
+
+    }
+
+    async function handleWorksPercentChange ()
+
+    {
+
+        if ( stop_changes == true ) { return; }
+
+        try
+
+        {
+
+            //توقف اعمال التغير
+
+            stop_changes = true;
+
+            //توقف اعمال المراقبه
+
+            isTableWatcherEnabled = false;
+
+            //تنفيذ اعمال التجميع لجلب القيمه النسبيه
+
+            if ( worksOverPercent == null ) { await calSumBill0( dbNoUp_PandBill ); }
+
+            //جلب الاعمال السابقه
+
+            let previousWorkValueSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousWorksValue" ) );
+
+            let previousWorkPercentValueSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousWorksPercent" ) );
+
+
+
+            //جلب القيمه التي تم تغيرها
+
+            const CurrentWorksPercent_ = document.getElementById( "CurrentWorksPercent" );
+
+            const CurrentWorksPercent = CurrentWorksPercent_.value;
+
+            //جلب القيمه الاخري من القيمه النسبيه
+
+            let per = worksOverPercent / CurrentWorksPercent;
+
+            const CurrentWorksValue_ = document.getElementById( "CurrentWorksValue" );
+
+            CurrentWorksValue_.value = per;
+
+            //حفظ القيم التي تم ادخالها والقيمه المحسوبه
+
+            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentWorksValue", per );
+
+            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentWorksPercent", CurrentWorksPercent );
+
+            //جلب عناصر القيم الاجماليه
+
+            const TotalExecutedWorksValue = document.getElementById( 'TotalExecutedWorksValue' );
+
+            const TotalExecutedWorksPercent = document.getElementById( 'TotalExecutedWorksPercent' );
+
+            //حساب القيم الاجماليه
+
+            const totalResultWorks = calculateTotalValuPercent( [ per, previousWorkValueSaved ], [ CurrentWorksPercent, previousWorkPercentValueSaved ], per );
+
+            TotalExecutedWorksValue.value = totalResultWorks.totalValue;
+
+            TotalExecutedWorksPercent.value = ( totalResultWorks.overallPercent );
+
+
+
+            //#region إطلاق حدث التغيير يدويًا لكي يتم الحفظ
+
+            const inputEvent = new Event( 'input', { bubbles: true } );
+
+            //احداث قيم الاعمال
+
+            TotalExecutedWorksValue.dispatchEvent( inputEvent );
+
+            TotalExecutedWorksPercent.dispatchEvent( inputEvent );
+
+            CurrentWorksValue_.dispatchEvent( inputEvent );
+
+            CurrentWorksPercent.dispatchEvent( inputEvent );
+
+            isTableWatcherEnabled = true;
+
+            stop_changes = false;
+
+        }
+
+        catch ( error )
+
+        { console.log( 'error -> ', error ); }
+
+        finally
+        {
+            isTableWatcherEnabled = true;
+            stop_changes = false;
+        }
+
+    }
+
+    // ربط الحدثين
+
+    document.getElementById( "CurrentSuppliesValue" ).addEventListener( "input", handleSuppliesValueChange );
+    document.getElementById( "CurrentSuppliesPrice" ).addEventListener( "input", handleSuppliesPriceChange );
+    document.getElementById( "CurrentWorksValue" ).addEventListener( "input", handleWorksValueChange );
+    document.getElementById( "CurrentWorksPercent" ).addEventListener( "input", handleWorksPercentChange );
 
 </script>
 
@@ -474,10 +751,10 @@
     /**
      * دالة لمسح جميع أزرار الدفعات من الواجهة وإعادة تعيين مجموعة المؤشرات
      */
-    function clearAllButtons()
+    function clearAllButtons ()
     {
         // تفريغ الحاوية من الأزرار
-        document.getElementById("buttonsContainer").innerHTML = "";
+        document.getElementById( "buttonsContainer" ).innerHTML = "";
         // إعادة تعيين مجموعة المؤشرات (لمنع تكرار الأزرار)
         buttonShowIndexSet.clear();
     }
@@ -486,7 +763,7 @@
      * دالة إضافة دفعة جديدة عند الضغط على زر "إضافة حصر"
      * تقوم بتهيئة الصفحة ثم إضافة زر جديد للدفعة التالية
      */
-    async function addBill()
+    async function addBill ()
     {
         try
         {
@@ -495,11 +772,11 @@
             // زيادة رقم آخر دفعة
             lastBill += 1;
             // إضافة زر جديد للدفعة التالية
-            await addButton(lastBill);
-        } catch (error)
+            await addButton( lastBill );
+        } catch ( error )
         {
             // طباعة الخطأ في وحدة التحكم
-            console.error("❌ خطأ في addBill:", error);
+            console.error( "❌ خطأ في addBill:", error );
         }
     }
 
@@ -507,22 +784,22 @@
      * دالة حذف الدفعة الحالية عند الضغط على زر الحذف
      * تقوم بحذف قاعدة البيانات الخاصة بالدفعة الأخيرة وتفريغ الحاوية
      */
-    async function deletBill()
+    async function deletBill ()
     {
         try
         {
             // حذف قاعدة بيانات الدفعة الأخيرة
-            await deleteDatabase("bill_" + lastBill + "_" + selectedPandId);
+            await deleteDatabase( "bill_" + lastBill + "_" + selectedPandId );
             // مسح جميع الأزرار
             clearAllButtons();
             // إعادة تهيئة الصفحة
             await initPandBillPage();
             // تفريغ حاوية الجدول
-            document.getElementById("billContaner").innerHTML = "";
-        } catch (error)
+            document.getElementById( "billContaner" ).innerHTML = "";
+        } catch ( error )
         {
             // طباعة الخطأ في وحدة التحكم
-            console.error("❌ خطأ في deletBill:", error);
+            console.error( "❌ خطأ في deletBill:", error );
         }
     }
 
@@ -530,23 +807,23 @@
      * دالة تحميل قواعد البيانات السابقة وإظهار أزرارها
      * تقوم بالبحث عن قواعد البيانات حتى 100 دفعة وتضيف الأزرار المقابلة لها
      */
-    async function initPandBillPage()
+    async function initPandBillPage ()
     {
         try
         {
             lastBill = 0;
             let i = 1;
             // حلقة للبحث عن قواعد البيانات حتى 100 دفعة كحد أقصى
-            while (i <= 1000)
+            while ( i <= 1000 )
             {
                 // اسم قاعدة البيانات
                 const dbName = "bill_" + i + "_" + selectedPandId;
                 // التحقق من وجود قاعدة البيانات
-                const exists = await checkDatabaseExists(dbName);
-                if (exists)
+                const exists = await checkDatabaseExists( dbName );
+                if ( exists )
                 {
                     // إضافة زر للدفعة
-                    await addButton(i);
+                    await addButton( i );
                     // تحديث رقم آخر دفعة
                     lastBill = i;
                     i++;
@@ -556,10 +833,10 @@
                     break;
                 }
             }
-        } catch (error)
+        } catch ( error )
         {
             // طباعة الخطأ في وحدة التحكم
-            console.error("❌ خطأ في initPandBillPage:", error);
+            console.error( "❌ خطأ في initPandBillPage:", error );
         }
     }
 
@@ -567,32 +844,32 @@
      * دالة إنشاء زر جديد يمثل دفعة معينة
      * @param {number} billIndex رقم الدفعة
      */
-    async function addButton(billIndex)
+    async function addButton ( billIndex )
     {
         try
         {
             // التحقق من عدم تكرار الزر
-            if (buttonShowIndexSet.has(billIndex))
+            if ( buttonShowIndexSet.has( billIndex ) )
             {
                 return;
             } else
             {
                 // تسجيل المؤشر في المجموعة
-                buttonShowIndexSet.add(billIndex);
+                buttonShowIndexSet.add( billIndex );
             }
 
             // إنشاء عنصر الزر
-            const button = document.createElement("button");
+            const button = document.createElement( "button" );
             button.id = "BillB_" + billIndex;
             // عند الضغط على الزر يتم تحميل بيانات الدفعة
             button.onclick = async function ()
             {
-                await addPandBillDatabase(billIndex);
+                await addPandBillDatabase( billIndex );
             };
             button.style.margin = "5px";
 
             // إضافة صورة للزر
-            const img = document.createElement("img");
+            const img = document.createElement( "img" );
             img.alt = "Bill";
             img.id = "i_bill";
             img.style.width = "20px";
@@ -600,29 +877,29 @@
             img.style.verticalAlign = "middle";
             img.style.marginLeft = "5px";
 
-            button.appendChild(img);
-            button.appendChild(document.createElement("br"));
+            button.appendChild( img );
+            button.appendChild( document.createElement( "br" ) );
 
             // إضافة نص معرف الزر
-            const span = document.createElement("span");
+            const span = document.createElement( "span" );
             span.id = "t_1065_" + billIndex;
-            button.appendChild(span);
+            button.appendChild( span );
 
             // إضافة الزر إلى الحاوية
-            document.getElementById("buttonsContainer").appendChild(button);
+            document.getElementById( "buttonsContainer" ).appendChild( button );
 
             // تحديث الترجمة والصور
             await setTextAndImage();
 
             // إضافة رقم الدفعة بجانب الزر
-            const spanNum = document.createElement("span");
+            const spanNum = document.createElement( "span" );
             spanNum.innerText = " " + billIndex;
-            button.appendChild(spanNum);
+            button.appendChild( spanNum );
 
-        } catch (error)
+        } catch ( error )
         {
             // طباعة الخطأ في وحدة التحكم
-            console.error("❌ خطأ في addButton:", error);
+            console.error( "❌ خطأ في addButton:", error );
         }
     }
 
@@ -634,14 +911,14 @@
      * يتم التنفيذ عند الضغط على أحد الأزرار الخاصة بدفعة معينة
      * @param {number} dataBaseIndex رقم الدفعة
      */
-    async function addPandBillDatabase(dataBaseIndex)
+    async function addPandBillDatabase ( dataBaseIndex )
     {
         try
         {
             // إعادة تعيين معرف قاعدة البيانات السابقة
             dataBaseIdForPandBillPrevious = null;
             // منع تكرار التنفيذ
-            if (stopAddPandBillDatabase == true) { return; }
+            if ( stopAddPandBillDatabase == true ) { return; }
             stopAddPandBillDatabase = true;
             // تعطيل مراقبة الجدول مؤقتاً
             isTableWatcherEnabled = false;
@@ -652,77 +929,77 @@
             try
             {
                 await PandBillTable.destroyTable();
-            } catch (error)
+            } catch ( error )
             {
                 // تجاهل الخطأ إذا لم يكن هناك جدول موجود مسبقاً
             }
             let newBillAndGreaThan1 = false;
             // إذا كان رقم الدفعة أكبر من 1، تعيين قاعدة البيانات السابقة
-            if (Number(dataBaseIndex) > 1)
+            if ( Number( dataBaseIndex ) > 1 )
             {
-                dataBaseIdForPandBillPrevious = "bill_" + (Number(dataBaseIndex) - 1) + "_" + selectedPandId;
+                dataBaseIdForPandBillPrevious = "bill_" + ( Number( dataBaseIndex ) - 1 ) + "_" + selectedPandId;
                 //تصدير قاعدة البيانات السابقة
-                if (await checkDatabaseExists(dataBaseIdForPandBill) == false)
+                if ( await checkDatabaseExists( dataBaseIdForPandBill ) == false )
                 {
-                    const backup = await exportEntireDatabase(dataBaseIdForPandBillPrevious);
+                    const backup = await exportEntireDatabase( dataBaseIdForPandBillPrevious );
                     backup.database = dataBaseIdForPandBill;
-                    backup.stores.forEach(store =>
+                    backup.stores.forEach( store =>
                     {
-                        store.data.forEach(item =>
+                        store.data.forEach( item =>
                         {
-                            if (item.key === "PandBillStat")
+                            if ( item.key === "PandBillStat" )
                             {
                                 item.value = "1";
                             }
-                        });
-                    });
-                    await importOrUpdateFromJSON(backup);
+                        } );
+                    } );
+                    await importOrUpdateFromJSON( backup );
                     newBillAndGreaThan1 = true;
                 }
             }
             // إنشاء كائن قاعدة بيانات بدون ترقية
-            dbNoUp_PandBill = await new noUpgrade(dataBaseIdForPandBill);
-            if (Number(dataBaseIndex) > 1)
+            dbNoUp_PandBill = await new noUpgrade( dataBaseIdForPandBill );
+            if ( Number( dataBaseIndex ) > 1 )
             {
-                dbNoUp_PandBillPrevious = await new noUpgrade(dataBaseIdForPandBillPrevious);
+                dbNoUp_PandBillPrevious = await new noUpgrade( dataBaseIdForPandBillPrevious );
             }
             // إذا لم يكن جدول النتائج موجوداً، يتم إنشاؤه
-            if (await dbNoUp_PandBill.isTableExist("resultsTable") == false)
+            if ( await dbNoUp_PandBill.isTableExist( "resultsTable" ) == false )
             {
-                let dbUp_PandBill = await new upgrade(dataBaseIdForPandBill);
-                await dbUp_PandBill.createKeyTable("resultsTable");
+                let dbUp_PandBill = await new upgrade( dataBaseIdForPandBill );
+                await dbUp_PandBill.createKeyTable( "resultsTable" );
 
-                dbNoUp_PandBill = await new noUpgrade(dataBaseIdForPandBill);
-                if (Number(dataBaseIndex) > 1)
+                dbNoUp_PandBill = await new noUpgrade( dataBaseIdForPandBill );
+                if ( Number( dataBaseIndex ) > 1 )
                 {
-                    dbNoUp_PandBillPrevious = await new noUpgrade(dataBaseIdForPandBillPrevious);
+                    dbNoUp_PandBillPrevious = await new noUpgrade( dataBaseIdForPandBillPrevious );
                 }
             }
             //#region اضافه الاعمال السابقة
-            if (newBillAndGreaThan1 == true)
+            if ( newBillAndGreaThan1 == true )
             {
-                let TotalExecutedWorksValue = await dbNoUp_PandBill.keyGet('resultsTable', "TotalExecutedWorksValue");
-                let TotalExecutedWorksPercent = await dbNoUp_PandBill.keyGet('resultsTable', "TotalExecutedWorksPercent");
-                let TotalExecutedWorksTotalCost = await dbNoUp_PandBill.keyGet('resultsTable', "TotalExecutedWorksTotalCost");
-                await dbNoUp_PandBill.keySet('resultsTable', "PreviousWorksValue", TotalExecutedWorksValue);
-                await dbNoUp_PandBill.keySet('resultsTable', "PreviousWorksPercent", TotalExecutedWorksPercent);
-                await dbNoUp_PandBill.keySet('resultsTable', "PreviousWorksTotalCost", TotalExecutedWorksTotalCost);
-                await dbNoUp_PandBill.keySet('resultsTable', "CurrentWorksValue", "");
-                await dbNoUp_PandBill.keySet('resultsTable', "CurrentWorksPercent", "");
-                await dbNoUp_PandBill.keySet('resultsTable', "CurrentWorksTotalCost", "");
+                let TotalExecutedWorksValue = await dbNoUp_PandBill.keyGet( 'resultsTable', "TotalExecutedWorksValue" );
+                let TotalExecutedWorksPercent = await dbNoUp_PandBill.keyGet( 'resultsTable', "TotalExecutedWorksPercent" );
+                let TotalExecutedWorksTotalCost = await dbNoUp_PandBill.keyGet( 'resultsTable', "TotalExecutedWorksTotalCost" );
+                await dbNoUp_PandBill.keySet( 'resultsTable', "PreviousWorksValue", TotalExecutedWorksValue );
+                await dbNoUp_PandBill.keySet( 'resultsTable', "PreviousWorksPercent", TotalExecutedWorksPercent );
+                await dbNoUp_PandBill.keySet( 'resultsTable', "PreviousWorksTotalCost", TotalExecutedWorksTotalCost );
+                await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentWorksValue", "" );
+                await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentWorksPercent", "" );
+                await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentWorksTotalCost", "" );
                 //بالنسبة للتشوينات
-                let TotalExecutedSuppliesValue = await dbNoUp_PandBill.keyGet('resultsTable', "TotalExecutedSuppliesValue");
-                let TotalExecutedSuppliesPercent = await dbNoUp_PandBill.keyGet('resultsTable', "TotalExecutedSuppliesPercent");
-                let TotalExecutedSuppliesPrice = await dbNoUp_PandBill.keyGet('resultsTable', "TotalExecutedSuppliesPrice");
-                let TotalExecutedSuppliesTotalCost = await dbNoUp_PandBill.keyGet('resultsTable', "TotalExecutedSuppliesTotalCost");
-                await dbNoUp_PandBill.keySet('resultsTable', "PreviousSuppliesValue", TotalExecutedSuppliesValue);
-                await dbNoUp_PandBill.keySet('resultsTable', "PreviousSuppliesPercent", TotalExecutedSuppliesPercent);
-                await dbNoUp_PandBill.keySet('resultsTable', "PreviousSuppliesPrice", TotalExecutedSuppliesPrice);
-                await dbNoUp_PandBill.keySet('resultsTable', "PreviousSuppliesTotalCost", TotalExecutedSuppliesTotalCost);
-                await dbNoUp_PandBill.keySet('resultsTable', "CurrentSuppliesValue", "");
-                await dbNoUp_PandBill.keySet('resultsTable', "CurrentSuppliesPercent", "");
-                await dbNoUp_PandBill.keySet('resultsTable', "CurrentSuppliesPrice", "");
-                await dbNoUp_PandBill.keySet('resultsTable', "CurrentSuppliesTotalCost", "");
+                let TotalExecutedSuppliesValue = await dbNoUp_PandBill.keyGet( 'resultsTable', "TotalExecutedSuppliesValue" );
+                let TotalExecutedSuppliesPercent = await dbNoUp_PandBill.keyGet( 'resultsTable', "TotalExecutedSuppliesPercent" );
+                let TotalExecutedSuppliesPrice = await dbNoUp_PandBill.keyGet( 'resultsTable', "TotalExecutedSuppliesPrice" );
+                let TotalExecutedSuppliesTotalCost = await dbNoUp_PandBill.keyGet( 'resultsTable', "TotalExecutedSuppliesTotalCost" );
+                await dbNoUp_PandBill.keySet( 'resultsTable', "PreviousSuppliesValue", TotalExecutedSuppliesValue );
+                await dbNoUp_PandBill.keySet( 'resultsTable', "PreviousSuppliesPercent", TotalExecutedSuppliesPercent );
+                await dbNoUp_PandBill.keySet( 'resultsTable', "PreviousSuppliesPrice", TotalExecutedSuppliesPrice );
+                await dbNoUp_PandBill.keySet( 'resultsTable', "PreviousSuppliesTotalCost", TotalExecutedSuppliesTotalCost );
+                await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentSuppliesValue", "" );
+                await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentSuppliesPercent", "" );
+                await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentSuppliesPrice", "" );
+                await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentSuppliesTotalCost", "" );
 
             }
             //#endregion
@@ -743,10 +1020,10 @@
             // تعيين القيم الافتراضية وتحميل القيم المخزنة
             await initialValues();
 
-        } catch (error)
+        } catch ( error )
         {
             // طباعة الخطأ في وحدة التحكم
-            console.error("❌ خطأ في addPandBillDatabase:", error);
+            console.error( "❌ خطأ في addPandBillDatabase:", error );
         } finally
         {
             // إعادة تفعيل التنفيذ ومراقبة الجدول
@@ -760,9 +1037,9 @@
      * @param {Array} array مصفوفة القيم
      * @returns {boolean} هل يوجد قيمة رقمية أم لا
      */
-    function hasNumericValue(array)
+    function hasNumericValue ( array )
     {
-        return array.some(isNumeric);
+        return array.some( isNumeric );
     }
 
     // قائمة الحقول التي تدخل في حساب حاصل الضرب
@@ -781,12 +1058,12 @@
      * @param {string} dataName اسم الحقل (غير مستخدم هنا)
      * @param {string} tableId معرف الصف
      */
-    async function calSumBillSection(dataName, tableId)
+    async function calSumBillSection ( dataName, tableId )
     {
         try
         {
             // منع تكرار التنفيذ
-            if (isCalSumBillSectionRunning)
+            if ( isCalSumBillSectionRunning )
             {
                 return;
             }
@@ -795,70 +1072,70 @@
             isTableWatcherEnabled = false;
 
             // التحقق من صحة معرف الصف
-            if (isValidIdFormat(tableId))
+            if ( isValidIdFormat( tableId ) )
             {
                 let value = [];
                 let valueCheck = [];
                 let key = null;
                 // جلب القيم من قاعدة البيانات
-                for (let i = 0; i < sumList.length; i++)
+                for ( let i = 0; i < sumList.length; i++ )
                 {
-                    key = sumList[i];
-                    const valueــ = await dbNoUp_PandBill.keyGet(tableId, key);
-                    valueCheck.push(valueــ);
+                    key = sumList[ i ];
+                    const valueــ = await dbNoUp_PandBill.keyGet( tableId, key );
+                    valueCheck.push( valueــ );
                 }
                 let product = 1;
                 // إذا لم توجد أي قيمة رقمية، الناتج صفر
-                if (!hasNumericValue(valueCheck))
+                if ( !hasNumericValue( valueCheck ) )
                 {
                     product = 0;
                 }
                 else
                 {
                     // تعويض القيم الفارغة بـ 1
-                    for (let i = 0; i < sumList.length; i++)
+                    for ( let i = 0; i < sumList.length; i++ )
                     {
-                        let val = valueCheck[i];
-                        if (val == null || val === "")
+                        let val = valueCheck[ i ];
+                        if ( val == null || val === "" )
                         {
                             val = 1;
                         }
-                        value[i] = val;
+                        value[ i ] = val;
                     }
                     // حساب حاصل الضرب
-                    for (let i = 0; i < value.length; i++)
+                    for ( let i = 0; i < value.length; i++ )
                     {
-                        product *= Number(value[i]);
+                        product *= Number( value[ i ] );
                     }
                     // إذا كان نوع التجميع خصم، اضرب في -1
-                    if (await dbNoUp_PandBill.keyGet(tableId, 'PandBillKindSum') == '1')
+                    if ( await dbNoUp_PandBill.keyGet( tableId, 'PandBillKindSum' ) == '1' )
                     {
                         product *= -1;
                     }
                 }
                 // تحديد حالة عنصر السعر إذا كان قابل للإدخال أم لا
-                if (await dbNoUp_PandBill.keyGet(tableId, 'PandBillKindWork') == '0')
+                if ( await dbNoUp_PandBill.keyGet( tableId, 'PandBillKindWork' ) == '0' )
                 {
-                    await isPriceEdit(tableId, 0);
+                    await isPriceEdit( tableId, 0 );
                 }
                 else
                 {
-                    await isPriceEdit(tableId, 1);
+                    await isPriceEdit( tableId, 1 );
                 }
                 // تحديث قيمة المجموع في قاعدة البيانات والعنصر
-                await dbNoUp_PandBill.keySet(tableId, "PandBillSum", product);
-                const raw_ = document.getElementById(tableId + "_");
-                const tot_ = raw_.querySelector("#PandBillSum");
+                await dbNoUp_PandBill.keySet( tableId, "PandBillSum", product );
+                const raw_ = document.getElementById( tableId + "_" );
+                const tot_ = raw_.querySelector( "#PandBillSum" );
                 tot_.value = product;
                 // تحديث المجاميع الكلية
-                await calSumBill0(dbNoUp_PandBill);
+                await calSumBill0( dbNoUp_PandBill );
             }
 
             isTableWatcherEnabled = true;
-        } catch (error)
+        } catch ( error )
         {
             // طباعة الخطأ في وحدة التحكم
-            console.error("Error calculating calSumBillSection:", error);
+            console.error( "Error calculating calSumBillSection:", error );
         } finally
         {
             isCalSumBillSectionRunning = false;
@@ -873,13 +1150,13 @@
      * دالة لحساب المجاميع الكلية للأعمال والتشوينات وتحديث النتائج في الصفحة
      * @param {object} dbNoUp_PandBill كائن قاعدة البيانات
      */
-    async function calSumBill0(dbNoUp_PandBill)
+    async function calSumBill0 ( dbNoUp_PandBill )
     {
         try
         {
 
             //#region منع تكرار التنفيذ
-            if (isCalScalSumBill0Running)
+            if ( isCalScalSumBill0Running )
             {
                 return;
             }
@@ -887,8 +1164,8 @@
             //#endregion
 
             //#region جلب جميع الصفوف من قاعدة البيانات
-            let allRows = await dbNoUp_PandBill.getAllDataFromTable("rows");
-            if (!Array.isArray(allRows))
+            let allRows = await dbNoUp_PandBill.getAllDataFromTable( "rows" );
+            if ( !Array.isArray( allRows ) )
             {
                 return;
             }
@@ -908,41 +1185,41 @@
             //#endregion
 
             //#region المرور على كل صف وتجميع القيم حسب النوع والحالة
-            for (const rawId of allRows)
+            for ( const rawId of allRows )
             {
                 // إذا كان نوع العمل "تنفيذي"
-                if (await dbNoUp_PandBill.keyGet(rawId.key, "PandBillKindWork") == "0")
+                if ( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillKindWork" ) == "0" )
                 {
 
-                    sumCurrentWorksValue.push(await dbNoUp_PandBill.keyGet(rawId.key, "PandBillSum"));
-                    sumCurrentWorksPercent.push(await dbNoUp_PandBill.keyGet(rawId.key, "PandBillPercent"));
+                    sumCurrentWorksValue.push( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillSum" ) );
+                    sumCurrentWorksPercent.push( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillPercent" ) );
                     // إذا كان نوع التجميع "إضافة"
-                    if (await dbNoUp_PandBill.keyGet(rawId.key, "PandBillKindSum") == "0")
+                    if ( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillKindSum" ) == "0" )
                     {
-                        sumTotalWorksAddition.push(await dbNoUp_PandBill.keyGet(rawId.key, "PandBillSum"));
+                        sumTotalWorksAddition.push( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillSum" ) );
                     }
                     else
                     {
-                        sumTotalWorksDiscount.push(await dbNoUp_PandBill.keyGet(rawId.key, "PandBillSum"));
+                        sumTotalWorksDiscount.push( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillSum" ) );
                     }
 
                 }
                 // إذا كان نوع العمل "تشوينات"
                 else
                 {
-                    let PandBillSum = await dbNoUp_PandBill.keyGet(rawId.key, "PandBillSum");
-                    sumCurrentSuppliesValue.push(PandBillSum);
-                    sumCurrentSuppliesPercent.push(await dbNoUp_PandBill.keyGet(rawId.key, "PandBillPercent"));
-                    sumCurrentSuppliesPrices.push(await dbNoUp_PandBill.keyGet(rawId.key, "PandBillPrice"));
+                    let PandBillSum = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillSum" );
+                    sumCurrentSuppliesValue.push( PandBillSum );
+                    sumCurrentSuppliesPercent.push( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillPercent" ) );
+                    sumCurrentSuppliesPrices.push( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillPrice" ) );
 
                     // إذا كان نوع التجميع "إضافة"
-                    if (await dbNoUp_PandBill.keyGet(rawId.key, "PandBillKindSum") == "0")
+                    if ( await dbNoUp_PandBill.keyGet( rawId.key, "PandBillKindSum" ) == "0" )
                     {
-                        sumTotalSuppliesAddition.push(PandBillSum);
+                        sumTotalSuppliesAddition.push( PandBillSum );
                     }
                     else
                     {
-                        sumTotalSuppliesDiscount.push(PandBillSum);
+                        sumTotalSuppliesDiscount.push( PandBillSum );
                     }
 
                 }
@@ -951,133 +1228,133 @@
 
             //#region حساب القيم الكلية والنسب الكلية للأعمال والتشوينات
             //مجموع قيم الاعمال سواء اضافة او خصم
-            let sumTotalWorksAddationAndSubtract = sumCurrentWorksValue.reduce((acc, val) => acc + val, 0);
+            let sumTotalWorksAddationAndSubtract = sumCurrentWorksValue.reduce( ( acc, val ) => acc + val, 0 );
             //مجموع قيم التشوينات سواء اضافة او خصم
-            let sumTotalSuppliesAddationAndSubtract = sumCurrentSuppliesValue.reduce((acc, val) => acc + val, 0);
+            let sumTotalSuppliesAddationAndSubtract = sumCurrentSuppliesValue.reduce( ( acc, val ) => acc + val, 0 );
 
             //جلب الاعمال السابقه
-            let previousWorkValueSaved = Number(await dbNoUp_PandBill.keyGet('resultsTable', "PreviousWorksValue"));
-            let previousWorkPercentValueSaved = Number(await dbNoUp_PandBill.keyGet('resultsTable', "PreviousWorksPercent"));
+            let previousWorkValueSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousWorksValue" ) );
+            let previousWorkPercentValueSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousWorksPercent" ) );
             //جلب التشوينات السابقه
-            let previousSuppliesValueSaved = Number(await dbNoUp_PandBill.keyGet('resultsTable', "PreviousSuppliesValue"));
-            let previousSuppliesPercentValueSaved = Number(await dbNoUp_PandBill.keyGet('resultsTable', "PreviousSuppliesPercent"));
-            let previousSuppliesPriceSaved = Number(await dbNoUp_PandBill.keyGet('resultsTable', "PreviousSuppliesPrice"));
+            let previousSuppliesValueSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesValue" ) );
+            let previousSuppliesPercentValueSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesPercent" ) );
+            let previousSuppliesPriceSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesPrice" ) );
 
             //طرح الاعمال السابقة من الحالية
-            sumCurrentWorksValue.push(previousWorkValueSaved * -1);
-            sumCurrentWorksPercent.push(previousWorkPercentValueSaved);
+            sumCurrentWorksValue.push( previousWorkValueSaved * -1 );
+            sumCurrentWorksPercent.push( previousWorkPercentValueSaved );
             //طرح التشوينات السابقة من الحالية
-            sumCurrentSuppliesValue.push(previousSuppliesValueSaved * -1);
-            sumCurrentSuppliesPercent.push(previousSuppliesPercentValueSaved);
-            sumCurrentSuppliesPrices.push(previousSuppliesPriceSaved);
+            sumCurrentSuppliesValue.push( previousSuppliesValueSaved * -1 );
+            sumCurrentSuppliesPercent.push( previousSuppliesPercentValueSaved );
+            sumCurrentSuppliesPrices.push( previousSuppliesPriceSaved );
             //حساب مجموع الاعمال الحالية بعد طرح السابق منها
-            const resultWorks = calculateTotalValuPercent(sumCurrentWorksValue, sumCurrentWorksPercent, sumTotalWorksAddationAndSubtract);
+            const resultWorks = calculateTotalValuPercent( sumCurrentWorksValue, sumCurrentWorksPercent, sumTotalWorksAddationAndSubtract );
             worksOverPercent = resultWorks.totalValue * resultWorks.overallPercent;
             //حساب اجمالي الاعمال السابق بالاضافة الي الحالي
-            const totalResultWorks = calculateTotalValuPercent([resultWorks.totalValue, previousWorkValueSaved], [resultWorks.overallPercent, previousWorkPercentValueSaved], sumTotalWorksAddationAndSubtract);
+            const totalResultWorks = calculateTotalValuPercent( [ resultWorks.totalValue, previousWorkValueSaved ], [ resultWorks.overallPercent, previousWorkPercentValueSaved ], sumTotalWorksAddationAndSubtract );
             //حساب مجموع الاعمال الحالية بعد طرح السابق منها
-            const resultSuplies = calculateSuppliesPercentprice(sumCurrentSuppliesValue, sumCurrentSuppliesPercent, sumCurrentSuppliesPrices);
-            suppliesOverPercent = resultSuplies.valueSum * resultSuplies.foundPercent;
+            const resultSuplies = calculateSuppliesPercentprice( sumCurrentSuppliesValue, sumCurrentSuppliesPercent, sumCurrentSuppliesPrices );
+            suppliesOverPercent = resultSuplies.valueSum * resultSuplies.foundPrice;
             //حساب اجمالي الاعمال السابق بالاضافة الي الحالي
-            const totalResultSuplies = calculateSuppliesPercentprice([resultSuplies.valueSum, previousSuppliesValueSaved], [resultSuplies.foundPercent, previousSuppliesPercentValueSaved], [resultSuplies.foundPrice, previousSuppliesPriceSaved]);
+            const totalResultSuplies = calculateSuppliesPercentprice( [ resultSuplies.valueSum, previousSuppliesValueSaved ], [ resultSuplies.foundPercent, previousSuppliesPercentValueSaved ], [ resultSuplies.foundPrice, previousSuppliesPriceSaved ] );
 
             //#endregion
 
             //#region  جلب عناصر الصفحة التي سيتم وضع النتائج فيها
             //عناصر قيم الاعمال 
-            const TotalWorks = document.getElementById('TotalWorks');
-            const TotalWorksAddition = document.getElementById('TotalWorksAddition');
-            const TotalWorksDiscount = document.getElementById('TotalWorksDiscount');
+            const TotalWorks = document.getElementById( 'TotalWorks' );
+            const TotalWorksAddition = document.getElementById( 'TotalWorksAddition' );
+            const TotalWorksDiscount = document.getElementById( 'TotalWorksDiscount' );
             //عناصر نسب الاعمال الحالية 
-            const CurrentWorksValue = document.getElementById('CurrentWorksValue');
-            const CurrentWorksPercent = document.getElementById('CurrentWorksPercent');
-            const CurrentWorksTotalCost = document.getElementById('CurrentWorksTotalCost');
+            const CurrentWorksValue = document.getElementById( 'CurrentWorksValue' );
+            const CurrentWorksPercent = document.getElementById( 'CurrentWorksPercent' );
+            const CurrentWorksTotalCost = document.getElementById( 'CurrentWorksTotalCost' );
             //عناصر نسب الاعمال الكلية 
-            const TotalExecutedWorksValue = document.getElementById('TotalExecutedWorksValue');
-            const TotalExecutedWorksPercent = document.getElementById('TotalExecutedWorksPercent');
-            const TotalExecutedWorksTotalCost = document.getElementById('TotalExecutedWorksTotalCost');
+            const TotalExecutedWorksValue = document.getElementById( 'TotalExecutedWorksValue' );
+            const TotalExecutedWorksPercent = document.getElementById( 'TotalExecutedWorksPercent' );
+            const TotalExecutedWorksTotalCost = document.getElementById( 'TotalExecutedWorksTotalCost' );
             //عناصر قيم التشوينات 
-            const TotalSupplies = document.getElementById('TotalSupplies');
-            const TotalSuppliesAddition = document.getElementById('TotalSuppliesAddition');
-            const TotalSuppliesDiscount = document.getElementById('TotalSuppliesDiscount');
+            const TotalSupplies = document.getElementById( 'TotalSupplies' );
+            const TotalSuppliesAddition = document.getElementById( 'TotalSuppliesAddition' );
+            const TotalSuppliesDiscount = document.getElementById( 'TotalSuppliesDiscount' );
             //عناصر نسب التشوينات الحالية 
-            const CurrentSuppliesValue = document.getElementById('CurrentSuppliesValue');
-            const CurrentSuppliesPercent = document.getElementById('CurrentSuppliesPercent');
-            const CurrentSuppliesPrice = document.getElementById('CurrentSuppliesPrice');
-            const CurrentSuppliesTotalCost = document.getElementById('CurrentSuppliesTotalCost');
+            const CurrentSuppliesValue = document.getElementById( 'CurrentSuppliesValue' );
+            const CurrentSuppliesPercent = document.getElementById( 'CurrentSuppliesPercent' );
+            const CurrentSuppliesPrice = document.getElementById( 'CurrentSuppliesPrice' );
+            const CurrentSuppliesTotalCost = document.getElementById( 'CurrentSuppliesTotalCost' );
             //عناصر نسب التشوينات الكلية 
-            const TotalExecutedSuppliesValue = document.getElementById('TotalExecutedSuppliesValue');
-            const TotalExecutedSuppliesPercent = document.getElementById('TotalExecutedSuppliesPercent');
-            const TotalExecutedSuppliesPrice = document.getElementById('TotalExecutedSuppliesPrice');
-            const TotalExecutedSuppliesTotalCost = document.getElementById('TotalExecutedSuppliesTotalCost');
+            const TotalExecutedSuppliesValue = document.getElementById( 'TotalExecutedSuppliesValue' );
+            const TotalExecutedSuppliesPercent = document.getElementById( 'TotalExecutedSuppliesPercent' );
+            const TotalExecutedSuppliesPrice = document.getElementById( 'TotalExecutedSuppliesPrice' );
+            const TotalExecutedSuppliesTotalCost = document.getElementById( 'TotalExecutedSuppliesTotalCost' );
 
             //#endregion
 
             //#region وضع القيم في العناصر
 
             CurrentWorksValue.value = resultWorks.totalValue;
-            CurrentWorksPercent.value = (resultWorks.overallPercent);
-            CurrentWorksTotalCost.value = ((resultWorks.overallPercent / 100) * resultWorks.totalValue * Number(pandPrice));
+            CurrentWorksPercent.value = ( resultWorks.overallPercent );
+            CurrentWorksTotalCost.value = ( ( resultWorks.overallPercent / 100 ) * resultWorks.totalValue * Number( pandPrice ) );
             //مجموع الاعمال الحاليه والسابقة
             TotalExecutedWorksValue.value = totalResultWorks.totalValue;
-            TotalExecutedWorksPercent.value = (totalResultWorks.overallPercent);
-            TotalExecutedWorksTotalCost.value = ((totalResultWorks.overallPercent / 100) * totalResultWorks.totalValue * Number(pandPrice));
+            TotalExecutedWorksPercent.value = ( totalResultWorks.overallPercent );
+            TotalExecutedWorksTotalCost.value = ( ( totalResultWorks.overallPercent / 100 ) * totalResultWorks.totalValue * Number( pandPrice ) );
 
             TotalWorks.value = sumTotalWorksAddationAndSubtract;
-            TotalWorksAddition.value = sumTotalWorksAddition.reduce((acc, val) => acc + val, 0);
-            TotalWorksDiscount.value = sumTotalWorksDiscount.reduce((acc, val) => acc + val, 0);
+            TotalWorksAddition.value = sumTotalWorksAddition.reduce( ( acc, val ) => acc + val, 0 );
+            TotalWorksDiscount.value = sumTotalWorksDiscount.reduce( ( acc, val ) => acc + val, 0 );
 
             TotalSupplies.value = sumTotalSuppliesAddationAndSubtract;
-            TotalSuppliesAddition.value = sumTotalSuppliesAddition.reduce((acc, val) => acc + val, 0);
-            TotalSuppliesDiscount.value = sumTotalSuppliesDiscount.reduce((acc, val) => acc + val, 0);
+            TotalSuppliesAddition.value = sumTotalSuppliesAddition.reduce( ( acc, val ) => acc + val, 0 );
+            TotalSuppliesDiscount.value = sumTotalSuppliesDiscount.reduce( ( acc, val ) => acc + val, 0 );
 
-            CurrentSuppliesValue.value = Number(resultSuplies.valueSum);
-            CurrentSuppliesPercent.value = Number(resultSuplies.foundPercent);
-            CurrentSuppliesPrice.value = Number(resultSuplies.foundPrice);
-            CurrentSuppliesTotalCost.value = ((Number(resultSuplies.foundPercent) / 100) * Number(resultSuplies.valueSum) * Number(resultSuplies.foundPrice));
+            CurrentSuppliesValue.value = Number( resultSuplies.valueSum );
+            CurrentSuppliesPercent.value = Number( resultSuplies.foundPercent );
+            CurrentSuppliesPrice.value = Number( resultSuplies.foundPrice );
+            CurrentSuppliesTotalCost.value = ( ( Number( resultSuplies.foundPercent ) / 100 ) * Number( resultSuplies.valueSum ) * Number( resultSuplies.foundPrice ) );
 
-            TotalExecutedSuppliesValue.value = (totalResultSuplies.valueSum);
-            TotalExecutedSuppliesPercent.value = (totalResultSuplies.foundPercent);
-            TotalExecutedSuppliesPrice.value = Number(totalResultSuplies.foundPrice);
-            TotalExecutedSuppliesTotalCost.value = ((totalResultSuplies.foundPercent / 100) * totalResultSuplies.valueSum * Number(totalResultSuplies.foundPrice));
+            TotalExecutedSuppliesValue.value = ( totalResultSuplies.valueSum );
+            TotalExecutedSuppliesPercent.value = ( totalResultSuplies.foundPercent );
+            TotalExecutedSuppliesPrice.value = Number( totalResultSuplies.foundPrice );
+            TotalExecutedSuppliesTotalCost.value = ( ( totalResultSuplies.foundPercent / 100 ) * totalResultSuplies.valueSum * Number( totalResultSuplies.foundPrice ) );
 
             //#endregion
 
             //#region إطلاق حدث التغيير يدويًا لكي يتم الحفظ
-            const inputEvent = new Event('input', { bubbles: true });
+            const inputEvent = new Event( 'input', { bubbles: true } );
             //احداث قيم الاعمال
-            TotalWorks.dispatchEvent(inputEvent);
-            TotalWorksAddition.dispatchEvent(inputEvent);
-            TotalWorksDiscount.dispatchEvent(inputEvent);
+            TotalWorks.dispatchEvent( inputEvent );
+            TotalWorksAddition.dispatchEvent( inputEvent );
+            TotalWorksDiscount.dispatchEvent( inputEvent );
             //احداث نسب الاعمال الحالية
-            CurrentWorksValue.dispatchEvent(inputEvent);
-            CurrentWorksPercent.dispatchEvent(inputEvent);
-            CurrentWorksTotalCost.dispatchEvent(inputEvent);
+            CurrentWorksValue.dispatchEvent( inputEvent );
+            CurrentWorksPercent.dispatchEvent( inputEvent );
+            CurrentWorksTotalCost.dispatchEvent( inputEvent );
             //احداث قيم التشوينات
-            TotalSupplies.dispatchEvent(inputEvent);
-            TotalSuppliesAddition.dispatchEvent(inputEvent);
-            TotalSuppliesDiscount.dispatchEvent(inputEvent);
+            TotalSupplies.dispatchEvent( inputEvent );
+            TotalSuppliesAddition.dispatchEvent( inputEvent );
+            TotalSuppliesDiscount.dispatchEvent( inputEvent );
             //احداث نسب التشوينات الحالية
-            CurrentSuppliesValue.dispatchEvent(inputEvent);
-            CurrentSuppliesPercent.dispatchEvent(inputEvent);
-            CurrentSuppliesPrice.dispatchEvent(inputEvent);
-            CurrentSuppliesTotalCost.dispatchEvent(inputEvent);
+            CurrentSuppliesValue.dispatchEvent( inputEvent );
+            CurrentSuppliesPercent.dispatchEvent( inputEvent );
+            CurrentSuppliesPrice.dispatchEvent( inputEvent );
+            CurrentSuppliesTotalCost.dispatchEvent( inputEvent );
             //احداث نسب الاعمال الكلية
-            TotalExecutedWorksValue.dispatchEvent(inputEvent);
-            TotalExecutedWorksPercent.dispatchEvent(inputEvent);
-            TotalExecutedWorksTotalCost.dispatchEvent(inputEvent);
+            TotalExecutedWorksValue.dispatchEvent( inputEvent );
+            TotalExecutedWorksPercent.dispatchEvent( inputEvent );
+            TotalExecutedWorksTotalCost.dispatchEvent( inputEvent );
             //احداث نسب التشوينات الكلية
-            TotalExecutedSuppliesValue.dispatchEvent(inputEvent);
-            TotalExecutedSuppliesPercent.dispatchEvent(inputEvent);
-            TotalExecutedSuppliesPrice.dispatchEvent(inputEvent);
-            TotalExecutedSuppliesTotalCost.dispatchEvent(inputEvent);
+            TotalExecutedSuppliesValue.dispatchEvent( inputEvent );
+            TotalExecutedSuppliesPercent.dispatchEvent( inputEvent );
+            TotalExecutedSuppliesPrice.dispatchEvent( inputEvent );
+            TotalExecutedSuppliesTotalCost.dispatchEvent( inputEvent );
 
             //#endregion
 
-        } catch (error)
+        } catch ( error )
         {
             // طباعة الخطأ في وحدة التحكم
-            console.error("Error calculating calSumBill0: ", error);
+            console.error( "Error calculating calSumBill0: ", error );
         } finally
         {
             isCalScalSumBill0Running = false;
@@ -1091,42 +1368,42 @@
   * @param {number} referenceTotalValue (اختياري) قيمة مرجعية لإعادة احتساب النسبة
   * @returns {object} كائن يحتوي على القيمة الكلية والنسبة الكلية
   */
-    function calculateTotalValuPercent(values, percentages, referenceTotalValue = 0)
+    function calculateTotalValuPercent ( values, percentages, referenceTotalValue = 0 )
     {
         try
         {
             let sumUsedValues = 0;
             let weightedSum = 0;
 
-            for (let i = 0; i < values.length; i++)
+            for ( let i = 0; i < values.length; i++ )
             {
-                const val = Number(values[i]);
-                const pct = Number(percentages[i]) / 100;
+                const val = Number( values[ i ] );
+                const pct = Number( percentages[ i ] ) / 100;
 
-                if (isNaN(val) || isNaN(pct)) continue;
+                if ( isNaN( val ) || isNaN( pct ) ) continue;
 
                 sumUsedValues += val;
                 weightedSum += val * pct;
             }
 
             let overallPercent = sumUsedValues !== 0
-                ? (weightedSum / sumUsedValues) * 100
+                ? ( weightedSum / sumUsedValues ) * 100
                 : 0;
 
-            if (referenceTotalValue !== 0)
+            if ( referenceTotalValue !== 0 )
             {
-                const finalValue = sumUsedValues * (overallPercent / 100);
-                overallPercent = (finalValue / referenceTotalValue) * 100;
+                const finalValue = sumUsedValues * ( overallPercent / 100 );
+                overallPercent = ( finalValue / referenceTotalValue ) * 100;
                 sumUsedValues = referenceTotalValue;
             }
 
             return {
-                totalValue: Number(sumUsedValues),
-                overallPercent: Number(overallPercent)
+                totalValue: Number( sumUsedValues ),
+                overallPercent: Number( overallPercent )
             };
-        } catch (error)
+        } catch ( error )
         {
-            console.log('❌ خطأ في calculateTotalValueAndPercent:', error);
+            console.log( '❌ خطأ في calculateTotalValueAndPercent:', error );
             return {
                 totalValue: 0,
                 overallPercent: 0
@@ -1134,27 +1411,27 @@
         }
     }
 
-    function calculateSuppliesPercentprice(values, percents, prices)
+    function calculateSuppliesPercentprice ( values, percents, prices )
     {
-        if (values.length !== percents.length || values.length !== prices.length)
+        if ( values.length !== percents.length || values.length !== prices.length )
         {
-            throw new Error("❌ جميع المصفوفات يجب أن تكون بطول متساوٍ.");
+            throw new Error( "❌ جميع المصفوفات يجب أن تكون بطول متساوٍ." );
         }
         const cleanValues = [];
         const cleanPercents = [];
         const cleanPrices = [];
 
-        for (let i = 0; i < values.length; i++)
+        for ( let i = 0; i < values.length; i++ )
         {
-            const value = values[i];
-            const percent = percents[i];
-            const price = prices[i];
+            const value = values[ i ];
+            const percent = percents[ i ];
+            const price = prices[ i ];
 
-            if (isNumeric(value) && isNumeric(percent) && isNumeric(price))
+            if ( isNumeric( value ) && isNumeric( percent ) && isNumeric( price ) )
             {
-                cleanValues.push(value);
-                cleanPercents.push(percent);
-                cleanPrices.push(price);
+                cleanValues.push( value );
+                cleanPercents.push( percent );
+                cleanPrices.push( price );
             }
         }
         values = cleanValues;
@@ -1165,13 +1442,13 @@
         let weightedPriceSum = 0;
         let approvedWeights = 0;
 
-        for (let i = 0; i < values.length; i++)
+        for ( let i = 0; i < values.length; i++ )
         {
-            const value = values[i];
-            const percent = percents[i];
-            const price = prices[i];
+            const value = values[ i ];
+            const percent = percents[ i ];
+            const price = prices[ i ];
 
-            const approvedValue = value * (percent / 100);
+            const approvedValue = value * ( percent / 100 );
             totalSum += approvedValue * price;
             approvedValueSum += approvedValue;
 
@@ -1180,9 +1457,9 @@
             approvedWeights += approvedValue;
         }
 
-        if (approvedValueSum === 0)
+        if ( approvedValueSum === 0 )
         {
-            console.log("⚠️ مجموع الكميات المعتمدة (بعد ضربها بالنسب) يساوي صفر، لا يمكن إتمام الحسابات.");
+            console.log( "⚠️ مجموع الكميات المعتمدة (بعد ضربها بالنسب) يساوي صفر، لا يمكن إتمام الحسابات." );
         }
 
         const foundPrice = weightedPriceSum / approvedWeights;
@@ -1190,11 +1467,11 @@
         const checkTotal = foundPrice * approvedValueSum;
 
         return {
-            totalSum: Number(totalSum),
-            valueSum: Number(approvedValueSum),
-            foundPercent: Number(foundPercent),
-            foundPrice: Number(foundPrice),
-            checkTotal: Number(checkTotal)
+            totalSum: Number( totalSum ),
+            valueSum: Number( approvedValueSum ),
+            foundPercent: Number( foundPercent ),
+            foundPrice: Number( foundPrice ),
+            checkTotal: Number( checkTotal )
         };
     }
 
@@ -1203,11 +1480,11 @@
      * تقوم بتحديث جميع الحقول في الجدول حسب القيم المخزنة أو تعيين القيم الافتراضية
      */
     let stopInitialValues = false;
-    async function initialValues()
+    async function initialValues ()
     {
         try
         {
-            if (stopInitialValues == true) { return; }
+            if ( stopInitialValues == true ) { return; }
             stopInitialValues = true;
             // تعطيل مراقبة الجدول مؤقتاً
             isTableWatcherEnabled = false;
@@ -1218,124 +1495,124 @@
             let attempt = 0;
 
             // محاولة تحميل البيانات من الجدول (بحد أقصى 20 محاولة)
-            while (attempt < maxAttempts)
+            while ( attempt < maxAttempts )
             {
-                allRows = await dbNoUp_PandBill.getAllDataFromTable("rows");
-                if (Array.isArray(allRows)) break;
-                await delay(100);
+                allRows = await dbNoUp_PandBill.getAllDataFromTable( "rows" );
+                if ( Array.isArray( allRows ) ) break;
+                await delay( 100 );
                 attempt++;
             }
 
-            if (!Array.isArray(allRows))
+            if ( !Array.isArray( allRows ) )
             {
                 isTableWatcherEnabled = true;
                 return;
             }
 
             // معالجة كل صف من قاعدة البيانات
-            for (const rawId of allRows)
+            for ( const rawId of allRows )
             {
                 try
                 {
-                    if (!isValidIdFormat(rawId.key)) { continue; }
+                    if ( !isValidIdFormat( rawId.key ) ) { continue; }
 
 
-                    await waitForElement(`#${rawId.key}_`);
-                    let rawElement = document.getElementById(rawId.key + "_");
-                    if (!rawElement) { continue; }
+                    await waitForElement( `#${ rawId.key }_` );
+                    let rawElement = document.getElementById( rawId.key + "_" );
+                    if ( !rawElement ) { continue; }
 
-                    const state = await dbNoUp_PandBill.keyGet(rawId.key, "PandBillStat");
-                    const percent = await dbNoUp_PandBill.keyGet(rawId.key, "PandBillPercent");
-                    const price = await dbNoUp_PandBill.keyGet(rawId.key, "PandBillPrice");
-                    const PandBillKindWork = await dbNoUp_PandBill.keyGet(rawId.key, "PandBillKindWork");
-                    const PandBillKindSum = await dbNoUp_PandBill.keyGet(rawId.key, "PandBillKindSum");
+                    const state = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillStat" );
+                    const percent = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillPercent" );
+                    const price = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillPrice" );
+                    const PandBillKindWork = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillKindWork" );
+                    const PandBillKindSum = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillKindSum" );
 
                     //#region تحديث الحالة إذا كانت غير مطابقة للنص المتوقع
-                    if (state == null || state == "")
+                    if ( state == null || state == "" )
                     {
-                        await dbNoUp_PandBill.keySet(rawId.key, "PandBillStat", "0");
+                        await dbNoUp_PandBill.keySet( rawId.key, "PandBillStat", "0" );
                     }
                     //#endregion
 
                     // تعيين نسبة افتراضية إذا كانت غير موجودة
-                    if (percent == null || percent === "")
+                    if ( percent == null || percent === "" )
                     {
-                        await dbNoUp_PandBill.keySet(rawId.key, "PandBillPercent", "100");
-                        let PercentElement = rawElement.querySelector("#PandBillPercent");
+                        await dbNoUp_PandBill.keySet( rawId.key, "PandBillPercent", "100" );
+                        let PercentElement = rawElement.querySelector( "#PandBillPercent" );
                         PercentElement.value = "100";
                     }
 
                     // تعيين سعر افتراضي إذا كان غير موجود
-                    if (price == null || price === "")
+                    if ( price == null || price === "" )
                     {
                         await dbNoUp_PandBill.keySet(
                             rawId.key,
                             "PandBillPrice",
                             pandPrice
                         );
-                        let PriceElement = rawElement.querySelector("#PandBillPrice");
+                        let PriceElement = rawElement.querySelector( "#PandBillPrice" );
                         PriceElement.value = pandPrice;
                     }
 
                     //#region تعيين نوع العمل الافتراضي إذا كان غير موجود
-                    if (PandBillKindWork == null || PandBillKindWork === "")
+                    if ( PandBillKindWork == null || PandBillKindWork === "" )
                     {
                         await dbNoUp_PandBill.keySet(
                             rawId.key,
                             "PandBillKindWork",
                             "0"
                         );
-                        await isPriceEdit(rawId.key, 0);
-                        let KindWorkElement = rawElement.querySelector("#PandBillKindWork");
+                        await isPriceEdit( rawId.key, 0 );
+                        let KindWorkElement = rawElement.querySelector( "#PandBillKindWork" );
                         KindWorkElement.value = "0";
                     }
                     else
                     {
-                        if (PandBillKindWork == "0")
+                        if ( PandBillKindWork == "0" )
                         {
-                            await isPriceEdit(rawId.key, 0);
+                            await isPriceEdit( rawId.key, 0 );
                         } else
                         {
-                            await isPriceEdit(rawId.key, 1);
+                            await isPriceEdit( rawId.key, 1 );
                         }
                     }
                     //#endregion
 
                     //#region تعيين نوع التجميع الافتراضي إذا كان غير موجود
-                    if (PandBillKindSum == null || PandBillKindSum === "")
+                    if ( PandBillKindSum == null || PandBillKindSum === "" )
                     {
                         await dbNoUp_PandBill.keySet(
                             rawId.key,
                             "PandBillKindSum",
                             "0"
                         );
-                        let KindSumElement = rawElement.querySelector("#PandBillKindSum");
+                        let KindSumElement = rawElement.querySelector( "#PandBillKindSum" );
                         KindSumElement.value = "0";
                     }
                     //#endregion
 
                 }
-                catch (error)
+                catch ( error )
                 {
                     continue;
                 }
             }
 
-            const priceWorks = document.querySelectorAll('[id="priceWork"]');
-            priceWorks.forEach((priceWork) =>
+            const priceWorks = document.querySelectorAll( '[id="priceWork"]' );
+            priceWorks.forEach( ( priceWork ) =>
             {
                 priceWork.innerText = pandPrice;
-            });
+            } );
 
             // استعادة جميع القيم من قاعدة البيانات إلى الصفحة
-            await restoreAllInputsFromIndexDB("results", dbNoUp_PandBill, 'resultsTable');
+            await restoreAllInputsFromIndexDB( "results", dbNoUp_PandBill, 'resultsTable' );
             // مراقبة جميع الحقول وتحديث قاعدة البيانات عند التغيير
-            await watchingAllInputs2IndexDB("results", dbNoUp_PandBill, 'resultsTable');
+            await watchingAllInputs2IndexDB( "results", dbNoUp_PandBill, 'resultsTable' );
 
-        } catch (error)
+        } catch ( error )
         {
             // طباعة الخطأ في وحدة التحكم
-            console.error("🚨 Error in initialValues:", error);
+            console.error( "🚨 Error in initialValues:", error );
         } finally
         {
             // إعادة تفعيل مراقبة الجدول
@@ -1349,44 +1626,44 @@
      * @param {string} tableId معرف الصف الأساسي في الجدول
      * @param {number} state إذا كانت القيمة 1 يجعل الحقل قابل للتعديل، غير ذلك يجعله للقراءة فقط
      */
-    async function isPriceEdit(tableId, state)
+    async function isPriceEdit ( tableId, state )
     {
         try
         {
             // التحقق من صحة معرف الصف
-            if (!isValidIdFormat(tableId)) { return; }
+            if ( !isValidIdFormat( tableId ) ) { return; }
 
             // الحصول على عنصر الصف من الصفحة باستخدام المعرف
-            let rawElement = document.getElementById(tableId + "_");
+            let rawElement = document.getElementById( tableId + "_" );
 
             // إذا لم يتم العثور على العنصر، الخروج من الدالة
-            if (!rawElement) return;
+            if ( !rawElement ) return;
 
             // البحث عن عنصر حقل السعر داخل الصف
-            let priceElement = rawElement.querySelector("#PandBillPrice");
+            let priceElement = rawElement.querySelector( "#PandBillPrice" );
 
             // إذا لم يتم العثور على حقل السعر، الخروج من الدالة
-            if (!priceElement) return;
+            if ( !priceElement ) return;
 
             // إذا كانت الحالة 1، اجعل الحقل قابل للتعديل
-            if (state === 1)
+            if ( state === 1 )
             {
-                priceElement.removeAttribute("readonly"); // إزالة خاصية القراءة فقط
+                priceElement.removeAttribute( "readonly" ); // إزالة خاصية القراءة فقط
                 priceElement.style.border = "1px solid #234890"; // إضافة إطار أزرق
                 priceElement.style.backgroundColor = "#234890"; // تغيير لون الخلفية للأزرق
                 priceElement.style.color = "#fff"; // تغيير لون الخط للأبيض ليتناسب مع الخلفية
             } else
             {
                 // إذا كانت الحالة غير 1، اجعل الحقل للقراءة فقط
-                priceElement.setAttribute("readonly", true); // تفعيل خاصية القراءة فقط
+                priceElement.setAttribute( "readonly", true ); // تفعيل خاصية القراءة فقط
                 priceElement.style.border = "none"; // إزالة الإطار
                 priceElement.style.backgroundColor = "transparent"; // إعادة الخلفية للوضع الافتراضي
                 priceElement.style.color = ""; // إعادة لون الخط للوضع الافتراضي
             }
-        } catch (error)
+        } catch ( error )
         {
             // في حال حدوث خطأ أثناء التنفيذ، طباعته في وحدة التحكم
-            console.error("Error in isPriceEdit:", error);
+            console.error( "Error in isPriceEdit:", error );
         }
     }
 
