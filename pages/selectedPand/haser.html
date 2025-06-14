@@ -288,461 +288,223 @@
 </div>
 
 <script>
-
-    let worksOverPercent = null;
-
-    let suppliesOverPercent = null;
-
-    let stop_changes = false;
-
-    // دالة تنفذ عند تغيير أي من الحقول
-
-    async function handleSuppliesValueChange ()
-
-    {
-
-        if ( stop_changes == true ) { return; }
-
-        try
-
-        {
-
-            //توقف اعمال التغير
-
-            stop_changes = true;
-
-            //توقف اعمال المراقبه
-
-            isTableWatcherEnabled = false;
-
-            //تنفيذ اعمال التجميع لجلب القيمه النسبيه
-
-            if ( suppliesOverPercent == null ) { await calSumBill0( dbNoUp_PandBill ); }
-
-            //جلب الاعمال السابقه
-
-            let PreviousSuppliesValue = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesValue" ) );
-
-            let PreviousSuppliesPercent = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesPercent" ) );
-
-            let PreviousSuppliesPrice = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesPrice" ) );
-
-
-
-            //جلب القيمه التي تم تغيرها
-
-            const CurrentSuppliesValue_ = document.getElementById( "CurrentSuppliesValue" );
-
-            const CurrentSuppliesValue = CurrentSuppliesValue_.value;
-
-            //جلب القيمه الاخري من القيمه النسبيه
-
-            let per = suppliesOverPercent / CurrentSuppliesValue;
-
-            const CurrentSuppliesPercent = document.getElementById( "CurrentSuppliesPercent" );
-
-            CurrentSuppliesPercent.value = per;
-
-            const CurrentSuppliesPrice = document.getElementById( "CurrentSuppliesPrice" );
-
-
-
-            //حفظ القيم التي تم ادخالها والقيمه المحسوبه
-
-            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentSuppliesValue", CurrentSuppliesValue );
-
-            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentSuppliesPercent", per );
-
-            //جلب عناصر القيم الاجماليه
-
-            const TotalExecutedSuppliesValue = document.getElementById( 'TotalExecutedSuppliesValue' );
-
-            const TotalExecutedSuppliesPercent = document.getElementById( 'TotalExecutedSuppliesPercent' );
-
-            const TotalExecutedSuppliesPrice = document.getElementById( 'TotalExecutedSuppliesPrice' );
-
-
-
-            //حساب القيم الاجماليه
-
-            const totalResultSuplies = calculateSuppliesPercentprice( [ CurrentSuppliesValue, PreviousSuppliesValue ], [ per, PreviousSuppliesPercent ], [ CurrentSuppliesPrice.value, PreviousSuppliesPrice ] );
-
-
-
-            TotalExecutedSuppliesValue.value =  totalResultSuplies.valueSum ;
-
-            TotalExecutedSuppliesPercent.value = totalResultSuplies.foundPercent ;
-
-            TotalExecutedSuppliesPrice.value =  totalResultSuplies.foundPrice ;
-
-
-
-            // إطلاق حدث التغيير يدويًا لكي يتم الحفظ
-
-            const inputEvent = new Event( 'input', { bubbles: true } );
-
-            //احداث قيم الاعمال
-
-            TotalExecutedSuppliesValue.dispatchEvent( inputEvent );
-
-            TotalExecutedSuppliesPercent.dispatchEvent( inputEvent );
-
-            TotalExecutedSuppliesPrice.dispatchEvent( inputEvent );
-
-
-
-            CurrentSuppliesPercent.dispatchEvent( inputEvent );
-
-            CurrentSuppliesValue_.dispatchEvent( inputEvent );
-
-
-
-
-
-            isTableWatcherEnabled = true;
-
-            stop_changes = false;
-
-        }
-
-        catch ( error )
-
-        { console.log( 'error -> ', error ); }
-
-        finally
-
-        {
-
-            isTableWatcherEnabled = true;
-
-            stop_changes = false;
-
-        }
-
-
-
-    }
-
-    async function handleSuppliesPriceChange ()
-
-    {
-
-        if ( stop_changes == true ) { return; }
-
-        try
-
-        {
-
-            //توقف اعمال التغير
-            stop_changes = true;
-            //توقف اعمال المراقبه
-            isTableWatcherEnabled = false;
-            //تنفيذ اعمال التجميع لجلب القيمه النسبيه
-            if ( suppliesOverPercent == null ) { await calSumBill0( dbNoUp_PandBill ); }
-            //جلب الاعمال السابقه
-            let PreviousSuppliesValue = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesValue" ) );
-            let PreviousSuppliesPercent = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesPercent" ) );
-            let PreviousSuppliesPrice = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesPrice" ) );
-            //جلب القيمه الاخري من القيمه النسبيه
-            const CurrentSuppliesPercent = document.getElementById( "CurrentSuppliesPercent" );
-            //جلب القيمه التي تم تغيرها
-            const CurrentSuppliesValue = document.getElementById( "CurrentSuppliesValue" );
-            let newPrice = suppliesOverPercent / CurrentSuppliesValue.value;
-            const CurrentSuppliesPrice = document.getElementById( "CurrentSuppliesPrice" );
-   CurrentSuppliesPrice.value = newPrice;
-
-            //حفظ القيم التي تم ادخالها والقيمه المحسوبه
-
-            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentSuppliesValue", newPrice );
-
-            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentSuppliesPercent", CurrentSuppliesPercent );
-
-
-
-            //جلب عناصر القيم الاجماليه
-
-            const TotalExecutedSuppliesValue = document.getElementById( 'TotalExecutedSuppliesValue' );
-
-            const TotalExecutedSuppliesPercent = document.getElementById( 'TotalExecutedSuppliesPercent' );
-
-            const TotalExecutedSuppliesPrice = document.getElementById( 'TotalExecutedSuppliesPrice' );
-
-
-
-            //حساب القيم الاجماليه
-
-            const totalResultSuplies = calculateSuppliesPercentprice( [ newPrice, PreviousSuppliesValue ], [ CurrentSuppliesPercent, PreviousSuppliesPercent ], [ CurrentSuppliesPrice.value, PreviousSuppliesPrice ] );
-
-
-
-            TotalExecutedSuppliesValue.value =  totalResultSuplies.valueSum ;
-
-            TotalExecutedSuppliesPercent.value = totalResultSuplies.foundPercent ;
-
-            TotalExecutedSuppliesPrice.value = totalResultSuplies.foundPrice ;
-
-
-
-            // إطلاق حدث التغيير يدويًا لكي يتم الحفظ
-
-            const inputEvent = new Event( 'input', { bubbles: true } );
-
-            //احداث قيم الاعمال
-
-            TotalExecutedSuppliesValue.dispatchEvent( inputEvent );
-
-            TotalExecutedSuppliesPercent.dispatchEvent( inputEvent );
-
-            TotalExecutedSuppliesPrice.dispatchEvent( inputEvent );
-
-
-
-            CurrentSuppliesPercent.dispatchEvent( inputEvent );
-
-            CurrentSuppliesValue.dispatchEvent( inputEvent );
-
-
-
-
-
-            isTableWatcherEnabled = true;
-
-            stop_changes = false;
-
-        }
-
-        catch ( error )
-
-        { console.log( 'error -> ', error ); }
-
-        finally
-
-        {
-
-            isTableWatcherEnabled = true;
-
-            stop_changes = false;
-
-        }
-
-
-
-    }
-
-    async function handleWorksValueChange ()
-
-    {
-
-
-
-        if ( stop_changes == true ) { return; }
-
-        try
-
-        {
-
-            //توقف اعمال التغير
-
-            stop_changes = true;
-
-            //توقف اعمال المراقبه
-
-            isTableWatcherEnabled = false;
-
-            //تنفيذ اعمال التجميع لجلب القيمه النسبيه
-
-            if ( worksOverPercent == null ) { await calSumBill0( dbNoUp_PandBill ); }
-
-            //جلب الاعمال السابقه
-
-            let previousWorkValueSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousWorksValue" ) );
-
-            let previousWorkPercentValueSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousWorksPercent" ) );
-
-
-
-            //جلب القيمه التي تم تغيرها
-
-            const CurrentWorksValue_ = document.getElementById( "CurrentWorksValue" );
-
-            const CurrentWorksValue = CurrentWorksValue_.value;
-
-            //جلب القيمه الاخري من القيمه النسبيه
-
-            let per = worksOverPercent / CurrentWorksValue;
-
-            const CurrentWorksPercent = document.getElementById( "CurrentWorksPercent" );
-
-            CurrentWorksPercent.value = per;
-
-            //حفظ القيم التي تم ادخالها والقيمه المحسوبه
-
-            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentWorksValue", CurrentWorksValue );
-
-            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentWorksPercent", per );
-
-            //جلب عناصر القيم الاجماليه
-
-            const TotalExecutedWorksValue = document.getElementById( 'TotalExecutedWorksValue' );
-
-            const TotalExecutedWorksPercent = document.getElementById( 'TotalExecutedWorksPercent' );
-
-            //حساب القيم الاجماليه
-
-            const totalResultWorks = calculateTotalValuPercent( [ CurrentWorksValue, previousWorkValueSaved ], [ per, previousWorkPercentValueSaved ], CurrentWorksValue );
-
-            TotalExecutedWorksValue.value = totalResultWorks.totalValue;
-
-            TotalExecutedWorksPercent.value = ( totalResultWorks.overallPercent );
-
-
-
-            //#region إطلاق حدث التغيير يدويًا لكي يتم الحفظ
-
-            const inputEvent = new Event( 'input', { bubbles: true } );
-
-            //احداث قيم الاعمال
-
-            TotalExecutedWorksValue.dispatchEvent( inputEvent );
-
-            TotalExecutedWorksPercent.dispatchEvent( inputEvent );
-
-            CurrentWorksValue_.dispatchEvent( inputEvent );
-
-            CurrentWorksPercent.dispatchEvent( inputEvent );
-
-
-
-            isTableWatcherEnabled = true;
-
-            stop_changes = false;
-
-        }
-
-        catch ( error )
-
-        { console.log( 'error -> ', error ); }
-
-        finally
-
-        {
-
-            isTableWatcherEnabled = true;
-
-            stop_changes = false;
-
-        }
-
-
-
-    }
-
-    async function handleWorksPercentChange ()
-
-    {
-
-        if ( stop_changes == true ) { return; }
-
-        try
-
-        {
-
-            //توقف اعمال التغير
-
-            stop_changes = true;
-
-            //توقف اعمال المراقبه
-
-            isTableWatcherEnabled = false;
-
-            //تنفيذ اعمال التجميع لجلب القيمه النسبيه
-
-            if ( worksOverPercent == null ) { await calSumBill0( dbNoUp_PandBill ); }
-
-            //جلب الاعمال السابقه
-
-            let previousWorkValueSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousWorksValue" ) );
-
-            let previousWorkPercentValueSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousWorksPercent" ) );
-
-
-
-            //جلب القيمه التي تم تغيرها
-
-            const CurrentWorksPercent_ = document.getElementById( "CurrentWorksPercent" );
-
-            const CurrentWorksPercent = CurrentWorksPercent_.value;
-
-            //جلب القيمه الاخري من القيمه النسبيه
-
-            let per = worksOverPercent / CurrentWorksPercent;
-
-            const CurrentWorksValue_ = document.getElementById( "CurrentWorksValue" );
-
-            CurrentWorksValue_.value = per;
-
-            //حفظ القيم التي تم ادخالها والقيمه المحسوبه
-
-            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentWorksValue", per );
-
-            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentWorksPercent", CurrentWorksPercent );
-
-            //جلب عناصر القيم الاجماليه
-
-            const TotalExecutedWorksValue = document.getElementById( 'TotalExecutedWorksValue' );
-
-            const TotalExecutedWorksPercent = document.getElementById( 'TotalExecutedWorksPercent' );
-
-            //حساب القيم الاجماليه
-
-            const totalResultWorks = calculateTotalValuPercent( [ per, previousWorkValueSaved ], [ CurrentWorksPercent, previousWorkPercentValueSaved ], per );
-
-            TotalExecutedWorksValue.value = totalResultWorks.totalValue;
-
-            TotalExecutedWorksPercent.value = ( totalResultWorks.overallPercent );
-
-
-
-            //#region إطلاق حدث التغيير يدويًا لكي يتم الحفظ
-
-            const inputEvent = new Event( 'input', { bubbles: true } );
-
-            //احداث قيم الاعمال
-
-            TotalExecutedWorksValue.dispatchEvent( inputEvent );
-
-            TotalExecutedWorksPercent.dispatchEvent( inputEvent );
-
-            CurrentWorksValue_.dispatchEvent( inputEvent );
-
-            CurrentWorksPercent.dispatchEvent( inputEvent );
-
-            isTableWatcherEnabled = true;
-
-            stop_changes = false;
-
-        }
-
-        catch ( error )
-
-        { console.log( 'error -> ', error ); }
-
-        finally
-        {
-            isTableWatcherEnabled = true;
-            stop_changes = false;
-        }
-
-    }
-
-    // ربط الحدثين
-
-    document.getElementById( "CurrentSuppliesValue" ).addEventListener( "input", handleSuppliesValueChange );
-    document.getElementById( "CurrentSuppliesPrice" ).addEventListener( "input", handleSuppliesPriceChange );
-    document.getElementById( "CurrentWorksValue" ).addEventListener( "input", handleWorksValueChange );
-    document.getElementById( "CurrentWorksPercent" ).addEventListener( "input", handleWorksPercentChange );
-
+    let worksOverPercent = null;
+    let suppliesOverPercent = null;
+    let stop_changes = false;
+    // دالة تنفذ عند تغيير أي من الحقول
+    async function handleSuppliesValueChange ()
+    {
+        if ( stop_changes == true ) { return; }
+        try
+        {
+            //توقف اعمال التغير
+            stop_changes = true;
+            //توقف اعمال المراقبه
+            isTableWatcherEnabled = false;
+            //تنفيذ اعمال التجميع لجلب القيمه النسبيه
+            if ( suppliesOverPercent == null ) { await calSumBill0( dbNoUp_PandBill ); }
+            //جلب الاعمال السابقه
+            let PreviousSuppliesValue = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesValue" ) );
+            let PreviousSuppliesPercent = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesPercent" ) );
+            let PreviousSuppliesPrice = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesPrice" ) );
+            //جلب القيمه التي تم تغيرها
+            const CurrentSuppliesValue_ = document.getElementById( "CurrentSuppliesValue" );
+            const CurrentSuppliesValue = CurrentSuppliesValue_.value;
+            //جلب القيمه الاخري من القيمه النسبيه
+            let per = suppliesOverPercent / CurrentSuppliesValue;
+            const CurrentSuppliesPrice = document.getElementById( "CurrentSuppliesPrice" );
+            CurrentSuppliesPrice.value = per;
+            const CurrentSuppliesPercent = document.getElementById( "CurrentSuppliesPercent" );
+            //حفظ القيم التي تم ادخالها والقيمه المحسوبه
+            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentSuppliesValue", CurrentSuppliesValue );
+            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentSuppliesPrice", per );
+            //جلب عناصر القيم الاجماليه
+            const TotalExecutedSuppliesValue = document.getElementById( 'TotalExecutedSuppliesValue' );
+            const TotalExecutedSuppliesPercent = document.getElementById( 'TotalExecutedSuppliesPercent' );
+            const TotalExecutedSuppliesPrice = document.getElementById( 'TotalExecutedSuppliesPrice' );
+            //حساب القيم الاجماليه
+            const totalResultSuplies = calculateSuppliesPercentprice( [ CurrentSuppliesValue, PreviousSuppliesValue ], [ CurrentSuppliesPercent.value, PreviousSuppliesPercent ], [ per, PreviousSuppliesPrice ] );
+            TotalExecutedSuppliesValue.value = totalResultSuplies.valueSum;
+            TotalExecutedSuppliesPercent.value = totalResultSuplies.foundPercent;
+            TotalExecutedSuppliesPrice.value = totalResultSuplies.foundPrice;
+            // إطلاق حدث التغيير يدويًا لكي يتم الحفظ
+            const inputEvent = new Event( 'input', { bubbles: true } );
+            //احداث قيم الاعمال
+            TotalExecutedSuppliesValue.dispatchEvent( inputEvent );
+            TotalExecutedSuppliesPercent.dispatchEvent( inputEvent );
+            TotalExecutedSuppliesPrice.dispatchEvent( inputEvent );
+            CurrentSuppliesPrice.dispatchEvent( inputEvent );
+            CurrentSuppliesValue_.dispatchEvent( inputEvent );
+            isTableWatcherEnabled = true;
+            stop_changes = false;
+        }
+        catch ( error )
+        { console.log( 'error -> ', error ); }
+        finally
+        {
+            isTableWatcherEnabled = true;
+            stop_changes = false;
+        }
+    }
+    async function handleSuppliesPriceChange ()
+    {
+        if ( stop_changes == true ) { return; }
+        try
+        {
+            //توقف اعمال التغير
+            stop_changes = true;
+            //توقف اعمال المراقبه
+            isTableWatcherEnabled = false;
+            //تنفيذ اعمال التجميع لجلب القيمه النسبيه
+            if ( suppliesOverPercent == null ) { await calSumBill0( dbNoUp_PandBill ); }
+            //جلب الاعمال السابقه
+            let PreviousSuppliesValue = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesValue" ) );
+            let PreviousSuppliesPercent = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesPercent" ) );
+            let PreviousSuppliesPrice = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousSuppliesPrice" ) );
+            //جلب القيمه الاخري من القيمه النسبيه
+            const CurrentSuppliesPrice_ = document.getElementById( "CurrentSuppliesPrice" );
+            const CurrentSuppliesPrice = CurrentSuppliesPrice_.value;
+            let per = suppliesOverPercent / CurrentSuppliesPrice;
+            //جلب القيمه التي تم تغيرها
+            const CurrentSuppliesValue_ = document.getElementById( "CurrentSuppliesValue" );
+            CurrentSuppliesValue_.value = per;
+            const CurrentSuppliesPercent = document.getElementById( "CurrentSuppliesPercent" );
+            //حفظ القيم التي تم ادخالها والقيمه المحسوبه
+            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentSuppliesValue", per );
+            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentSuppliesPrice", CurrentSuppliesPrice );
+            //جلب عناصر القيم الاجماليه
+            const TotalExecutedSuppliesValue = document.getElementById( 'TotalExecutedSuppliesValue' );
+            const TotalExecutedSuppliesPercent = document.getElementById( 'TotalExecutedSuppliesPercent' );
+            const TotalExecutedSuppliesPrice = document.getElementById( 'TotalExecutedSuppliesPrice' );
+            //حساب القيم الاجماليه
+            const totalResultSuplies = calculateSuppliesPercentprice( [ per, PreviousSuppliesValue ], [ CurrentSuppliesPercent.value, PreviousSuppliesPercent ], [ CurrentSuppliesPrice, PreviousSuppliesPrice ] );
+            TotalExecutedSuppliesValue.value = totalResultSuplies.valueSum;
+            TotalExecutedSuppliesPercent.value = totalResultSuplies.foundPercent;
+            TotalExecutedSuppliesPrice.value = totalResultSuplies.foundPrice;
+            // إطلاق حدث التغيير يدويًا لكي يتم الحفظ
+            const inputEvent = new Event( 'input', { bubbles: true } );
+            //احداث قيم الاعمال
+            TotalExecutedSuppliesValue.dispatchEvent( inputEvent );
+            TotalExecutedSuppliesPercent.dispatchEvent( inputEvent );
+            TotalExecutedSuppliesPrice.dispatchEvent( inputEvent );
+            CurrentSuppliesPrice.dispatchEvent( inputEvent );
+            CurrentSuppliesValue_.dispatchEvent( inputEvent );
+            isTableWatcherEnabled = true;
+            stop_changes = false;
+        }
+        catch ( error )
+        { console.log( 'error -> ', error ); }
+        finally
+        {
+            isTableWatcherEnabled = true;
+            stop_changes = false;
+        }
+    }
+    async function handleWorksValueChange ()
+    {
+        if ( stop_changes == true ) { return; }
+        try
+        {
+            //توقف اعمال التغير
+            stop_changes = true;
+            //توقف اعمال المراقبه
+            isTableWatcherEnabled = false;
+            //تنفيذ اعمال التجميع لجلب القيمه النسبيه
+            if ( worksOverPercent == null ) { await calSumBill0( dbNoUp_PandBill ); }
+            //جلب الاعمال السابقه
+            let previousWorkValueSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousWorksValue" ) );
+            let previousWorkPercentValueSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousWorksPercent" ) );
+            //جلب القيمه التي تم تغيرها
+            const CurrentWorksValue_ = document.getElementById( "CurrentWorksValue" );
+            const CurrentWorksValue = CurrentWorksValue_.value;
+            //جلب القيمه الاخري من القيمه النسبيه
+            let per = worksOverPercent / CurrentWorksValue;
+            const CurrentWorksPercent = document.getElementById( "CurrentWorksPercent" );
+            CurrentWorksPercent.value = per;
+            //حفظ القيم التي تم ادخالها والقيمه المحسوبه
+            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentWorksValue", CurrentWorksValue );
+            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentWorksPercent", per );
+            //جلب عناصر القيم الاجماليه
+            const TotalExecutedWorksValue = document.getElementById( 'TotalExecutedWorksValue' );
+            const TotalExecutedWorksPercent = document.getElementById( 'TotalExecutedWorksPercent' );
+            //حساب القيم الاجماليه
+            const totalResultWorks = calculateTotalValuPercent( [ CurrentWorksValue, previousWorkValueSaved ], [ per, previousWorkPercentValueSaved ], CurrentWorksValue );
+            TotalExecutedWorksValue.value = totalResultWorks.totalValue;
+            TotalExecutedWorksPercent.value = ( totalResultWorks.overallPercent );
+            //#region إطلاق حدث التغيير يدويًا لكي يتم الحفظ
+            const inputEvent = new Event( 'input', { bubbles: true } );
+            //احداث قيم الاعمال
+            TotalExecutedWorksValue.dispatchEvent( inputEvent );
+            TotalExecutedWorksPercent.dispatchEvent( inputEvent );
+            CurrentWorksValue_.dispatchEvent( inputEvent );
+            CurrentWorksPercent.dispatchEvent( inputEvent );
+            isTableWatcherEnabled = true;
+            stop_changes = false;
+        }
+        catch ( error )
+        { console.log( 'error -> ', error ); }
+        finally
+        {
+            isTableWatcherEnabled = true;
+            stop_changes = false;
+        }
+    }
+    async function handleWorksPercentChange ()
+    {
+        if ( stop_changes == true ) { return; }
+        try
+        {
+            //توقف اعمال التغير
+            stop_changes = true;
+            //توقف اعمال المراقبه
+            isTableWatcherEnabled = false;
+            //تنفيذ اعمال التجميع لجلب القيمه النسبيه
+            if ( worksOverPercent == null ) { await calSumBill0( dbNoUp_PandBill ); }
+            //جلب الاعمال السابقه
+            let previousWorkValueSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousWorksValue" ) );
+            let previousWorkPercentValueSaved = Number( await dbNoUp_PandBill.keyGet( 'resultsTable', "PreviousWorksPercent" ) );
+            //جلب القيمه التي تم تغيرها
+            const CurrentWorksPercent_ = document.getElementById( "CurrentWorksPercent" );
+            const CurrentWorksPercent = CurrentWorksPercent_.value;
+            //جلب القيمه الاخري من القيمه النسبيه
+            let per = worksOverPercent / CurrentWorksPercent;
+            const CurrentWorksValue_ = document.getElementById( "CurrentWorksValue" );
+            CurrentWorksValue_.value = per;
+            //حفظ القيم التي تم ادخالها والقيمه المحسوبه
+            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentWorksValue", per );
+            await dbNoUp_PandBill.keySet( 'resultsTable', "CurrentWorksPercent", CurrentWorksPercent );
+            //جلب عناصر القيم الاجماليه
+            const TotalExecutedWorksValue = document.getElementById( 'TotalExecutedWorksValue' );
+            const TotalExecutedWorksPercent = document.getElementById( 'TotalExecutedWorksPercent' );
+            //حساب القيم الاجماليه
+            const totalResultWorks = calculateTotalValuPercent( [ per, previousWorkValueSaved ], [ CurrentWorksPercent, previousWorkPercentValueSaved ], per );
+            TotalExecutedWorksValue.value = totalResultWorks.totalValue;
+            TotalExecutedWorksPercent.value = ( totalResultWorks.overallPercent );
+            //#region إطلاق حدث التغيير يدويًا لكي يتم الحفظ
+            const inputEvent = new Event( 'input', { bubbles: true } );
+            //احداث قيم الاعمال
+            TotalExecutedWorksValue.dispatchEvent( inputEvent );
+            TotalExecutedWorksPercent.dispatchEvent( inputEvent );
+            CurrentWorksValue_.dispatchEvent( inputEvent );
+            CurrentWorksPercent.dispatchEvent( inputEvent );
+            isTableWatcherEnabled = true;
+            stop_changes = false;
+        }
+        catch ( error )
+        { console.log( 'error -> ', error ); }
+        finally
+        {
+            isTableWatcherEnabled = true;
+            stop_changes = false;
+        }
+    }
+    // ربط الحدثين
+    document.getElementById( "CurrentSuppliesValue" ).addEventListener( "input", handleSuppliesValueChange );
+    document.getElementById( "CurrentSuppliesPrice" ).addEventListener( "input", handleSuppliesPriceChange );
+    document.getElementById( "CurrentWorksValue" ).addEventListener( "input", handleWorksValueChange );
+    document.getElementById( "CurrentWorksPercent" ).addEventListener( "input", handleWorksPercentChange );
 </script>
+
 
 <script>
 
