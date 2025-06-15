@@ -1,42 +1,81 @@
 <input type="text" id="baseCurrency" placeholder="العملة الأساسية (مثلاً: USD)" value="USD"><br>
 <input type="text" id="targetCurrency" placeholder="العملة المستهدفة (مثلاً: EGP)" value="EGP"><br>
-<button onclick="getExchangeRate(
-    document.getElementById('baseCurrency').value, 
-    document.getElementById('targetCurrency').value)">✅ تحويل</button><br><br>
+<button onclick="getExchangeRate()">✅ تحويل</button><br><br>
 
 <p id="rateResult">—</p>
 
 <script>
-    async function getExchangeRate(baseCurrency, targetCurrency)
-    {
-        baseCurrency = baseCurrency.trim().toUpperCase();
-        targetCurrency = targetCurrency.trim().toUpperCase();
+    async function getExchangeRate() {
+        const baseCurrency = document.getElementById("baseCurrency").value.trim().toUpperCase();
+        const targetCurrency = document.getElementById("targetCurrency").value.trim().toUpperCase();
+        const resultElement = document.getElementById("rateResult");
 
-        try
-        {
+        resultElement.textContent = "جاري جلب البيانات...";
+        resultElement.style.color = "black";
+
+        try {
+            // التحقق من الصحة
+            if(baseCurrency.length !== 3 || targetCurrency.length !== 3) {
+                throw new Error("❌ يجب إدخال رموز عملات مكونة من 3 أحرف");
+            }
+
+            if(baseCurrency === targetCurrency) {
+                throw new Error("❌ العملة الأساسية والمستهدفة متطابقتان");
+            }
+
+            // استخدام واجهة Frankfurter المجانية
             const url = `https://api.frankfurter.app/latest?from=${baseCurrency}&to=${targetCurrency}`;
+            
             const response = await fetch(url);
 
-            if (!response.ok)
-            {
-                throw new Error(`⚠️ فشل الاتصال: ${response.status}`);
+            if (!response.ok) {
+                // إذا فشل الطلب، جرب مصدرًا احتياطيًا
+                return await tryFallbackAPI(baseCurrency, targetCurrency);
             }
 
             const data = await response.json();
-            console.log("📦 البيانات الكاملة:", data);
 
-            if (!data.rates || !data.rates[targetCurrency])
-            {
-                throw new Error(`❌ لم يتم العثور على العملة: ${targetCurrency}`);
+            if (!data.rates || !data.rates[targetCurrency]) {
+                throw new Error(`❌ لا يوجد بيانات لسعر صرف ${baseCurrency}/${targetCurrency}`);
             }
 
             const rate = data.rates[targetCurrency];
-            document.getElementById("rateResult").textContent = `💱 1 ${baseCurrency} = ${rate} ${targetCurrency}`;
+            resultElement.innerHTML = `
+                <strong>💱 سعر الصرف:</strong><br>
+                1 ${baseCurrency} = <mark>${rate.toFixed(6)}</mark> ${targetCurrency}<br>
+                <small>تاريخ التحديث: ${new Date(data.date).toLocaleString()}</small>
+            `;
+            resultElement.style.color = "green";
+        } 
+        catch (error) {
+            resultElement.textContent = error.message;
+            resultElement.style.color = "red";
+            console.error("تفاصيل الخطأ:", error);
         }
-        catch (error)
-        {
-            document.getElementById("rateResult").textContent = error.message;
-            console.error("❌ خطأ أثناء جلب سعر الصرف:", error.message);
+    }
+
+    // مصدر احتياطي إذا فشل المصدر الرئيسي
+    async function tryFallbackAPI(baseCurrency, targetCurrency) {
+        const resultElement = document.getElementById("rateResult");
+        try {
+            // استخدام واجهة ExchangeRate-API كبديل
+            const url = `https://open.er-api.com/v6/latest/${baseCurrency}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            if (data.result === 'success' && data.rates[targetCurrency]) {
+                const rate = data.rates[targetCurrency];
+                resultElement.innerHTML = `
+                    <strong>💱 سعر الصرف (مصدر احتياطي):</strong><br>
+                    1 ${baseCurrency} = <mark>${rate.toFixed(6)}</mark> ${targetCurrency}<br>
+                    <small>تاريخ التحديث: ${new Date(data.time_last_update_utc).toLocaleString()}</small>
+                `;
+                resultElement.style.color = "blue";
+            } else {
+                throw new Error("❌ لا تتوفر بيانات سعر الصرف");
+            }
+        } catch (fallbackError) {
+            throw new Error("❌ فشل في جلب البيانات من جميع المصادر المتاحة");
         }
     }
 </script>
