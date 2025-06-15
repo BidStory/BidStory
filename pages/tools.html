@@ -28,11 +28,18 @@
     <span id="t_1234"></span>
 </button>
 
+<button onclick="showToolsSection('currencyExchange')">
+    <img id="i_currencyExchange" alt="currencyExchange" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+    <span id="t_1272"></span>
+</button>
 
 <!-- ✅ الأقسام (تظهر حسب القسم المختار) -->
 <div id="calculator" class="toolsSection"></div>
 <div id="numbring" class="toolsSection"></div>
 <div id="qrCode" class="toolsSection"></div>
+<div id="currencyExchange" class="toolsSection"></div>
+
+
 
 
 <!-- ✅ JavaScript الخاص بالتهيئة والتحميل -->
@@ -47,7 +54,8 @@
     const pageMap00 = {
         calculator: "pages/tools/calculator.html",
         numbring: "pages/tools/numbring.html",
-        qrCode: "pages/tools/qrCode.html"
+        qrCode: "pages/tools/qrCode.html",
+         currencyExchange: "pages/tools/currencyExchange.html"
     };
 
     let selectedPage00 = null;//تستخدم في دوال اخري خارج هذة الصفحة لذا يجب عدم تغير الاسم
@@ -138,6 +146,9 @@
                break;
             case 'qrCode':
                // await initQrCodePage();
+               break;
+            case 'currencyExchange':
+               // await initCurrencyExchangePage();
                break;
 
         }
