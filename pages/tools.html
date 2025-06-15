@@ -23,12 +23,16 @@
     <span id="t_62"></span>
 </button>
 
-
+<button onclick="showToolsSection('qrCode')">
+    <img id="i_barcode" alt="qrCode" style="width:20px; height:20px; vertical-align:middle; margin-left:5px;">
+    <span id="t_1234"></span>
+</button>
 
 
 <!-- ✅ الأقسام (تظهر حسب القسم المختار) -->
 <div id="calculator" class="toolsSection"></div>
 <div id="numbring" class="toolsSection"></div>
+<div id="qrCode" class="toolsSection"></div>
 
 
 <!-- ✅ JavaScript الخاص بالتهيئة والتحميل -->
@@ -36,12 +40,14 @@
     const loadedPages00 = {
 
         calculator: false,
-        numbring: false
+        numbring: false,
+        qrCode: false
     };
 
     const pageMap00 = {
         calculator: "pages/tools/calculator.html",
-        numbring: "pages/tools/numbring.html"
+        numbring: "pages/tools/numbring.html",
+        qrCode: "pages/tools/qrCode.html"
     };
 
     let selectedPage00 = null;//تستخدم في دوال اخري خارج هذة الصفحة لذا يجب عدم تغير الاسم
@@ -129,7 +135,10 @@
                 break;
             case 'numbring':
                // await initSettingPage();
-                break;
+               break;
+            case 'qrCode':
+               // await initQrCodePage();
+               break;
 
         }
     }

@@ -1,0 +1,65 @@
+  <h2>🔲 إنشاء QR Code طويل</h2>
+  <textarea id="textToEncode" rows="5" cols="60" placeholder="أدخل نصًا طويلًا هنا (حتى 1000+ حرف)"></textarea><br>
+  <button onclick="generateQRCode()">✅ إنشاء QR</button>
+  <div id="qrcode"></div>
+
+  <hr>
+
+  <h2>📷 قراءة QR Code من الكاميرا</h2>
+  <button onclick="startQRScanner()">📡 ابدأ المسح</button><br>
+  <video id="video" width="300" height="200" autoplay></video>
+  <canvas id="canvas" width="300" height="200"></canvas>
+  <div id="output">👁️ لم يتم قراءة شيء بعد...</div>
+
+
+  <!-- مكتبة الإنشاء -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <!-- مكتبة القراءة -->
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+
+  <script>
+    function generateQRCode() {
+      const text = document.getElementById("textToEncode").value.trim();
+      if (!text) return alert("⚠️ أدخل نصًا أولاً!");
+
+      document.getElementById("qrcode").innerHTML = "";
+      new QRCode(document.getElementById("qrcode"), {
+        text: text,
+        width: 256,
+        height: 256,
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+
+    async function startQRScanner() {
+      const video = document.getElementById("video");
+      const canvas = document.getElementById("canvas");
+      const context = canvas.getContext("2d");
+      const output = document.getElementById("output");
+
+      video.style.display = "block";
+      canvas.style.display = "none";
+
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+      video.srcObject = stream;
+
+      const scan = () => {
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+          const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+          const code = jsQR(imageData.data, canvas.width, canvas.height, { inversionAttempts: "dontInvert" });
+
+          if (code) {
+            output.textContent = "✅ تم القراءة: " + code.data;
+            stream.getTracks().forEach(track => track.stop());
+            video.style.display = "none";
+            return;
+          }
+        }
+        requestAnimationFrame(scan);
+      };
+      requestAnimationFrame(scan);
+    }
+  </script>
