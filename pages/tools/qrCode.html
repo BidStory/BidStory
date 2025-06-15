@@ -1,7 +1,7 @@
 <h2>🔲 إنشاء QR Code طويل</h2>
 <textarea id="textToEncode" rows="5" placeholder="أدخل نصًا طويلًا هنا (حتى 1000+ حرف)"></textarea><br>
 <button onclick="generateQRCode()">✅ إنشاء QR</button><br>
-<div id="qr-output"></div>
+<div id="qr-output" style="display: inline-block;"></div>
 
 <hr>
 
@@ -30,10 +30,12 @@
     canvas.height = height;
     const ctx = canvas.getContext("2d");
 
-    ctx.fillStyle = "#000";
+    // خلفية بيضاء
+    ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, width, height);
-    ctx.fillStyle = "#fff";
 
+    // النقاط السوداء
+    ctx.fillStyle = "#000000";
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         if (bitMatrix.get(x, y)) {
@@ -57,6 +59,14 @@
     try {
       const result = await codeReader.decodeOnceFromVideoDevice(undefined, "video");
       output.textContent = "✅ تم القراءة: " + result.text;
+
+      // إيقاف الكاميرا بعد القراءة
+      const stream = video.srcObject;
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        video.srcObject = null;
+      }
+
       codeReader.reset();
     } catch (err) {
       output.textContent = "❌ فشل في المسح: " + err;
