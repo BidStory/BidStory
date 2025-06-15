@@ -162,7 +162,7 @@
       document.addEventListener( "DOMContentLoaded", async () =>
       {
 
-        while (  await getLoadLangImageLists()  == false )
+        while ( await getLoadLangImageLists() == false )
         {
           await new Promise( ( resolve ) => setTimeout( resolve, 100 ) );
         }
