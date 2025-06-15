@@ -1,65 +1,65 @@
-  <h2>🔲 إنشاء QR Code طويل</h2>
-  <textarea id="textToEncode" rows="5" cols="60" placeholder="أدخل نصًا طويلًا هنا (حتى 1000+ حرف)"></textarea><br>
-  <button onclick="generateQRCode()">✅ إنشاء QR</button>
-  <div id="qrcode"></div>
+<h2>🔲 إنشاء QR Code طويل</h2>
+<textarea id="textToEncode" rows="5" placeholder="أدخل نصًا طويلًا هنا (حتى 1000+ حرف)"></textarea><br>
+<button onclick="generateQRCode()">✅ إنشاء QR</button><br>
+<div id="qr-output"></div>
 
-  <hr>
+<hr>
 
-  <h2>📷 قراءة QR Code من الكاميرا</h2>
-  <button onclick="startQRScanner()">📡 ابدأ المسح</button><br>
-  <video id="video" width="300" height="200" autoplay></video>
-  <canvas id="canvas" width="300" height="200"></canvas>
-  <div id="output">👁️ لم يتم قراءة شيء بعد...</div>
+<h2>📷 قراءة QR Code من الكاميرا</h2>
+<button onclick="startQRScanner()">📡 ابدأ المسح</button><br>
+<video id="video" width="300" height="200" autoplay></video>
+<div id="output">👁️ لم يتم قراءة شيء بعد...</div>
 
+<!-- مكتبة ZXing UMD -->
+<script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.18.6/umd/index.min.js"></script>
 
-  <!-- مكتبة الإنشاء -->
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
-  <!-- مكتبة القراءة -->
-  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script>
+  function generateQRCode() {
+    const text = document.getElementById("textToEncode").value.trim();
+    if (!text) return alert("⚠️ أدخل نصًا أولاً!");
 
-  <script>
-    function generateQRCode() {
-      const text = document.getElementById("textToEncode").value.trim();
-      if (!text) return alert("⚠️ أدخل نصًا أولاً!");
+    const qrCode = new ZXing.QRCodeWriter();
+    const hints = new Map();
+    const width = 256;
+    const height = 256;
 
-      document.getElementById("qrcode").innerHTML = "";
-      new QRCode(document.getElementById("qrcode"), {
-        text: text,
-        width: 256,
-        height: 256,
-        correctLevel: QRCode.CorrectLevel.H
-      });
-    }
+    const bitMatrix = qrCode.encode(text, ZXing.BarcodeFormat.QR_CODE, width, height, hints);
 
-    async function startQRScanner() {
-      const video = document.getElementById("video");
-      const canvas = document.getElementById("canvas");
-      const context = canvas.getContext("2d");
-      const output = document.getElementById("output");
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
 
-      video.style.display = "block";
-      canvas.style.display = "none";
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = "#fff";
 
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-      video.srcObject = stream;
-
-      const scan = () => {
-        if (video.readyState === video.HAVE_ENOUGH_DATA) {
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-          const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-          const code = jsQR(imageData.data, canvas.width, canvas.height, { inversionAttempts: "dontInvert" });
-
-          if (code) {
-            output.textContent = "✅ تم القراءة: " + code.data;
-            stream.getTracks().forEach(track => track.stop());
-            video.style.display = "none";
-            return;
-          }
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        if (bitMatrix.get(x, y)) {
+          ctx.fillRect(x, y, 1, 1);
         }
-        requestAnimationFrame(scan);
-      };
-      requestAnimationFrame(scan);
+      }
     }
-  </script>
+
+    const output = document.getElementById("qr-output");
+    output.innerHTML = "";
+    output.appendChild(canvas);
+  }
+
+  async function startQRScanner() {
+    const video = document.getElementById("video");
+    const output = document.getElementById("output");
+
+    const codeReader = new ZXing.BrowserQRCodeReader();
+    output.textContent = "📡 جاري المسح...";
+
+    try {
+      const result = await codeReader.decodeOnceFromVideoDevice(undefined, "video");
+      output.textContent = "✅ تم القراءة: " + result.text;
+      codeReader.reset();
+    } catch (err) {
+      output.textContent = "❌ فشل في المسح: " + err;
+    }
+  }
+</script>
