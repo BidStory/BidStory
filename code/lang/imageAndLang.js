@@ -1,197 +1,236 @@
-function importJSONToIndexedDB(jsonInput, dbName = "BidStoryDB", version = 1) {
-  console.log("🚀 بدء عملية استيراد JSON مع حذف القاعدة القديمة إن وجدت...");
+function importJSONToIndexedDB ( jsonInput, dbName = "BidStoryDB", version = 1 )
+{
+  console.log( "🚀 بدء عملية استيراد JSON مع حذف القاعدة القديمة إن وجدت..." );
 
   let jsonData;
 
-  try {
-    jsonData = typeof jsonInput === "string" ? JSON.parse(jsonInput) : jsonInput;
-    console.log("✅ تم تحليل JSON بنجاح.");
-  } catch (err) {
-    console.error("❌ فشل في تحليل JSON:", err);
+  try
+  {
+    jsonData = typeof jsonInput === "string" ? JSON.parse( jsonInput ) : jsonInput;
+    console.log( "✅ تم تحليل JSON بنجاح." );
+  } catch ( err )
+  {
+    console.error( "❌ فشل في تحليل JSON:", err );
     return;
   }
 
-  const storeNames = Object.keys(jsonData);
+  const storeNames = Object.keys( jsonData );
 
   // 1. حذف قاعدة البيانات إن وجدت
-  const deleteRequest = indexedDB.deleteDatabase(dbName);
+  const deleteRequest = indexedDB.deleteDatabase( dbName );
 
-  deleteRequest.onerror = function (event) {
+  deleteRequest.onerror = function ( event )
+  {
     // @ts-ignore
-    console.error("❌ فشل حذف قاعدة البيانات:", event.target.error);
+    console.error( "❌ فشل حذف قاعدة البيانات:", event.target.error );
   };
 
-  deleteRequest.onsuccess = function () {
-    console.log("🗑️ تم حذف قاعدة البيانات القديمة (إن وجدت).");
+  deleteRequest.onsuccess = function ()
+  {
+    console.log( "🗑️ تم حذف قاعدة البيانات القديمة (إن وجدت)." );
 
     // 2. فتح قاعدة البيانات وإنشاؤها من جديد
-    const openRequest = indexedDB.open(dbName, version);
+    const openRequest = indexedDB.open( dbName, version );
 
-    openRequest.onupgradeneeded = function (event) {
-      console.log("⚙️ جاري إنشاء قاعدة بيانات جديدة...");
+    openRequest.onupgradeneeded = function ( event )
+    {
+      console.log( "⚙️ جاري إنشاء قاعدة بيانات جديدة..." );
       // @ts-ignore
       const db = event.target.result;
 
-      for (const storeName of storeNames) {
-        const sampleItem = jsonData[storeName][0];
+      for ( const storeName of storeNames )
+      {
+        const sampleItem = jsonData[ storeName ][ 0 ];
         const keyPath = sampleItem && sampleItem.id !== undefined ? "id" : undefined;
 
-        db.createObjectStore(storeName, keyPath ? { keyPath } : { autoIncrement: true });
-        console.log(`✅ تم إنشاء Object Store: ${storeName}`);
+        db.createObjectStore( storeName, keyPath ? { keyPath } : { autoIncrement: true } );
+        console.log( `✅ تم إنشاء Object Store: ${ storeName }` );
       }
     };
 
-    openRequest.onsuccess = function (event) {
+    openRequest.onsuccess = function ( event )
+    {
       // @ts-ignore
       const db = event.target.result;
-      console.log("📦 تم فتح قاعدة البيانات بنجاح بعد الحذف.");
+      console.log( "📦 تم فتح قاعدة البيانات بنجاح بعد الحذف." );
 
-      const tx = db.transaction(storeNames, "readwrite");
+      const tx = db.transaction( storeNames, "readwrite" );
 
-      tx.oncomplete = () => {
-        console.log("✅ تم إنهاء المعاملة بنجاح.");
+      tx.oncomplete = () =>
+      {
+        console.log( "✅ تم إنهاء المعاملة بنجاح." );
         db.close();
-        console.log("🔒 تم إغلاق قاعدة البيانات.");
+        console.log( "🔒 تم إغلاق قاعدة البيانات." );
       };
 
-      tx.onerror = (e) => {
-        console.error("❌ خطأ أثناء المعاملة:", e.target.error);
+      tx.onerror = ( e ) =>
+      {
+        console.error( "❌ خطأ أثناء المعاملة:", e.target.error );
         db.close();
-        console.log("🔒 تم إغلاق قاعدة البيانات بعد الخطأ.");
+        console.log( "🔒 تم إغلاق قاعدة البيانات بعد الخطأ." );
       };
 
-      try {
-        for (const storeName of storeNames) {
-          const store = tx.objectStore(storeName);
-          const items = jsonData[storeName];
+      try
+      {
+        for ( const storeName of storeNames )
+        {
+          const store = tx.objectStore( storeName );
+          const items = jsonData[ storeName ];
 
-          if (Array.isArray(items)) {
-            for (const item of items) {
-              store.put(item);
+          if ( Array.isArray( items ) )
+          {
+            for ( const item of items )
+            {
+              store.put( item );
             }
-            console.log(`📥 تم إدخال ${items.length} عنصر في "${storeName}".`);
-          } else {
-            console.warn(`⚠️ البيانات في "${storeName}" ليست مصفوفة.`);
+            console.log( `📥 تم إدخال ${ items.length } عنصر في "${ storeName }".` );
+          } else
+          {
+            console.warn( `⚠️ البيانات في "${ storeName }" ليست مصفوفة.` );
           }
         }
-      } catch (err) {
-        console.error("❌ خطأ أثناء إدخال البيانات:", err);
+      } catch ( err )
+      {
+        console.error( "❌ خطأ أثناء إدخال البيانات:", err );
         tx.abort();
       }
     };
 
-    openRequest.onerror = function (event) {
+    openRequest.onerror = function ( event )
+    {
       // @ts-ignore
-      console.error("❌ فشل فتح قاعدة البيانات الجديدة:", event.target.errorCode);
+      console.error( "❌ فشل فتح قاعدة البيانات الجديدة:", event.target.errorCode );
     };
   };
 }
 
-function exportIndexedDBToJSON(dbName = "BidStoryDB") {
-  return new Promise((resolve, reject) => {
-    console.log(`📤 بدء استخراج البيانات من قاعدة البيانات "${dbName}"...`);
+function exportIndexedDBToJSON ( dbName = "BidStoryDB" )
+{
+  return new Promise( ( resolve, reject ) =>
+  {
+    console.log( `📤 بدء استخراج البيانات من قاعدة البيانات "${ dbName }"...` );
 
-    const request = indexedDB.open(dbName);
+    const request = indexedDB.open( dbName );
 
-    request.onerror = (event) => {
+    request.onerror = ( event ) =>
+    {
       // @ts-ignore
-      console.error("❌ فشل في فتح قاعدة البيانات:", event.target.errorCode);
+      console.error( "❌ فشل في فتح قاعدة البيانات:", event.target.errorCode );
       // @ts-ignore
-      reject(event.target.errorCode);
+      reject( event.target.errorCode );
     };
 
-    request.onsuccess = (event) => {
+    request.onsuccess = ( event ) =>
+    {
       // @ts-ignore
       const db = event.target.result;
-      const storeNames = Array.from(db.objectStoreNames);
+      const storeNames = Array.from( db.objectStoreNames );
       const result = {};
       let remainingStores = storeNames.length;
 
-      if (remainingStores === 0) {
-        console.warn("⚠️ لا توجد جداول في قاعدة البيانات.");
+      if ( remainingStores === 0 )
+      {
+        console.warn( "⚠️ لا توجد جداول في قاعدة البيانات." );
         db.close();
-        resolve(result);
+        resolve( result );
         return;
       }
 
-      const tx = db.transaction(storeNames, "readonly");
+      const tx = db.transaction( storeNames, "readonly" );
 
-      tx.onerror = (e) => {
-        console.error("❌ خطأ أثناء القراءة من قاعدة البيانات:", e.target.error);
+      tx.onerror = ( e ) =>
+      {
+        console.error( "❌ خطأ أثناء القراءة من قاعدة البيانات:", e.target.error );
         db.close();
-        reject(e.target.error);
+        reject( e.target.error );
       };
 
-      for (const storeName of storeNames) {
-        const store = tx.objectStore(storeName);
+      for ( const storeName of storeNames )
+      {
+        const store = tx.objectStore( storeName );
         const getAllRequest = store.getAll();
 
-        getAllRequest.onsuccess = () => {
-          result[storeName] = getAllRequest.result;
-          console.log(`📦 تم استخراج ${getAllRequest.result.length} عنصر من "${storeName}".`);
+        getAllRequest.onsuccess = () =>
+        {
+          result[ storeName ] = getAllRequest.result;
+          console.log( `📦 تم استخراج ${ getAllRequest.result.length } عنصر من "${ storeName }".` );
 
           remainingStores--;
-          if (remainingStores === 0) {
+          if ( remainingStores === 0 )
+          {
             db.close();
-            console.log("✅ تم الانتهاء من استخراج البيانات.");
-            resolve(result);
+            console.log( "✅ تم الانتهاء من استخراج البيانات." );
+            resolve( result );
           }
         };
 
-        getAllRequest.onerror = (err) => {
-          console.error(`❌ خطأ أثناء القراءة من "${storeName}":`, err.target.error);
+        getAllRequest.onerror = ( err ) =>
+        {
+          console.error( `❌ خطأ أثناء القراءة من "${ storeName }":`, err.target.error );
           remainingStores--;
-          if (remainingStores === 0) {
+          if ( remainingStores === 0 )
+          {
             db.close();
-            reject(err.target.error);
+            reject( err.target.error );
           }
         };
       }
     };
-  });
+  } );
 }
 
 let images = null;
 let lang = null;
 let lists = null;
+let country = null;
 let LoadLangImageLists = false;
 
 async function loadData() {
   try {
     LoadLangImageLists = false;
-    const imageFilePath = "/BidStory/code/lang/data_image.json";
-    const langFilePath = "/BidStory/code/lang/data_lang.json";
-    const listsFilePath = "/BidStory/code/lang/data_lists.json";
+
+    const imageFilePath   = "/BidStory/code/lang/data_image.json";
+    const langFilePath    = "/BidStory/code/lang/data_lang.json";
+    const listsFilePath   = "/BidStory/code/lang/data_lists.json";
+    const countryFilePath = "/BidStory/code/lang/data_country.json";
 
     console.log(`📥 تحميل الملف من: ${imageFilePath}`);
     console.log(`📥 تحميل الملف من: ${langFilePath}`);
     console.log(`📥 تحميل الملف من: ${listsFilePath}`);
+    console.log(`📥 تحميل الملف من: ${countryFilePath}`);
 
-    const [responseImage, responseLang, responseLists] = await Promise.all([
+    const [responseImage, responseLang, responseLists, responseCountry] = await Promise.all([
       fetch(imageFilePath),
       fetch(langFilePath),
-      fetch(listsFilePath)
+      fetch(listsFilePath),
+      fetch(countryFilePath)
     ]);
 
-    if (!responseImage.ok || !responseLang.ok || !responseLists.ok) {
-      throw new Error(`❌ فشل تحميل أحد الملفات:\n📄 image: ${responseImage.status}\n📄 lang: ${responseLang.status}\n📄 lists: ${responseLists.status}`);
+    if (!responseImage.ok || !responseLang.ok || !responseLists.ok || !responseCountry.ok) {
+      throw new Error(`❌ فشل تحميل أحد الملفات:
+📄 image:   ${responseImage.status}
+📄 lang:    ${responseLang.status}
+📄 lists:   ${responseLists.status}
+📄 country: ${responseCountry.status}`);
     }
 
-    const [textImage, textLang, textLists] = await Promise.all([
+    const [textImage, textLang, textLists, textCountry] = await Promise.all([
       responseImage.text(),
       responseLang.text(),
-      responseLists.text()
+      responseLists.text(),
+      responseCountry.text()
     ]);
 
     try {
-      images = JSON.parse(textImage);
-      lang = JSON.parse(textLang);
-      lists = JSON.parse(textLists);
+      images  = JSON.parse(textImage);
+      lang    = JSON.parse(textLang);
+      lists   = JSON.parse(textLists);
+      country = JSON.parse(textCountry);
 
-      console.log("✅ تم تحويل الملفات الثلاثة إلى كائنات JSON بنجاح.");
-     
+      console.log("✅ تم تحويل الملفات الأربعة إلى كائنات JSON بنجاح.");
+
       setTextAndImage();
- LoadLangImageLists = true;
+      LoadLangImageLists = true;
     } catch (parseError) {
       console.error("❌ فشل في تحليل أحد الملفات إلى JSON:", parseError);
       throw parseError;
@@ -201,43 +240,54 @@ async function loadData() {
     console.error("💥 حدث خطأ أثناء تحميل أو تحليل الملفات:", err);
   }
 }
-async function getLoadLangImageLists(){return LoadLangImageLists;}
+
+async function getLoadLangImageLists () { return LoadLangImageLists; }
 async function loadDataFromWeb() {
   try {
     LoadLangImageLists = false;
-    const imageFilePath = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_image.json";
-    const langFilePath = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_lang.json";
-    const listsFilePath = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_lists.json";
+
+    const imageFilePath   = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_image.json";
+    const langFilePath    = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_lang.json";
+    const listsFilePath   = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_lists.json";
+    const countryFilePath = "https://raw.githubusercontent.com/BidStory/BidStory/main/code/lang/data_country.json";
 
     console.log(`📥 تحميل الملف من: ${imageFilePath}`);
     console.log(`📥 تحميل الملف من: ${langFilePath}`);
     console.log(`📥 تحميل الملف من: ${listsFilePath}`);
+    console.log(`📥 تحميل الملف من: ${countryFilePath}`);
 
-    const [responseImage, responseLang, responseLists] = await Promise.all([
+    const [responseImage, responseLang, responseLists, responseCountry] = await Promise.all([
       fetch(imageFilePath),
       fetch(langFilePath),
-      fetch(listsFilePath)
+      fetch(listsFilePath),
+      fetch(countryFilePath)
     ]);
 
-    if (!responseImage.ok || !responseLang.ok || !responseLists.ok) {
-      throw new Error(`❌ فشل تحميل أحد الملفات:\n📄 image: ${responseImage.status}\n📄 lang: ${responseLang.status}\n📄 lists: ${responseLists.status}`);
+    if (!responseImage.ok || !responseLang.ok || !responseLists.ok || !responseCountry.ok) {
+      throw new Error(`❌ فشل تحميل أحد الملفات:
+📄 image:   ${responseImage.status}
+📄 lang:    ${responseLang.status}
+📄 lists:   ${responseLists.status}
+📄 country: ${responseCountry.status}`);
     }
 
-    const [textImage, textLang, textLists] = await Promise.all([
+    const [textImage, textLang, textLists, textCountry] = await Promise.all([
       responseImage.text(),
       responseLang.text(),
-      responseLists.text()
+      responseLists.text(),
+      responseCountry.text()
     ]);
 
     try {
-      images = JSON.parse(textImage);
-      lang = JSON.parse(textLang);
-      lists = JSON.parse(textLists);
+      images  = JSON.parse(textImage);
+      lang    = JSON.parse(textLang);
+      lists   = JSON.parse(textLists);
+      country = JSON.parse(textCountry);
 
-      console.log("✅ تم تحويل الملفات الثلاثة إلى كائنات JSON بنجاح.");
-    
+      console.log("✅ تم تحويل الملفات الأربعة إلى كائنات JSON بنجاح.");
+
       setTextAndImage();
-  LoadLangImageLists = true;
+      LoadLangImageLists = true;
     } catch (parseError) {
       console.error("❌ فشل في تحليل أحد الملفات إلى JSON:", parseError);
       throw parseError;
@@ -248,202 +298,241 @@ async function loadDataFromWeb() {
   }
 }
 
-function getKindTenderValueByCIndex(cIndex, key) {
-  if (!lists || !Array.isArray(lists.kind_mo)) {
-    console.warn("⚠️ lists.kind_mo غير موجود أو ليس مصفوفة.");
+
+function getKindTenderValueByCIndex ( cIndex, key )
+{
+  if ( !lists || !Array.isArray( lists.kind_mo ) )
+  {
+    console.warn( "⚠️ lists.kind_mo غير موجود أو ليس مصفوفة." );
     return null;
   }
 
-  const item = lists.kind_mo.find(entry => entry.CIndex == cIndex);
-  
-  if (!item) {
-    console.warn(`⚠️ لم يتم العثور على عنصر بـ CIndex = ${cIndex}`);
+  const item = lists.kind_mo.find( entry => entry.CIndex == cIndex );
+
+  if ( !item )
+  {
+    console.warn( `⚠️ لم يتم العثور على عنصر بـ CIndex = ${ cIndex }` );
     return null;
   }
 
-  if (!(key in item)) {
-    console.warn(`⚠️ المفتاح '${key}' غير موجود في العنصر.`);
+  if ( !( key in item ) )
+  {
+    console.warn( `⚠️ المفتاح '${ key }' غير موجود في العنصر.` );
     return null;
   }
 
-  return item[key];
+  return item[ key ];
 }
 
-function getKindFinancialByCIndex(cIndex, key) {
-  if (!lists || !Array.isArray(lists.pand_mo)) {
-    console.warn("⚠️ lists.pand_mo غير موجود أو ليس مصفوفة.");
+function getKindFinancialByCIndex ( cIndex, key )
+{
+  if ( !lists || !Array.isArray( lists.pand_mo ) )
+  {
+    console.warn( "⚠️ lists.pand_mo غير موجود أو ليس مصفوفة." );
     return null;
   }
 
-  const item = lists.pand_mo.find(entry => entry.CIndex == cIndex);
-  
-  if (!item) {
-    console.warn(`⚠️ لم يتم العثور على عنصر بـ CIndex = ${cIndex}`);
+  const item = lists.pand_mo.find( entry => entry.CIndex == cIndex );
+
+  if ( !item )
+  {
+    console.warn( `⚠️ لم يتم العثور على عنصر بـ CIndex = ${ cIndex }` );
     return null;
   }
 
-  if (!(key in item)) {
-    console.warn(`⚠️ المفتاح '${key}' غير موجود في العنصر.`);
+  if ( !( key in item ) )
+  {
+    console.warn( `⚠️ المفتاح '${ key }' غير موجود في العنصر.` );
     return null;
   }
 
-  return item[key];
+  return item[ key ];
 }
 
-function getPandTypeByCIndex(cIndex, key) {
-  if (!lists || !Array.isArray(lists.pandType)) {
-    console.warn("⚠️ lists.pandType غير موجود أو ليس مصفوفة.");
+function getPandTypeByCIndex ( cIndex, key )
+{
+  if ( !lists || !Array.isArray( lists.pandType ) )
+  {
+    console.warn( "⚠️ lists.pandType غير موجود أو ليس مصفوفة." );
     return null;
   }
 
-  const item = lists.pandType.find(entry => entry.CIndex == cIndex);
+  const item = lists.pandType.find( entry => entry.CIndex == cIndex );
 
-  if (!item) {
-    console.warn(`⚠️ لم يتم العثور على عنصر بـ CIndex = ${cIndex}`);
+  if ( !item )
+  {
+    console.warn( `⚠️ لم يتم العثور على عنصر بـ CIndex = ${ cIndex }` );
     return null;
   }
 
-  if (!(key in item)) {
-    console.warn(`⚠️ المفتاح '${key}' غير موجود في العنصر.`);
+  if ( !( key in item ) )
+  {
+    console.warn( `⚠️ المفتاح '${ key }' غير موجود في العنصر.` );
     return null;
   }
 
-  return item[key];
+  return item[ key ];
 }
 
-function getKindTaxByCIndex(cIndex, key) {
-  
-  if (!lists || !Array.isArray(lists.Tax_mo)) {
-    console.warn("⚠️ lists.Tax_mo غير موجود أو ليس مصفوفة.");
+function getKindTaxByCIndex ( cIndex, key )
+{
+
+  if ( !lists || !Array.isArray( lists.Tax_mo ) )
+  {
+    console.warn( "⚠️ lists.Tax_mo غير موجود أو ليس مصفوفة." );
     return null;
   }
 
-  const item = lists.Tax_mo.find(entry => entry.CIndex == cIndex);
-  
-  if (!item) {
-    console.warn(`⚠️ لم يتم العثور على عنصر بـ CIndex = ${cIndex}`);
+  const item = lists.Tax_mo.find( entry => entry.CIndex == cIndex );
+
+  if ( !item )
+  {
+    console.warn( `⚠️ لم يتم العثور على عنصر بـ CIndex = ${ cIndex }` );
     return null;
   }
 
-  if (!(key in item)) {
-    console.warn(`⚠️ المفتاح '${key}' غير موجود في العنصر.`);
+  if ( !( key in item ) )
+  {
+    console.warn( `⚠️ المفتاح '${ key }' غير موجود في العنصر.` );
     return null;
   }
 
-  return item[key];
+  return item[ key ];
 }
 
-function getKindWorkCIndex(cIndex, key) {
+function getKindWorkCIndex ( cIndex, key )
+{
 
-  if (!lists || !Array.isArray(lists.fixKindWork)) {
-    console.warn("⚠️ lists.fixKindWork غير موجود أو ليس مصفوفة.");
+  if ( !lists || !Array.isArray( lists.fixKindWork ) )
+  {
+    console.warn( "⚠️ lists.fixKindWork غير موجود أو ليس مصفوفة." );
     return null;
   }
 
-  const item = lists.fixKindWork.find(entry => entry.CIndex == cIndex);
+  const item = lists.fixKindWork.find( entry => entry.CIndex == cIndex );
 
-  if (!item) {
-    console.warn(`⚠️ لم يتم العثور على عنصر بـ CIndex = ${cIndex}`);
+  if ( !item )
+  {
+    console.warn( `⚠️ لم يتم العثور على عنصر بـ CIndex = ${ cIndex }` );
     return null;
   }
 
-  if (!(key in item)) {
-    console.warn(`⚠️ المفتاح '${key}' غير موجود في العنصر.`);
+  if ( !( key in item ) )
+  {
+    console.warn( `⚠️ المفتاح '${ key }' غير موجود في العنصر.` );
     return null;
   }
 
-  return item[key];
+  return item[ key ];
 }
 
-function getUnitByCIndex(cIndex, key) {
-  
-  if (!lists || !Array.isArray(lists.unit)) {
-    console.warn("⚠️ lists.unit غير موجود أو ليس مصفوفة.");
+function getUnitByCIndex ( cIndex, key )
+{
+
+  if ( !lists || !Array.isArray( lists.unit ) )
+  {
+    console.warn( "⚠️ lists.unit غير موجود أو ليس مصفوفة." );
     return null;
   }
 
-  const item = lists.unit.find(entry => entry.CIndex == cIndex);
-  
-  if (!item) {
-    console.warn(`⚠️ لم يتم العثور على عنصر بـ CIndex = ${cIndex}`);
+  const item = lists.unit.find( entry => entry.CIndex == cIndex );
+
+  if ( !item )
+  {
+    console.warn( `⚠️ لم يتم العثور على عنصر بـ CIndex = ${ cIndex }` );
     return null;
   }
 
-  if (!(key in item)) {
-    console.warn(`⚠️ المفتاح '${key}' غير موجود في العنصر.`);
+  if ( !( key in item ) )
+  {
+    console.warn( `⚠️ المفتاح '${ key }' غير موجود في العنصر.` );
     return null;
   }
 
-  return item[key];
+  return item[ key ];
 }
-function getImage(clableValue) {
- 
-  if (!images || !Array.isArray(images.image)) {
-    console.error("❌ الكائن المدخل غير صالح أو لا يحتوي على مصفوفة 'image'.");
+function getImage ( clableValue )
+{
+
+  if ( !images || !Array.isArray( images.image ) )
+  {
+    console.error( "❌ الكائن المدخل غير صالح أو لا يحتوي على مصفوفة 'image'." );
     return null;
   }
 
-  const foundItem = images.image.find(item => item.Clable === clableValue);
+  const foundItem = images.image.find( item => item.Clable === clableValue );
 
-  if (foundItem) {
+  if ( foundItem )
+  {
     //console.log(`✅ تم العثور على العنصر بـ Clable = "${clableValue}".`);
     return foundItem.Cdata;
-  } else {
-    console.warn(`⚠️ لا يوجد عنصر بـ Clable = "${clableValue}".`);
+  } else
+  {
+    console.warn( `⚠️ لا يوجد عنصر بـ Clable = "${ clableValue }".` );
     return null;
   }
 }
 
 
-function getLang(id ) {
+function getLang ( id )
+{
 
-  if (!lang || !Array.isArray(lang.lang)) {
-    console.error("❌ الكائن 'lang' غير موجود أو غير صالح.");
+  if ( !lang || !Array.isArray( lang.lang ) )
+  {
+    console.error( "❌ الكائن 'lang' غير موجود أو غير صالح." );
     return null;
   }
 
-  const item = lang.lang.find(entry => entry.id == id);
+  const item = lang.lang.find( entry => entry.id == id );
 
-  if (!item) {
-    console.warn(`⚠️ لم يتم العثور على العنصر بالمعرف id = ${id}`);
+  if ( !item )
+  {
+    console.warn( `⚠️ لم يتم العثور على العنصر بالمعرف id = ${ id }` );
     return null;
   }
 
   return useArabic ? item.a : item.e;
 }
 
-function setTextAndImage()
+function setTextAndImage ()
 {
- // تحميل الصور
- document.querySelectorAll('[id^="i_"]').forEach(imgEl => {
-  const key = imgEl.id.slice(2); // إزالة "i_"
-  const src = getImage(key);
-  // @ts-ignore
-  if (src) imgEl.src = src;
-});
+  // تحميل الصور
+  document.querySelectorAll( '[id^="i_"]' ).forEach( imgEl =>
+  {
+    const key = imgEl.id.slice( 2 ); // إزالة "i_"
+    const src = getImage( key );
+    // @ts-ignore
+    if ( src ) imgEl.src = src;
+  } );
 
-// تحميل النصوص
-document.querySelectorAll('[id^="t_"]').forEach(textEl => {
-  const match = textEl.id.match(/^t_([^_]+)/);
-  const key = match ? match[1] : null;
-  const text = getLang(key);
-  if (text) textEl.textContent = text;
+  // تحميل النصوص
+  document.querySelectorAll( '[id^="t_"]' ).forEach( textEl =>
+  {
+    const match = textEl.id.match( /^t_([^_]+)/ );
+    const key = match ? match[ 1 ] : null;
+    const text = getLang( key );
+    if ( text ) textEl.textContent = text;
 
-});
+  } );
 
 }
 
 
-(async () => {
-  if (window.location.hostname.includes("bidstory.github.io")) {
-    console.log("✅ انت الان على الاستضافة الحقيقية (GitHub Pages).");
-   await loadDataFromWeb();
-  } else {
-    console.log("🧪 انت الان في بيئة تطوير محلية (Localhost أو نطاق تجريبي).");
-   await loadData();
+
+
+( async () =>
+{
+  if ( window.location.hostname.includes( "bidstory.github.io" ) )
+  {
+    console.log( "✅ انت الان على الاستضافة الحقيقية (GitHub Pages)." );
+    await loadDataFromWeb();
+  } else
+  {
+    console.log( "🧪 انت الان في بيئة تطوير محلية (Localhost أو نطاق تجريبي)." );
+    await loadData();
 
   }
-})();
+} )();
 
 
 

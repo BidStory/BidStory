@@ -1,0 +1,18 @@
+
+
+<script>
+
+    // مثال على الاستخدام
+const currencyData = new SetCurrencyData( 50); // عملة السعودية (ريال سعودي)
+const converter = new ToWord( 1234.56, currencyData, {
+    englishPrefixText: "only",
+    englishSuffixText: "payable.",
+    arabicPrefixText: "فقط",
+    arabicSuffixText: "لا غير."
+} );
+
+console.log( converter.convertToEnglish() );
+console.log( converter.convertToArabic() );
+console.log(TimeUnitConverter.convert("3", "5", "0", "", 0));
+console.log(TimeUnitConverter.convert("", "", "", "3#2#1", 0));
+</script>
