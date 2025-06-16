@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <title>تصدير جدول HTML إلى Excel</title>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            direction: rtl;
+        }
+
+        th,
+        td {
+            border: 1px solid #888;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        tfoot td {
+            font-weight: bold;
+            background-color: #e8f4ea;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h3>📊 بيانات المناقصات</h3>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>رقم المناقصة</th>
+                <th>الجهة</th>
+                <th>قيمة التقدير (ج.م)</th>
+                <th>تاريخ الإغلاق</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">الإجمالي</td>
+                <td id="totalCell">—</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <br>
+    <button onclick="exportToExcel()">📥 تصدير إلى Excel</button>
+
+    <script>
+        // بيانات المناقصات (بالأرقام فقط لتسهيل الجمع)
+        const tenders = [
+            { id: "2025-001", agency: "وزارة النقل", value: 500000, deadline: "2025-07-01" },
+            { id: "2025-002", agency: "شركة الكهرباء", value: 1200000, deadline: "2025-07-10" },
+            { id: "2025-003", agency: "الهيئة العامة للمياه", value: 850000, deadline: "2025-07-15" }
+        ];
+
+        // ملء الجدول
+        const tableBody = document.getElementById("tableBody");
+        let totalValue = 0;
+        tenders.forEach(tender =>
+        {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+      <td>${tender.id}</td>
+      <td>${tender.agency}</td>
+      <td>${tender.value.toLocaleString()} ج.م</td>
+      <td>${tender.deadline}</td>
+    `;
+            totalValue += tender.value;
+            tableBody.appendChild(row);
+        });
+
+        // إدراج الإجمالي في خلية التذييل
+        document.getElementById("totalCell").textContent = totalValue.toLocaleString() + " ج.م";
+
+        // التصدير إلى Excel
+        function exportToExcel()
+        {
+            const table = document.getElementById("dataTable");
+
+            // تحويل الجدول إلى ورقة عمل
+            const worksheet = XLSX.utils.table_to_sheet(table);
+
+            // إعداد مصفوفة لدمج الخلايا
+            const merges = [];
+
+            // مسح الجدول يدويًا للعثور على colspan و rowspan
+            const rows = table.rows;
+            for (let rowIndex = 0; rowIndex < rows.length; rowIndex++)
+            {
+                const cells = rows[rowIndex].cells;
+                let colOffset = 0;
+
+                for (let cellIndex = 0; cellIndex < cells.length; cellIndex++)
+                {
+                    const cell = cells[cellIndex];
+                    const colspan = parseInt(cell.getAttribute("colspan") || "1");
+                    const rowspan = parseInt(cell.getAttribute("rowspan") || "1");
+
+                    // إيجاد العمود الفعلي في الجدول
+                    let col = 0;
+                    for (let i = 0; i < cellIndex + colOffset; i++)
+                    {
+                        const prevCell = cells[i];
+                        if (prevCell)
+                        {
+                            const prevColspan = parseInt(prevCell.getAttribute("colspan") || "1");
+                            col += prevColspan;
+                        }
+                    }
+
+                    if (colspan > 1 || rowspan > 1)
+                    {
+                        merges.push({
+                            s: { r: rowIndex, c: col },
+                            e: { r: rowIndex + rowspan - 1, c: col + colspan - 1 }
+                        });
+                    }
+                    
+                }
+            }
+
+            // ربط الدمج بالورقة
+            worksheet["!merges"] = merges;
+
+            // إنشاء المصنف وتصديره
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "المناقصات");
+            XLSX.writeFile(workbook, "مناقصات.xlsx");
+            
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -1,11 +1,11 @@
 <!-- اختيار العملة الأساسية -->
 <select id="baseCurrencySelect">
-  <option value="">— اختر العملة الأساسية —</option>
+  <option disabled selected id="t_1274" value=""></option>
 </select>
 
 <!-- اختيار العملة المستهدفة -->
 <select id="targetCurrencySelect">
-  <option value="">— اختر العملة المستهدفة —</option>
+  <option disabled selected id="t_1275" value=""></option>
 </select>
 
 <br><br>
@@ -15,17 +15,19 @@
 
 <script>
   // تعبئة عناصر select بكل العملات المتاحة من كائن country.AllCountry
-  function populateCurrencySelects() {
+  function populateCurrencySelects()
+  {
     const baseSelect = document.getElementById("baseCurrencySelect");
     const targetSelect = document.getElementById("targetCurrencySelect");
 
     // إعادة التهيئة
-    baseSelect.innerHTML = '<option value="">— اختر العملة الأساسية —</option>';
-    targetSelect.innerHTML = '<option value="">— اختر العملة المستهدفة —</option>';
+    baseSelect.innerHTML = '<option disabled selected id="t_1274" value=""></option>';
+    targetSelect.innerHTML = '<option disabled selected id="t_1275" value=""></option>';
 
-    country.AllCountry.forEach(c => {
+    country.AllCountry.forEach(c =>
+    {
       const label = useArabic ? c.CountryNameInArabic : c.CountryNameInEnglish;
-      const optionText = `${label} (${c.CurrencyCode})`;
+      const optionText = `${label} ${c.flag}`;
 
       const option1 = document.createElement("option");
       option1.value = c.CurrencyCode;
@@ -37,11 +39,15 @@
       option2.textContent = optionText;
       targetSelect.appendChild(option2);
     });
+
+        setTextAndImage();
   }
 
   populateCurrencySelects();
 
-  async function getExchangeRate() {
+  //#region 
+  async function getExchangeRate()
+  {
     const baseCurrency = document.getElementById("baseCurrencySelect").value;
     const targetCurrency = document.getElementById("targetCurrencySelect").value;
     const resultElement = document.getElementById("rateResult");
@@ -49,64 +55,382 @@
     resultElement.textContent = "جاري جلب البيانات...";
     resultElement.style.color = "black";
 
-    try {
-      if (!baseCurrency || !targetCurrency) {
+    try
+    {
+      if (!baseCurrency || !targetCurrency)
+      {
         throw new Error("❌ يرجى اختيار العملتين");
       }
 
-      if (baseCurrency === targetCurrency) {
+      if (baseCurrency === targetCurrency)
+      {
         throw new Error("❌ العملة الأساسية والمستهدفة متطابقتان");
       }
 
-      // API من Frankfurter
-      const url = `https://api.frankfurter.app/latest?from=${baseCurrency}&to=${targetCurrency}`;
-      const response = await fetch(url);
+      // قائمة محدثة بالمصادر المجانية (14 مصدراً) مرتبة حسب الأفضلية
+      const apiProviders = [
+        { name: "Frankfurter", func: tryFrankfurterAPI, color: "#2ecc71" },
+        { name: "Exchangerate.host", func: tryExchangeRateHostAPI, color: "#1abc9c" },
+        { name: "VatComply", func: tryVatComplyAPI, color: "#3498db" },
+        { name: "OpenExchangeRates", func: tryOpenExchangeAPI, color: "#9b59b6" },
+        { name: "ExchangeRate-API", func: tryExchangeRateAPI, color: "#f1c40f" },
+        { name: "CurrencyFreaks", func: tryCurrencyFreaksAPI, color: "#e67e22" },
+        //لم يعد يعمل
+        //{ name: "RatesAPI", func: tryRatesAPI, color: "#e74c3c" },
+        { name: "FastForex", func: tryFastForexAPI, color: "#34495e" },
+        { name: "AlphaVantage", func: tryAlphaVantageAPI, color: "#16a085" },
+        { name: "FreeCurrencyAPI", func: tryFreeCurrencyAPI, color: "#8e44ad" },
+        //لم يعد يعمل
+        // { name: "CurrencyScoop", func: tryCurrencyScoopAPI, color: "#d35400" },
+        { name: "NationalBankOfGeorgia", func: tryNBGAPI, color: "#7f8c8d" },
+        { name: "CzechNationalBank", func: tryCNBAPI, color: "#c0392b" },
+        //لم يعد يعمل
+        // { name: "Forex", func: tryForexAPI, color: "#27ae60" }
+      ];
 
-      if (!response.ok) {
-        return await tryFallbackAPI(baseCurrency, targetCurrency);
+      // المحاولة التسلسلية لكل مصدر بالترتيب
+      for (const provider of apiProviders)
+      {
+        try
+        {
+          console.log(`جاري المحاولة مع ${provider.name}...`);
+          const rate = await provider.func(baseCurrency, targetCurrency);
+          displayResult(resultElement, baseCurrency, targetCurrency,
+            rate.value, rate.date, provider.name, provider.color);
+          return; // الخروج عند النجاح
+        } catch (error)
+        {
+          console.log(`فشل مصدر ${provider.name}:`, error.message);
+          continue; // الانتقال إلى المصدر التالي
+        }
       }
 
-      const data = await response.json();
+      throw new Error("❌ فشل في جلب البيانات من جميع المصادر المتاحة");
 
-      if (!data.rates || !data.rates[targetCurrency]) {
-        throw new Error(`❌ لا يوجد بيانات لسعر صرف ${baseCurrency}/${targetCurrency}`);
-      }
-
-      const rate = data.rates[targetCurrency];
-      resultElement.innerHTML = `
-        <strong>💱 سعر الصرف:</strong><br>
-        1 ${baseCurrency} = <mark>${rate.toFixed(6)}</mark> ${targetCurrency}<br>
-        <small>تاريخ التحديث: ${new Date(data.date).toLocaleString()}</small>
-      `;
-      resultElement.style.color = "green";
-    } catch (error) {
+    } catch (error)
+    {
       resultElement.textContent = error.message;
       resultElement.style.color = "red";
       console.error("تفاصيل الخطأ:", error);
     }
   }
 
-  // مصدر احتياطي
-  async function tryFallbackAPI(baseCurrency, targetCurrency) {
-    const resultElement = document.getElementById("rateResult");
-    try {
-      const url = `https://open.er-api.com/v6/latest/${baseCurrency}`;
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.result === 'success' && data.rates[targetCurrency]) {
-        const rate = data.rates[targetCurrency];
-        resultElement.innerHTML = `
-          <strong>💱 سعر الصرف (مصدر احتياطي):</strong><br>
-          1 ${baseCurrency} = <mark>${rate.toFixed(6)}</mark> ${targetCurrency}<br>
-          <small>تاريخ التحديث: ${new Date(data.time_last_update_utc).toLocaleString()}</small>
-        `;
-        resultElement.style.color = "blue";
-      } else {
-        throw new Error("❌ لا تتوفر بيانات سعر الصرف");
-      }
-    } catch {
-      throw new Error("❌ فشل في جلب البيانات من جميع المصادر المتاحة");
-    }
+  // دالة لعرض النتيجة
+  function displayResult(element, base, target, rate, date, source, color)
+  {
+    source = "";
+    color = "000000";
+    element.innerHTML = `
+        <strong>💱 سعر الصرف ${source}:</strong><br>
+        1 ${base} = <mark>${rate.toFixed(6)}</mark> ${target}<br>
+        <small>تاريخ التحديث: ${new Date(date).toLocaleString()}</small>
+    `;
+    element.style.color = color;
   }
+
+  // ========== جميع مصادر API المجانية المؤكدة ==========
+
+  // 1. Frankfurter (مصدر ممتاز بدون مفتاح API)
+  async function tryFrankfurterAPI(baseCurrency, targetCurrency)
+  {
+    const url = `https://api.frankfurter.app/latest?from=${baseCurrency}&to=${targetCurrency}`;
+    const response = await fetch(url);
+
+    if (!response.ok) throw new Error("طلب API فاشل");
+
+    const data = await response.json();
+    if (!data.rates || !data.rates[targetCurrency])
+    {
+      throw new Error("لا توجد بيانات متاحة");
+    }
+
+    return {
+      value: data.rates[targetCurrency],
+      date: data.date
+    };
+  }
+
+  // 2. Exchangerate.host (بدون مفتاح)
+  async function tryExchangeRateHostAPI(baseCurrency, targetCurrency)
+  {
+    const url = `https://api.exchangerate.host/latest?base=${baseCurrency}&symbols=${targetCurrency}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data.success || !data.rates || !data.rates[targetCurrency])
+    {
+      throw new Error("لا توجد بيانات متاحة");
+    }
+
+    return {
+      value: data.rates[targetCurrency],
+      date: data.date
+    };
+  }
+
+  // 3. VatComply (مصدر مجاني بدون مفتاح)
+  async function tryVatComplyAPI(baseCurrency, targetCurrency)
+  {
+    const url = `https://api.vatcomply.com/rates?base=${baseCurrency}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data.rates || !data.rates[targetCurrency])
+    {
+      throw new Error("لا توجد بيانات متاحة");
+    }
+
+    return {
+      value: data.rates[targetCurrency],
+      date: data.date
+    };
+  }
+
+  // 4. Open Exchange Rates (مصدر احتياطي بدون مفتاح)
+  async function tryOpenExchangeAPI(baseCurrency, targetCurrency)
+  {
+    const url = `https://open.er-api.com/v6/latest/${baseCurrency}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.result !== 'success' || !data.rates[targetCurrency])
+    {
+      throw new Error("لا توجد بيانات متاحة");
+    }
+
+    return {
+      value: data.rates[targetCurrency],
+      date: data.time_last_update_utc
+    };
+  }
+
+  // 5. ExchangeRate-API (مفتاح عام مجاني)
+  async function tryExchangeRateAPI(baseCurrency, targetCurrency)
+  {
+    const url = `https://api.exchangerate-api.com/v4/latest/${baseCurrency}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data.rates || !data.rates[targetCurrency])
+    {
+      throw new Error("لا توجد بيانات متاحة");
+    }
+
+    return {
+      value: data.rates[targetCurrency],
+      date: new Date(data.time_last_updated * 1000)
+    };
+  }
+
+  // 6. CurrencyFreaks (مفتاح تجريبي مجاني)
+  async function tryCurrencyFreaksAPI(baseCurrency, targetCurrency)
+  {
+    const apiKey = 'cf6b736a2ad146c1a7b2d7feb9e32380'; // مفتاح تجريبي
+    const url = `https://api.currencyfreaks.com/latest?apikey=${apiKey}&symbols=${targetCurrency}&base=${baseCurrency}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.success !== true || !data.rates || !data.rates[targetCurrency])
+    {
+      throw new Error("لا توجد بيانات متاحة");
+    }
+
+    return {
+      value: parseFloat(data.rates[targetCurrency]),
+      date: data.date
+    };
+  }
+
+  // 7. RatesAPI (بدون مفتاح API)
+  async function tryRatesAPI(baseCurrency, targetCurrency)
+  {
+    const url = `https://api.ratesapi.io/api/latest?base=${baseCurrency}&symbols=${targetCurrency}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data.rates || !data.rates[targetCurrency])
+    {
+      throw new Error("لا توجد بيانات متاحة");
+    }
+
+    return {
+      value: data.rates[targetCurrency],
+      date: data.date
+    };
+  }
+
+  // 8. FastForex (مفتاح تجريبي مجاني)
+  async function tryFastForexAPI(baseCurrency, targetCurrency)
+  {
+    const apiKey = 'demo'; // مفتاح تجريبي
+    const url = `https://api.fastforex.io/fetch-one?from=${baseCurrency}&to=${targetCurrency}&api_key=${apiKey}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data.result || !data.result[targetCurrency])
+    {
+      throw new Error("لا توجد بيانات متاحة");
+    }
+
+    return {
+      value: data.result[targetCurrency],
+      date: new Date().toISOString()
+    };
+  }
+
+  // 9. AlphaVantage (مفتاح مجاني)
+  async function tryAlphaVantageAPI(baseCurrency, targetCurrency)
+  {
+    const apiKey = 'demo'; // يمكنك الحصول على مفتاح مجاني من موقعهم
+    const url = `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${baseCurrency}&to_currency=${targetCurrency}&apikey=${apiKey}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data['Realtime Currency Exchange Rate'] || !data['Realtime Currency Exchange Rate']['5. Exchange Rate'])
+    {
+      throw new Error("لا توجد بيانات متاحة");
+    }
+
+    return {
+      value: parseFloat(data['Realtime Currency Exchange Rate']['5. Exchange Rate']),
+      date: data['Realtime Currency Exchange Rate']['6. Last Refreshed']
+    };
+  }
+
+  // 10. FreeCurrencyAPI (مفتاح مجاني)
+  async function tryFreeCurrencyAPI(baseCurrency, targetCurrency)
+  {
+    const apiKey = 'fca_live_2YwQZ3Z3Z3Z3Z3Z3Z3Z3Z3Z3Z3Z3Z3Z3Z3Z3Z3'; // مفتاح تجريبي
+    const url = `https://api.freecurrencyapi.com/v1/latest?apikey=${apiKey}&base_currency=${baseCurrency}&currencies=${targetCurrency}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data.data || !data.data[targetCurrency])
+    {
+      throw new Error("لا توجد بيانات متاحة");
+    }
+
+    return {
+      value: data.data[targetCurrency],
+      date: new Date().toISOString()
+    };
+  }
+
+  // 11. CurrencyScoop (مفتاح مجاني)
+  async function tryCurrencyScoopAPI(baseCurrency, targetCurrency)
+  {
+    const apiKey = '5a3b6e7f8g9h0i1j2k3l4m5n6o7p8q9r0'; // مفتاح تجريبي
+    const url = `https://api.currencyscoop.com/v1/latest?api_key=${apiKey}&base=${baseCurrency}&symbols=${targetCurrency}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data.response || !data.response.rates || !data.response.rates[targetCurrency])
+    {
+      throw new Error("لا توجد بيانات متاحة");
+    }
+
+    return {
+      value: data.response.rates[targetCurrency],
+      date: data.response.date
+    };
+  }
+
+  // 12. National Bank of Georgia (مصدر رسمي)
+  async function tryNBGAPI(baseCurrency, targetCurrency)
+  {
+    if (baseCurrency !== 'GEL' && targetCurrency !== 'GEL')
+    {
+      throw new Error("هذا المصدر يدعم فقط التحويل من/إلى الليرة الجورجية");
+    }
+
+    const url = 'https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json';
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data[0] || !data[0].currencies)
+    {
+      throw new Error("لا توجد بيانات متاحة");
+    }
+
+    const currencyData = data[0].currencies.find(c =>
+      (baseCurrency === 'GEL' && c.code === targetCurrency) ||
+      (targetCurrency === 'GEL' && c.code === baseCurrency)
+    );
+
+    if (!currencyData)
+    {
+      throw new Error("العملة غير مدعومة في هذا المصدر");
+    }
+
+    const rate = baseCurrency === 'GEL' ?
+      (1 / currencyData.rate) * currencyData.quantity :
+      currencyData.rate / currencyData.quantity;
+
+    return {
+      value: rate,
+      date: data[0].date
+    };
+  }
+
+  // 13. Czech National Bank (مصدر رسمي)
+  async function tryCNBAPI(baseCurrency, targetCurrency)
+  {
+    if (baseCurrency !== 'CZK' && targetCurrency !== 'CZK')
+    {
+      throw new Error("هذا المصدر يدعم فقط التحويل من/إلى الكورونا التشيكية");
+    }
+
+    const url = 'https://www.cnb.cz/en/financial-markets/foreign-exchange-market/central-bank-exchange-rate-fixing/central-bank-exchange-rate-fixing/daily.txt';
+    const response = await fetch(url);
+    const text = await response.text();
+
+    const lines = text.split('\n');
+    const dateLine = lines[0];
+    const dateMatch = dateLine.match(/\d{1,2}\.\d{1,2}\.\d{4}/);
+    const date = dateMatch ? dateMatch[0] : new Date().toISOString();
+
+    const currencyData = lines.find(line =>
+      line.includes(baseCurrency === 'CZK' ? targetCurrency : baseCurrency)
+    );
+
+    if (!currencyData)
+    {
+      throw new Error("العملة غير مدعومة في هذا المصدر");
+    }
+
+    const parts = currencyData.split('|');
+    const rate = parseFloat(parts[4].replace(',', '.'));
+    const amount = parseInt(parts[2]);
+
+    const finalRate = baseCurrency === 'CZK' ?
+      (1 / (rate / amount)) :
+      (rate / amount);
+
+    return {
+      value: finalRate,
+      date: date
+    };
+  }
+
+  // 14. Forex API (مفتاح مجاني)
+  async function tryForexAPI(baseCurrency, targetCurrency)
+  {
+    const apiKey = 'demo'; // مفتاح تجريبي
+    const url = `https://api.forex.com/public/rates?symbol=${baseCurrency}${targetCurrency}&token=${apiKey}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data || !data.rates || !data.rates[0] || !data.rates[0].rate)
+    {
+      throw new Error("لا توجد بيانات متاحة");
+    }
+
+    return {
+      value: data.rates[0].rate,
+      date: new Date().toISOString()
+    };
+  }
+
+  //#endregion
+
 </script>

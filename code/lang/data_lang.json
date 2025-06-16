@@ -5714,6 +5714,16 @@
       "id": 1273,
       "a": "تفقيط المبالغ",
       "e": "Amount in Words"
+    },
+    {
+      "id": 1274,
+      "a": "اختر العملة الأساسية",
+      "e": "Select the base currency"
+    },
+    {
+      "id": 1275,
+      "a": "اختر العملة المستهدف",
+      "e": "Select the target currency"
     }
   ]
 }
