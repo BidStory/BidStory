@@ -5707,8 +5707,13 @@
     },
     {
       "id": 1272,
-      "a": "أسعار الصرف",
-      "e": "Exchange Rates"
+      "a": "أسعار صرف العملات",
+      "e": "Currency Exchange Rates"
+    },
+    {
+      "id": 1273,
+      "a": "تفقيط المبالغ",
+      "e": "Amount in Words"
     }
   ]
 }

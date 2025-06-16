@@ -1,18 +1,60 @@
+<select id="countrySelect" onchange="showCurrencyInfo()">
+  <option value="">— اختر —</option>
+</select>
 
+<div class="result" id="currencyInfo">💰 العملة: — | 💱 الكود: —</div>
+
+<!-- إدخال الرقم -->
+<input type="number" id="amountInput" placeholder="أدخل المبلغ" style="margin-top: 10px;" />
+
+<!-- زر التفقيط -->
+<button onclick="handleAmountConversion()">📝 تفقيط المبلغ</button>
+
+<!-- نتيجة التفقيط -->
+<div id="amountInWords" style="margin-top: 10px; font-weight: bold;">🔤 المبلغ بالحروف: —</div>
 
 <script>
+  // تعبئة القائمة
+  function populateSelect() {
+    const select = document.getElementById("countrySelect");
+    select.innerHTML = '<option value="">— اختر —</option>';
+    country.AllCountry.forEach(c => {
+      const option = document.createElement("option");
+      option.value = c.id;
+      option.textContent = useArabic == true ? c.CountryNameInArabic : c.CountryNameInEnglish;
+      select.appendChild(option);
+    });
+  }
 
-    // مثال على الاستخدام
-const currencyData = new SetCurrencyData( 50); // عملة السعودية (ريال سعودي)
-const converter = new ToWord( 1234.56, currencyData, {
-    englishPrefixText: "only",
-    englishSuffixText: "payable.",
-    arabicPrefixText: "فقط",
-    arabicSuffixText: "لا غير."
-} );
+  populateSelect();
 
-console.log( converter.convertToEnglish() );
-console.log( converter.convertToArabic() );
-console.log(TimeUnitConverter.convert("3", "5", "0", "", 0));
-console.log(TimeUnitConverter.convert("", "", "", "3#2#1", 0));
+  let countryId = "0";
+
+  function showCurrencyInfo() {
+    const selectedId = document.getElementById("countrySelect").value;
+    if (!selectedId) return;
+
+    const selectedCountry = country.AllCountry.find(c => c.id == selectedId);
+    if (selectedCountry) {
+      const currencyName = useArabic == true
+        ? selectedCountry.Arabic1CurrencyName
+        : selectedCountry.EnglishCurrencyName;
+      document.getElementById("currencyInfo").textContent =
+        `💰 العملة: ${currencyName} | 💱 الكود: ${selectedCountry.CurrencyCode}`;
+      countryId = selectedCountry.id;
+    }
+  }
+
+  // زر تحويل المبلغ إلى كلمات
+  function handleAmountConversion() {
+    const amount = parseFloat(document.getElementById("amountInput").value);
+    if (isNaN(amount) || amount < 0) {
+      alert("❗ الرجاء إدخال مبلغ صالح");
+      return;
+    }
+
+    const words = amount2words(amount, countryId);
+    document.getElementById("amountInWords").textContent = `🔤 المبلغ بالحروف: ${words}`;
+  }
+
 </script>

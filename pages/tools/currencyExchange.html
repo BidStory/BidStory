@@ -1,81 +1,112 @@
-<input type="text" id="baseCurrency" placeholder="العملة الأساسية (مثلاً: USD)" value="USD"><br>
-<input type="text" id="targetCurrency" placeholder="العملة المستهدفة (مثلاً: EGP)" value="EGP"><br>
+<!-- اختيار العملة الأساسية -->
+<select id="baseCurrencySelect">
+  <option value="">— اختر العملة الأساسية —</option>
+</select>
+
+<!-- اختيار العملة المستهدفة -->
+<select id="targetCurrencySelect">
+  <option value="">— اختر العملة المستهدفة —</option>
+</select>
+
+<br><br>
 <button onclick="getExchangeRate()">✅ تحويل</button><br><br>
 
 <p id="rateResult">—</p>
 
 <script>
-    async function getExchangeRate() {
-        const baseCurrency = document.getElementById("baseCurrency").value.trim().toUpperCase();
-        const targetCurrency = document.getElementById("targetCurrency").value.trim().toUpperCase();
-        const resultElement = document.getElementById("rateResult");
+  // تعبئة عناصر select بكل العملات المتاحة من كائن country.AllCountry
+  function populateCurrencySelects() {
+    const baseSelect = document.getElementById("baseCurrencySelect");
+    const targetSelect = document.getElementById("targetCurrencySelect");
 
-        resultElement.textContent = "جاري جلب البيانات...";
-        resultElement.style.color = "black";
+    // إعادة التهيئة
+    baseSelect.innerHTML = '<option value="">— اختر العملة الأساسية —</option>';
+    targetSelect.innerHTML = '<option value="">— اختر العملة المستهدفة —</option>';
 
-        try {
-            // التحقق من الصحة
-            if(baseCurrency.length !== 3 || targetCurrency.length !== 3) {
-                throw new Error("❌ يجب إدخال رموز عملات مكونة من 3 أحرف");
-            }
+    country.AllCountry.forEach(c => {
+      const label = useArabic ? c.CountryNameInArabic : c.CountryNameInEnglish;
+      const optionText = `${label} (${c.CurrencyCode})`;
 
-            if(baseCurrency === targetCurrency) {
-                throw new Error("❌ العملة الأساسية والمستهدفة متطابقتان");
-            }
+      const option1 = document.createElement("option");
+      option1.value = c.CurrencyCode;
+      option1.textContent = optionText;
+      baseSelect.appendChild(option1);
 
-            // استخدام واجهة Frankfurter المجانية
-            const url = `https://api.frankfurter.app/latest?from=${baseCurrency}&to=${targetCurrency}`;
-            
-            const response = await fetch(url);
+      const option2 = document.createElement("option");
+      option2.value = c.CurrencyCode;
+      option2.textContent = optionText;
+      targetSelect.appendChild(option2);
+    });
+  }
 
-            if (!response.ok) {
-                // إذا فشل الطلب، جرب مصدرًا احتياطيًا
-                return await tryFallbackAPI(baseCurrency, targetCurrency);
-            }
+  populateCurrencySelects();
 
-            const data = await response.json();
+  async function getExchangeRate() {
+    const baseCurrency = document.getElementById("baseCurrencySelect").value;
+    const targetCurrency = document.getElementById("targetCurrencySelect").value;
+    const resultElement = document.getElementById("rateResult");
 
-            if (!data.rates || !data.rates[targetCurrency]) {
-                throw new Error(`❌ لا يوجد بيانات لسعر صرف ${baseCurrency}/${targetCurrency}`);
-            }
+    resultElement.textContent = "جاري جلب البيانات...";
+    resultElement.style.color = "black";
 
-            const rate = data.rates[targetCurrency];
-            resultElement.innerHTML = `
-                <strong>💱 سعر الصرف:</strong><br>
-                1 ${baseCurrency} = <mark>${rate.toFixed(6)}</mark> ${targetCurrency}<br>
-                <small>تاريخ التحديث: ${new Date(data.date).toLocaleString()}</small>
-            `;
-            resultElement.style.color = "green";
-        } 
-        catch (error) {
-            resultElement.textContent = error.message;
-            resultElement.style.color = "red";
-            console.error("تفاصيل الخطأ:", error);
-        }
+    try {
+      if (!baseCurrency || !targetCurrency) {
+        throw new Error("❌ يرجى اختيار العملتين");
+      }
+
+      if (baseCurrency === targetCurrency) {
+        throw new Error("❌ العملة الأساسية والمستهدفة متطابقتان");
+      }
+
+      // API من Frankfurter
+      const url = `https://api.frankfurter.app/latest?from=${baseCurrency}&to=${targetCurrency}`;
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        return await tryFallbackAPI(baseCurrency, targetCurrency);
+      }
+
+      const data = await response.json();
+
+      if (!data.rates || !data.rates[targetCurrency]) {
+        throw new Error(`❌ لا يوجد بيانات لسعر صرف ${baseCurrency}/${targetCurrency}`);
+      }
+
+      const rate = data.rates[targetCurrency];
+      resultElement.innerHTML = `
+        <strong>💱 سعر الصرف:</strong><br>
+        1 ${baseCurrency} = <mark>${rate.toFixed(6)}</mark> ${targetCurrency}<br>
+        <small>تاريخ التحديث: ${new Date(data.date).toLocaleString()}</small>
+      `;
+      resultElement.style.color = "green";
+    } catch (error) {
+      resultElement.textContent = error.message;
+      resultElement.style.color = "red";
+      console.error("تفاصيل الخطأ:", error);
     }
+  }
 
-    // مصدر احتياطي إذا فشل المصدر الرئيسي
-    async function tryFallbackAPI(baseCurrency, targetCurrency) {
-        const resultElement = document.getElementById("rateResult");
-        try {
-            // استخدام واجهة ExchangeRate-API كبديل
-            const url = `https://open.er-api.com/v6/latest/${baseCurrency}`;
-            const response = await fetch(url);
-            const data = await response.json();
-            
-            if (data.result === 'success' && data.rates[targetCurrency]) {
-                const rate = data.rates[targetCurrency];
-                resultElement.innerHTML = `
-                    <strong>💱 سعر الصرف (مصدر احتياطي):</strong><br>
-                    1 ${baseCurrency} = <mark>${rate.toFixed(6)}</mark> ${targetCurrency}<br>
-                    <small>تاريخ التحديث: ${new Date(data.time_last_update_utc).toLocaleString()}</small>
-                `;
-                resultElement.style.color = "blue";
-            } else {
-                throw new Error("❌ لا تتوفر بيانات سعر الصرف");
-            }
-        } catch (fallbackError) {
-            throw new Error("❌ فشل في جلب البيانات من جميع المصادر المتاحة");
-        }
+  // مصدر احتياطي
+  async function tryFallbackAPI(baseCurrency, targetCurrency) {
+    const resultElement = document.getElementById("rateResult");
+    try {
+      const url = `https://open.er-api.com/v6/latest/${baseCurrency}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.result === 'success' && data.rates[targetCurrency]) {
+        const rate = data.rates[targetCurrency];
+        resultElement.innerHTML = `
+          <strong>💱 سعر الصرف (مصدر احتياطي):</strong><br>
+          1 ${baseCurrency} = <mark>${rate.toFixed(6)}</mark> ${targetCurrency}<br>
+          <small>تاريخ التحديث: ${new Date(data.time_last_update_utc).toLocaleString()}</small>
+        `;
+        resultElement.style.color = "blue";
+      } else {
+        throw new Error("❌ لا تتوفر بيانات سعر الصرف");
+      }
+    } catch {
+      throw new Error("❌ فشل في جلب البيانات من جميع المصادر المتاحة");
     }
+  }
 </script>

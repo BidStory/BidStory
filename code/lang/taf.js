@@ -482,154 +482,206 @@ class ToWord
     ];
 }
 
-function getCountryDataById(countryId) {
-  console.log('this is data', country);
+function getCountryDataById ( countryId )
+{
+    console.log( 'this is data', country );
 
-  // التأكد من وجود AllCountry وأنها مصفوفة
-  if (!country || !Array.isArray(country.AllCountry)) {
-    console.error("❌ country.json غير محمّل أو ليس بصيغة صحيحة.");
-    return null;
-  }
+    // التأكد من وجود AllCountry وأنها مصفوفة
+    if ( !country || !Array.isArray( country.AllCountry ) )
+    {
+        console.error( "❌ country.json غير محمّل أو ليس بصيغة صحيحة." );
+        return null;
+    }
 
-  // البحث عن الدولة المطلوبة
-  const countryData = country.AllCountry.find(c => parseInt(c.id) === parseInt(countryId));
+    // البحث عن الدولة المطلوبة
+    const countryData = country.AllCountry.find( c => parseInt( c.id ) === parseInt( countryId ) );
 
-  if (!countryData) {
-    throw new Error(`❌ لم يتم العثور على بيانات للدولة بالرقم ${countryId}`);
-  }
+    if ( !countryData )
+    {
+        throw new Error( `❌ لم يتم العثور على بيانات للدولة بالرقم ${ countryId }` );
+    }
 
-  return countryData;
+    return countryData;
 }
 
+function amount2words ( amount, countryId ) 
+{
+    try
+    {
+        const currencyData = new SetCurrencyData( countryId );
+        let lang;
+        if ( useArabic == true )
+        {
+            lang = {
 
-class TimeUnitConverter {
-  /**
-   * تحويل الوحدات الزمنية إلى نص مكتوب
-   * @param {string} days - عدد الأيام
-   * @param {string} months - عدد الأشهر
-   * @param {string} years - عدد السنوات
-   * @param {string} combinedValues - قيم مجمعة مفصولة بـ #
-   * @param {number} language - اللغة (0 للعربية، 1 للإنجليزية)
-   * @returns {string} النص المنسق للوحدات الزمنية
-   */
-  static convert(days, months, years, combinedValues, language) {
-    try {
-      // معالجة القيم المدخلة
-      const { processedDays, processedMonths, processedYears } = this.#processInputValues(
-        days,
-        months,
-        years,
-        combinedValues
-      );
+                arabicPrefixText: "فقط",
+                arabicSuffixText: "لا غير."
+            };
+        } else
+        {
+            lang = {
+                englishPrefixText: "only",
+                englishSuffixText: "payable."
+            };
+        }
+        const converter = new ToWord( amount, currencyData, lang );
+        if ( useArabic == true )
+        {
+            return converter.convertToArabic();
+        } else
+        {
+            return converter.convertToEnglish();
+        }
 
-      // تحويل كل وحدة زمنية
-      const daysText = this.#convertUnit(processedDays, 'day', language);
-      const monthsText = this.#convertUnit(processedMonths, 'month', language);
-      const yearsText = this.#convertUnit(processedYears, 'year', language);
-
-      // دمج النتائج مع الروابط المناسبة
-      return this.#combineResults(daysText, monthsText, yearsText, language);
-    } catch (error) {
-      console.error('Error in TimeUnitConverter:', error);
-      return '';
+    } catch ( error )
+    {
+        console.error( 'Error in amount2words:', error );
+        return '';
     }
-  }
+}
 
-  /**
-   * معالجة القيم المدخلة وفصل القيم المجمعة إذا لزم الأمر
-   */
-  static #processInputValues(days, months, years, combinedValues) {
-    let result = { processedDays: days, processedMonths: months, processedYears: years };
+/* how use 
+ console.log( TimeUnitConverter.convert( "3", "5", "0", "", 0 ) );
+ console.log( TimeUnitConverter.convert( "", "", "", "3#2#1", 0 ) );
+*/
+class TimeUnitConverter
+{
+    /**
+     * تحويل الوحدات الزمنية إلى نص مكتوب
+     * @param {string} days - عدد الأيام
+     * @param {string} months - عدد الأشهر
+     * @param {string} years - عدد السنوات
+     * @param {string} combinedValues - قيم مجمعة مفصولة بـ #
+     * @param {number} language - اللغة (0 للعربية، 1 للإنجليزية)
+     * @returns {string} النص المنسق للوحدات الزمنية
+     */
+    static convert ( days, months, years, combinedValues, language )
+    {
+        try
+        {
+            // معالجة القيم المدخلة
+            const { processedDays, processedMonths, processedYears } = this.#processInputValues(
+                days,
+                months,
+                years,
+                combinedValues
+            );
 
-    if (combinedValues?.trim()) {
-      const values = combinedValues.split('#');
-      result = {
-        processedDays: values[0] || days,
-        processedMonths: values[1] || months,
-        processedYears: values[2] || years,
-      };
+            // تحويل كل وحدة زمنية
+            const daysText = this.#convertUnit( processedDays, 'day', language );
+            const monthsText = this.#convertUnit( processedMonths, 'month', language );
+            const yearsText = this.#convertUnit( processedYears, 'year', language );
+
+            // دمج النتائج مع الروابط المناسبة
+            return this.#combineResults( daysText, monthsText, yearsText, language );
+        } catch ( error )
+        {
+            console.error( 'Error in TimeUnitConverter:', error );
+            return '';
+        }
     }
 
-    return result;
-  }
+    /**
+     * معالجة القيم المدخلة وفصل القيم المجمعة إذا لزم الأمر
+     */
+    static #processInputValues ( days, months, years, combinedValues )
+    {
+        let result = { processedDays: days, processedMonths: months, processedYears: years };
 
-  /**
-   * تحويل وحدة زمنية واحدة إلى نص
-   */
-  static #convertUnit(value, unitType, language) {
-    if (!this.#isNumeric(value)) return '';
+        if ( combinedValues?.trim() )
+        {
+            const values = combinedValues.split( '#' );
+            result = {
+                processedDays: values[ 0 ] || days,
+                processedMonths: values[ 1 ] || months,
+                processedYears: values[ 2 ] || years,
+            };
+        }
 
-    const numValue = parseFloat(value);
-    if (numValue === 0) return '';
+        return result;
+    }
 
-    // إنشاء محول الأرقام
-    const currencyData = new SetCurrencyData(0);
-    const converter = new ToWord(numValue, currencyData, {
-      englishPrefixText: '',
-      englishSuffixText: '',
-      arabicPrefixText: '',
-      arabicSuffixText: '',
-    });
+    /**
+     * تحويل وحدة زمنية واحدة إلى نص
+     */
+    static #convertUnit ( value, unitType, language )
+    {
+        if ( !this.#isNumeric( value ) ) return '';
 
-    // الحصول على النص حسب اللغة
-    const numberText = language === 0 
-      ? converter.convertToArabic()
-      : converter.convertToEnglish();
+        const numValue = parseFloat( value );
+        if ( numValue === 0 ) return '';
 
-    // الحصول على تسمية الوحدة المناسبة
-    const unitLabel = this.#getUnitLabel(numValue, unitType, language);
+        // إنشاء محول الأرقام
+        const currencyData = new SetCurrencyData( 0 );
+        const converter = new ToWord( numValue, currencyData, {
+            englishPrefixText: '',
+            englishSuffixText: '',
+            arabicPrefixText: '',
+            arabicSuffixText: '',
+        } );
 
-    return numberText + unitLabel;
-  }
+        // الحصول على النص حسب اللغة
+        const numberText = language === 0
+            ? converter.convertToArabic()
+            : converter.convertToEnglish();
 
-  /**
-   * الحصول على تسمية الوحدة حسب العدد واللغة
-   */
-  static #getUnitLabel(value, unitType, language) {
-    const intValue = parseInt(value);
-    const units = {
-      day: {
-        singular: language === 0 ? ' يوم' : ' day',
-        plural: language === 0 ? ' أيام' : ' days',
-        dual: language === 0 ? ' يومين' : 'two days',
-      },
-      month: {
-        singular: language === 0 ? ' شهر' : ' month',
-        plural: language === 0 ? ' أشهر' : ' months',
-        dual: language === 0 ? ' شهرين' : 'two months',
-      },
-      year: {
-        singular: language === 0 ? ' سنة' : ' year',
-        plural: language === 0 ? ' سنين' : ' years',
-        dual: language === 0 ? ' سنتين' : 'two years',
-      },
-    };
+        // الحصول على تسمية الوحدة المناسبة
+        const unitLabel = this.#getUnitLabel( numValue, unitType, language );
 
-    if (intValue === 1) return units[unitType].singular;
-    if (intValue === 2) return units[unitType].dual;
-    if (intValue >= 3 && intValue <= 10) return units[unitType].plural;
-    return units[unitType].plural; // Default for numbers > 10
-  }
+        return numberText + unitLabel;
+    }
 
-  /**
-   * دمج النصوص الناتجة مع الروابط المناسبة
-   */
-  static #combineResults(daysText, monthsText, yearsText, language) {
-    const parts = [daysText, monthsText, yearsText].filter(Boolean);
-    if (parts.length === 0) return '';
+    /**
+     * الحصول على تسمية الوحدة حسب العدد واللغة
+     */
+    static #getUnitLabel ( value, unitType, language )
+    {
+        const intValue = parseInt( value );
+        const units = {
+            day: {
+                singular: language === 0 ? ' يوم' : ' day',
+                plural: language === 0 ? ' أيام' : ' days',
+                dual: language === 0 ? ' يومين' : 'two days',
+            },
+            month: {
+                singular: language === 0 ? ' شهر' : ' month',
+                plural: language === 0 ? ' أشهر' : ' months',
+                dual: language === 0 ? ' شهرين' : 'two months',
+            },
+            year: {
+                singular: language === 0 ? ' سنة' : ' year',
+                plural: language === 0 ? ' سنين' : ' years',
+                dual: language === 0 ? ' سنتين' : 'two years',
+            },
+        };
 
-    if (parts.length === 1) return parts[0];
+        if ( intValue === 1 ) return units[ unitType ].singular;
+        if ( intValue === 2 ) return units[ unitType ].dual;
+        if ( intValue >= 3 && intValue <= 10 ) return units[ unitType ].plural;
+        return units[ unitType ].plural; // Default for numbers > 10
+    }
 
-    const connector = language === 0 ? ' و' : ' and ';
-    return parts.join(connector);
-  }
+    /**
+     * دمج النصوص الناتجة مع الروابط المناسبة
+     */
+    static #combineResults ( daysText, monthsText, yearsText, language )
+    {
+        const parts = [ daysText, monthsText, yearsText ].filter( Boolean );
+        if ( parts.length === 0 ) return '';
 
-  /**
-   * التحقق من أن القيمة رقمية
-   */
-  static #isNumeric(value) {
-    return !isNaN(parseFloat(value)) && isFinite(value);
-  }
+        if ( parts.length === 1 ) return parts[ 0 ];
+
+        const connector = language === 0 ? ' و' : ' and ';
+        return parts.join( connector );
+    }
+
+    /**
+     * التحقق من أن القيمة رقمية
+     */
+    static #isNumeric ( value )
+    {
+        return !isNaN( parseFloat( value ) ) && isFinite( value );
+    }
 }
 
 
