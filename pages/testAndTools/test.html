@@ -1,208 +1,177 @@
-<script src="/BidStory/js/dataBase/dbManager.js"></script>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
-<script>
-    // ✅ مصفوفات عامة لتجميع البيانات
-    const allDatabaseNames = [];              // لتجميع أسماء جميع قواعد البيانات
-    const allProcessNames = [];              // لتجميع أسماء كل العمليات (العمليات الرئيسية)
-    const itemsPerProcess = {};              // لكل عملية: العناصر التابعة لها
-    const dbsPerItem = {};                   // لكل عنصر: قواعد البيانات المرتبطة به
+<head>
+    <meta charset="UTF-8">
+    <title>📦 تصدير واستيراد قواعد بيانات IndexedDB</title>
 
-    // ✅ التحقق من وجود قاعدة بيانات ثم إضافتها إلى القائمة العامة
-    async function checkAndAddDatabase(dbName) {
-        if (await checkDatabaseExists(dbName)) {
-            allDatabaseNames.push(dbName);
-            return true;
+    <!-- ✅ مكتبة ضغط الملفات -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <!-- ✅ مكتبة لحفظ الملفات -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <!-- ✅ مكتبة SweetAlert (اختياري للرسائل الجميلة) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="/BidStory/js/dataBase/dbManager.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background: #f9f9f9;
+            color: #333;
         }
-        return false;
-    }
 
-    // ✅ جلب كل العمليات من قاعدة بيانات "allPro"
-    async function fetchAllProcesses() {
-        const dbName = "allPro";
-        const processKeys = [];
+        button,
+        input[type="file"] {
+            padding: 10px 20px;
+            margin: 15px 0;
+            font-size: 16px;
+        }
 
-        if (!(await checkAndAddDatabase(dbName))) return processKeys;
+        .section {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ddd;
+        }
+    </style>
+</head>
 
-        const db = new noUpgrade(dbName);
-        const rows = await db.getAllDataFromTable("rows");
+<body>
 
-        if (Array.isArray(rows)) {
-            for (const row of rows) {
-                if (row?.key !== undefined) {
-                    processKeys.push(row.key.toString());
+    <div class="section">
+        <h2>📤 تصدير قواعد بيانات</h2>
+        <p>اضغط الزر لتصدير عدة قواعد بيانات وحفظها على جهازك:</p>
+        <button onclick="exportMultipleDatabasesAndDownload(['db1', 'db2', 'db3'])">
+            ⬇️ تصدير القواعد المحددة
+        </button>
+    </div>
+
+    <div class="section">
+        <h2>📥 استيراد قواعد بيانات</h2>
+        <p>اختر ملف ZIP يحتوي على قواعد بيانات لاستيرادها:</p>
+        <input type="file" accept=".zip" onchange="importMultipleDatabasesFromFile(this.files[0])">
+    </div>
+
+    <hr>
+    <button onclick="exportAllDatabases()">⬇️ تصدير جميع القواعد تلقائيًا</button>
+
+
+
+    <script>
+
+
+        async function getAllDatabaseNames()
+        {
+            if (!indexedDB.databases)
+            {
+                console.warn("❌ المتصفح لا يدعم indexedDB.databases()");
+                return [];
+            }
+
+            try
+            {
+                const databases = await indexedDB.databases();
+                const names = databases.map(db => db.name).filter(Boolean); // إزالة null
+                console.log("📋 أسماء قواعد البيانات:", names);
+                return names;
+            } catch (err)
+            {
+                console.error("❌ حدث خطأ أثناء جلب أسماء القواعد:", err);
+                return [];
+            }
+        }
+
+        async function exportAllDatabases()
+        {
+            const dbNames = await getAllDatabaseNames();
+            if (dbNames.length === 0)
+            {
+                Swal.fire("معلومة", "لا توجد قواعد بيانات للتصدير", "info");
+                return;
+            }
+            exportMultipleDatabasesAndDownload(dbNames);
+        }
+
+        // ✅ تصدير قواعد متعددة
+        async function exportMultipleDatabasesAndDownload(dbNames)
+        {
+            console.log("📦 بدء تصدير قواعد البيانات:", dbNames);
+            const exportResults = [];
+
+            for (const dbName of dbNames)
+            {
+                try
+                {
+                    const exported = await exportEntireDatabase(dbName);
+                    exportResults.push(exported);
+                    console.log(`✅ تم تصدير القاعدة: ${dbName}`);
+                } catch (err)
+                {
+                    console.error(`❌ فشل في تصدير القاعدة ${dbName}:`, err);
                 }
             }
-        } else {
-            console.warn("⚠️ البيانات في allPro غير صالحة:", rows);
+
+            const finalExport = {
+                exported_at: new Date().toISOString(),
+                databases: exportResults
+            };
+
+            const jsonStr = JSON.stringify(finalExport, null, 2);
+            const zip = new JSZip();
+            zip.file("databases.json", jsonStr);
+
+            const zipBlob = await zip.generateAsync({ type: "blob" });
+
+            saveAs(zipBlob, `indexeddb_backup_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, "_")}.zip`);
+            console.log("🎉 تم ضغط وتنزيل القواعد بنجاح.");
         }
 
-        return processKeys;
-    }
+        // ✅ استيراد قواعد من ملف ZIP
+        async function importMultipleDatabasesFromFile(file)
+        {
+            try
+            {
+                console.log("📥 جاري قراءة الملف...");
+                const zip = await JSZip.loadAsync(file);
+                const fileName = "databases.json";
 
-    // ✅ جلب العناصر (items) المرتبطة بعملية معينة
-    async function fetchItemsForProcess(processKey) {
-        const items = [];
-        const relatedDBs = [];
-
-        const defDB = `def_${processKey}`;
-        const iteDB = `ite_${processKey}`;
-
-        if (await checkAndAddDatabase(defDB)) relatedDBs.push(defDB);
-
-        if (await checkAndAddDatabase(iteDB)) {
-            relatedDBs.push(iteDB);
-            const db = new noUpgrade(iteDB);
-            const rows = await db.getAllDataFromTable("rows");
-
-            if (Array.isArray(rows)) {
-                for (const row of rows) {
-                    if (row?.key !== undefined) {
-                        const itemKey = row.key.toString();
-                        items.push(itemKey);
-
-                        // ✅ جلب قواعد البيانات الخاصة بالعنصر
-                        const itemDBs = await fetchDatabasesForItem(itemKey);
-                        relatedDBs.push(...itemDBs);
-                    }
+                if (!zip.files[fileName])
+                {
+                    throw new Error("❌ ملف 'databases.json' غير موجود داخل الضغط.");
                 }
-            }
-        }
 
-        return { items, relatedDBs };
-    }
+                const jsonStr = await zip.files[fileName].async("string");
+                const parsed = JSON.parse(jsonStr);
 
-    // ✅ جلب قواعد البيانات المرتبطة بعنصر معين (item)
-    async function fetchDatabasesForItem(itemKey) {
-        const itemDBs = [];
-        const staticSections = [
-            "raw", "equipments", "labor", "transport", "other",
-            "cond", "files", "Timeline"
-        ];
-
-        // ✅ قواعد البيانات الثابتة المرتبطة بالعنصر
-        for (const section of staticSections) {
-            const dbName = `${section}_${itemKey}`;
-            if (await checkAndAddDatabase(dbName)) {
-                itemDBs.push(dbName);
-            }
-        }
-
-        // ✅ قواعد بيانات الفواتير المتكررة (bill_x_itemKey)
-        let i = 1;
-        while (i <= 1000) {
-            const billDB = `bill_${i}_${itemKey}`;
-            const exists = await checkDatabaseExists(billDB);
-            if (!exists) break;
-
-            allDatabaseNames.push(billDB);
-            itemDBs.push(billDB);
-
-            const db = new noUpgrade(billDB);
-            const rows = await db.getAllDataFromTable("rows");
-
-            // ✅ قواعد بيانات أقسام كل فاتورة
-            if (Array.isArray(rows)) {
-                for (const row of rows) {
-                    if (row?.key !== undefined) {
-                        const billSections = [
-                            "PandBillNo", "PandBillLength", "PandBillWidth",
-                            "PandBillHight", "PandBillKg", "PandBillPrice", "PandBillPercent"
-                        ];
-                        for (const section of billSections) {
-                            const sectionDB = `${row.key}__n_${section}`;
-                            if (await checkAndAddDatabase(sectionDB)) {
-                                itemDBs.push(sectionDB);
-                            }
-                        }
-                    }
+                if (!parsed.databases || !Array.isArray(parsed.databases))
+                {
+                    throw new Error("❌ تنسيق الملف غير صحيح.");
                 }
+
+                for (const dbExport of parsed.databases)
+                {
+                    console.log(`⬇️ جاري استيراد القاعدة: ${dbExport.database}`);
+                    await importOrUpdateFromJSON(dbExport);
+                }
+
+                console.log("🎉 تم استيراد جميع القواعد بنجاح.");
+                Swal.fire("نجاح", "تم استيراد جميع قواعد البيانات بنجاح", "success");
+            } catch (err)
+            {
+                console.error("❌ فشل في استيراد الملف:", err);
+                Swal.fire("خطأ", "حدث خطأ أثناء استيراد الملف: " + err.message, "error");
             }
-
-            i++;
         }
 
-        // ✅ تخزين قواعد البيانات الخاصة بالعنصر
-        dbsPerItem[itemKey] = [...itemDBs];
+        // ⚠️ تأكد من وجود هذه الدوال مسبقًا:
+        // exportEntireDatabase(dbName)
+        // importOrUpdateFromJSON(json)
+    </script>
+</body>
 
-        return itemDBs;
-    }
-
-    // ✅ جلب كافة البيانات: عمليات + عناصر + قواعد بيانات
-    async function getAllDatabaseStructure() {
-        // ✅ تهيئة كل المتغيرات لتكون نظيفة
-        allDatabaseNames.length = 0;
-        allProcessNames.length = 0;
-        Object.keys(itemsPerProcess).forEach(key => delete itemsPerProcess[key]);
-        Object.keys(dbsPerItem).forEach(key => delete dbsPerItem[key]);
-
-        const processes = await fetchAllProcesses();
-
-        for (const processKey of processes) {
-            allProcessNames.push(processKey);
-            const processData = await fetchItemsForProcess(processKey);
-            itemsPerProcess[processKey] = processData;
-        }
-
-        console.log("✅ قواعد البيانات:", allDatabaseNames);
-        console.log("📌 العمليات:", allProcessNames);
-        console.log("🧩 العناصر لكل عملية:", itemsPerProcess);
-        console.log("📦 قواعد البيانات لكل عنصر:", dbsPerItem);
-
-        return {
-            allDatabaseNames: [...allDatabaseNames],
-            allProcessNames: [...allProcessNames],
-            itemsPerProcess: { ...itemsPerProcess },
-            dbsPerItem: { ...dbsPerItem }
-        };
-    }
-
-    // ✅ جلب بيانات عملية واحدة حسب اسمها
-    async function getSingleProcessData(processKey) {
-        if (!processKey || typeof processKey !== "string") {
-            console.warn("⚠️ يرجى إدخال اسم عملية صالح");
-            return null;
-        }
-
-        allDatabaseNames.length = 0;
-
-        const result = {
-            process: processKey,
-            items: [],
-            relatedDatabases: [],
-            databasesPerItem: {}
-        };
-
-        const allProExists = await checkDatabaseExists("allPro");
-        if (!allProExists) {
-            console.warn("❌ قاعدة البيانات 'allPro' غير موجودة");
-            return null;
-        }
-
-        // ✅ التأكد من أن العملية موجودة في "allPro"
-        const db = new noUpgrade("allPro");
-        const rows = await db.getAllDataFromTable("rows");
-        const processFound = rows?.some(row => row?.key?.toString() === processKey);
-        if (!processFound) {
-            console.warn("❌ العملية غير موجودة:", processKey);
-            return null;
-        }
-
-        // ✅ جلب العناصر وقواعد البيانات المرتبطة
-        const data = await fetchItemsForProcess(processKey);
-        result.items = data.items;
-        result.relatedDatabases = data.relatedDBs;
-
-        for (const item of data.items) {
-            result.databasesPerItem[item] = dbsPerItem[item] || [];
-        }
-
-        console.log("📍 بيانات العملية:", result);
-        return result;
-    }
-
-    // ✅ تنفيذ اختبارات تلقائية في حالة الحاجة
-    (async () => {
-        await getAllDatabaseStructure();                      // اختبار شامل لكل البيانات
-      //  await getSingleProcessData("yzQe1750303300564");     // اختبار عملية محددة
-    })();
-</script>
+</html>
