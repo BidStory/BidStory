@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>ExcelJS تصدير مع صورة</title>
+
+        <!-- استدعاء مكتبة ExcelJS لإنشاء ملفات Excel -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+
+        <!-- استدعاء مكتبة FileSaver لحفظ الملفات محليًا -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                direction: rtl;
+            }
+
+            th,
+            td {
+                border: 1px solid #888;
+                padding: 8px;
+                text-align: center;
+            }
+
+            th {
+                background-color: #f0f0f0;
+            }
+
+            tfoot td {
+                font-weight: bold;
+                background-color: #e8f4ea;
+            }
+
+            img {
+                width: 60px;
+                height: auto;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <h3>📊 بيانات المناقصات</h3>
+
+        <!-- جدول HTML لعرض بيانات المناقصات -->
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>رقم المناقصة</th>
+                    <th>الجهة</th>
+                    <th>صورة</th>
+                    <th>قيمة التقدير (ج.م)</th>
+                    <th>تاريخ الإغلاق</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">الإجمالي</td>
+                    <td id="totalCell">—</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <br>
+        <button onclick="exportToExcel('dataTable', 'مناقصات_مع_صور')">📥 تصدير إلى Excel</button>
+
+
+    </body>
+    <script>
+        // بيانات المناقصات
+        const tenders = [
+            {
+                id: "2025-001",
+                agency: "وزارة النقل\nدولة مصر",
+                image: "لا توجد صوره",
+                value: 500000,
+                deadline: "2025-07-01"
+            },
+            {
+                id: "2025-002",
+                agency: "شركة الكهرباء",
+                image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=80",
+                value: 1200000,
+                deadline: "2025-07-10"
+            }
+        ];
+
+        // تعبئة بيانات الجدول
+        const tableBody = document.getElementById( "tableBody" );
+        let totalValue = 0;
+
+        tenders.forEach( tender =>
+        {
+            const row = document.createElement( "tr" );
+            row.innerHTML = `
+                <td>${ tender.id }</td>
+                <td>${ tender.agency.replace( /\n/g, '<br>' ) }</td>
+                <td>${ tender.image.startsWith( 'http' ) ? `<img src="${ tender.image }" alt="صورة">` : "—" }</td>
+                <td>${ tender.value.toLocaleString() } ج.م</td>
+                <td>${ tender.deadline }</td>
+            `;
+            totalValue += tender.value;
+            tableBody.appendChild( row );
+        } );
+
+        document.getElementById( "totalCell" ).textContent = totalValue.toLocaleString() + " ج.م";
+
+        // تحويل RGB إلى HEX
+        function rgbToHex ( rgb )
+        {
+            const result = rgb.match( /\d+/g );
+            return result ? result.map( x => parseInt( x ).toString( 16 ).padStart( 2, '0' ) ).join( '' ).toUpperCase() : 'FFFFFF';
+        }
+
+        // جلب الصورة وتحويلها إلى base64
+        async function getBase64ImageFromUrl ( url )
+        {
+            try
+            {
+                const response = await fetch( url );
+                const blob = await response.blob();
+                return new Promise( ( resolve, reject ) =>
+                {
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve( reader.result.split( ',' )[ 1 ] );
+                    reader.onerror = reject;
+                    reader.readAsDataURL( blob );
+                } );
+            } catch ( error )
+            {
+                console.warn( 'تعذر تحميل الصورة:', url );
+                return null;
+            }
+        }
+
+        // 🧾 دالة تصدير جدول HTML إلى ملف Excel باستخدام ExcelJS مع دعم خصائص CSS الإضافية والجداول المتعددة
+        async function exportToExcel ( tableId, fileName )
+        {
+            const workbook = new ExcelJS.Workbook();
+            const sheet = workbook.addWorksheet( fileName.replace( /\.xlsx$/, "" ) );
+
+            const table = document.getElementById( tableId );
+            const rows = table.rows;
+            const mergeInfo = [];
+
+            const firstRowCells = rows[ 0 ].cells;
+            sheet.columns = Array.from( firstRowCells ).map( cell => ( { width: cell.offsetWidth / 7.5 } ) );
+
+            for ( let r = 0; r < rows.length; r++ )
+            {
+                const htmlRow = rows[ r ];
+                const row = sheet.addRow( [] );
+                const cells = htmlRow.cells;
+
+                let colIndex = 1;
+                let maxCellHeight = 0;
+
+                for ( let c = 0; c < cells.length; c++ )
+                {
+                    const cellElement = cells[ c ];
+                    const height = cellElement.offsetHeight;
+                    if ( height > maxCellHeight ) maxCellHeight = height;
+                }
+
+                sheet.getRow( r + 1 ).height = maxCellHeight * 0.75;
+
+                for ( let c = 0; c < cells.length; c++ )
+                {
+                    const cell = cells[ c ];
+                    const colspan = parseInt( cell.getAttribute( "colspan" ) || "1" );
+                    const rowspan = parseInt( cell.getAttribute( "rowspan" ) || "1" );
+
+                    const innerContent = [ ...cell.childNodes ].map( child =>
+                    {
+                        if ( child.nodeType === 3 ) return child.textContent;
+                        if ( child.nodeType === 1 )
+                        {
+                            if ( child.tagName === 'IMG' ) return '[IMAGE]';
+                            if ( child.tagName === 'A' ) return child.textContent;
+                            return child.textContent;
+                        }
+                        return '';
+                    } ).join( ' ' ).trim();
+
+                    const excelCell = row.getCell( colIndex );
+                    excelCell.value = innerContent;
+
+                    const computedStyle = window.getComputedStyle( cell );
+
+                    const bgColor = computedStyle.backgroundColor;
+                    if ( bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent' )
+                    {
+                        excelCell.fill = {
+                            type: 'pattern',
+                            pattern: 'solid',
+                            fgColor: { argb: rgbToHex( bgColor ) }
+                        };
+                    }
+
+                    const fontWeight = computedStyle.fontWeight;
+                    const fontColor = computedStyle.color;
+                    const fontFamily = computedStyle.fontFamily.split( ',' )[ 0 ].replace( /['"]/g, '' ).trim();
+                    const textDecoration = computedStyle.textDecorationLine;
+                    const fontSize = parseInt( computedStyle.fontSize );
+
+                    excelCell.font = {
+                        name: fontFamily || 'Arial',
+                        bold: fontWeight === "bold" || parseInt( fontWeight ) >= 600,
+                        underline: textDecoration.includes( 'underline' ),
+                        italic: textDecoration.includes( 'italic' ),
+                        color: { argb: rgbToHex( fontColor ) },
+                        size: fontSize
+                    };
+
+                    excelCell.border = {
+                        top: { style: 'thin' },
+                        left: { style: 'thin' },
+                        bottom: { style: 'thin' },
+                        right: { style: 'thin' }
+                    };
+
+                    const textAlign = computedStyle.textAlign;
+                    const verticalAlign = computedStyle.verticalAlign;
+                    const paddingLeft = parseInt( computedStyle.paddingLeft || 0 );
+                    const paddingRight = parseInt( computedStyle.paddingRight || 0 );
+                    const horizontal = textAlign === 'right' ? 'right' : textAlign === 'left' ? 'left' : 'center';
+                    const vertical = verticalAlign === 'top' ? 'top' : verticalAlign === 'bottom' ? 'bottom' : 'middle';
+
+                    excelCell.alignment = {
+                        horizontal: horizontal,
+                        vertical: vertical,
+                        wrapText: true,
+                        indent: Math.floor( ( paddingLeft + paddingRight ) / 10 )
+                    };
+
+                    const anchor = cell.querySelector( "a" );
+                    if ( anchor && anchor.href )
+                    {
+                        excelCell.value = { text: anchor.textContent, hyperlink: anchor.href };
+                        excelCell.font.underline = true;
+                        excelCell.font.color = { argb: "0000FF" };
+                    }
+
+                    const imgs = cell.querySelectorAll( "img" );
+                    for ( const img of imgs )
+                    {
+                        const base64 = await getBase64ImageFromUrl( img.src );
+                        const extension = img.src.includes( ".png" ) ? "png" : "jpeg";
+                        const imageId = workbook.addImage( { base64: base64, extension } );
+
+                        const imgWidth = img.width;
+                        const imgHeight = img.height;
+                        const colWidth = sheet.columns[ colIndex - 1 ].width * 7.5 * colspan;
+
+                        let alignFactor = 0;
+                        if ( textAlign === 'right' ) alignFactor = 1;
+                        else if ( textAlign === 'center' ) alignFactor = 0.5;
+                        else alignFactor = 0;
+
+                        const offset = ( colWidth - imgWidth ) * alignFactor / 7.5;
+
+                        sheet.addImage( imageId, {
+                            tl: {
+                                col: colIndex - 1 + offset / 10,
+                                row: r + 0.5 - 1
+                            },
+                            ext: { width: imgWidth, height: imgHeight },
+                            editAs: 'oneCell'
+                        } );
+                    }
+
+                    if ( colspan > 1 || rowspan > 1 )
+                    {
+                        mergeInfo.push( {
+                            start: { r: r + 1, c: colIndex },
+                            end: { r: r + rowspan, c: colIndex + colspan - 1 }
+                        } );
+                    }
+
+                    colIndex += colspan;
+                }
+            }
+
+            mergeInfo.forEach( m =>
+            {
+                sheet.mergeCells( m.start.r, m.start.c, m.end.r, m.end.c );
+            } );
+
+            const buffer = await workbook.xlsx.writeBuffer();
+            const blob = new Blob( [ buffer ], {
+                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            } );
+            saveAs( blob, fileName );
+        }
+
+    </script>
+
+</html>

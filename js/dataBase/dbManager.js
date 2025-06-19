@@ -78,7 +78,7 @@ function noUpgrade ( dbName )
 
         // @ts-ignore
         request.onsuccess = () => resolve();
-        tableChangedEvent(tableName,dbName);
+        tableChangedEvent( tableName, dbName );
         request.onerror = ( e ) => reject( e.target.error );
       } );
 
@@ -173,7 +173,7 @@ function noUpgrade ( dbName )
           deleteRequest.onsuccess = () =>
           {
             console.log( `✅ [keyDelete] تم حذف العنصر (key: ${ key }) بنجاح من ${ tableName }` );
-            tableChangedEvent(tableName,dbName);
+            tableChangedEvent( tableName, dbName );
           };
           deleteRequest.onerror = () =>
           {
@@ -614,10 +614,11 @@ function upgrade ( dbName )
       db.close();
       console.log( "🛑🛑 تم إغلاق قاعدة البيانات بنجاح" + " " + dbName );
       console.error( "❌ [createIdTable] خطأ أثناء الإنشاء:", error );
-    }finally{
+    } finally
+    {
       db.close();
       console.log( "🛑🛑 تم إغلاق قاعدة البيانات بنجاح" + " " + dbName );
-     
+
 
     }
   };
@@ -720,7 +721,7 @@ async function exportTableWithSchemaAndData ( dbName, storeName )
         console.error( `❌ الجدول "${ storeName }" غير موجود في قاعدة البيانات.` );
         db.close();
         console.log( "🛑📤 تم إغلاق قاعدة البيانات بنجاح" + " " + dbName );
-         
+
         reject( `❌ الجدول "${ storeName }" غير موجود.` );
         return;
       }
@@ -791,8 +792,8 @@ async function exportTableWithSchemaAndData ( dbName, storeName )
           data: formattedData,
           exported_at: new Date().toISOString()
         };
-db.close();
-console.log( "🛑📤 تم إغلاق قاعدة البيانات بنجاح" + " " + dbName );
+        db.close();
+        console.log( "🛑📤 تم إغلاق قاعدة البيانات بنجاح" + " " + dbName );
         console.log( "✅ تم تصدير البيانات للجدول." );
         resolve( exportObject );
       };
@@ -802,8 +803,8 @@ console.log( "🛑📤 تم إغلاق قاعدة البيانات بنجاح" +
         // @ts-ignore
         console.error( "❌ فشل في جلب البيانات من الجدول:", event.target.error );
         db.close();
-console.log( "🛑📤 تم إغلاق قاعدة البيانات بنجاح" + " " + dbName );
- 
+        console.log( "🛑📤 تم إغلاق قاعدة البيانات بنجاح" + " " + dbName );
+
         reject( "❌ فشل في جلب البيانات من الجدول." );
       };
     };
@@ -1025,29 +1026,32 @@ async function exportEntireDatabase ( dbName )
 
 async function importEntireDatabase ( json )
 {
-   console.log("📥 بدء استيراد قاعدة بيانات ...");
+  console.log( "📥 بدء استيراد قاعدة بيانات ..." );
   const { database, stores } = json;
 
-  for (const store of stores) {
-    try {
+  for ( const store of stores )
+  {
+    try
+    {
 
       // @ts-ignore
-      await importMultipleTables({
+      await importMultipleTables( {
         database: database,
         table: store.table,
         schema: store.schema,
         data: store.data
-      });
-      await new Promise(resolve => setTimeout(resolve, 500)); // تأخير 100ms
-console.log((await upgrade(database)).currentVersion)
-    } catch (err) {
-      console.error(`❌ فشل في استيراد الجدول "${store.table}":`, err);
+      } );
+      await new Promise( resolve => setTimeout( resolve, 500 ) ); // تأخير 100ms
+      console.log( ( await upgrade( database ) ).currentVersion );
+    } catch ( err )
+    {
+      console.error( `❌ فشل في استيراد الجدول "${ store.table }":`, err );
     }
   }
 
-  console.log("✅ تم استيراد قاعدة البيانات.");
+  console.log( "✅ تم استيراد قاعدة البيانات." );
 
- 
+
 }
 
 async function deleteTable ( dbName, storeName )
@@ -1061,7 +1065,7 @@ async function deleteTable ( dbName, storeName )
     {
       // @ts-ignore
       console.error( "❌ فشل في فتح القاعدة:", event.target.error );
-    
+
       reject( "❌ فشل في فتح القاعدة." );
     };
 
@@ -1139,42 +1143,52 @@ async function deleteDatabase ( dbName )
 }
 
 // دالة تنشئ حدث مخصص عندما يتغير الجدول
-function tableChangedEvent(tableName,dbName) {
-  const event = new CustomEvent('tableDataChanged', { detail: { storeName: tableName ,dataName:dbName} });
-  document.dispatchEvent(event);
+function tableChangedEvent ( tableName, dbName )
+{
+  const event = new CustomEvent( 'tableDataChanged', { detail: { storeName: tableName, dataName: dbName } } );
+  document.dispatchEvent( event );
 }
 
-async  function checkDatabaseExists(dbName) {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open(dbName);
+async function checkDatabaseExists ( dbName )
+{
+  return new Promise( ( resolve, reject ) =>
+  {
+    const request = indexedDB.open( dbName );
 
     let existed = true;
 
-    request.onupgradeneeded = function () {
+    request.onupgradeneeded = function ()
+    {
       // إذا استُدعيت، فالقاعدة لم تكن موجودة
       existed = false;
     };
 
-    request.onsuccess = function (event) {
+    request.onsuccess = function ( event )
+    {
       // @ts-ignore
       const db = event.target.result;
 
       db.close();
 
       // إذا لم تكن موجودة، نحذفها بعد إنشائها
-      if (!existed) {
-        indexedDB.deleteDatabase(dbName).onsuccess = () => {
-          resolve(false); // غير موجودة سابقًا
+      if ( !existed )
+      {
+        indexedDB.deleteDatabase( dbName ).onsuccess = () =>
+        {
+          resolve( false ); // غير موجودة سابقًا
         };
-      } else {
-        resolve(true); // موجودة
+      } else
+      {
+        resolve( true ); // موجودة
       }
     };
 
-    request.onerror = function (event) {
+    request.onerror = function ( event )
+    {
       // @ts-ignore
-      reject(event.target.error);
+      reject( event.target.error );
     };
-  });
+  } );
 }
+
 
