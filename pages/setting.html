@@ -1,42 +1,52 @@
 <script>
 
-watchAndSaveInputs2Local("settingPage");
+  watchAndSaveInputs2Local( "settingPage" );
 </script>
 <div id="settingPage">
-<!-- اختيار اللغه -->
-<h2  id="t_266"></h2>
-<select id="languageSelect">
-  <option value="ar">العربية</option>
-  <option value="en">English</option>
-</select>
-<br><br>
-<!-- العلامة العشرية -->
-<h3 id="t_174"></h3>
-<label id="t_602"></label>
-<br><br>
-<input type="number" id="DecimalPoint" min="0" max="5">
+  <!-- اختيار اللغه -->
+  <h2 id="t_266"></h2>
+  <select id="languageSelect">
+    <option value="ar">العربية</option>
+    <option value="en">English</option>
+  </select>
+  <br><br>
+  <!-- العلامة العشرية -->
+  <h3 id="t_174"></h3>
+  <label id="t_602"></label>
+  <br><br>
+  <input type="number" id="DecimalPoint" min="0" max="5">
 
 </div>
 <br><br>
 
-<button onclick="clearEverything()" style="padding: 10px 20px; font-size: 16px; background-color: crimson; color: white; border: none; border-radius: 5px; cursor: pointer;">
+<button onclick="clearEverything()"
+  style="padding: 10px 20px; font-size: 16px; background-color: crimson; color: white; border: none; border-radius: 5px; cursor: pointer;">
   🧹 مسح كل بيانات الموقع
 </button>
+<br><br>
+<label for="fileInput">📥 استيراد قواعد بيانات</label>
+<input type="file" accept=".zip" onchange="importMultipleDatabasesFromFile(this.files[0])">
+<br>
+<button onclick="exportAllDatabases()">⬇️ تصدير جميع القواعد تلقائيًا</button>
+
 
 <script>
-    document.getElementById("languageSelect").addEventListener("change",async function () {
-        location.reload(); // إعادة تحميل الصفحة لتطبيق اللغة الجديدة
-    });
-  
-   const decimalInput = document.getElementById('DecimalPoint');
-  decimalInput.addEventListener('input',async () => {
-    const value = parseFloat(decimalInput.value);
-    if (value < 0) decimalInput.value = 0;
-    if (value > 5) decimalInput.value = 5;
-    await getSetting();
-  });
+  document.getElementById( "languageSelect" ).addEventListener( "change", async function ()
+  {
+    location.reload(); // إعادة تحميل الصفحة لتطبيق اللغة الجديدة
+  } );
 
- async function clearEverything() {
+  const decimalInput = document.getElementById( 'DecimalPoint' );
+  decimalInput.addEventListener( 'input', async () =>
+  {
+    const value = parseFloat( decimalInput.value );
+    if ( value < 0 ) decimalInput.value = 0;
+    if ( value > 5 ) decimalInput.value = 5;
+    await getSetting();
+  } );
+
+  async function clearEverything ()
+  {
     // 🧹 1. حذف LocalStorage
     localStorage.clear();
 
@@ -44,34 +54,40 @@ watchAndSaveInputs2Local("settingPage");
     sessionStorage.clear();
 
     // 🧹 3. حذف جميع قواعد IndexedDB
-    if (window.indexedDB && indexedDB.databases) {
+    if ( window.indexedDB && indexedDB.databases )
+    {
       const databases = await indexedDB.databases();
-      for (const db of databases) {
-        if (db.name) {
-          indexedDB.deleteDatabase(db.name);
+      for ( const db of databases )
+      {
+        if ( db.name )
+        {
+          indexedDB.deleteDatabase( db.name );
         }
       }
     }
 
     // 🧹 4. حذف جميع الكوكيز (من نفس النطاق)
-    document.cookie.split(";").forEach(cookie => {
-      const eqPos = cookie.indexOf("=");
-      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    document.cookie.split( ";" ).forEach( cookie =>
+    {
+      const eqPos = cookie.indexOf( "=" );
+      const name = eqPos > -1 ? cookie.substr( 0, eqPos ) : cookie;
       document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-    });
+    } );
 
     // 🧹 5. حذف Cache API
-    if ('caches' in window) {
+    if ( 'caches' in window )
+    {
       const keys = await caches.keys();
-      for (const key of keys) {
-        await caches.delete(key);
+      for ( const key of keys )
+      {
+        await caches.delete( key );
       }
     }
 
-    console.log("🧼 تم مسح كل بيانات الموقع من المتصفح 🔥");
+    console.log( "🧼 تم مسح كل بيانات الموقع من المتصفح 🔥" );
 
     // 🔁 إعادة تحميل الصفحة لتأكيد المسح
     location.reload();
   }
 
-  </script>
+</script>

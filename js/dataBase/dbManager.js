@@ -1463,21 +1463,22 @@ async function exportAllDatabases()
   exportMultipleDatabasesAndDownload(dbNames);
 }
 
+
+
+
+
+
 // ✅ تصدير قواعد متعددة
-async function exportMultipleDatabasesAndDownload(dbNames)
-{
+async function exportMultipleDatabasesAndDownload(dbNames) {
   console.log("📦 بدء تصدير قواعد البيانات:", dbNames);
   const exportResults = [];
 
-  for (const dbName of dbNames)
-  {
-    try
-    {
+  for (const dbName of dbNames) {
+    try {
       const exported = await exportEntireDatabase(dbName);
       exportResults.push(exported);
       console.log(`✅ تم تصدير القاعدة: ${dbName}`);
-    } catch (err)
-    {
+    } catch (err) {
       console.error(`❌ فشل في تصدير القاعدة ${dbName}:`, err);
     }
   }
@@ -1487,43 +1488,53 @@ async function exportMultipleDatabasesAndDownload(dbNames)
     databases: exportResults
   };
 
-  const jsonStr = JSON.stringify(finalExport, null, 2);
+  // ✅ تصغير JSON لتقليل الحجم
+  const jsonStr = JSON.stringify(finalExport);
+
   // @ts-ignore
   const zip = new JSZip();
   zip.file("databases.json", jsonStr);
 
+  // ✅ إنشاء ملف ZIP
   const zipBlob = await zip.generateAsync({ type: "blob" });
 
+  // ✅ تنبيه المستخدم قبل الحفظ
+  // @ts-ignore
+  Swal.fire({
+    title: "📁 جارٍ تجهيز الملف...",
+    text: "سيتم حفظ الملف في مجلد التنزيلات أو حسب اختيارك.",
+    icon: "info",
+    timer: 2500,
+    showConfirmButton: false
+  });
+
+  // ✅ حفظ الملف باستخدام FileSaver.js
   // @ts-ignore
   saveAs(zipBlob, `indexeddb_backup_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, "_")}.zip`);
   console.log("🎉 تم ضغط وتنزيل القواعد بنجاح.");
 }
 
+
 // ✅ استيراد قواعد من ملف ZIP
-async function importMultipleDatabasesFromFile(file)
-{
-  try
-  {
+async function importMultipleDatabasesFromFile(file) {
+  try {
     console.log("📥 جاري قراءة الملف...");
     // @ts-ignore
     const zip = await JSZip.loadAsync(file);
     const fileName = "databases.json";
 
-    if (!zip.files[fileName])
-    {
+    if (!zip.files[fileName]) {
       throw new Error("❌ ملف 'databases.json' غير موجود داخل الضغط.");
     }
 
     const jsonStr = await zip.files[fileName].async("string");
     const parsed = JSON.parse(jsonStr);
 
-    if (!parsed.databases || !Array.isArray(parsed.databases))
-    {
+    if (!parsed.databases || !Array.isArray(parsed.databases)) {
       throw new Error("❌ تنسيق الملف غير صحيح.");
     }
 
-    for (const dbExport of parsed.databases)
-    {
+    for (const dbExport of parsed.databases) {
       console.log(`⬇️ جاري استيراد القاعدة: ${dbExport.database}`);
       await importOrUpdateFromJSON(dbExport);
     }
@@ -1531,13 +1542,16 @@ async function importMultipleDatabasesFromFile(file)
     console.log("🎉 تم استيراد جميع القواعد بنجاح.");
     // @ts-ignore
     Swal.fire("نجاح", "تم استيراد جميع قواعد البيانات بنجاح", "success");
-  } catch (err)
-  {
+
+  } catch (err) {
     console.error("❌ فشل في استيراد الملف:", err);
     // @ts-ignore
     Swal.fire("خطأ", "حدث خطأ أثناء استيراد الملف: " + err.message, "error");
   }
 }
+
+
+
 
 //#endregion
 
