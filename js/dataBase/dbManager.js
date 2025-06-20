@@ -212,10 +212,11 @@ function noUpgrade(dbName)
 
   const getAllDataFromTable = async (tableName) =>
   {
-    if (await isTableExist(tableName))
+   /*  if (await isTableExist(tableName))
     {
       console.log(`📥 [getAllDataFromTable] محاولة جلب كل البيانات من الجدول: ${tableName}`);
-      let db;
+    */  
+    let db;
       try
       {
         db = await openDB();
@@ -244,7 +245,7 @@ function noUpgrade(dbName)
       {
         if (db) { db.close(); console.log("🛑 تم إغلاق قاعدة البيانات بنجاح" + " " + dbName); };
       }
-    }
+  //  }
   };
 
   /// <summary>
@@ -1422,7 +1423,7 @@ async function getSingleProcessData(processKey)
     result.databasesPerItem[item] = dbsPerItem[item] || [];
   }
 
-  console.log("📍 بيانات العملية:", result);
+  //console.log("📍 بيانات العملية:", result);
   return result;
 }
 

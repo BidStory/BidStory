@@ -2,6 +2,11 @@
 
 //#region  متغيرات عامة
 
+//#region متغيرات الاختيار العامه 
+let selectedProject=null;
+
+//#endregion
+
 //#region متغيرات تكلفة البند
 let pricing_Table = null;
 let selectedSections = null;
@@ -27,62 +32,78 @@ let buttonShowIndexSet = new Set(); // لتفادي التكرار
 //#endregion
 
 // دالة غير متزامنة تنتظر ظهور عنصر معين في الصفحة بناءً على محدد (Selector)
-async function waitForElement(selector)
+async function waitForElement ( selector )
 {
-  return new Promise((resolve) =>
+  return new Promise( ( resolve ) =>
   { // تُعيد الدالة Promise لكي تتمكن من انتظار ظهور العنصر
     // التحقق مما إذا كان العنصر موجودًا بالفعل في الصفحة
-    if (document.querySelector(selector))
+    if ( document.querySelector( selector ) )
     {
       // إذا كان موجودًا، نعيده مباشرة وننهي الـ Promise
-      return resolve(document.querySelector(selector));
+      return resolve( document.querySelector( selector ) );
     }
 
     // إذا لم يكن العنصر موجودًا، نستخدم MutationObserver لمراقبة تغييرات DOM
-    const observer = new MutationObserver(() =>
+    const observer = new MutationObserver( () =>
     {
       // في كل مرة يحدث فيها تغيير في DOM، نتحقق مجددًا من وجود العنصر
-      if (document.querySelector(selector))
+      if ( document.querySelector( selector ) )
       {
         observer.disconnect(); // نوقف المراقبة بمجرد العثور على العنصر
-        resolve(document.querySelector(selector)); // نُرجع العنصر وننهي الـ Promise
+        resolve( document.querySelector( selector ) ); // نُرجع العنصر وننهي الـ Promise
       }
-    });
+    } );
 
     // نبدأ مراقبة تغييرات DOM في body، ونراقب كل العناصر الفرعية (subtree)
-    observer.observe(document.body, {
+    observer.observe( document.body, {
       childList: true, // نراقب التغييرات في الأطفال (إضافة/إزالة عناصر)
       subtree: true    // نراقب أيضًا التغييرات داخل العناصر الفرعية
-    });
-  });
+    } );
+  } );
 }
-
-
+//رساله انتظار تحميل شئ 
+//يجب ان تغلق ب  Swal.close();
+async function waitMes ()
+{
+  // @ts-ignore
+  const mes = getLang( 371 );
+  // @ts-ignore
+  Swal.fire( {
+    title: false,
+    text: mes,
+    allowOutsideClick: false,
+    didOpen: () =>
+    {
+      // @ts-ignore
+      Swal.showLoading();
+    }
+  } );
+}
 
 
 // دالة التحقق من صحه المعرف اول اربع حروف ثم ارقام
-function isValidIdFormat(x)
+function isValidIdFormat ( x )
 {
-  return /^[a-zA-Z]{4}\d+$/.test(x);
+  return /^[a-zA-Z]{4}\d+$/.test( x );
 }
-function parseDateTime(str)
+function parseDateTime ( str )
 {
-  const t = new Date(str);
+  const t = new Date( str );
   // @ts-ignore
-  if (isNaN(t))
+  if ( isNaN( t ) )
   {
-    console.warn("⚠️ التاريخ غير صالح:", str);
+    console.warn( "⚠️ التاريخ غير صالح:", str );
     return null;
   }
   return t.getTime(); // عدد الميلي ثانية
 }
-function formatDuration(ms)
+function formatDuration ( ms )
 {
-  if (typeof ms !== "number" || isNaN(ms)) return "مدة غير صالحة";
+  if ( typeof ms !== "number" || isNaN( ms ) ) return "مدة غير صالحة";
 
-  const totalMinutes = Math.floor(Math.abs(ms) / 60000);
-  const days = Math.floor(totalMinutes / 1440); // 1440 دقيقة في اليوم
-  const hours = Math.floor((totalMinutes % 1440) / 60);
+  const totalMinutes = Math.floor( Math.abs( ms ) / 60000 );
+  const days = Math.floor( totalMinutes / 1440 ); // 1440 دقيقة في اليوم
+  const hours = Math.floor( ( totalMinutes % 1440 ) / 60 );
   const minutes = totalMinutes % 60;
 
   let parts = [];
@@ -91,37 +112,37 @@ function formatDuration(ms)
   // 1040 minute
 
   // @ts-ignore
-  if (days > 0) parts.push(`${days} ` + getLang(211));
+  if ( days > 0 ) parts.push( `${ days } ` + getLang( 211 ) );
   // @ts-ignore
-  if (hours > 0) parts.push(`${hours} ` + getLang(1011));
+  if ( hours > 0 ) parts.push( `${ hours } ` + getLang( 1011 ) );
   // @ts-ignore
-  if (minutes > 0 || parts.length === 0) parts.push(`${minutes} ` + getLang(1040));
+  if ( minutes > 0 || parts.length === 0 ) parts.push( `${ minutes } ` + getLang( 1040 ) );
 
-  return parts.join(" ");
+  return parts.join( " " );
 }
-function isDefined(variableName)
+function isDefined ( variableName )
 {
   try
   {
-    const value = window[variableName];
+    const value = window[ variableName ];
     // @ts-ignore
     return value !== undefined && value !== null && value !== '';
-  } catch (error)
+  } catch ( error )
   {
-    console.warn(`⚠️ isDefined: خطأ أثناء فحص ${variableName}`, error);
+    console.warn( `⚠️ isDefined: خطأ أثناء فحص ${ variableName }`, error );
     return false;
   }
 }
 
-function isNumeric(value)
+function isNumeric ( value )
 {
-  if (value === null || value === undefined) return false;
+  if ( value === null || value === undefined ) return false;
 
-  const str = String(value).trim();
-  if (str === '') return false;
+  const str = String( value ).trim();
+  if ( str === '' ) return false;
 
   // @ts-ignore
-  return !isNaN(str) && !isNaN(parseFloat(str));
+  return !isNaN( str ) && !isNaN( parseFloat( str ) );
 }
 
 //#region دوال توليد المعرفات الفريدة 
@@ -136,20 +157,20 @@ const IDPattern = {
 };
 
 // توليد محارف عشوائية
-const generateRandom = (charset, count) =>
+const generateRandom = ( charset, count ) =>
 {
   let result = "";
   const charsetLength = charset.length;
 
-  for (let i = 0; i < count; i++)
+  for ( let i = 0; i < count; i++ )
   {
-    result += charset[Math.floor(Math.random() * charsetLength)];
+    result += charset[ Math.floor( Math.random() * charsetLength ) ];
   }
   return result;
 };
 
 // توليد معرف فريد
-function CID(pattern = IDPattern.MIXED2_NUMS2, fixed = "")
+function CID ( pattern = IDPattern.MIXED2_NUMS2, fixed = "" )
 {
   const timestamp = Date.now();
   const smallChars = "abcdefghijklmnopqrstuvwxyz";
@@ -157,25 +178,25 @@ function CID(pattern = IDPattern.MIXED2_NUMS2, fixed = "")
   const digits = "0123456789";
 
   const patternGenerators = {
-    [IDPattern.CHAR1_TIME]: () => generateRandom(mixedChars, 1) + timestamp,
-    [IDPattern.CHARS4_TIME]: () => generateRandom(smallChars, 4) + timestamp,
-    [IDPattern.MIXED4_TIME]: () => generateRandom(mixedChars, 4) + timestamp,
-    [IDPattern.CHARS4_NUMS4]: () =>
-      generateRandom(smallChars, 4) + generateRandom(digits, 4),
-    [IDPattern.MIXED4_NUMS4]: () =>
-      generateRandom(mixedChars, 4) + generateRandom(digits, 4),
-    [IDPattern.CHARS2_NUMS2]: () =>
-      generateRandom(smallChars, 2) + generateRandom(digits, 2),
-    [IDPattern.MIXED2_NUMS2]: () =>
-      generateRandom(mixedChars, 2) + generateRandom(digits, 2),
+    [ IDPattern.CHAR1_TIME ]: () => generateRandom( mixedChars, 1 ) + timestamp,
+    [ IDPattern.CHARS4_TIME ]: () => generateRandom( smallChars, 4 ) + timestamp,
+    [ IDPattern.MIXED4_TIME ]: () => generateRandom( mixedChars, 4 ) + timestamp,
+    [ IDPattern.CHARS4_NUMS4 ]: () =>
+      generateRandom( smallChars, 4 ) + generateRandom( digits, 4 ),
+    [ IDPattern.MIXED4_NUMS4 ]: () =>
+      generateRandom( mixedChars, 4 ) + generateRandom( digits, 4 ),
+    [ IDPattern.CHARS2_NUMS2 ]: () =>
+      generateRandom( smallChars, 2 ) + generateRandom( digits, 2 ),
+    [ IDPattern.MIXED2_NUMS2 ]: () =>
+      generateRandom( mixedChars, 2 ) + generateRandom( digits, 2 ),
   };
 
-  if (!patternGenerators[pattern])
+  if ( !patternGenerators[ pattern ] )
   {
-    throw new Error("نمط ID غير صالح");
+    throw new Error( "نمط ID غير صالح" );
   }
 
-  const generatedID = fixed + patternGenerators[pattern]();
+  const generatedID = fixed + patternGenerators[ pattern ]();
   return generatedID;
 }
 
@@ -189,9 +210,9 @@ function CID(pattern = IDPattern.MIXED2_NUMS2, fixed = "")
 //#endregion
 
 //#region دوال حفظ واسترجاع البيانات
-async function watchingAllInputs2IndexDB(target, dbNoUpgrade, tableName)
+async function watchingAllInputs2IndexDB ( target, dbNoUpgrade, tableName )
 {
-  q('🟡 watchingAllInputs2IndexDB -> ' + tableName);
+  q( '🟡 watchingAllInputs2IndexDB -> ' + tableName );
 
   // أنواع الحقول التي سيتم مراقبتها
   const inputSelectors = [
@@ -208,39 +229,40 @@ async function watchingAllInputs2IndexDB(target, dbNoUpgrade, tableName)
     'select'
   ];
 
-  const containerElement = document.getElementById(target);
+  const containerElement = document.getElementById( target );
 
-  if (!containerElement)
+  if ( !containerElement )
   {
-    console.error("❌ لم يتم العثور على العنصر المستهدف (watchingAllInputs2IndexDB).");
+    console.error( "❌ لم يتم العثور على العنصر المستهدف (watchingAllInputs2IndexDB)." );
     return;
   }
 
-  const inputs = containerElement.querySelectorAll(inputSelectors.join(","));
+  const inputs = containerElement.querySelectorAll( inputSelectors.join( "," ) );
   const inputListeners = [];
 
   // ⛔️ تنظيف أي مستمعين سابقين
   // @ts-ignore
-  removeInputListenersFromTarget(window.__inputListenersGlobal__?.[target] || []);
+  removeInputListenersFromTarget( window.__inputListenersGlobal__?.[ target ] || [] );
 
-  inputs.forEach((input) =>
+  inputs.forEach( ( input ) =>
   {
     // @ts-ignore
     // @ts-ignore
-    const inputListener = (event) =>
+    // @ts-ignore
+    const inputListener = ( event ) =>
     {
       let value;
 
       // @ts-ignore
-      if (input.type === "checkbox")
+      if ( input.type === "checkbox" )
       {
         // @ts-ignore
         value = input.checked;
         // @ts-ignore
-      } else if (input.type === "radio")
+      } else if ( input.type === "radio" )
       {
         // @ts-ignore
-        if (!input.checked) return;
+        if ( !input.checked ) return;
         // @ts-ignore
         value = input.value;
       } else
@@ -249,10 +271,10 @@ async function watchingAllInputs2IndexDB(target, dbNoUpgrade, tableName)
         value = input.value;
       }
 
-      if (typeof dbNoUpgrade?.keySet === 'function')
+      if ( typeof dbNoUpgrade?.keySet === 'function' )
       {
-        dbNoUpgrade.keySet(tableName, input.id, value);
-        console.log("💾 تم حفظ القيمة:", { id: input.id, value });
+        dbNoUpgrade.keySet( tableName, input.id, value );
+        console.log( "💾 تم حفظ القيمة:", { id: input.id, value } );
       }
     };
 
@@ -264,34 +286,34 @@ async function watchingAllInputs2IndexDB(target, dbNoUpgrade, tableName)
       input.tagName.toLowerCase() === "select"
     ) ? "change" : "input";
 
-    input.addEventListener(eventType, inputListener);
-    inputListeners.push({ input, listener: inputListener });
-  });
+    input.addEventListener( eventType, inputListener );
+    inputListeners.push( { input, listener: inputListener } );
+  } );
 
   // 🔁 حفظ قائمة المستمعين بشكل عام حتى يمكن إزالتهم لاحقًا عند الحاجة
   // @ts-ignore
   window.__inputListenersGlobal__ = window.__inputListenersGlobal__ || {};
   // @ts-ignore
-  window.__inputListenersGlobal__[target] = inputListeners;
+  window.__inputListenersGlobal__[ target ] = inputListeners;
 
-  console.log(`🔍 بدأ مراقبة ${inputs.length} من الحقول داخل العنصر ${target}`);
+  console.log( `🔍 بدأ مراقبة ${ inputs.length } من الحقول داخل العنصر ${ target }` );
 
   return inputListeners;
 }
 
-function removeInputListenersFromTarget(inputListeners)
+function removeInputListenersFromTarget ( inputListeners )
 {
-  if (!Array.isArray(inputListeners))
+  if ( !Array.isArray( inputListeners ) )
   {
-    console.warn("⚠️ المعطى ليس مصفوفة من المستمعين.");
+    console.warn( "⚠️ المعطى ليس مصفوفة من المستمعين." );
     return;
   }
 
-  inputListeners.forEach(({ input, listener }) =>
+  inputListeners.forEach( ( { input, listener } ) =>
   {
-    if (!input || !listener)
+    if ( !input || !listener )
     {
-      console.warn("⚠️ عنصر أو مستمع غير صالح:", { input, listener });
+      console.warn( "⚠️ عنصر أو مستمع غير صالح:", { input, listener } );
       return;
     }
 
@@ -301,13 +323,13 @@ function removeInputListenersFromTarget(inputListeners)
         ? 'change'
         : 'input';
 
-    input.removeEventListener(eventType, listener);
-  });
+    input.removeEventListener( eventType, listener );
+  } );
 
-  console.log(`🧹 تم إزالة ${inputListeners.length} من مستمعي الأحداث.`);
+  console.log( `🧹 تم إزالة ${ inputListeners.length } من مستمعي الأحداث.` );
 }
 
-async function restoreAllInputsFromIndexDB(target, dbNoUpgrade, tableName)
+async function restoreAllInputsFromIndexDB ( target, dbNoUpgrade, tableName )
 {
   // أنواع الحقول التي نسترجع لها القيم
   const inputSelectors = [
@@ -324,37 +346,37 @@ async function restoreAllInputsFromIndexDB(target, dbNoUpgrade, tableName)
     'select'
   ];
 
-  const containerElement = document.getElementById(target);
-  if (!containerElement)
+  const containerElement = document.getElementById( target );
+  if ( !containerElement )
   {
-    console.warn("❌ لم يتم توفير عنصر الحاوية (Restoring) restoreAllInputsFromIndexDB.");
+    console.warn( "❌ لم يتم توفير عنصر الحاوية (Restoring) restoreAllInputsFromIndexDB." );
     return;
   }
 
-  const inputs = containerElement.querySelectorAll(inputSelectors.join(","));
+  const inputs = containerElement.querySelectorAll( inputSelectors.join( "," ) );
 
-  for (const input of inputs)
+  for ( const input of inputs )
   {
     const inputId = input.id;
-    if (!inputId) continue; // تخطي العناصر بدون ID
+    if ( !inputId ) continue; // تخطي العناصر بدون ID
 
     try
     {
       // @ts-ignore
-      let value = await dbNoUpgrade?.keyGet?.(tableName, inputId);
+      let value = await dbNoUpgrade?.keyGet?.( tableName, inputId );
 
-      if (value === undefined) continue;
+      if ( value === undefined ) continue;
 
       // @ts-ignore
-      if (input.type === "checkbox")
+      if ( input.type === "checkbox" )
       {
         // @ts-ignore
-        input.checked = Boolean(value);
+        input.checked = Boolean( value );
         // @ts-ignore
-      } else if (input.type === "radio")
+      } else if ( input.type === "radio" )
       {
         // @ts-ignore
-        if (input.value === value)
+        if ( input.value === value )
         {
           // @ts-ignore
           input.checked = true;
@@ -362,32 +384,32 @@ async function restoreAllInputsFromIndexDB(target, dbNoUpgrade, tableName)
       } else
       {
         // @ts-ignore
-        if (input.type === 'number')
+        if ( input.type === 'number' )
         {
           // @ts-ignore
-          value = Number(value).toFixed(DecimalPoint);
+          value = Number( value ).toFixed( DecimalPoint );
         }
         // @ts-ignore
         input.value = value;
       }
 
-      console.log("♻️ تم استرجاع القيمة:", { id: inputId, value });
-    } catch (error)
+      console.log( "♻️ تم استرجاع القيمة:", { id: inputId, value } );
+    } catch ( error )
     {
-      console.error(`⚠️ خطأ أثناء استرجاع الحقل ${inputId}:`, error);
+      console.error( `⚠️ خطأ أثناء استرجاع الحقل ${ inputId }:`, error );
     }
   }
 
-  console.log(`✅ تم استرجاع القيم لجميع الحقول (${inputs.length}) داخل العنصر ${target}`);
+  console.log( `✅ تم استرجاع القيم لجميع الحقول (${ inputs.length }) داخل العنصر ${ target }` );
 }
 
 //#endregion
 
 //#region دوال حفظ واسترجاع البيانات من localStorage
-function watchAndSaveInputs2Local(target)
+function watchAndSaveInputs2Local ( target )
 {
   // @ts-ignore
-  if (selectedPage == 'setting')
+  if ( selectedPage == 'setting' )
   {
     const inputSelectors = [
       'input[type="text"]',
@@ -402,32 +424,32 @@ function watchAndSaveInputs2Local(target)
       'textarea',
       'select'
     ];
-    const containerElement = document.getElementById(target);
+    const containerElement = document.getElementById( target );
     // التحقق من وجود العنصر، إذا لم يكن موجود نخرج من الدالة
-    if (!containerElement)
+    if ( !containerElement )
     {
-      console.warn("❌ لم يتم توفير عنصر الحاوية (watchAndSaveInputs2Local) .");
+      console.warn( "❌ لم يتم توفير عنصر الحاوية (watchAndSaveInputs2Local) ." );
       return;
     }
-    const inputs = containerElement.querySelectorAll(inputSelectors.join(','));
+    const inputs = containerElement.querySelectorAll( inputSelectors.join( ',' ) );
     const inputListeners = [];
 
-    inputs.forEach((input) =>
+    inputs.forEach( ( input ) =>
     {
       const handleInputChange = () =>
       {
         let value;
 
         // @ts-ignore
-        if (input.type === 'checkbox')
+        if ( input.type === 'checkbox' )
         {
           // @ts-ignore
           value = input.checked ? 'true' : 'false';
           // @ts-ignore
-        } else if (input.type === 'radio')
+        } else if ( input.type === 'radio' )
         {
           // @ts-ignore
-          if (!input.checked) return;
+          if ( !input.checked ) return;
           // @ts-ignore
           value = input.value;
         } else
@@ -436,13 +458,13 @@ function watchAndSaveInputs2Local(target)
           value = input.value;
         }
 
-        if (input.id)
+        if ( input.id )
         {
-          localStorage.setItem(input.id, value);
-          console.log(`💾 تم حفظ "${input.id}":`, value);
+          localStorage.setItem( input.id, value );
+          console.log( `💾 تم حفظ "${ input.id }":`, value );
         } else
         {
-          console.warn('⚠️ لا يمكن الحفظ: العنصر ليس له معرّف (id)', input);
+          console.warn( '⚠️ لا يمكن الحفظ: العنصر ليس له معرّف (id)', input );
         }
       };
 
@@ -455,33 +477,33 @@ function watchAndSaveInputs2Local(target)
           ? 'change'
           : 'input';
 
-      input.addEventListener(eventType, handleInputChange);
-      inputListeners.push({ input, listener: handleInputChange });
+      input.addEventListener( eventType, handleInputChange );
+      inputListeners.push( { input, listener: handleInputChange } );
 
       // استرجاع القيم المحفوظة من localStorage عند التحميل
-      if (input.id && localStorage.getItem(input.id) !== null)
+      if ( input.id && localStorage.getItem( input.id ) !== null )
       {
-        const savedValue = localStorage.getItem(input.id);
+        const savedValue = localStorage.getItem( input.id );
 
         // @ts-ignore
-        if (input.type === 'checkbox')
+        if ( input.type === 'checkbox' )
         {
           // @ts-ignore
           input.checked = savedValue === 'true';
           // @ts-ignore
-        } else if (input.type === 'radio')
+        } else if ( input.type === 'radio' )
         {
           // @ts-ignore
-          if (input.value === savedValue) input.checked = true;
+          if ( input.value === savedValue ) input.checked = true;
         } else
         {
           // @ts-ignore
           input.value = savedValue;
         }
       }
-    });
+    } );
 
-    console.log(`🔍 جاري مراقبة ${inputs.length} من حقول الإدخال`);
+    console.log( `🔍 جاري مراقبة ${ inputs.length } من حقول الإدخال` );
 
     return inputListeners;
   }
@@ -490,7 +512,7 @@ function watchAndSaveInputs2Local(target)
 //#endregion 
 
 //هذة الداله تقوم بالترقيم علي طريقة البنود حيث تراعي العلامات الخاصة مثل * و _ و فواصل . الارقام
-function reNumber(inlet)
+function reNumber ( inlet )
 {
   const final = []; // الناتج النهائي بعد المعالجة
   const lisNum = []; // لتجميع العناصر بين العلامات *
@@ -498,70 +520,70 @@ function reNumber(inlet)
   let index = 0;
 
   // دالة داخلية لإعادة ترقيم العناصر حسب مستويات الترقيم (مثل 1، 1.1، 1.2)
-  function reNumberx(ss)
+  function reNumberx ( ss )
   {
-    const final = [...ss]; // نسخ القائمة لتجنب التعديل المباشر
+    const final = [ ...ss ]; // نسخ القائمة لتجنب التعديل المباشر
     const count = final.length;
 
-    for (let i = 0; i < count; i++)
+    for ( let i = 0; i < count; i++ )
     {
-      if (i === 0)
+      if ( i === 0 )
       {
-        final[i] = "1"; // العنصر الأول دوماً هو "1"
+        final[ i ] = "1"; // العنصر الأول دوماً هو "1"
       } else
       {
-        const previous = final[i - 1];
-        const current = final[i];
-        const dotCountP = (previous.match(/\./g) || []).length;
-        const dotCountC = (current.match(/\./g) || []).length;
+        const previous = final[ i - 1 ];
+        const current = final[ i ];
+        const dotCountP = ( previous.match( /\./g ) || [] ).length;
+        const dotCountC = ( current.match( /\./g ) || [] ).length;
 
-        if (dotCountC === 0)
+        if ( dotCountC === 0 )
         {
           // مستوى رئيسي جديد
           let a = 1;
-          while (true)
+          while ( true )
           {
-            if (!final[i - a].includes('.'))
+            if ( !final[ i - a ].includes( '.' ) )
             {
-              final[i] = (parseInt(final[i - a]) + 1).toString();
+              final[ i ] = ( parseInt( final[ i - a ] ) + 1 ).toString();
               break;
             }
             a++;
           }
         } else
         {
-          if (!previous.includes('.'))
+          if ( !previous.includes( '.' ) )
           {
-            final[i] = previous + ".1"; // بداية مستوى فرعي جديد
+            final[ i ] = previous + ".1"; // بداية مستوى فرعي جديد
           } else
           {
-            if (dotCountC === dotCountP)
+            if ( dotCountC === dotCountP )
             {
               // نفس مستوى الفرعية
-              const parts = previous.split('.');
-              const lastNum = parseInt(parts[parts.length - 1]) + 1;
-              parts[parts.length - 1] = lastNum.toString();
-              final[i] = parts.join('.');
-            } else if (dotCountC > dotCountP)
+              const parts = previous.split( '.' );
+              const lastNum = parseInt( parts[ parts.length - 1 ] ) + 1;
+              parts[ parts.length - 1 ] = lastNum.toString();
+              final[ i ] = parts.join( '.' );
+            } else if ( dotCountC > dotCountP )
             {
               // مستوى أعمق
-              final[i] = previous + ".1";
-            } else if (dotCountC < dotCountP)
+              final[ i ] = previous + ".1";
+            } else if ( dotCountC < dotCountP )
             {
               // الرجوع إلى مستوى أعلى
               let a = 1;
-              while (true)
+              while ( true )
               {
-                const backItem = final[i - a];
-                if (backItem.includes('.'))
+                const backItem = final[ i - a ];
+                if ( backItem.includes( '.' ) )
                 {
-                  const p = (backItem.match(/\./g) || []).length;
-                  if (p === dotCountC)
+                  const p = ( backItem.match( /\./g ) || [] ).length;
+                  if ( p === dotCountC )
                   {
-                    const parts = backItem.split('.');
-                    const lastNum = parseInt(parts[parts.length - 1]) + 1;
-                    parts[parts.length - 1] = lastNum.toString();
-                    final[i] = parts.join('.');
+                    const parts = backItem.split( '.' );
+                    const lastNum = parseInt( parts[ parts.length - 1 ] ) + 1;
+                    parts[ parts.length - 1 ] = lastNum.toString();
+                    final[ i ] = parts.join( '.' );
                     break;
                   }
                 }
@@ -577,67 +599,67 @@ function reNumber(inlet)
 
   try
   {
-    for (const item of inlet)
+    for ( const item of inlet )
     {
-      if (item === "*")
+      if ( item === "*" )
       {
-        if (lisNum.length > 0)
+        if ( lisNum.length > 0 )
         {
-          const reLisNum = reNumberx(lisNum);
-          final.push(...reLisNum);
+          const reLisNum = reNumberx( lisNum );
+          final.push( ...reLisNum );
           lisNum.length = 0; // إفراغ القائمة
         }
-        final.push(item); // إضافة العلامة كما هي
-      } else if (item === "-")
+        final.push( item ); // إضافة العلامة كما هي
+      } else if ( item === "-" )
       {
-        dashIndexes.push(index); // تخزين موقع -
+        dashIndexes.push( index ); // تخزين موقع -
       } else
       {
-        lisNum.push(item); // تجميع العناصر التي تحتاج ترقيم
+        lisNum.push( item ); // تجميع العناصر التي تحتاج ترقيم
       }
       index++;
     }
 
     // إعادة ترقيم آخر مجموعة إن وُجدت
-    if (lisNum.length > 0)
+    if ( lisNum.length > 0 )
     {
-      const reLisNum = reNumberx(lisNum);
-      final.push(...reLisNum);
+      const reLisNum = reNumberx( lisNum );
+      final.push( ...reLisNum );
     }
 
     // إعادة إدراج "-" في أماكنها الأصلية
-    for (const i of dashIndexes)
+    for ( const i of dashIndexes )
     {
-      final.splice(i, 0, "-");
+      final.splice( i, 0, "-" );
     }
 
-  } catch (err)
+  } catch ( err )
   {
-    console.error("❌ Error:", err);
+    console.error( "❌ Error:", err );
   }
 
   return final;
 }
 
 //#region لتبسيط استدعاء الكتابة في الكونسول
-function q(output)
+function q ( output )
 {
 
-  console.log(output);
+  console.log( output );
 }
-function Q(output)
+function Q ( output )
 {
-  console.log(output);
+  console.log( output );
 }
-function ض(output)
+function ض ( output )
 {
-  console.log(output);
+  console.log( output );
 }
 //#endregion
 
-async function delay(ms)
+async function delay ( ms )
 {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise( resolve => setTimeout( resolve, ms ) );
 }
 
 //#region الانتقال بين الصفحات
@@ -648,22 +670,22 @@ async function delay(ms)
 * @param {string} sectionName - اسم القسم (مثل "home", "setting", "definition", "pands")
 */
 // @ts-ignore
-window.navigateToSection = function (sectionName)
+window.navigateToSection = function ( sectionName )
 {
   try
   {
-    if (!sectionName || typeof sectionName !== 'string')
+    if ( !sectionName || typeof sectionName !== 'string' )
     {
-      console.warn("❗ يرجى تمرير اسم القسم بشكل صحيح.");
+      console.warn( "❗ يرجى تمرير اسم القسم بشكل صحيح." );
       return;
     }
 
     // استخدم الدالة العالمية showSection (المعرفة في index.html)
     // @ts-ignore
-    showSection(sectionName);
-  } catch (error)
+    showSection( sectionName );
+  } catch ( error )
   {
-    console.error("❌ خطأ أثناء محاولة الانتقال إلى القسم:", error);
+    console.error( "❌ خطأ أثناء محاولة الانتقال إلى القسم:", error );
   }
 };
 
@@ -674,31 +696,31 @@ let isTableWatcherEnabled = true; // هذا المتغير للتحكم في ت�
 let storeName = null;
 let dataName = null;
 
-document.addEventListener('tableDataChanged', async (event) =>
+document.addEventListener( 'tableDataChanged', async ( event ) =>
 {
   try
   {
-    if (event)
+    if ( event )
     {
       // @ts-ignore
       storeName = event.detail.storeName;
       // @ts-ignore
       dataName = event.detail.dataName;
-      console.log("isTableWatcherEnabled state -> ", isTableWatcherEnabled, ' ');
+      console.log( "isTableWatcherEnabled state -> ", isTableWatcherEnabled, ' ' );
       // @ts-ignore
-      if (!isTableWatcherEnabled) return; // إذا كان الكود مغلقًا، سيتم تخطي الكود هنا.
-      console.log('chang in table -> ', storeName, ' at dataBase -> ', dataName, ' nnnnnnnnnn');
+      if ( !isTableWatcherEnabled ) return; // إذا كان الكود مغلقًا، سيتم تخطي الكود هنا.
+      console.log( 'chang in table -> ', storeName, ' at dataBase -> ', dataName, ' nnnnnnnnnn' );
 
       //تم اختيار قاعدة البيانات الخاصة ببنود مشروع 
-      if (dataName.includes("ite_"))
+      if ( dataName.includes( "ite_" ) )
       {
         // @ts-ignore
-        if (selectedPage == 'pands')
+        if ( selectedPage == 'pands' )
         {
 
         }
         // @ts-ignore
-        if (selectedPage == 'selectedPand' && selectedPage_selectedPand == 'units')
+        if ( selectedPage == 'selectedPand' && selectedPage_selectedPand == 'units' )
         {
           // @ts-ignore
           await calTot();
@@ -706,39 +728,39 @@ document.addEventListener('tableDataChanged', async (event) =>
 
 
       }
-      if (dataName.includes("bill_"))
+      if ( dataName.includes( "bill_" ) )
       {
         // @ts-ignore
-        await calSumBillSection(dataName,storeName);
+        await calSumBillSection( dataName, storeName );
 
       }
-      if (dataName.includes("_n_"))
+      if ( dataName.includes( "_n_" ) )
       {
-        await PandBillTable.calSumNumericSection(storeName);
+        await PandBillTable.calSumNumericSection( storeName );
       }
-      if (dataName.includes("raw_") || dataName.includes("equipments_") || dataName.includes("labor_") || dataName.includes("transport_") || dataName.includes("other_"))
+      if ( dataName.includes( "raw_" ) || dataName.includes( "equipments_" ) || dataName.includes( "labor_" ) || dataName.includes( "transport_" ) || dataName.includes( "other_" ) )
       {
 
         // @ts-ignore
-        await calTotSection(dataName, storeName);
+        await calTotSection( dataName, storeName );
 
       }
 
-      if (dataName.includes("Timeline_"))
+      if ( dataName.includes( "Timeline_" ) )
       {
         // @ts-ignore
-        await calDuration(dataName, storeName);
+        await calDuration( dataName, storeName );
       }
       // @ts-ignore
-      if (selectedPage_selectedPand == 'condations')
+      if ( selectedPage_selectedPand == 'condations' )
       {
 
       }
 
-      if (storeName == 'definition')
+      if ( storeName == 'definition' )
       {
         // @ts-ignore
-        if (selectedPage == 'definition')
+        if ( selectedPage == 'definition' )
         {
           // @ts-ignore
           await setupDefinationData();
@@ -746,9 +768,9 @@ document.addEventListener('tableDataChanged', async (event) =>
       }
 
     }
-  } catch (er) { console.error(er); }
+  } catch ( er ) { console.error( er ); }
 
-});
+} );
 
 //#endregion
 
@@ -756,67 +778,68 @@ document.addEventListener('tableDataChanged', async (event) =>
 let buttomClickedId = null;
 let rowClickedId = null;
 let dataBaseClickedId = null;
-document.addEventListener('clickButtonInRow', async (event) =>
+document.addEventListener( 'clickButtonInRow', async ( event ) =>
 {
   // @ts-ignore
-  buttomClickedId = event.detail.kind[0];
+  buttomClickedId = event.detail.kind[ 0 ];
   // @ts-ignore
-  rowClickedId = event.detail.kind[1];
+  rowClickedId = event.detail.kind[ 1 ];
   // @ts-ignore
-  dataBaseClickedId = event.detail.kind[2];
+  dataBaseClickedId = event.detail.kind[ 2 ];
   // @ts-ignore
-  console.log('buttomClickedId -> ', buttomClickedId, '   ', 'rowClickedId -> ', rowClickedId, '  ', 'dataBaseClickedId -> ', dataBaseClickedId);
-  if (buttomClickedId == 't_138_open')
+  console.log( 'buttomClickedId -> ', buttomClickedId, '   ', 'rowClickedId -> ', rowClickedId, '  ', 'dataBaseClickedId -> ', dataBaseClickedId );
+  if ( buttomClickedId == 't_138_open' )
   {
-    console.log(`📢 فتح احد البنود`);
-    localStorage.setItem('selectedPand', rowClickedId.replace('_', ''));
-    await delay(100);
+    console.log( `📢 فتح احد البنود` );
+    localStorage.setItem( 'selectedPand', rowClickedId.replace( '_', '' ) );
+    await delay( 100 );
     //حذف المقطع المحمل الخاص بالبند
     // @ts-ignore
-    if (typeof unloadAllSections_selectedPand == 'function')
+    if ( typeof unloadAllSections_selectedPand == 'function' )
     {
       // @ts-ignore
       await unloadAllSections_selectedPand();
     }
     // @ts-ignore
-    navigateToSection("selectedPand");
+    navigateToSection( "selectedPand" );
 
 
   }
 
-  if (buttomClickedId == 't_1266_openLink')
+  if ( buttomClickedId == 't_1266_openLink' )
   {
 
     // @ts-ignore
-    await openLinkInDiv(rowClickedId);
+    await openLinkInDiv( rowClickedId );
   }
 
-});
+} );
 
 let rawSelected = null;
 let dataBaseSelected = null;
-document.addEventListener("selectRow", async (event) =>
+document.addEventListener( "selectRow", async ( event ) =>
 {
   // @ts-ignore
   rawSelected = event.detail.Raw;
   // @ts-ignore
   dataBaseSelected = event.detail.dataBase;
   // @ts-ignore
-  q('rawSelected->', rawSelected, 'dataBaseSelected->', dataBaseSelected);
-  if (dataBaseSelected == 'allPro')
+  q( 'rawSelected->', rawSelected, 'dataBaseSelected->', dataBaseSelected );
+  if ( dataBaseSelected == 'allPro' )
   {
-    localStorage.setItem('selectedProject', rawSelected.replace('_', ''));
-    await delay(100);
-    const nav_ = document.getElementById("nav2");
+    selectedProject=rawSelected.replace( '_', '' );
+    localStorage.setItem( 'selectedProject', selectedProject );
+    await delay( 100 );
+    const nav_ = document.getElementById( "nav2" );
     // @ts-ignore
     nav_.style.display = "";
   }
 
-});
+} );
 
 let newRawSelected = null;
 let newDataBaseSelected = null;
-document.addEventListener("addNewRowEvent", async (event) =>
+document.addEventListener( "addNewRowEvent", async ( event ) =>
 {
 
   // @ts-ignore
@@ -824,18 +847,18 @@ document.addEventListener("addNewRowEvent", async (event) =>
   // @ts-ignore
   newDataBaseSelected = event.detail.dataBase;
   // @ts-ignore
-  if (newDataBaseSelected.includes("bill_"))
+  if ( newDataBaseSelected.includes( "bill_" ) )
   {
     // @ts-ignore
-    while (await PandBillTable.checkProcessRun() == true)
+    while ( await PandBillTable.checkProcessRun() == true )
     {
-      await delay(50);
+      await delay( 50 );
     }
     // @ts-ignore
     await initialValues();
   }
 
-});
+} );
 
 
 //#endregion
@@ -846,26 +869,26 @@ let DecimalPoint = 2;
 let langSelectList0 = '';
 let langSelectList1 = '';
 let langSelectList2 = '';
-async function getSetting()
+async function getSetting ()
 {
-  try { } catch (err) { console.log("error -> ", err); }
-  const storedLang = localStorage.getItem("languageSelect");
+  try { } catch ( err ) { console.log( "error -> ", err ); }
+  const storedLang = localStorage.getItem( "languageSelect" );
   // التحقق من صحة قيمة اللغة
-  savedLang = (storedLang === "ar" || storedLang === "en") ? storedLang : "en";
-  if (savedLang === "ar") { useArabic = true; } else { useArabic = false; }
+  savedLang = ( storedLang === "ar" || storedLang === "en" ) ? storedLang : "en";
+  if ( savedLang === "ar" ) { useArabic = true; } else { useArabic = false; }
   // التحقق من صحة قيمة النقطة العشرية
-  const storedDecimalPoint = localStorage.getItem("DecimalPoint");
-  DecimalPoint = storedDecimalPoint ? Math.min(Math.max(parseInt(JSON.parse(storedDecimalPoint)) || 2, 0), 5) : 2;
-  if (useArabic) { langSelectList0 = 'arabic_name'; langSelectList1 = 'not1Arabic'; langSelectList2 = 'not2Arabic'; } else { langSelectList0 = 'english_name'; langSelectList1 = 'not1English'; langSelectList2 = 'not2English'; }
+  const storedDecimalPoint = localStorage.getItem( "DecimalPoint" );
+  DecimalPoint = storedDecimalPoint ? Math.min( Math.max( parseInt( JSON.parse( storedDecimalPoint ) ) || 2, 0 ), 5 ) : 2;
+  if ( useArabic ) { langSelectList0 = 'arabic_name'; langSelectList1 = 'not1Arabic'; langSelectList2 = 'not2Arabic'; } else { langSelectList0 = 'english_name'; langSelectList1 = 'not1English'; langSelectList2 = 'not2English'; }
 
-  console.log('savedLang ->', savedLang, 'DecimalPoint ->', DecimalPoint);
+  console.log( 'savedLang ->', savedLang, 'DecimalPoint ->', DecimalPoint );
 
 
 
 }
 
 // تأكد من تنفيذ الدالة بشكل متزامن عند بدء التطبيق
-(async () =>
+( async () =>
 {
   await getSetting();
-})();
+} )();

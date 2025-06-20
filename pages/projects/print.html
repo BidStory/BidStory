@@ -1,0 +1,83 @@
+<select id="actionSelector" onchange="handleSelection(this.value)">
+    <option value="">-- اختر من القائمة --</option>
+    <option id="t_1276" value="1"></option>
+    <option value="2">📥 استيراد البيانات</option>
+    <option value="3">🗑️ حذف البيانات</option>
+</select>
+
+<div id="tablePrintContaner" >
+
+</div>
+
+
+
+
+
+
+
+
+<script>
+    let allProcessData = null;
+    async function initPrintPage ()
+    {
+        await waitMes();
+        allProcessData = await getSingleProcessData( selectedProject );
+        if ( allProcessData )
+        {
+            console.log( allProcessData.items );
+        }
+        Swal.close();
+    }
+    function handleSelection ( value )
+    {
+        switch ( value )
+        {
+            case "1":
+                Estimate();
+                break;
+            case "2":
+                importData();
+                break;
+            case "3":
+                deleteData();
+                break;
+            default:
+                console.log( "ℹ️ لا يوجد خيار محدد" );
+        }
+    }
+
+
+    async function Estimate ()
+    {
+        const result = await Promise.all(
+            allProcessData.items.map( async ( item ) =>
+            {
+                try
+                {
+                    const db = new noUpgrade( 'ite_' + selectedProject );
+                    const rows = await db.getAllDataFromTable( item );
+
+                    const entry = Object.fromEntries( rows.map( ( { key, value } ) => [ key, value ] ) );
+
+                    return {
+                        numbering: entry.numbering || '',
+                        pandText: entry.pandText || '',
+                        kmia: entry.kmia || '',
+                        sear: entry.sear || '',
+                        tot: entry.tot || ''
+                    };
+                } catch ( err )
+                {
+                    console.error( `❌ خطأ أثناء قراءة بيانات ${ item }:`, err );
+                    return null; // لتخطي العناصر التي بها خطأ
+                }
+            } )
+        );
+        console.log( result.filter( Boolean ) );
+        // إزالة العناصر الفارغة إن وجدت
+        return result.filter( Boolean );
+    }
+
+
+
+</script>
