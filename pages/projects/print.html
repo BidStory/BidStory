@@ -4,8 +4,16 @@
     <option value="2">📥 استيراد البيانات</option>
     <option value="3">🗑️ حذف البيانات</option>
 </select>
-
-<div id="tablePrintContaner" >
+<br>
+<br>
+<button onclick="ExcelExporter.exportToExcel('table1', 'ملفي.xlsx');">📥 تصدير إلى Excel</button>
+<!-- 🔘 زر التصدير إلى PDF -->
+<button onclick="TablePrinter.printTable('table1', '');">
+    طباعة الجدول بالمتصفح
+</button>
+<br>
+<br>
+<div id="tablePrintContaner">
 
 </div>
 
@@ -16,8 +24,17 @@
 
 
 
+
+
 <script>
     let allProcessData = null;
+    const pandRaqm = getLang( 762 );
+    const pandDiscription = getLang( 906 );
+    const pandUnit = getLang( 48 );
+    const Quantity = getLang( 38 );
+    const Price = getLang( 39 );
+    const Total = getLang( 40 );
+    //جلب كل البيانات
     async function initPrintPage ()
     {
         await waitMes();
@@ -28,12 +45,15 @@
         }
         Swal.close();
     }
-    function handleSelection ( value )
+    //التعامل مع الامر المختار
+    async function handleSelection ( value )
     {
         switch ( value )
         {
             case "1":
-                Estimate();
+                const res =await estimateOperations.execute();
+                TableRenderer.renderTable( res, [ pandRaqm, pandDiscription, pandUnit, Quantity, Price, Total ], 'Estimate', useArabic );
+
                 break;
             case "2":
                 importData();
@@ -46,37 +66,90 @@
         }
     }
 
-
-    async function Estimate ()
-    {
+    //امر طباعه المشروع
+const estimateOperations = {
+    // دالة جلب البيانات
+    getEstimateData: async function () {
         const result = await Promise.all(
-            allProcessData.items.map( async ( item ) =>
-            {
-                try
-                {
-                    const db = new noUpgrade( 'ite_' + selectedProject );
-                    const rows = await db.getAllDataFromTable( item );
-
-                    const entry = Object.fromEntries( rows.map( ( { key, value } ) => [ key, value ] ) );
+            allProcessData.items.map(async (item) => {
+                try {
+                    const db = new noUpgrade('ite_' + selectedProject);
+                    const rows = await db.getAllDataFromTable(item);
+                    const entry = Object.fromEntries(rows.map(({ key, value }) => [key, value]));
 
                     return {
                         numbering: entry.numbering || '',
                         pandText: entry.pandText || '',
-                        kmia: entry.kmia || '',
-                        sear: entry.sear || '',
-                        tot: entry.tot || ''
+                        UnitPand: getUnitByCIndex(entry.UnitPand, langSelectList0) || '',
+                        kmia: Number(entry.kmia) || 0,
+                        sear: Number(entry.sear) || 0,
+                        tot: Number(entry.tot) || 0
                     };
-                } catch ( err )
-                {
-                    console.error( `❌ خطأ أثناء قراءة بيانات ${ item }:`, err );
-                    return null; // لتخطي العناصر التي بها خطأ
+                } catch (err) {
+                    console.error(`❌ خطأ أثناء قراءة بيانات ${item}:`, err);
+                    return null;
                 }
-            } )
+            })
         );
-        console.log( result.filter( Boolean ) );
-        // إزالة العناصر الفارغة إن وجدت
-        return result.filter( Boolean );
+        return result.filter(Boolean);
+    },
+
+    // دالة إضافة عنصر جديد
+    addEstimateItem: function (estimateList, newItem) {
+        if (!newItem || typeof newItem !== 'object') {
+            console.warn("⚠️ عنصر غير صالح للإضافة:", newItem);
+            return estimateList;
+        }
+
+        const requiredKeys = ['numbering', 'pandText', 'UnitPand', 'kmia', 'sear', 'tot'];
+        const hasAllKeys = requiredKeys.every(key => key in newItem);
+
+        if (!hasAllKeys) {
+            console.warn("⚠️ العنصر الجديد لا يحتوي على كل المفاتيح المطلوبة:", newItem);
+            return estimateList;
+        }
+
+        // تأكد أن الأرقام أرقام فعلية
+        newItem.kmia = Number(newItem.kmia) || 0;
+        newItem.sear = Number(newItem.sear) || 0;
+        newItem.tot = Number(newItem.tot) || 0;
+
+        return [...estimateList, newItem];
+    },
+
+    // الدالة الرئيسية - يمكن تمرير عنصر جديد مخصص
+    execute: async function (customNewItem = null) {
+        const originalList = await this.getEstimateData();
+
+        const defaultItem = {
+            numbering: '-',
+            pandText: 'تفاصيل البند الجديد',
+            UnitPand: '',
+            kmia: 0,
+            sear: 0,
+            tot: 2000
+        };
+
+        const newItem = customNewItem || defaultItem;
+        const updatedList = this.addEstimateItem(originalList, newItem);
+
+        console.log("📦 القائمة بعد الإضافة:", updatedList);
+        return updatedList;
     }
+};
+
+// كيفية الاستدعاء لاحقاً:
+// estimateOperations.execute();
+
+
+
+
+
+
+
+
+
+
 
 
 
