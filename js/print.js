@@ -1,5 +1,6 @@
-  //لانشاء الجدول
-const TableRenderer = (function () {
+//لانشاء الجدول
+const TableRenderer = ( function ()
+{
     const config = {
         containerId: 'tablePrintContaner',
         noDataMessage: '📭 لا توجد بيانات لعرضها.',
@@ -35,133 +36,175 @@ const TableRenderer = (function () {
         }
     };
 
-    const createTableElement = () => {
-        const table = document.createElement('table');
-        Object.assign(table.style, config.tableStyle);
+    const createTableElement = () =>
+    {
+        const table = document.createElement( 'table' );
+        Object.assign( table.style, config.tableStyle );
         table.id = "table1";
         return table;
     };
 
-    const createTableHeader = (headers) => {
-        const thead = document.createElement('thead');
-        const headRow = document.createElement('tr');
+    const createTableHeader = ( headers ) =>
+    {
+        const thead = document.createElement( 'thead' );
+        const headRow = document.createElement( 'tr' );
 
-        headers.forEach(headerText => {
-            const th = document.createElement('th');
+        headers.forEach( headerText =>
+        {
+            const th = document.createElement( 'th' );
             th.textContent = headerText;
-            Object.assign(th.style, config.headerStyle);
-            headRow.appendChild(th);
-        });
+            Object.assign( th.style, config.headerStyle );
+            headRow.appendChild( th );
+        } );
 
-        thead.appendChild(headRow);
+        thead.appendChild( headRow );
         return thead;
     };
 
-    const createTableCell = (value, options = {}) => {
-        const td = document.createElement('td');
+    const createTableCell = ( value, options = {} ) =>
+    {
+        const td = document.createElement( 'td' );
 
-        if (options.isFirstColumn) {
-            Object.assign(td.style, config.firstColumnCellStyle);
-        } else if (options.isEstimateBottomColumn) {
-            Object.assign(td.style, config.bottomMiddleCellStyle);
-        } else {
-            Object.assign(td.style, config.cellStyle);
+        if ( options.isFirstColumn )
+        {
+            Object.assign( td.style, config.firstColumnCellStyle );
+        } else if ( options.isEstimateBottomColumn )
+        {
+            Object.assign( td.style, config.bottomMiddleCellStyle );
+        } else
+        {
+            Object.assign( td.style, config.cellStyle );
         }
 
-        if (options.isEstimateColumn) {
+        if ( options.isEstimateColumn )
+        {
             td.style.textAlign = options.useArabic ? 'right' : 'left';
         }
 
-        if (options.colSpan) {
+        if ( options.colSpan )
+        {
             td.colSpan = options.colSpan;
         }
 
         let cellValue = value || '';
-        if (typeof cellValue === 'string') {
-            cellValue = cellValue.replace(/\n/g, "<br>");
+        if ( typeof cellValue === 'string' )
+        {
+            cellValue = cellValue.replace( /\n/g, "<br>" );
         }
 
         td.innerHTML = cellValue;
         return td;
     };
 
-    const createTableBody = (data, columns, kind, useArabic) => {
-        const tbody = document.createElement('tbody');
+    const createTableBody = ( data, columns, kind, useArabic ) =>
+    {
+        const tbody = document.createElement( 'tbody' );
 
-        data.forEach(item => {
-            const row = document.createElement('tr');
+        data.forEach( item =>
+        {
+            const row = document.createElement( 'tr' );
 
             let skipUntilIndex = -1;
 
-            columns.forEach((key, index) => {
-                if (index <= skipUntilIndex) return;
+            columns.forEach( ( key, index ) =>
+            {
+                if ( index <= skipUntilIndex ) return;
 
-                const isEstimateColumn = (kind === 'Estimate' && index === 1);
+                const isEstimateColumn = ( kind === 'Estimate' && index === 1 );
                 const isFirstColumn = index === 0;
-                const isEstimateBottomColumn = (kind === 'Estimate' && index >= 2 && index <= 5);
+                const isEstimateBottomColumn = ( kind === 'Estimate' && index >= 2 && index <= 5 );
 
                 // ✅ تحقق من شرط الدمج في kind = Estimate
-                if (kind === 'Estimate' && index === 1) {
-                    const thirdValue = item[columns[2]];
-                    const isThirdValueEmpty = thirdValue === null || thirdValue === undefined || String(thirdValue).trim() === '';
+                if ( kind === 'Estimate' && index === 1 )
+                {
+                    const fristValue = item[ columns[ 0 ] ];
+                    const thirdValue = item[ columns[ 2 ] ];
+                    const isThirdValueEmpty = thirdValue === null || thirdValue === undefined || String( thirdValue ).trim() === '';
+                    const isDash = fristValue === "-";
 
-                    if (isThirdValueEmpty) {
-                        const cell = createTableCell(item[key], {
+                    if ( isDash )
+                    {
+                        const cell = createTableCell( item[ key ], {
+                            isEstimateColumn,
+                            useArabic,
+                            colSpan: 4 // دمج الأعمدة 2 إلى 5 فقط
+                        } );
+                        row.appendChild( cell );
+
+                        // ✅ أضف العمود السادس كما هو (index 6 = columns[5])
+                        const sixthCell = createTableCell( item[ columns[ 5 ] ], {
+                            isEstimateBottomColumn,
+                            useArabic
+                        } );
+                        row.appendChild( sixthCell );
+
+                        skipUntilIndex = 5; // تخطي الأعمدة 2 إلى 5 (أي index 2,3,4,5)
+                        return;
+                    }
+
+                    if ( isThirdValueEmpty )
+                    {
+                        const cell = createTableCell( item[ key ], {
                             isEstimateColumn,
                             useArabic,
                             colSpan: 5 // من العمود 2 إلى 6
-                        });
-                        row.appendChild(cell);
-                        skipUntilIndex = 5; // تخطي الأعمدة 3 إلى 6
+                        } );
+                        row.appendChild( cell );
+                        skipUntilIndex = 5;
                         return;
                     }
                 }
 
-                const cell = createTableCell(item[key], {
+
+
+                const cell = createTableCell( item[ key ], {
                     isFirstColumn,
                     isEstimateColumn,
                     isEstimateBottomColumn,
                     useArabic
-                });
+                } );
 
-                row.appendChild(cell);
-            });
+                row.appendChild( cell );
+            } );
 
-            tbody.appendChild(row);
-        });
+            tbody.appendChild( row );
+        } );
 
         return tbody;
     };
 
-    const showNoDataMessage = (container) => {
+    const showNoDataMessage = ( container ) =>
+    {
         container.textContent = config.noDataMessage;
     };
 
-    const renderTable = (data, headers, kind, useArabic) => {
-        const container = document.getElementById(config.containerId);
+    const renderTable = ( data, headers, kind, useArabic ) =>
+    {
+        const container = document.getElementById( config.containerId );
         // @ts-ignore
         container.innerHTML = '';
 
-        if (!data || data.length === 0) {
-            showNoDataMessage(container);
+        if ( !data || data.length === 0 )
+        {
+            showNoDataMessage( container );
             return;
         }
 
-        const columns = Object.keys(data[0]);
+        const columns = Object.keys( data[ 0 ] );
         const table = createTableElement();
         table.style.direction = useArabic ? 'rtl' : 'ltr';
 
-        table.appendChild(createTableHeader(headers));
-        table.appendChild(createTableBody(data, columns, kind, useArabic));
+        table.appendChild( createTableHeader( headers ) );
+        table.appendChild( createTableBody( data, columns, kind, useArabic ) );
 
         // @ts-ignore
-        container.appendChild(table);
+        container.appendChild( table );
     };
 
     return {
         renderTable: renderTable
     };
-})();
+} )();
 
 
 
@@ -463,30 +506,37 @@ const ExcelExporter = ( () =>
 } )();
 
 
-const TablePrinter = (() => {
-       // متغير لتخزين حالة العناصر الأصلية
+const TablePrinter = ( () =>
+{
+    // متغير لتخزين حالة العناصر الأصلية
     let originalStyles = new Map();
 
     /**
      * حفظ الأنماط الأصلية للعناصر
      */
-    const saveOriginalStyles = () => {
-        document.querySelectorAll('*').forEach(el => {
-            originalStyles.set(el, el.getAttribute('style'));
-        });
+    const saveOriginalStyles = () =>
+    {
+        document.querySelectorAll( '*' ).forEach( el =>
+        {
+            originalStyles.set( el, el.getAttribute( 'style' ) );
+        } );
     };
 
     /**
      * استعادة الأنماط الأصلية للعناصر
      */
-    const restoreOriginalStyles = () => {
-        originalStyles.forEach((style, el) => {
-            if (style) {
-                el.setAttribute('style', style);
-            } else {
-                el.removeAttribute('style');
+    const restoreOriginalStyles = () =>
+    {
+        originalStyles.forEach( ( style, el ) =>
+        {
+            if ( style )
+            {
+                el.setAttribute( 'style', style );
+            } else
+            {
+                el.removeAttribute( 'style' );
             }
-        });
+        } );
         originalStyles.clear();
     };
     /**
@@ -494,19 +544,22 @@ const TablePrinter = (() => {
      * @param {string} tableId - معرّف الجدول المراد طباعته
      * @param {string} title - عنوان التقرير (اختياري)
      */
-    const printTable = (tableId, title = '') => {
-        try {
+    const printTable = ( tableId, title = '' ) =>
+    {
+        try
+        {
             saveOriginalStyles(); // حفظ الحالة الأصلية قبل الطباعة
-            
+
             const printWindow = openPrintWindow();
-            const tableContent = getTableContent(tableId);
-            const printDocument = buildPrintDocument(tableContent, title);
-            
-            writeToPrintWindow(printWindow, printDocument);
-            setupPrintWindowEvents(printWindow);
-        } catch (error) {
-            console.error('حدث خطأ أثناء محاولة الطباعة:', error);
-            alert('حدث خطأ أثناء محاولة الطباعة. يرجى المحاولة مرة أخرى.');
+            const tableContent = getTableContent( tableId );
+            const printDocument = buildPrintDocument( tableContent, title );
+
+            writeToPrintWindow( printWindow, printDocument );
+            setupPrintWindowEvents( printWindow );
+        } catch ( error )
+        {
+            console.error( 'حدث خطأ أثناء محاولة الطباعة:', error );
+            alert( 'حدث خطأ أثناء محاولة الطباعة. يرجى المحاولة مرة أخرى.' );
             restoreOriginalStyles(); // استعادة الحالة الأصلية في حالة الخطأ
         }
     };
@@ -515,10 +568,12 @@ const TablePrinter = (() => {
      * فتح نافذة الطباعة الجديدة
      * @returns {Window} نافذة الطباعة
      */
-    const openPrintWindow = () => {
-        const printWindow = window.open('', '_blank');
-        if (!printWindow) {
-            throw new Error('تعذر فتح نافذة الطباعة. يرجى تعطيل مانع النوافذ المنبثقة.');
+    const openPrintWindow = () =>
+    {
+        const printWindow = window.open( '', '_blank' );
+        if ( !printWindow )
+        {
+            throw new Error( 'تعذر فتح نافذة الطباعة. يرجى تعطيل مانع النوافذ المنبثقة.' );
         }
         return printWindow;
     };
@@ -528,18 +583,20 @@ const TablePrinter = (() => {
      * @param {string} tableId - معرّف الجدول
      * @returns {string} محتوى HTML للجدول
      */
-    const getTableContent = (tableId) => {
-        const tableElement = document.getElementById(tableId);
-        if (!tableElement) {
-            throw new Error(`لا يوجد جدول بالمعرف ${tableId}`);
+    const getTableContent = ( tableId ) =>
+    {
+        const tableElement = document.getElementById( tableId );
+        if ( !tableElement )
+        {
+            throw new Error( `لا يوجد جدول بالمعرف ${ tableId }` );
         }
 
         // استنساخ الجدول للحفاظ على الأنماط الأصلية
-        const tableClone = tableElement.cloneNode(true);
-        
+        const tableClone = tableElement.cloneNode( true );
+
         // الحصول على الأنماط المطبقة على الجدول
-        const originalStyles = getOriginalStyles(tableElement);
-        
+        const originalStyles = getOriginalStyles( tableElement );
+
         // @ts-ignore
         return originalStyles + tableClone.outerHTML;
     };
@@ -549,23 +606,25 @@ const TablePrinter = (() => {
      * @param {HTMLElement} element - العنصر المراد استخلاص أنماطه
      * @returns {string} أنماط CSS للعنصر
      */
-    const getOriginalStyles = (element) => {
-        const styles = window.getComputedStyle(element);
+    const getOriginalStyles = ( element ) =>
+    {
+        const styles = window.getComputedStyle( element );
         let cssText = '';
-        
+
         // إضافة أنماط العنصر نفسه
-        cssText += `#${element.id} { ${styles.cssText} }\n`;
-        
+        cssText += `#${ element.id } { ${ styles.cssText } }\n`;
+
         // إضافة أنماط العناصر الفرعية
-        const allElements = element.getElementsByTagName('*');
-        for (let el of allElements) {
-            const elStyles = window.getComputedStyle(el);
+        const allElements = element.getElementsByTagName( '*' );
+        for ( let el of allElements )
+        {
+            const elStyles = window.getComputedStyle( el );
             // @ts-ignore
-            const selector = getCssSelector(el);
-            cssText += `${selector} { ${elStyles.cssText} }\n`;
+            const selector = getCssSelector( el );
+            cssText += `${ selector } { ${ elStyles.cssText } }\n`;
         }
-        
-        return `<style>${cssText}</style>`;
+
+        return `<style>${ cssText }</style>`;
     };
 
     /**
@@ -573,14 +632,16 @@ const TablePrinter = (() => {
      * @param {HTMLElement} element - العنصر
      * @returns {string} محدد CSS
      */
-    const getCssSelector = (element) => {
-        if (element.id) return `#${element.id}`;
-        
+    const getCssSelector = ( element ) =>
+    {
+        if ( element.id ) return `#${ element.id }`;
+
         let selector = element.tagName.toLowerCase();
-        if (element.className) {
-            selector += '.' + element.className.split(' ').join('.');
+        if ( element.className )
+        {
+            selector += '.' + element.className.split( ' ' ).join( '.' );
         }
-        
+
         return selector;
     };
 
@@ -590,25 +651,26 @@ const TablePrinter = (() => {
      * @param {string} title - عنوان التقرير
      * @returns {string} مستند HTML كامل للطباعة
      */
-    const buildPrintDocument = (tableContent, title) => {
-        const headerFooterStyle = createHeaderFooterStyle(title);
-        const printStyles = createPrintStyles(headerFooterStyle);
-        const currentDate = new Date().toLocaleDateString('ar-EG');
-        
+    const buildPrintDocument = ( tableContent, title ) =>
+    {
+        const headerFooterStyle = createHeaderFooterStyle( title );
+        const printStyles = createPrintStyles( headerFooterStyle );
+        const currentDate = new Date().toLocaleDateString( 'ar-EG' );
+
         return `
             <!DOCTYPE html>
             <html dir="rtl">
             <head>
                 <meta charset="UTF-8">
-                <title>${title || 'طباعة الجدول'}</title>
-                ${printStyles}
+                <title>${ title || 'طباعة الجدول' }</title>
+                ${ printStyles }
             </head>
             <body>
                 <div id="print-section">
-                    ${title ? `<h1 class="print-title">${title}</h1>` : ''}
-                    ${tableContent}
+                    ${ title ? `<h1 class="print-title">${ title }</h1>` : '' }
+                    ${ tableContent }
                     <div class="print-footer">
-                        تم الطباعة في ${currentDate}
+                        تم الطباعة في ${ currentDate }
                     </div>
                 </div>
             </body>
@@ -621,11 +683,12 @@ const TablePrinter = (() => {
      * @param {string} title - عنوان التقرير
      * @returns {string} أنماط CSS للترويسة والتذييل
      */
-    const createHeaderFooterStyle = (title) => {
+    const createHeaderFooterStyle = ( title ) =>
+    {
         return `
             @page {
                 @top-center {
-                    content: "${title}";
+                    content: "${ title }";
                     font-family: 'Arial', sans-serif;
                     font-size: 12pt;
                 }
@@ -645,10 +708,11 @@ const TablePrinter = (() => {
      * @param {string} headerFooterStyle - أنماط الترويسة والتذييل
      * @returns {string} أنماط CSS كاملة للطباعة
      */
-    const createPrintStyles = (headerFooterStyle) => {
+    const createPrintStyles = ( headerFooterStyle ) =>
+    {
         return `
             <style>
-                ${headerFooterStyle}
+                ${ headerFooterStyle }
                 
                 body {
                     font-family: 'Arial', sans-serif;
@@ -701,8 +765,9 @@ const TablePrinter = (() => {
      * @param {Window} printWindow - نافذة الطباعة
      * @param {string} content - المحتوى المراد كتابته
      */
-    const writeToPrintWindow = (printWindow, content) => {
-        printWindow.document.write(content);
+    const writeToPrintWindow = ( printWindow, content ) =>
+    {
+        printWindow.document.write( content );
         printWindow.document.close();
     };
 
@@ -711,28 +776,33 @@ const TablePrinter = (() => {
      * @param {Window} printWindow - نافذة الطباعة
      */
 
- const setupPrintWindowEvents = (printWindow) => {
-        printWindow.onload = function() {
-            setTimeout(() => {
+    const setupPrintWindowEvents = ( printWindow ) =>
+    {
+        printWindow.onload = function ()
+        {
+            setTimeout( () =>
+            {
                 printWindow.focus();
-                
+
                 // إضافة حدث بعد الطباعة لاستعادة الحالة الأصلية
-                printWindow.onafterprint = () => {
+                printWindow.onafterprint = () =>
+                {
                     restoreOriginalStyles();
-                    if (!printWindow.closed) {
+                    if ( !printWindow.closed )
+                    {
                         printWindow.close();
                     }
                 };
-                
+
                 printWindow.print();
-            }, 300);
+            }, 300 );
         };
     };
     // تصدير الوظائف العامة فقط
     return {
         printTable
     };
-})();
+} )();
 
 // مثال على الاستخدام:
 // TablePrinter.printTable('myTableId', 'تقرير الجدول');

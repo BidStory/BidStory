@@ -210,43 +210,43 @@ function noUpgrade(dbName)
 
   };
 
-  const getAllDataFromTable = async (tableName) =>
-  {
-   /*  if (await isTableExist(tableName))
-    {
-      console.log(`📥 [getAllDataFromTable] محاولة جلب كل البيانات من الجدول: ${tableName}`);
-    */  
-    let db;
-      try
-      {
-        db = await openDB();
-        return new Promise((resolve, reject) =>
-        {
-          const transaction = db.transaction(tableName, "readonly");
-          const objectStore = transaction.objectStore(tableName);
-          const request = objectStore.getAll();
+  const getAllDataFromTable = async (tableName) => {
+  let db;
+  try {
+    db = await openDB();
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction(tableName, "readonly");
+      const objectStore = transaction.objectStore(tableName);
+      const request = objectStore.getAll();
 
-          request.onsuccess = () =>
-          {
-            console.log(`✅ [getAllDataFromTable] تم جلب البيانات من ${tableName}`);
-            resolve(request.result);
-          };
-          request.onerror = () =>
-          {
-            console.error("❌ [getAllDataFromTable] فشل في جلب البيانات:", request.error);
-            reject("❌ فشل في جلب البيانات: " + request.error);
-          };
-        });
-      } catch (error)
-      {
-        console.error("❌ [getAllDataFromTable] خطأ:", error);
-        return [];
-      } finally
-      {
-        if (db) { db.close(); console.log("🛑 تم إغلاق قاعدة البيانات بنجاح" + " " + dbName); };
-      }
-  //  }
-  };
+      request.onsuccess = () => {
+        let result = request.result;
+
+        // ✅ ترتيب البيانات إذا كان اسم الجدول "rows"
+        if (tableName === "rows") {
+          result.sort((a, b) => a.value - b.value);
+        }
+
+        console.log(`✅ [getAllDataFromTable] تم جلب البيانات من ${tableName}`);
+        resolve(result);
+      };
+
+      request.onerror = () => {
+        console.error("❌ [getAllDataFromTable] فشل في جلب البيانات:", request.error);
+        reject("❌ فشل في جلب البيانات: " + request.error);
+      };
+    });
+  } catch (error) {
+    console.error("❌ [getAllDataFromTable] خطأ:", error);
+    return [];
+  } finally {
+    if (db) {
+      db.close();
+      console.log("🛑 تم إغلاق قاعدة البيانات بنجاح" + " " + dbName);
+    }
+  }
+};
+
 
   /// <summary>
   /// دالة تقوم بإدخال البيانات في جدول معين من خلال ترتيب القيم فقط دون الحاجة لتحديد أسماء الأعمدة.

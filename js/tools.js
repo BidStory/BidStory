@@ -3,7 +3,7 @@
 //#region  متغيرات عامة
 
 //#region متغيرات الاختيار العامه 
-let selectedProject=null;
+let selectedProject = null;
 
 //#endregion
 
@@ -724,8 +724,19 @@ document.addEventListener( 'tableDataChanged', async ( event ) =>
         {
           // @ts-ignore
           await calTot();
+
         }
 
+
+      }
+      if ( dataName.includes( "contractor" ) )
+      {
+        // @ts-ignore
+        if ( selectedPage == 'selectedPand' && selectedPage_selectedPand == 'units' )
+        {
+          // @ts-ignore
+          await calTot_contractor();
+        }
 
       }
       if ( dataName.includes( "bill_" ) )
@@ -827,7 +838,7 @@ document.addEventListener( "selectRow", async ( event ) =>
   q( 'rawSelected->', rawSelected, 'dataBaseSelected->', dataBaseSelected );
   if ( dataBaseSelected == 'allPro' )
   {
-    selectedProject=rawSelected.replace( '_', '' );
+    selectedProject = rawSelected.replace( '_', '' );
     localStorage.setItem( 'selectedProject', selectedProject );
     await delay( 100 );
     const nav_ = document.getElementById( "nav2" );

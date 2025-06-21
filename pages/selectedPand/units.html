@@ -1,83 +1,158 @@
 <script>
-    async function initUnitPandPage()
+    async function initUnitPandPage ()
     {
 
-        await restoreAllInputsFromIndexDB("unitPandPage", dbNoUpgradSelectedPand, selectedPandId);
-        await watchingAllInputs2IndexDB("unitPandPage", dbNoUpgradSelectedPand, selectedPandId);
+        await restoreAllInputsFromIndexDB( "unitPandPage", dbNoUpgradSelectedPand, selectedPandId );
+        await watchingAllInputs2IndexDB( "unitPandPage", dbNoUpgradSelectedPand, selectedPandId );
+        await restoreAllInputsFromIndexDB( "unitContractorPandPage", dbNoUpgradSelectedPand_contractor, selectedPandId );
+        await watchingAllInputs2IndexDB( "unitContractorPandPage", dbNoUpgradSelectedPand_contractor, selectedPandId );
 
     }
 
 </script>
 
 <div id="unitPandPage">
-<!---- الكمية --->
-<input type="number" id="kmia">
+    <table>
+        <!---- الكمية --->
+        <tr>
+            <td><span id="t_38"></span></td>
+            <td><input type="number" id="kmia"></td>
+        </tr>
+        <!---- سعر الوحدة --->
+        <tr>
+            <td><span id="t_39"></span></td>
+            <td><input type="number" id="sear"></td>
+        </tr>
+        <!---- المجموع --->
+        <tr>
+            <td><span id="t_40"></span></td>
+            <td><input type="number" id="tot"></td>
+        </tr>
+
+        <!---- نوع البند المالي --->
+        <tr>
+            <td><span id="t_137"></span></td>
+            <td><select id="kindFinancialSelectPand">
+                    <option disabled selected id="t_1259"></option>
+                </select>
+            </td>
+        </tr>
+        <!----وحدة البند-->
+        <tr>
+            <td><span id="t_66"></span></td>
+            <td><select id="UnitPand">
+                    <option disabled selected id="t_1262"></option>
+                </select>
+            </td>
+        </tr>
+        <!----نوع البند-->
+        <tr>
+            <td><span id="t_204"></span></td>
+            <td><select id="PandType">
+                    <option disabled selected id="t_1263"></option>
+                </select>
+            </td>
+        </tr>
+        <!----نوع الاعمل-->
+        <tr>
+            <td><span id="t_63"></span></td>
+            <td><select id="KindWork">
+                    <option disabled selected id="t_1264"></option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <br>
+
+
+
+
+
+</div>
 <br>
-<!---- سعر الوحدة --->
-<input type="number" id="sear">
 <br>
-<!---- المجموع --->
-<input type="number" id="tot">
-<br>
-<!---- نوع البند المالي --->
-<h3 id="t_137"></h3>
-<select id="kindFinancialSelectPand">
-    <option disabled selected id="t_1259"></option>
-</select>
-<!----وحدة البند-->
-<h3 id="t_66"></h3>
-<select id="UnitPand">
-    <option disabled selected id="t_1262"></option>
-</select>
-<!----نوع البند-->
-<h3 id="t_204"></h3>
-<select id="PandType">
-    <option disabled selected id="t_1263"></option>
-</select>
-<!----نوع الاعمل-->
-<h3 id="t_63"></h3>
-<select id="KindWork">
-    <option disabled selected id="t_1264"></option>
-</select>
+<div id="unitContractorPandPage">
+    <table>
+        <!----contractor سعر الوحدة --->
+        <tr>
+            <td><span id="t_120"></span></td>
+            <td><input type="number" id="sear_contractor"></td>
+        </tr>
+        <!---- contractor المجموع --->
+        <tr>
+            <td><span id="t_40"></span></td>
+            <td><input type="number" id="tot_contractor"></td>
+        </tr>
+    </table>
+</div>
 
 <script>
 
-    async function calTot()
+    async function calTot ()
     {
-        try{
-        const kmia_ = document.getElementById("kmia");
-        const sear_ = document.getElementById("sear");
-        const tot_ = document.getElementById("tot");
+        try
+        {
+            const kmia_ = document.getElementById( "kmia" );
+            const sear_ = document.getElementById( "sear" );
+            const tot_ = document.getElementById( "tot" );
 
-        let k = parseFloat(kmia_.value) || 0;
-        let s = parseFloat(sear_.value) || 0;
+            let k = parseFloat( kmia_.value ) || 0;
+            let s = parseFloat( sear_.value ) || 0;
 
-        tot_.value = (k * s); // التقريب لرقمين عشريين (اختياري)
-        
-        isTableWatcherEnabled = false;
-        await dbNoUpgradSelectedPand.keySet(selectedPandId, 'tot', tot_.value);
-        isTableWatcherEnabled = true;
-        } catch (error) {
-            console.error("Error calculating total:", error);
-        }finally {
-         isTableWatcherEnabled = true;
+            tot_.value = ( k * s ); // التقريب لرقمين عشريين (اختياري)
+
+            isTableWatcherEnabled = false;
+            await dbNoUpgradSelectedPand.keySet( selectedPandId, 'tot', tot_.value );
+            isTableWatcherEnabled = true;
+        } catch ( error )
+        {
+            console.error( "Error calculating total:", error );
+        } finally
+        {
+            isTableWatcherEnabled = true;
         }
     }
 
-    //#region اختيار نوع وحدة القياس
-    function pandUnitSelect()
+    async function calTot_contractor ()
     {
-        const select = document.getElementById("UnitPand");
-
-        for (let cIndex = 0; cIndex <= 10; cIndex++)
+        try
         {
-            const name = getUnitByCIndex(cIndex, langSelectList0);
-            if (name)
+            const kmia_ = document.getElementById( "kmia" );
+            const sear_ = document.getElementById( "sear_contractor" );
+            const tot_ = document.getElementById( "tot_contractor" );
+
+            let k = parseFloat( kmia_.value ) || 0;
+            let s = parseFloat( sear_.value ) || 0;
+
+            tot_.value = ( k * s ); // التقريب لرقمين عشريين (اختياري)
+
+            isTableWatcherEnabled = false;
+            await dbNoUpgradSelectedPand_contractor.keySet( selectedPandId, 'tot_contractor', tot_.value );
+            isTableWatcherEnabled = true;
+        } catch ( error )
+        {
+            console.error( "Error calculating total:", error );
+        } finally
+        {
+            isTableWatcherEnabled = true;
+        }
+    }
+
+
+    //#region اختيار نوع وحدة القياس
+    function pandUnitSelect ()
+    {
+        const select = document.getElementById( "UnitPand" );
+
+        for ( let cIndex = 0; cIndex <= 10; cIndex++ )
+        {
+            const name = getUnitByCIndex( cIndex, langSelectList0 );
+            if ( name )
             {
-                const option = document.createElement("option");
+                const option = document.createElement( "option" );
                 option.value = cIndex;
                 option.textContent = name;
-                select.appendChild(option);
+                select.appendChild( option );
             }
         }
     }
@@ -85,19 +160,19 @@
     //#endregion
 
     //#region اختيار نوع البند المالي
-    function pandKindFinancialSelect()
+    function pandKindFinancialSelect ()
     {
-        const select = document.getElementById("kindFinancialSelectPand");
+        const select = document.getElementById( "kindFinancialSelectPand" );
 
-        for (let cIndex = 0; cIndex <= 10; cIndex++)
+        for ( let cIndex = 0; cIndex <= 10; cIndex++ )
         {
-            const name = getKindFinancialByCIndex(cIndex, langSelectList0);
-            if (name)
+            const name = getKindFinancialByCIndex( cIndex, langSelectList0 );
+            if ( name )
             {
-                const option = document.createElement("option");
+                const option = document.createElement( "option" );
                 option.value = cIndex;
                 option.textContent = name;
-                select.appendChild(option);
+                select.appendChild( option );
             }
         }
     }
@@ -105,19 +180,19 @@
     //#endregion
 
     //#region اختيار نوع البند 
-    function pandKindSelect()
+    function pandKindSelect ()
     {
-        const select = document.getElementById("PandType");
+        const select = document.getElementById( "PandType" );
 
-        for (let cIndex = 0; cIndex <= 10; cIndex++)
+        for ( let cIndex = 0; cIndex <= 10; cIndex++ )
         {
-            const name = getPandTypeByCIndex(cIndex, langSelectList0);
-            if (name)
+            const name = getPandTypeByCIndex( cIndex, langSelectList0 );
+            if ( name )
             {
-                const option = document.createElement("option");
+                const option = document.createElement( "option" );
                 option.value = cIndex;
                 option.textContent = name;
-                select.appendChild(option);
+                select.appendChild( option );
             }
         }
     }
@@ -125,19 +200,19 @@
     //#endregion
 
     //#region اختيار نوع الاعمال 
-    function pandKindWorkSelect()
+    function pandKindWorkSelect ()
     {
-        const select = document.getElementById("KindWork");
+        const select = document.getElementById( "KindWork" );
 
-        for (let cIndex = 0; cIndex <= 10; cIndex++)
+        for ( let cIndex = 0; cIndex <= 10; cIndex++ )
         {
-            const name = getKindWorkCIndex(cIndex, langSelectList0);
-            if (name)
+            const name = getKindWorkCIndex( cIndex, langSelectList0 );
+            if ( name )
             {
-                const option = document.createElement("option");
+                const option = document.createElement( "option" );
                 option.value = cIndex;
                 option.textContent = name;
-                select.appendChild(option);
+                select.appendChild( option );
             }
         }
     }
@@ -145,5 +220,3 @@
     //#endregion
 
 </script>
-
-</div>
