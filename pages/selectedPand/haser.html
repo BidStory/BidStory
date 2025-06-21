@@ -549,14 +549,19 @@
     {
         try
         {
-            // حذف قاعدة بيانات الدفعة الأخيرة
-            await deleteDatabase( "bill_" + lastBill + "_" + selectedPandId );
-            // مسح جميع الأزرار
-            clearAllButtons();
-            // إعادة تهيئة الصفحة
-            await initPandBillPage();
-            // تفريغ حاوية الجدول
-            document.getElementById( "billContaner" ).innerHTML = "";
+            const confirmed = await showConfirmDialog( getLang(915), getLang(214) );
+
+            if ( confirmed )
+            {
+                // حذف قاعدة بيانات الدفعة الأخيرة
+                await deleteDatabase( "bill_" + lastBill + "_" + selectedPandId );
+                // مسح جميع الأزرار
+                clearAllButtons();
+                // إعادة تهيئة الصفحة
+                await initPandBillPage();
+                // تفريغ حاوية الجدول
+                document.getElementById( "billContaner" ).innerHTML = "";
+            }
         } catch ( error )
         {
             // طباعة الخطأ في وحدة التحكم
@@ -594,6 +599,12 @@
                     break;
                 }
             }
+            //تحديد السعر
+
+            let db_contractor = await new noUpgrade( 'contractor' );
+            pandPrice = await db_contractor.keyGet( selectedPandId, 'sear_contractor' );
+
+
         } catch ( error )
         {
             // طباعة الخطأ في وحدة التحكم
@@ -1249,27 +1260,25 @@
             stopInitialValues = true;
             // تعطيل مراقبة الجدول مؤقتاً
             isTableWatcherEnabled = false;
-
             // تعيين القيم الأساسية
             const maxAttempts = 20;
             let allRows;
             let attempt = 0;
-
             // محاولة تحميل البيانات من الجدول (بحد أقصى 20 محاولة)
             while ( attempt < maxAttempts )
             {
                 allRows = await dbNoUp_PandBill.getAllDataFromTable( "rows" );
-                if ( Array.isArray( allRows ) ) break;
+                if ( Array.isArray( allRows ) && allRows.length > 0 ) { break; }
                 await delay( 100 );
                 attempt++;
             }
 
             if ( !Array.isArray( allRows ) )
             {
+                stopInitialValues = false;
                 isTableWatcherEnabled = true;
                 return;
             }
-
             // معالجة كل صف من قاعدة البيانات
             for ( const rawId of allRows )
             {
@@ -1277,81 +1286,81 @@
                 {
                     if ( !isValidIdFormat( rawId.key ) ) { continue; }
 
-
-                    await waitForElement( `#${ rawId.key }_` );
-                    let rawElement = document.getElementById( rawId.key + "_" );
-                    if ( !rawElement ) { continue; }
-
-                    const state = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillStat" );
-                    const percent = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillPercent" );
-                    const price = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillPrice" );
-                    const PandBillKindWork = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillKindWork" );
-                    const PandBillKindSum = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillKindSum" );
-
-                    //#region تحديث الحالة إذا كانت غير مطابقة للنص المتوقع
-                    if ( state == null || state == "" )
+                    if ( await waitForElement( `#${ rawId.key }_` ) )
                     {
-                        await dbNoUp_PandBill.keySet( rawId.key, "PandBillStat", "0" );
-                    }
-                    //#endregion
+                        let rawElement = document.getElementById( rawId.key + "_" );
+                        if ( !rawElement ) { continue; }
 
-                    // تعيين نسبة افتراضية إذا كانت غير موجودة
-                    if ( percent == null || percent === "" )
-                    {
-                        await dbNoUp_PandBill.keySet( rawId.key, "PandBillPercent", "100" );
-                        let PercentElement = rawElement.querySelector( "#PandBillPercent" );
-                        PercentElement.value = "100";
-                    }
+                        const state = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillStat" );
+                        const percent = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillPercent" );
+                        const price = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillPrice" );
+                        const PandBillKindWork = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillKindWork" );
+                        const PandBillKindSum = await dbNoUp_PandBill.keyGet( rawId.key, "PandBillKindSum" );
 
-                    // تعيين سعر افتراضي إذا كان غير موجود
-                    if ( price == null || price === "" )
-                    {
-                        await dbNoUp_PandBill.keySet(
-                            rawId.key,
-                            "PandBillPrice",
-                            pandPrice
-                        );
-                        let PriceElement = rawElement.querySelector( "#PandBillPrice" );
-                        PriceElement.value = pandPrice;
-                    }
-
-                    //#region تعيين نوع العمل الافتراضي إذا كان غير موجود
-                    if ( PandBillKindWork == null || PandBillKindWork === "" )
-                    {
-                        await dbNoUp_PandBill.keySet(
-                            rawId.key,
-                            "PandBillKindWork",
-                            "0"
-                        );
-                        await isPriceEdit( rawId.key, 0 );
-                        let KindWorkElement = rawElement.querySelector( "#PandBillKindWork" );
-                        KindWorkElement.value = "0";
-                    }
-                    else
-                    {
-                        if ( PandBillKindWork == "0" )
+                        //#region تحديث الحالة إذا كانت غير مطابقة للنص المتوقع
+                        if ( state == null || state == "" )
                         {
-                            await isPriceEdit( rawId.key, 0 );
-                        } else
-                        {
-                            await isPriceEdit( rawId.key, 1 );
+                            await dbNoUp_PandBill.keySet( rawId.key, "PandBillStat", "0" );
                         }
-                    }
-                    //#endregion
+                        //#endregion
 
-                    //#region تعيين نوع التجميع الافتراضي إذا كان غير موجود
-                    if ( PandBillKindSum == null || PandBillKindSum === "" )
-                    {
-                        await dbNoUp_PandBill.keySet(
-                            rawId.key,
-                            "PandBillKindSum",
-                            "0"
-                        );
-                        let KindSumElement = rawElement.querySelector( "#PandBillKindSum" );
-                        KindSumElement.value = "0";
-                    }
-                    //#endregion
+                        // تعيين نسبة افتراضية إذا كانت غير موجودة
+                        if ( percent == null || percent == "" )
+                        {
+                            await dbNoUp_PandBill.keySet( rawId.key, "PandBillPercent", "100" );
+                            let PercentElement = rawElement.querySelector( "#PandBillPercent" );
+                            PercentElement.value = "100";
+                        }
 
+                        // تعيين سعر افتراضي إذا كان غير موجود
+                        if ( price == null || price == "" )
+                        {
+                            await dbNoUp_PandBill.keySet(
+                                rawId.key,
+                                "PandBillPrice",
+                                pandPrice
+                            );
+                            let PriceElement = rawElement.querySelector( "#PandBillPrice" );
+                            PriceElement.value = pandPrice;
+                        }
+
+                        //#region تعيين نوع العمل الافتراضي إذا كان غير موجود
+                        if ( PandBillKindWork == null || PandBillKindWork === "" )
+                        {
+                            await dbNoUp_PandBill.keySet(
+                                rawId.key,
+                                "PandBillKindWork",
+                                "0"
+                            );
+                            await isPriceEdit( rawId.key, 0 );
+                            let KindWorkElement = rawElement.querySelector( "#PandBillKindWork" );
+                            KindWorkElement.value = "0";
+                        }
+                        else
+                        {
+                            if ( PandBillKindWork == "0" )
+                            {
+                                await isPriceEdit( rawId.key, 0 );
+                            } else
+                            {
+                                await isPriceEdit( rawId.key, 1 );
+                            }
+                        }
+                        //#endregion
+
+                        //#region تعيين نوع التجميع الافتراضي إذا كان غير موجود
+                        if ( PandBillKindSum == null || PandBillKindSum === "" )
+                        {
+                            await dbNoUp_PandBill.keySet(
+                                rawId.key,
+                                "PandBillKindSum",
+                                "0"
+                            );
+                            let KindSumElement = rawElement.querySelector( "#PandBillKindSum" );
+                            KindSumElement.value = "0";
+                        }
+                        //#endregion
+                    }
                 }
                 catch ( error )
                 {

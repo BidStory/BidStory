@@ -23,7 +23,7 @@ let dbNoUp_PandBillPrevious = null;
 let dataBaseIdForPandBill = null;
 let dataBaseIdForPandBillPrevious = null;
 let PandBillTable = null;
-let pandPrice = "37";
+let pandPrice = "77";
 let lastBill = 0;
 let buttonShowIndexSet = new Set(); // لتفادي التكرار
 
@@ -32,54 +32,38 @@ let buttonShowIndexSet = new Set(); // لتفادي التكرار
 //#endregion
 
 // دالة غير متزامنة تنتظر ظهور عنصر معين في الصفحة بناءً على محدد (Selector)
-async function waitForElement ( selector )
-{
-  return new Promise( ( resolve ) =>
-  { // تُعيد الدالة Promise لكي تتمكن من انتظار ظهور العنصر
-    // التحقق مما إذا كان العنصر موجودًا بالفعل في الصفحة
-    if ( document.querySelector( selector ) )
-    {
-      // إذا كان موجودًا، نعيده مباشرة وننهي الـ Promise
-      return resolve( document.querySelector( selector ) );
+async function waitForElement(selector) {
+  return new Promise((resolve) => {
+    const maxWaitTime = 5000; // الحد الأقصى للانتظار (5 ثواني)
+    const intervalTime = 50;  // زمن التكرار (50 مللي ثانية)
+    let elapsedTime = 0;
+
+    // أولاً نتحقق إذا العنصر موجود مباشرة
+    if (document.querySelector(selector)) {
+      return resolve(true);
     }
 
-    // إذا لم يكن العنصر موجودًا، نستخدم MutationObserver لمراقبة تغييرات DOM
-    const observer = new MutationObserver( () =>
-    {
-      // في كل مرة يحدث فيها تغيير في DOM، نتحقق مجددًا من وجود العنصر
-      if ( document.querySelector( selector ) )
-      {
-        observer.disconnect(); // نوقف المراقبة بمجرد العثور على العنصر
-        resolve( document.querySelector( selector ) ); // نُرجع العنصر وننهي الـ Promise
+    // نستخدم interval لفحص العنصر كل 50ms
+    const checkInterval = setInterval(() => {
+      elapsedTime += intervalTime;
+
+      if (document.querySelector(selector)) {
+        clearInterval(checkInterval);
+        clearTimeout(timeout);
+        resolve(true);
+      } else if (elapsedTime >= maxWaitTime) {
+        clearInterval(checkInterval);
+        resolve(false);
       }
-    } );
+    }, intervalTime);
 
-    // نبدأ مراقبة تغييرات DOM في body، ونراقب كل العناصر الفرعية (subtree)
-    observer.observe( document.body, {
-      childList: true, // نراقب التغييرات في الأطفال (إضافة/إزالة عناصر)
-      subtree: true    // نراقب أيضًا التغييرات داخل العناصر الفرعية
-    } );
-  } );
+    // احتياطي في حالة تجاوز الزمن الأقصى ولم يتم العثور على العنصر
+    const timeout = setTimeout(() => {
+      clearInterval(checkInterval);
+      resolve(false);
+    }, maxWaitTime);
+  });
 }
-//رساله انتظار تحميل شئ 
-//يجب ان تغلق ب  Swal.close();
-async function waitMes ()
-{
-  // @ts-ignore
-  const mes = getLang( 371 );
-  // @ts-ignore
-  Swal.fire( {
-    title: false,
-    text: mes,
-    allowOutsideClick: false,
-    didOpen: () =>
-    {
-      // @ts-ignore
-      Swal.showLoading();
-    }
-  } );
-}
-
 
 // دالة التحقق من صحه المعرف اول اربع حروف ثم ارقام
 function isValidIdFormat ( x )
